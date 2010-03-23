@@ -1,0 +1,11 @@
+Entidad = Cabecera entity identificador is Puertos end identificador
+Puertos = port(Señales);
+Señales = Señal RSeñaless
+Señal = identificador : InOut Tipo
+RSeñales = ; Señal RSeñales
+RSeñales = lambda
+InOut = in
+InOut = out
+Tipo = std_logic
+Tipo = std_logic_vector(entero downto entero)
+Cabecera = *

@@ -1,0 +1,1 @@
+run -ifn D:\PFC\Nessy2.0\comandosXilinx\..\IOSerie\Circuito_FPGA.prj -ifmt mixed -top Circuito_FPGA -ofn D:\PFC\Nessy2.0\comandosXilinx\..\IOSerie\Circuito_FPGA.ngc -ofmt NGC -p xc2vp30-7ff896 -opt_mode Speed -opt_level 1 
