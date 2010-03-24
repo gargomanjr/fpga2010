@@ -58,6 +58,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             param.setPort("COM1");
             param.setBaudRate("9600");
             com1 = new Com(param);
+
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
             this.ejec = new Ejecucion(this, this.com1);*/
             /* ruta = System.getenv("XilinxNessy");
@@ -452,6 +453,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
         this.jTabbedPane1.setSelectedIndex(1);
+        //TODO
+        this.hiloreceptor = new RecepcionFPGA(this, param, com1);
+        hiloreceptor.start();
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
@@ -464,10 +468,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         if (this.entidad != null) {//si la entidad está definida
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
-                this.hiloreceptor = new RecepcionFPGA(this, param, com1);
-                hiloreceptor.start();
                 ejec.start();
-
                 this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
                 this._PararEjecucion.setEnabled(true);

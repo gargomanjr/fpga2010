@@ -46,11 +46,12 @@ public class RecepcionFPGA extends Thread {
         Character datoRecibido;
         int entero;
         enteroAnterior = -1;
+        String cAnterior= "";
         while (recibiendo) {
             entero = com1.receiveSingleDataInt();
             //Si el dato ha cambiado con respecto al anterior.
             String c = convertirCadenaBinaria(entero);
-            String cAnterior= "";
+            
             if (entero > 0 && !cAnterior.equals(c)) {
                 cAnterior = c;
                 //String c = convertirCadenaBinaria(entero);

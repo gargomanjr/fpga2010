@@ -131,6 +131,8 @@ public class Ejecucion extends Thread {
                 //datosEnviar[i] = traduceString(cadena);
                 correcto = cadenaaEnviar.get(i) >= 0;
                 i++;
+            }else{
+                correcto = false;
             }
         }
         return correcto;
