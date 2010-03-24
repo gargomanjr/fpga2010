@@ -43,6 +43,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private String fichero;
     private Entidad entidad;
 
+    private static Logger   logger = Logger.getLogger ("GUIPrincipal.class");
+
     public Entidad getEntidad() {
         return entidad;
     }
@@ -65,11 +67,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
             // System.setProperty("XilinxNessy", "dnhsjdhs");
             System.out.print("nkdsnbdjsd");
             }*/
+            logger.info("Ejecutando Nessy 2.0...");
             initComponents();
             this._btnReanudar.setEnabled(false);
             this._PararEjecucion.setEnabled(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            logger.info("La aplicacion ya se encuentra ejecutandose");
             System.exit(0);
         }
     }
@@ -119,6 +123,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         _lblnInst = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nessy 2.0");
@@ -236,29 +254,74 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _lblnInst.setEditable(false);
 
+        jMenu1.setText("Opciones");
+
+        jMenuItem1.setText("Cargar VHD");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Crear .Bit");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Cargar .Bit");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Cargar TB");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Ejecutar");
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setText("Parar Ejecucion");
+        jMenuItem6.setEnabled(false);
+        jMenu1.add(jMenuItem6);
+
+        jMenuItem7.setText("Reanudar Ejecucion");
+        jMenuItem7.setEnabled(false);
+        jMenu1.add(jMenuItem7);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Vistas");
+
+        jMenuItem8.setText("Entity VHD");
+        jMenu2.add(jMenuItem8);
+
+        jMenuItem9.setText("Cargar");
+        jMenu2.add(jMenuItem9);
+
+        jMenuItem10.setText("TestBench");
+        jMenu2.add(jMenuItem10);
+
+        jMenuItem11.setText("Salida");
+        jMenu2.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(401, Short.MAX_VALUE)
+                .addContainerGap(449, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -499,6 +562,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField _lblnInst;
     private java.awt.TextArea _txtTB;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
