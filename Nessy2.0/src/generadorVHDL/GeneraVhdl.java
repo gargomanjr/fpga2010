@@ -76,7 +76,7 @@ public class GeneraVhdl {
         String s ="(";
         for (int i = 0; i < entidad.getNumEntradas(); i++){
             Entrada e = entidad.getEntrada(i);
-            //if (!e.getEsReloj())// si no es la entrada de reloj
+            //if (!e.getEsReloj())// si no es la entrada de reloj//
                 s += "mi_"+e.getNombre()+",";
             //else
             //    s += "clk,";
