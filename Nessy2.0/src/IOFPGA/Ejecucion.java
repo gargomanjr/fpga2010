@@ -7,6 +7,7 @@ package IOFPGA;
 
 import app.Com;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nessy20.GUIPrincipal;
@@ -23,6 +24,7 @@ public class Ejecucion extends Thread {
     private Com com1;
     private String ls_cadenaaejecutar;
     private boolean error;
+    private int datosEnviar[];
 
     public boolean isError() {
         return error;
@@ -39,10 +41,10 @@ public class Ejecucion extends Thread {
     }
     public void setCadena(String as_cadenaajecutar){
         ls_cadenaaejecutar =  as_cadenaajecutar ;
-        TraduceString();
+        
     }
 
-    private void TraduceString (){
+    /*public void TraduceString (){
         int i = 0;
         int potencia = 1;
         this.error = false;
@@ -97,6 +99,40 @@ public class Ejecucion extends Thread {
                 this.error = true;
             }
         }
+    }*/
+
+    public int traduceString(String s){
+        int n = 0;
+        int peso = 1;
+        for (int i = s.length()-1; i >= 0; i--){
+            if (s.charAt(i)!='0' && s.charAt(i)!='1')
+                return -1;
+            if (s.charAt(i)=='1'){
+                n = n+peso;
+            }
+            peso = peso * 2;
+        }
+        n = n+peso;//el enable
+        return n;
+    }
+
+    public boolean convierteCadenas(){
+        StringTokenizer st;
+        st = new StringTokenizer(this.ls_cadenaaejecutar,"\n\r");
+        int numBits = interfaz.getEntidad().getBitsEntrada();
+        boolean correcto = true;
+        datosEnviar = new int[st.countTokens()];
+        int i = 0;
+        while (st.hasMoreTokens() && correcto){
+            String cadena = st.nextToken();
+            if (cadena.length() == numBits){
+                this.cadenaaEnviar.add(traduceString(cadena));
+                //datosEnviar[i] = traduceString(cadena);
+                correcto = cadenaaEnviar.get(i) >= 0;
+                i++;
+            }
+        }
+        return correcto;
     }
     public void run(){
         ejecuta();

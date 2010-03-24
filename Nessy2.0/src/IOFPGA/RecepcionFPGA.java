@@ -49,9 +49,11 @@ public class RecepcionFPGA extends Thread {
         while (recibiendo) {
             entero = com1.receiveSingleDataInt();
             //Si el dato ha cambiado con respecto al anterior.
-            if (entero > 0 && enteroAnterior != entero) {
-                enteroAnterior = entero;
-                String c = convertirCadenaBinaria(entero);
+            String c = convertirCadenaBinaria(entero);
+            String cAnterior= "";
+            if (entero > 0 && !cAnterior.equals(c)) {
+                cAnterior = c;
+                //String c = convertirCadenaBinaria(entero);
                 miInterfaz.EscribirDatoPantalla(c);
             }
         }
@@ -63,10 +65,10 @@ public class RecepcionFPGA extends Thread {
     int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
     for (int i =0;i<long_cadena;i++){
         if (numero % 2 == 0){
-            salida = salida + "0"  ;
+            salida = "0" + salida ;
         }
         else{
-            salida = salida + "1"  ;
+            salida = "1" + salida;
         }
        numero = numero / 2 ;
     } 
