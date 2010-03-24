@@ -122,6 +122,7 @@ public class Ejecucion extends Thread {
         int numBits = interfaz.getEntidad().getBitsEntrada();
         boolean correcto = true;
         datosEnviar = new int[st.countTokens()];
+        cadenaaEnviar = new ArrayList<Integer>();
         int i = 0;
         while (st.hasMoreTokens() && correcto){
             String cadena = st.nextToken();

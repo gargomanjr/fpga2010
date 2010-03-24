@@ -456,20 +456,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
 
+        this.ejec = new Ejecucion(this, this.com1);
         String ls_cadenaaejecutar = this._txtTB.getText();
         //this.ejec = new Ejecucion(ls_cadenaaejecutar, this, this.com1);
         this.ejec.setCadena(ls_cadenaaejecutar);
-        if (ejec.isError() == false) {
-            this.hiloreceptor = new RecepcionFPGA(this, param, com1);
-            hiloreceptor.start();
-            ejec.start();
+        
+        if (this.entidad != null) {//si la entidad está definida
+            //this.ejec.TraduceString();
+            if (ejec.convierteCadenas()) {
+                this.hiloreceptor = new RecepcionFPGA(this, param, com1);
+                hiloreceptor.start();
+                ejec.start();
 
-            this.jTabbedPane1.setSelectedIndex(3);
-            this._btnReanudar.setEnabled(false);
-            this._PararEjecucion.setEnabled(true);
-        }else {
-            //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                this.jTabbedPane1.setSelectedIndex(3);
+                this._btnReanudar.setEnabled(false);
+                this._PararEjecucion.setEnabled(true);
+            } else {
+                //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
@@ -486,6 +493,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
                 JOptionPane.showMessageDialog(this, "Error al parar hilo, compruebe que realmente esta ejecutando o que ya ha detenido la ejecución.", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
+
         }
     }//GEN-LAST:event__PararEjecucionActionPerformed
 
@@ -501,9 +509,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         boolean error = false;
         JFileChooser chooser;
+
         String fichero_tb;
+
         this._TxtEntityVHD.setText("");
-        chooser = new JFileChooser();
+        chooser =
+                new JFileChooser();
         Filtro filter = new Filtro("txt");
         chooser.addChoosableFileFilter(filter);
         chooser.setCurrentDirectory(new java.io.File("."));
@@ -521,20 +532,26 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     this._txtTB.append(linea + "\n");
                     linea = br.readLine();
                 }
+
                 br.close();
             } catch (IOException ex) {
                 error = true;
                 Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                this._txtTB.append("Error al cargar el banco de pruebas");
+
+
+                this._txtTB.append(
+                        "Error al cargar el banco de pruebas");
             }
             if (!error) {
                 JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         } else {
             System.out.println("No Selection ");
         }
+
         this.jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
