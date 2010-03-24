@@ -56,8 +56,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             param.setPort("COM1");
             param.setBaudRate("9600");
             com1 = new Com(param);
-            this.hiloreceptor = new RecepcionFPGA(this, param, com1);
-            this.ejec = new Ejecucion(this, this.com1);
+            /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
+            this.ejec = new Ejecucion(this, this.com1);*/
             /* ruta = System.getenv("XilinxNessy");
             if (ruta == null){
             Process p = Runtime.getRuntime().exec("SET mivariable C:");
@@ -83,7 +83,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void EscribirDatoPantalla(char c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + " ");
     }
-    
+
     public void EscribirDatoPantalla(String c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + "\n");
     }
@@ -396,12 +396,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
         String ls_cadenaaejecutar = this._txtTB.getText();
         //this.ejec = new Ejecucion(ls_cadenaaejecutar, this, this.com1);
         this.ejec.setCadena(ls_cadenaaejecutar);
-        hiloreceptor.start();
-        ejec.start();
+        if (ejec.isError() == false) {
+            this.hiloreceptor = new RecepcionFPGA(this, param, com1);
+            hiloreceptor.start();
+            ejec.start();
 
-        this.jTabbedPane1.setSelectedIndex(3);
-        this._btnReanudar.setEnabled(false);
-        this._PararEjecucion.setEnabled(true);
+            this.jTabbedPane1.setSelectedIndex(3);
+            this._btnReanudar.setEnabled(false);
+            this._PararEjecucion.setEnabled(true);
+        }else {
+            //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
     private void _PararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__PararEjecucionActionPerformed
