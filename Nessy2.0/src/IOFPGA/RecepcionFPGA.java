@@ -4,7 +4,6 @@ package IOFPGA;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 //package MiLib;
 import app.*;
 import java.awt.TextArea;
@@ -18,13 +17,18 @@ import java.util.logging.Logger;
  */
 public class RecepcionFPGA extends Thread {
 
-  //  GUIPrincipal miInterfaz;
+    //  GUIPrincipal miInterfaz;
     Parameters param;
     Com com1;
     boolean recibiendo;
     private int enteroAnterior;
     private TextArea ata_textarea;
     private int long_bits;
+    private boolean setwait;
+
+    public void setSetwait(boolean setwait) {
+        this.setwait = setwait;
+    }
 
     public void setEnteroAnterior(int enteroAnterior) {
         this.enteroAnterior = enteroAnterior;
@@ -38,13 +42,16 @@ public class RecepcionFPGA extends Thread {
         com1 = a_com;
         param = a_param;
         recibiendo = true;
+        setwait = false;
     }
 
     public void run() {
-        try {
-            this.recibirDatos();
-        } catch (Exception ex) {
-            Logger.getLogger(RecepcionFPGA.class.getName()).log(Level.SEVERE, null, ex);
+        synchronized (this) {
+            try {
+                this.recibirDatos();
+            } catch (Exception ex) {
+                Logger.getLogger(RecepcionFPGA.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -52,39 +59,47 @@ public class RecepcionFPGA extends Thread {
         Character datoRecibido;
         int entero;
         enteroAnterior = -1;
-        String cAnterior= "";
+        String cAnterior = "";
         while (recibiendo) {
+            if (this.setwait){
+                try {
+                    System.out.println("Recepcion antes");
+                    wait();
+                    System.out.println("Recepcion despues");
+                    this.setwait = false;
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             entero = com1.receiveSingleDataInt();
             //Si el dato ha cambiado con respecto al anterior.
             String c = convertirCadenaBinaria(entero);
-            
+
             if (entero > 0 && !cAnterior.equals(c)) {
                 cAnterior = c;
                 //String c = convertirCadenaBinaria(entero);
-               // miInterfaz.EscribirDatoPantalla(c);
+                // miInterfaz.EscribirDatoPantalla(c);
                 this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
             }
         }
     }
-    private String convertirCadenaBinaria(int entero){
-    String salida = "";
-    int numero;
-    numero = entero;
-    //int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
-    int long_cadena = this.long_bits;
-    for (int i =0;i<long_cadena;i++){
-        if (numero % 2 == 0){
-            salida = "0" + salida ;
+
+    private String convertirCadenaBinaria(int entero) {
+        String salida = "";
+        int numero;
+        numero = entero;
+        //int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
+        int long_cadena = this.long_bits;
+        for (int i = 0; i < long_cadena; i++) {
+            if (numero % 2 == 0) {
+                salida = "0" + salida;
+            } else {
+                salida = "1" + salida;
+            }
+            numero = numero / 2;
         }
-        else{
-            salida = "1" + salida;
-        }
-       numero = numero / 2 ;
-    } 
-    return salida;
+        return salida;
     }
-
-
 
     private char convertir(int entero) {
         entero -= 48;
@@ -94,10 +109,11 @@ public class RecepcionFPGA extends Thread {
         }
         return c;
     }
-    
-    public void pararrecepcionfpga(){
-        this.recibiendo=false;
+
+    public void pararrecepcionfpga() {
+        this.recibiendo = false;
     }
+
 }
 
 

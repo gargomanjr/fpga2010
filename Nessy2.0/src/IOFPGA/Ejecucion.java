@@ -28,6 +28,11 @@ public class Ejecucion extends Thread {
     private int datosEnviar[];
     private int li_bits_entrada;
     private final JTextField ljtfield;
+    private boolean setwait;
+
+    public void setSetwait(boolean setwait) {
+        this.setwait = setwait;
+    }
 
     public boolean isError() {
         return error;
@@ -41,6 +46,7 @@ public class Ejecucion extends Thread {
         this.com1= ac_com;
         this.li_bits_entrada = bits_entrada;
         cadenaaEnviar = new ArrayList();
+        setwait = false;
 
 
     }
@@ -144,7 +150,10 @@ public class Ejecucion extends Thread {
         return correcto;
     }
     public void run(){
-        ejecuta();
+        synchronized(this)
+        {
+         ejecuta();
+        }
     }
 
     private void ejecuta() {
@@ -152,6 +161,16 @@ public class Ejecucion extends Thread {
        int intruccion = 0;
        int datoaenviar;
        while(ejecutando && intruccion < this.cadenaaEnviar.size()){
+            if (this.setwait){
+                try {
+                    System.out.println("Ejecución antes");
+                    this.wait();
+                    System.out.println("Ejecución despues");
+                    this.setwait = false;
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             datoaenviar = this.cadenaaEnviar.get(intruccion);
             try {
                 this.com1.sendSingleData(datoaenviar);
@@ -168,4 +187,5 @@ public class Ejecucion extends Thread {
     public void pararrecepcionfpga(){
         this.ejecutando=false;
     }
+
 }

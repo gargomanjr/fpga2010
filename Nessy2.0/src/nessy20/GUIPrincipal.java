@@ -63,6 +63,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 com1 = new Com(param);
             } else {
                 JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " + "el PC no posee puerto COM1", "Info", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
                 //  com1 = new Com(param);
                 }
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
@@ -427,6 +428,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } else {
             System.out.println("No Selection ");
         }
+        this.jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event__CargarVhdActionPerformed
 
     private void _CrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__CrearBitActionPerformed
@@ -471,10 +473,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         if (compilador != null) {
             compilador.cerrar();
         }
-
     }//GEN-LAST:event__CrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
+        this.jTabbedPane1.setSelectedIndex(1);
+        this._TextCargarbit.setText("Cargando ..........");
         String fichero_bit;
         boolean error;
         JFileChooser chooser;
@@ -502,22 +505,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.println("Selecc ");
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
-        this.jTabbedPane1.setSelectedIndex(1);
+        if (this.ejec == null){
+            this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
+            hiloreceptor.start();
+        }
         //TODO
+
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
 
-        this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
+       
         String ls_cadenaaejecutar = this._txtTB.getText();
-        //this.ejec = new Ejecucion(ls_cadenaaejecutar, this, this.com1);
+        this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
         this.ejec.setCadena(ls_cadenaaejecutar);
-
         if (this.entidad != null) {//si la entidad está definida
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
-                this.hiloreceptor = new RecepcionFPGA(this._TextSalida,this.entidad.getBitsSalida(), param, com1);
-                hiloreceptor.start();
                 ejec.start();
                 this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
@@ -532,25 +536,25 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
     private void _PararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__PararEjecucionActionPerformed
-        synchronized (this) {
-            try {
-                //TODO : Función que mandara el enable..
+        // TODO: mandar enable a la placa
+        System.out.println("PARANDO HILOS..");
+        this.ejec.setSetwait(true);
+        this.hiloreceptor.setSetwait(true);
 
-                this.hiloreceptor.wait();
-                this.ejec.wait();
+        this._btnReanudar.setEnabled(true);
 
-                this._btnReanudar.setEnabled(true);
-                this._PararEjecucion.setEnabled(false);
-            } catch (InterruptedException ex) {
-                JOptionPane.showMessageDialog(this, "Error al parar hilo, compruebe que realmente esta ejecutando o que ya ha detenido la ejecución.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
+        this._PararEjecucion.setEnabled(false);
 
-        }
     }//GEN-LAST:event__PararEjecucionActionPerformed
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
-        hiloreceptor.notify();
-        ejec.notify();
+
+        synchronized (this.hiloreceptor) {
+            this.hiloreceptor.notify();
+        }
+        synchronized (this.ejec) {
+            this.ejec.notify();
+        }
         this._btnReanudar.setEnabled(false);
         this._PararEjecucion.setEnabled(true);
         //TODO : Función que volviera activar la fpga.
