@@ -163,7 +163,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_CargarVhd);
 
-        _CrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnConectar.png"))); // NOI18N
+        _CrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCrearBit.png"))); // NOI18N
         _CrearBit.setText("Crear .Bit");
         _CrearBit.setFocusable(false);
         _CrearBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -175,7 +175,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_CrearBit);
 
-        _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnTrafico.png"))); // NOI18N
+        _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarBit.png"))); // NOI18N
         _btnCargarBit.setText("Cargar .Bit");
         _btnCargarBit.setFocusable(false);
         _btnCargarBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -187,7 +187,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarBit);
 
-        _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/test.png"))); // NOI18N
+        _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarTB.png"))); // NOI18N
         _btnCargarTB.setText("Cargar TB");
         _btnCargarTB.setFocusable(false);
         _btnCargarTB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -199,7 +199,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarTB);
 
-        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/run.png"))); // NOI18N
+        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
         _btnEjecutar.setText("Ejecutar");
         _btnEjecutar.setContentAreaFilled(false);
         _btnEjecutar.setFocusable(false);
@@ -212,7 +212,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnEjecutar);
 
-        _PararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/stop2.png"))); // NOI18N
+        _PararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnPararEjec.png"))); // NOI18N
         _PararEjecucion.setText("Parar Ejecución");
         _PararEjecucion.setFocusable(false);
         _PararEjecucion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -224,7 +224,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_PararEjecucion);
 
-        _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/test2.png"))); // NOI18N
+        _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnReanudarEjec.png"))); // NOI18N
         _btnReanudar.setText("Reanudar Ejecución");
         _btnReanudar.setFocusable(false);
         _btnReanudar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
