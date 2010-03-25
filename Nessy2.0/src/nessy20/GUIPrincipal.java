@@ -17,11 +17,13 @@ import IOFPGA.Ejecucion;
 import IOFPGA.RecepcionFPGA;
 import app.*;
 import compiladorEntidad.Entidad;
+import core.SerialPort;
 import generadorVHDL.GeneraVhdl;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -53,11 +55,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public GUIPrincipal() {
 
         try {
-
+            
             param = new Parameters();
             param.setPort("COM1");
             param.setBaudRate("9600");
-            com1 = new Com(param);
+            //Comprobamos que el puerto COM1 está libre, o si la maquina
+            // en la que ejecutamos posee puerto COM1
+            SerialPort puerto = new SerialPort(); 
+            if(puerto.getStateSerialPortC("COM1").equals("free"))
+                com1 = new Com(param);
+            else
+                JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " +
+                        "el PC no posee puerto COM1", 
+                        "Info",JOptionPane.INFORMATION_MESSAGE);
+            
+            
+             
+          //  com1 = new Com(param);
 
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
             this.ejec = new Ejecucion(this, this.com1);*/
@@ -73,8 +87,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             this._btnReanudar.setEnabled(false);
             this._PararEjecucion.setEnabled(false);
         } catch (Exception ex) {
+            System.out.println(ex);
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("La aplicacion ya se encuentra ejecutandose");
+            logger.info("La aplicacion ya se encuentra ejecutandose"+ ex );
             System.exit(0);
         }
     }
@@ -258,7 +273,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Opciones");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarVhdl (Custom) (2).png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarVhdl.png"))); // NOI18N
         jMenuItem1.setText("Cargar VHD");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
