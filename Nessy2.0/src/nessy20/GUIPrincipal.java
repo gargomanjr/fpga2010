@@ -44,8 +44,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private String ruta;
     private String fichero;
     private Entidad entidad;
-
-    private static Logger   logger = Logger.getLogger ("GUIPrincipal.class");
+    private static Logger logger = Logger.getLogger("GUIPrincipal.class");
 
     public Entidad getEntidad() {
         return entidad;
@@ -53,26 +52,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     /** Creates new form GUIPrincipal */
     public GUIPrincipal() {
-
         try {
-            
             param = new Parameters();
             param.setPort("COM1");
             param.setBaudRate("9600");
             //Comprobamos que el puerto COM1 está libre, o si la maquina
             // en la que ejecutamos posee puerto COM1
-            SerialPort puerto = new SerialPort(); 
-            if(puerto.getStateSerialPortC("COM1").equals("free"))
+            SerialPort puerto = new SerialPort();
+            if (puerto.getStateSerialPortC("COM1").equals("free")) {
                 com1 = new Com(param);
-            else
-                JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " +
-                        "el PC no posee puerto COM1", 
-                        "Info",JOptionPane.INFORMATION_MESSAGE);
-            
-            
-             
-          //  com1 = new Com(param);
-
+            } else {
+                JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " + "el PC no posee puerto COM1", "Info", JOptionPane.INFORMATION_MESSAGE);
+                //  com1 = new Com(param);
+                }
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
             this.ejec = new Ejecucion(this, this.com1);*/
             /* ruta = System.getenv("XilinxNessy");
@@ -89,9 +81,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("La aplicacion ya se encuentra ejecutandose"+ ex );
+            logger.info("La aplicacion ya se encuentra ejecutandose" + ex);
             System.exit(0);
         }
+
     }
 
     private void muestraErroresConsola(Errores errores) {
@@ -130,12 +123,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _PararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        _TxtEntityVHD = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         _TextCargarbit = new javax.swing.JTextArea();
         _txtTB = new java.awt.TextArea();
         _TextSalida = new java.awt.TextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        _TxtEntityVHD = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         _lblnInst = new javax.swing.JTextField();
@@ -178,7 +171,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_CargarVhd);
 
-        _CrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCrearBit.png"))); // NOI18N
+        _CrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnConectar.png"))); // NOI18N
         _CrearBit.setText("Crear .Bit");
         _CrearBit.setFocusable(false);
         _CrearBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -190,7 +183,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_CrearBit);
 
-        _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarBit.png"))); // NOI18N
+        _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnTrafico.png"))); // NOI18N
         _btnCargarBit.setText("Cargar .Bit");
         _btnCargarBit.setFocusable(false);
         _btnCargarBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -202,7 +195,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarBit);
 
-        _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarTB.png"))); // NOI18N
+        _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/test.png"))); // NOI18N
         _btnCargarTB.setText("Cargar TB");
         _btnCargarTB.setFocusable(false);
         _btnCargarTB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -214,7 +207,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarTB);
 
-        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
+        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/run.png"))); // NOI18N
         _btnEjecutar.setText("Ejecutar");
         _btnEjecutar.setContentAreaFilled(false);
         _btnEjecutar.setFocusable(false);
@@ -227,7 +220,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnEjecutar);
 
-        _PararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnPararEjec.png"))); // NOI18N
+        _PararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/stop2.png"))); // NOI18N
         _PararEjecucion.setText("Parar Ejecución");
         _PararEjecucion.setFocusable(false);
         _PararEjecucion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -239,7 +232,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_PararEjecucion);
 
-        _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnReanudarEjec.png"))); // NOI18N
+        _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/test2.png"))); // NOI18N
         _btnReanudar.setText("Reanudar Ejecución");
         _btnReanudar.setFocusable(false);
         _btnReanudar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -251,6 +244,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnReanudar);
 
+        _TxtEntityVHD.setColumns(20);
+        _TxtEntityVHD.setEditable(false);
+        _TxtEntityVHD.setRows(5);
+        jScrollPane1.setViewportView(_TxtEntityVHD);
+
+        jTabbedPane1.addTab("Entity VHD", jScrollPane1);
+
         _TextCargarbit.setColumns(20);
         _TextCargarbit.setRows(5);
         _TextCargarbit.setMaximumSize(getMaximumSize());
@@ -259,13 +259,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jTabbedPane1.addTab("Cargar", jScrollPane2);
         jTabbedPane1.addTab("TestBench", _txtTB);
         jTabbedPane1.addTab("Salida", _TextSalida);
-
-        _TxtEntityVHD.setColumns(20);
-        _TxtEntityVHD.setEditable(false);
-        _TxtEntityVHD.setRows(5);
-        jScrollPane1.setViewportView(_TxtEntityVHD);
-
-        jTabbedPane1.addTab("Entity VHD", jScrollPane1);
 
         jLabel1.setText("Número de Instrucción");
 
@@ -371,11 +364,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,8 +381,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addGap(36, 36, 36))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("Entity VHD");
@@ -479,7 +472,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             compilador.cerrar();
         }
 
-
     }//GEN-LAST:event__CrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
@@ -512,20 +504,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         this.jTabbedPane1.setSelectedIndex(1);
         //TODO
-        this.hiloreceptor = new RecepcionFPGA(this, param, com1);
-        hiloreceptor.start();
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
 
-        this.ejec = new Ejecucion(this, this.com1);
+        this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
         String ls_cadenaaejecutar = this._txtTB.getText();
         //this.ejec = new Ejecucion(ls_cadenaaejecutar, this, this.com1);
         this.ejec.setCadena(ls_cadenaaejecutar);
-        
+
         if (this.entidad != null) {//si la entidad está definida
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
+                this.hiloreceptor = new RecepcionFPGA(this._TextSalida,this.entidad.getBitsSalida(), param, com1);
+                hiloreceptor.start();
                 ejec.start();
                 this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
@@ -628,15 +620,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       _btnCargarBitActionPerformed(evt);
+        _btnCargarBitActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-       _btnCargarTBActionPerformed(evt);
+        _btnCargarTBActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-       _btnEjecutarActionPerformed(evt);
+        _btnEjecutarActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed

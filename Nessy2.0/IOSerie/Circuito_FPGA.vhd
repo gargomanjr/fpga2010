@@ -50,7 +50,7 @@ component CONTADOR
 end component;
 
 
-signal enable: std_logic;  --seÃ±al enable general
+signal enable: std_logic;  --señal enable general
 
 
 signal mi_RESET: STD_LOGIC;

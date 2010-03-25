@@ -1,6 +1,6 @@
 iMPACT Version: Jun  2 2006 17:58:01
 
-iMPACT log file Started on Wed Mar 24 16:52:44 2010
+iMPACT log file Started on Thu Mar 25 17:18:15 2010
 
 // *** BATCH CMD : setMode -ss
 // *** BATCH CMD : setMode -sm
@@ -50,12 +50,13 @@ done.
 Chain TCK freq = 15000000.
 Validating chain...
 Boundary-scan chain validated successfully.
-Elapsed time =      0 sec.
+Elapsed time =      1 sec.
 // *** BATCH CMD : identifyMPM 
 Elapsed time =      0 sec.
 // *** BATCH CMD : addDevice -p 3 -file"D:\PFC\Nessy2.0\IOSerie\circuito_fpga.bit"
 '3': Loading file 'D:\PFC\Nessy2.0\IOSerie\circuito_fpga.bit' ...
 done.
+To ensure safe and reliable configuration, please re-generate the bitfile withthe Persist bit option set to 'No'.
 INFO:iMPACT:501 - '3': Added Device xc2vp30 successfully.
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
@@ -89,7 +90,7 @@ INFO:iMPACT - 0011 0111 1011 1000 0000 0000 0000 0000
 INFO:iMPACT:579 - '3': Completed downloading bit file to device.
 INFO:iMPACT:580 - '3':Checking done pin ....done.
 '3': Programmed successfully.
-Elapsed time =      3 sec.
+Elapsed time =      4 sec.
 // *** BATCH CMD : quit
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------

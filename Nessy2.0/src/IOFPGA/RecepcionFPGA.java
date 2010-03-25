@@ -7,6 +7,7 @@ package IOFPGA;
 
 //package MiLib;
 import app.*;
+import java.awt.TextArea;
 import nessy20.GUIPrincipal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,18 +18,23 @@ import java.util.logging.Logger;
  */
 public class RecepcionFPGA extends Thread {
 
-    GUIPrincipal miInterfaz;
+  //  GUIPrincipal miInterfaz;
     Parameters param;
     Com com1;
     boolean recibiendo;
     private int enteroAnterior;
+    private TextArea ata_textarea;
+    private int long_bits;
 
     public void setEnteroAnterior(int enteroAnterior) {
         this.enteroAnterior = enteroAnterior;
     }
 
-    public RecepcionFPGA(GUIPrincipal aux, Parameters a_param, Com a_com) {
-        miInterfaz = aux;
+    //public RecepcionFPGA(GUIPrincipal aux, Parameters a_param, Com a_com) {
+    public RecepcionFPGA(TextArea aux, int il_longitud, Parameters a_param, Com a_com) {
+        //miInterfaz = aux;
+        ata_textarea = aux;
+        long_bits = il_longitud;
         com1 = a_com;
         param = a_param;
         recibiendo = true;
@@ -55,7 +61,8 @@ public class RecepcionFPGA extends Thread {
             if (entero > 0 && !cAnterior.equals(c)) {
                 cAnterior = c;
                 //String c = convertirCadenaBinaria(entero);
-                miInterfaz.EscribirDatoPantalla(c);
+               // miInterfaz.EscribirDatoPantalla(c);
+                this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
             }
         }
     }
@@ -63,7 +70,8 @@ public class RecepcionFPGA extends Thread {
     String salida = "";
     int numero;
     numero = entero;
-    int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
+    //int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
+    int long_cadena = this.long_bits;
     for (int i =0;i<long_cadena;i++){
         if (numero % 2 == 0){
             salida = "0" + salida ;

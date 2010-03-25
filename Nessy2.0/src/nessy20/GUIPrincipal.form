@@ -160,12 +160,12 @@
               <Component id="_lblnInst" min="-2" pref="72" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
           </Group>
+          <Component id="jToolBar1" alignment="1" pref="724" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jTabbedPane1" pref="704" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jToolBar1" alignment="1" pref="724" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -180,8 +180,8 @@
                   <Component id="_lblnInst" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane1" pref="347" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" pref="322" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -214,7 +214,7 @@
         <Component class="javax.swing.JButton" name="_CrearBit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnCrearBit.png"/>
+              <Image iconType="3" name="/recursos/btnConectar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Crear .Bit"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -228,7 +228,7 @@
         <Component class="javax.swing.JButton" name="_btnCargarBit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnCargarBit.png"/>
+              <Image iconType="3" name="/recursos/btnTrafico.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cargar .Bit"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -242,7 +242,7 @@
         <Component class="javax.swing.JButton" name="_btnCargarTB">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnCargarTB.png"/>
+              <Image iconType="3" name="/recursos/test.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cargar TB"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -256,7 +256,7 @@
         <Component class="javax.swing.JButton" name="_btnEjecutar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnEjec.png"/>
+              <Image iconType="3" name="/recursos/run.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Ejecutar"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
@@ -271,7 +271,7 @@
         <Component class="javax.swing.JButton" name="_PararEjecucion">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnPararEjec.png"/>
+              <Image iconType="3" name="/recursos/stop2.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Parar Ejecuci&#xf3;n"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -285,7 +285,7 @@
         <Component class="javax.swing.JButton" name="_btnReanudar">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/recursos/btnReanudarEjec.png"/>
+              <Image iconType="3" name="/recursos/test2.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Reanudar Ejecuci&#xf3;n"/>
             <Property name="focusable" type="boolean" value="false"/>
@@ -305,6 +305,29 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Entity VHD">
+                <Property name="tabTitle" type="java.lang.String" value="Entity VHD"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="_TxtEntityVHD">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="rows" type="int" value="5"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -348,29 +371,6 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Entity VHD">
-                <Property name="tabTitle" type="java.lang.String" value="Entity VHD"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="_TxtEntityVHD">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JSeparator" name="jSeparator1">

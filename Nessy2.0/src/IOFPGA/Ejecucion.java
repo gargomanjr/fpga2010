@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import nessy20.GUIPrincipal;
 
 /**
@@ -18,23 +19,27 @@ import nessy20.GUIPrincipal;
  */
 public class Ejecucion extends Thread {
 
-    private GUIPrincipal interfaz;
+   // private GUIPrincipal interfaz;
     private ArrayList<Integer> cadenaaEnviar;
     private boolean ejecutando;
     private Com com1;
     private String ls_cadenaaejecutar;
     private boolean error;
     private int datosEnviar[];
+    private int li_bits_entrada;
+    private final JTextField ljtfield;
 
     public boolean isError() {
         return error;
     }
 
-    public Ejecucion(GUIPrincipal gui,Com ac_com){
-
-        this.interfaz=gui;
+    //public Ejecucion(GUIPrincipal gui,Com ac_com){
+    public Ejecucion(JTextField  lj_jtf,int bits_entrada,Com ac_com){
+//        this.interfaz=gui;
+        this.ljtfield = lj_jtf;
         this.ejecutando = true;
-        this.com1=ac_com;
+        this.com1= ac_com;
+        this.li_bits_entrada = bits_entrada;
         cadenaaEnviar = new ArrayList();
 
 
@@ -119,7 +124,8 @@ public class Ejecucion extends Thread {
     public boolean convierteCadenas(){
         StringTokenizer st;
         st = new StringTokenizer(this.ls_cadenaaejecutar,"\n\r");
-        int numBits = interfaz.getEntidad().getBitsEntrada();
+        //int numBits = interfaz.getEntidad().getBitsEntrada();
+        int numBits = this.li_bits_entrada;
         boolean correcto = true;
         datosEnviar = new int[st.countTokens()];
         cadenaaEnviar = new ArrayList<Integer>();
@@ -149,8 +155,9 @@ public class Ejecucion extends Thread {
             datoaenviar = this.cadenaaEnviar.get(intruccion);
             try {
                 this.com1.sendSingleData(datoaenviar);
-                this.interfaz.setNumeroInst(intruccion);
-            //    Thread.sleep(5000);
+              //  this.interfaz.setNumeroInst(intruccion);
+                this.ljtfield.setText(Integer.toString(intruccion));
+                Thread.sleep(5000);
             } catch (Exception ex) {
                 Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
             }
