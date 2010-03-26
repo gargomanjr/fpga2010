@@ -734,14 +734,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelVHD);
         } catch (IllegalArgumentException ex) {
 
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelVHD);
-            panelVHD.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TxtEntityVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TxtEntityVHD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+        _TxtEntityVHD.setColumns(20);
+        _TxtEntityVHD.setEditable(false);
+        _TxtEntityVHD.setRows(5);
+        jScrollPane1.setViewportView(_TxtEntityVHD);
 
-            jTabbedPane1.addTab("Entity VHDL", panelVHD);
+        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+        panelVHD.setLayout(panelVHDLayout);
+        panelVHDLayout.setHorizontalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelVHDLayout.setVerticalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Entity VHDL", panelVHD);
         }
     }//GEN-LAST:event_menuVistasEntityVHDActionPerformed
 
@@ -750,14 +759,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelCargar);
         } catch (IllegalArgumentException ex) {
 
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelCargar);
-            panelCargar.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextCargarbit, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextCargarbit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+            _TextCargarbit.setColumns(20);
+        _TextCargarbit.setRows(5);
+        _TextCargarbit.setMaximumSize(getMaximumSize());
+        jScrollPane2.setViewportView(_TextCargarbit);
 
-            jTabbedPane1.addTab("Cargar", panelCargar);
+        javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
+        panelCargar.setLayout(panelCargarLayout);
+        panelCargarLayout.setHorizontalGroup(
+            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelCargarLayout.setVerticalGroup(
+            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Cargar", panelCargar);
 
         }
     }//GEN-LAST:event_menuVistasCargarActionPerformed
@@ -767,14 +785,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelTB);
         } catch (IllegalArgumentException ex) {
 
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelTB);
-            panelTB.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_txtTB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+            javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
+        panelTB.setLayout(panelTBLayout);
+        panelTBLayout.setHorizontalGroup(
+            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelTBLayout.setVerticalGroup(
+            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
 
-            jTabbedPane1.addTab("TestBench", panelTB);
+        jTabbedPane1.addTab("TestBench", panelTB);
 
         }
     }//GEN-LAST:event_menuVistasTBActionPerformed
