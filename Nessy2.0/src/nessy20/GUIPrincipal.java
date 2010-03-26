@@ -76,9 +76,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.print("nkdsnbdjsd");
             }*/
             logger.info("Ejecutando Nessy 2.0...");
+	      initComponentsAux();
             initComponents();
             this._btnReanudar.setEnabled(false);
-            this._PararEjecucion.setEnabled(false);
+            this._btnPararEjecucion.setEnabled(false);
         } catch (Exception ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -87,6 +88,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
 
     }
+    private void initComponentsAux()
+    {
+    	jTabbedPane1 = new JTabbedPaneWithCloseIcon();
+    }		
 
     private void muestraErroresConsola(Errores errores) {
         for (int i = 0; i < errores.getErrores().size(); i++) {
@@ -116,37 +121,41 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
-        _CargarVhd = new javax.swing.JButton();
-        _CrearBit = new javax.swing.JButton();
+        _btnCargarVhd = new javax.swing.JButton();
+        _btnCrearBit = new javax.swing.JButton();
         _btnCargarBit = new javax.swing.JButton();
         _btnCargarTB = new javax.swing.JButton();
         _btnEjecutar = new javax.swing.JButton();
-        _PararEjecucion = new javax.swing.JButton();
+        _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        //jTabbedPane1 = new javax.swing.JTabbedPane();
+        panelVHD = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         _TxtEntityVHD = new javax.swing.JTextArea();
+        panelCargar = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         _TextCargarbit = new javax.swing.JTextArea();
+        panelTB = new javax.swing.JPanel();
         _txtTB = new java.awt.TextArea();
+        panelOutPut = new javax.swing.JPanel();
         _TextSalida = new java.awt.TextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         _lblnInst = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        menuOpciones = new javax.swing.JMenu();
+        menuOpcionesCargarVHD = new javax.swing.JMenuItem();
+        menuOpcionesCrearBit = new javax.swing.JMenuItem();
+        menuOpcionesCargarBit = new javax.swing.JMenuItem();
+        menuOpcionesCargarTB = new javax.swing.JMenuItem();
+        menuOpcionesEjec = new javax.swing.JMenuItem();
+        menuOpcionesPararEjec = new javax.swing.JMenuItem();
+        menuOpcionesReanudarEjec = new javax.swing.JMenuItem();
+        menuVistas = new javax.swing.JMenu();
+        menuVistasEntityVHD = new javax.swing.JMenuItem();
+        menuVistasCargar = new javax.swing.JMenuItem();
+        menuVistasTB = new javax.swing.JMenuItem();
+        menuVistasOutPut = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nessy 2.0");
@@ -160,29 +169,29 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
 
-        _CargarVhd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarVhdl.png"))); // NOI18N
-        _CargarVhd.setText("Cargar VHD");
-        _CargarVhd.setFocusable(false);
-        _CargarVhd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _CargarVhd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _CargarVhd.addActionListener(new java.awt.event.ActionListener() {
+        _btnCargarVhd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarVhdl.png"))); // NOI18N
+        _btnCargarVhd.setText("Cargar VHD");
+        _btnCargarVhd.setFocusable(false);
+        _btnCargarVhd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnCargarVhd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnCargarVhd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _CargarVhdActionPerformed(evt);
+                _btnCargarVhdActionPerformed(evt);
             }
         });
-        jToolBar1.add(_CargarVhd);
+        jToolBar1.add(_btnCargarVhd);
 
-        _CrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnConectar.png"))); // NOI18N
-        _CrearBit.setText("Crear .Bit");
-        _CrearBit.setFocusable(false);
-        _CrearBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _CrearBit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _CrearBit.addActionListener(new java.awt.event.ActionListener() {
+        _btnCrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnConectar.png"))); // NOI18N
+        _btnCrearBit.setText("Crear .Bit");
+        _btnCrearBit.setFocusable(false);
+        _btnCrearBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnCrearBit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnCrearBit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _CrearBitActionPerformed(evt);
+                _btnCrearBitActionPerformed(evt);
             }
         });
-        jToolBar1.add(_CrearBit);
+        jToolBar1.add(_btnCrearBit);
 
         _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnTrafico.png"))); // NOI18N
         _btnCargarBit.setText("Cargar .Bit");
@@ -221,17 +230,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnEjecutar);
 
-        _PararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/stop2.png"))); // NOI18N
-        _PararEjecucion.setText("Parar Ejecución");
-        _PararEjecucion.setFocusable(false);
-        _PararEjecucion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _PararEjecucion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _PararEjecucion.addActionListener(new java.awt.event.ActionListener() {
+        _btnPararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/stop2.png"))); // NOI18N
+        _btnPararEjecucion.setText("Parar Ejecución");
+        _btnPararEjecucion.setFocusable(false);
+        _btnPararEjecucion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnPararEjecucion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnPararEjecucion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _PararEjecucionActionPerformed(evt);
+                _btnPararEjecucionActionPerformed(evt);
             }
         });
-        jToolBar1.add(_PararEjecucion);
+        jToolBar1.add(_btnPararEjecucion);
 
         _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/test2.png"))); // NOI18N
         _btnReanudar.setText("Reanudar Ejecución");
@@ -250,105 +259,182 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _TxtEntityVHD.setRows(5);
         jScrollPane1.setViewportView(_TxtEntityVHD);
 
-        jTabbedPane1.addTab("Entity VHD", jScrollPane1);
+        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+        panelVHD.setLayout(panelVHDLayout);
+        panelVHDLayout.setHorizontalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelVHDLayout.setVerticalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Entity VHDL", panelVHD);
 
         _TextCargarbit.setColumns(20);
         _TextCargarbit.setRows(5);
         _TextCargarbit.setMaximumSize(getMaximumSize());
         jScrollPane2.setViewportView(_TextCargarbit);
 
-        jTabbedPane1.addTab("Cargar", jScrollPane2);
-        jTabbedPane1.addTab("TestBench", _txtTB);
-        jTabbedPane1.addTab("Salida", _TextSalida);
+        javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
+        panelCargar.setLayout(panelCargarLayout);
+        panelCargarLayout.setHorizontalGroup(
+            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelCargarLayout.setVerticalGroup(
+            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Cargar", panelCargar);
+
+        javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
+        panelTB.setLayout(panelTBLayout);
+        panelTBLayout.setHorizontalGroup(
+            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelTBLayout.setVerticalGroup(
+            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("TestBench", panelTB);
+
+        javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
+        panelOutPut.setLayout(panelOutPutLayout);
+        panelOutPutLayout.setHorizontalGroup(
+            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_TextSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelOutPutLayout.setVerticalGroup(
+            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(_TextSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("OutPut", panelOutPut);
 
         jLabel1.setText("Número de Instrucción");
 
         _lblnInst.setEditable(false);
 
-        jMenu1.setText("Opciones");
+        menuOpciones.setText("Opciones");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarVhdl.png"))); // NOI18N
-        jMenuItem1.setText("Cargar VHD");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesCargarVHD.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesCargarVHD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarVhdl.png"))); // NOI18N
+        menuOpcionesCargarVHD.setText("Cargar VHD");
+        menuOpcionesCargarVHD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuOpcionesCargarVHDActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        menuOpciones.add(menuOpcionesCargarVHD);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCrearBit.png"))); // NOI18N
-        jMenuItem2.setText("Crear .Bit");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesCrearBit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesCrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCrearBit.png"))); // NOI18N
+        menuOpcionesCrearBit.setText("Crear .Bit");
+        menuOpcionesCrearBit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuOpcionesCrearBitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        menuOpciones.add(menuOpcionesCrearBit);
 
-        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarBit.png"))); // NOI18N
-        jMenuItem3.setText("Cargar .Bit");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesCargarBit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarBit.png"))); // NOI18N
+        menuOpcionesCargarBit.setText("Cargar .Bit");
+        menuOpcionesCargarBit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menuOpcionesCargarBitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        menuOpciones.add(menuOpcionesCargarBit);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarTB.png"))); // NOI18N
-        jMenuItem4.setText("Cargar TB");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesCargarTB.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarTB.png"))); // NOI18N
+        menuOpcionesCargarTB.setText("Cargar TB");
+        menuOpcionesCargarTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                menuOpcionesCargarTBActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        menuOpciones.add(menuOpcionesCargarTB);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuEjec.png"))); // NOI18N
-        jMenuItem5.setText("Ejecutar");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesEjec.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesEjec.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuEjec.png"))); // NOI18N
+        menuOpcionesEjec.setText("Ejecutar");
+        menuOpcionesEjec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                menuOpcionesEjecActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem5);
+        menuOpciones.add(menuOpcionesEjec);
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuPararEjec.png"))); // NOI18N
-        jMenuItem6.setText("Parar Ejecucion");
-        jMenuItem6.setEnabled(false);
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesPararEjec.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesPararEjec.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuPararEjec.png"))); // NOI18N
+        menuOpcionesPararEjec.setText("Parar Ejecucion");
+        menuOpcionesPararEjec.setEnabled(false);
+        menuOpcionesPararEjec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                menuOpcionesPararEjecActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        menuOpciones.add(menuOpcionesPararEjec);
 
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuReanudarEjec.png"))); // NOI18N
-        jMenuItem7.setText("Reanudar Ejecucion");
-        jMenuItem7.setEnabled(false);
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        menuOpcionesReanudarEjec.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesReanudarEjec.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuReanudarEjec.png"))); // NOI18N
+        menuOpcionesReanudarEjec.setText("Reanudar Ejecucion");
+        menuOpcionesReanudarEjec.setEnabled(false);
+        menuOpcionesReanudarEjec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                menuOpcionesReanudarEjecActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem7);
+        menuOpciones.add(menuOpcionesReanudarEjec);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuOpciones);
 
-        jMenu2.setText("Vistas");
+        menuVistas.setText("Vistas");
 
-        jMenuItem8.setText("Entity VHD");
-        jMenu2.add(jMenuItem8);
+        menuVistasEntityVHD.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
+        menuVistasEntityVHD.setText("Entity VHD");
+        menuVistasEntityVHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVistasEntityVHDActionPerformed(evt);
+            }
+        });
+        menuVistas.add(menuVistasEntityVHD);
 
-        jMenuItem9.setText("Cargar");
-        jMenu2.add(jMenuItem9);
+        menuVistasCargar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
+        menuVistasCargar.setText("Cargar");
+        menuVistasCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVistasCargarActionPerformed(evt);
+            }
+        });
+        menuVistas.add(menuVistasCargar);
 
-        jMenuItem10.setText("TestBench");
-        jMenu2.add(jMenuItem10);
+        menuVistasTB.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK));
+        menuVistasTB.setText("TestBench");
+        menuVistasTB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVistasTBActionPerformed(evt);
+            }
+        });
+        menuVistas.add(menuVistasTB);
 
-        jMenuItem11.setText("Salida");
-        jMenu2.add(jMenuItem11);
+        menuVistasOutPut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
+        menuVistasOutPut.setText("OutPut");
+        menuVistasOutPut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVistasOutPutActionPerformed(evt);
+            }
+        });
+        menuVistas.add(menuVistasOutPut);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuVistas);
 
         setJMenuBar(jMenuBar1);
 
@@ -391,7 +477,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void _CargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__CargarVhdActionPerformed
+    private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
         boolean error = false;
         JFileChooser chooser;
@@ -429,9 +515,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.println("No Selection ");
         }
         this.jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event__CargarVhdActionPerformed
+    }//GEN-LAST:event__btnCargarVhdActionPerformed
 
-    private void _CrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__CrearBitActionPerformed
+    private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
 
         SintacticoEntidad compilador = null;
         Errores errores = new Errores();
@@ -473,7 +559,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         if (compilador != null) {
             compilador.cerrar();
         }
-    }//GEN-LAST:event__CrearBitActionPerformed
+    }//GEN-LAST:event__btnCrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
         this.jTabbedPane1.setSelectedIndex(1);
@@ -525,7 +611,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 ejec.start();
                 this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
-                this._PararEjecucion.setEnabled(true);
+                this._btnPararEjecucion.setEnabled(true);
             } else {
                 //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
@@ -535,7 +621,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
-    private void _PararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__PararEjecucionActionPerformed
+    private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
         // TODO: mandar enable a la placa
         System.out.println("PARANDO HILOS..");
         this.ejec.setSetwait(true);
@@ -543,9 +629,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         this._btnReanudar.setEnabled(true);
 
-        this._PararEjecucion.setEnabled(false);
+        this._btnPararEjecucion.setEnabled(false);
 
-    }//GEN-LAST:event__PararEjecucionActionPerformed
+    }//GEN-LAST:event__btnPararEjecucionActionPerformed
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
 
@@ -556,7 +642,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             this.ejec.notify();
         }
         this._btnReanudar.setEnabled(false);
-        this._PararEjecucion.setEnabled(true);
+        this._btnPararEjecucion.setEnabled(true);
         //TODO : Función que volviera activar la fpga.
     }//GEN-LAST:event__btnReanudarActionPerformed
 
@@ -615,33 +701,100 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this.hiloreceptor.pararrecepcionfpga();
     }//GEN-LAST:event_formWindowClosed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        _CargarVhdActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed
+        _btnCargarVhdActionPerformed(evt);
+    }//GEN-LAST:event_menuOpcionesCargarVHDActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        _CrearBitActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void menuOpcionesCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCrearBitActionPerformed
+        _btnCrearBitActionPerformed(evt);
+    }//GEN-LAST:event_menuOpcionesCrearBitActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void menuOpcionesCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarBitActionPerformed
         _btnCargarBitActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_menuOpcionesCargarBitActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void menuOpcionesCargarTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarTBActionPerformed
         _btnCargarTBActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_menuOpcionesCargarTBActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void menuOpcionesEjecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesEjecActionPerformed
         _btnEjecutarActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_menuOpcionesEjecActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        _PararEjecucionActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    private void menuOpcionesPararEjecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesPararEjecActionPerformed
+        _btnPararEjecucionActionPerformed(evt);
+    }//GEN-LAST:event_menuOpcionesPararEjecActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void menuOpcionesReanudarEjecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesReanudarEjecActionPerformed
         _btnReanudarActionPerformed(evt);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_menuOpcionesReanudarEjecActionPerformed
+
+    private void menuVistasEntityVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasEntityVHDActionPerformed
+        try {
+            jTabbedPane1.setSelectedComponent(panelVHD);
+        } catch (IllegalArgumentException ex) {
+
+            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelVHD);
+            panelVHD.setLayout(panelOutPutLayout);
+            panelOutPutLayout.setHorizontalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TxtEntityVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
+            panelOutPutLayout.setVerticalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TxtEntityVHD, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+
+            jTabbedPane1.addTab("Entity VHDL", panelVHD);
+        }
+    }//GEN-LAST:event_menuVistasEntityVHDActionPerformed
+
+    private void menuVistasCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasCargarActionPerformed
+        try {
+            jTabbedPane1.setSelectedComponent(panelCargar);
+        } catch (IllegalArgumentException ex) {
+
+            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelCargar);
+            panelCargar.setLayout(panelOutPutLayout);
+            panelOutPutLayout.setHorizontalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextCargarbit, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
+            panelOutPutLayout.setVerticalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextCargarbit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+
+            jTabbedPane1.addTab("Cargar", panelCargar);
+
+        }
+    }//GEN-LAST:event_menuVistasCargarActionPerformed
+
+    private void menuVistasTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasTBActionPerformed
+        try {
+            jTabbedPane1.setSelectedComponent(panelTB);
+        } catch (IllegalArgumentException ex) {
+
+            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelTB);
+            panelTB.setLayout(panelOutPutLayout);
+            panelOutPutLayout.setHorizontalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
+            panelOutPutLayout.setVerticalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_txtTB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+
+            jTabbedPane1.addTab("TestBench", panelTB);
+
+        }
+    }//GEN-LAST:event_menuVistasTBActionPerformed
+
+    private void menuVistasOutPutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasOutPutActionPerformed
+        try {
+            jTabbedPane1.setSelectedComponent(panelOutPut);
+        } catch (IllegalArgumentException ex) {
+
+            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
+            panelOutPut.setLayout(panelOutPutLayout);
+            panelOutPutLayout.setHorizontalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
+            panelOutPutLayout.setVerticalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextSalida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+
+            jTabbedPane1.addTab("OutPut", panelOutPut);
+
+        }
+    }//GEN-LAST:event_menuVistasOutPutActionPerformed
     public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
     }
@@ -649,37 +802,42 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton _CargarVhd;
-    private javax.swing.JButton _CrearBit;
-    private javax.swing.JButton _PararEjecucion;
     private javax.swing.JTextArea _TextCargarbit;
     private java.awt.TextArea _TextSalida;
     private javax.swing.JTextArea _TxtEntityVHD;
     private javax.swing.JButton _btnCargarBit;
     private javax.swing.JButton _btnCargarTB;
+    private javax.swing.JButton _btnCargarVhd;
+    private javax.swing.JButton _btnCrearBit;
     private javax.swing.JButton _btnEjecutar;
+    private javax.swing.JButton _btnPararEjecucion;
     private javax.swing.JButton _btnReanudar;
     private javax.swing.JTextField _lblnInst;
     private java.awt.TextArea _txtTB;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    //private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenu menuOpciones;
+    private javax.swing.JMenuItem menuOpcionesCargarBit;
+    private javax.swing.JMenuItem menuOpcionesCargarTB;
+    private javax.swing.JMenuItem menuOpcionesCargarVHD;
+    private javax.swing.JMenuItem menuOpcionesCrearBit;
+    private javax.swing.JMenuItem menuOpcionesEjec;
+    private javax.swing.JMenuItem menuOpcionesPararEjec;
+    private javax.swing.JMenuItem menuOpcionesReanudarEjec;
+    private javax.swing.JMenu menuVistas;
+    private javax.swing.JMenuItem menuVistasCargar;
+    private javax.swing.JMenuItem menuVistasEntityVHD;
+    private javax.swing.JMenuItem menuVistasOutPut;
+    private javax.swing.JMenuItem menuVistasTB;
+    private javax.swing.JPanel panelCargar;
+    private javax.swing.JPanel panelOutPut;
+    private javax.swing.JPanel panelTB;
+    private javax.swing.JPanel panelVHD;
     // End of variables declaration//GEN-END:variables
+    private JTabbedPaneWithCloseIcon jTabbedPane1;		
 }
