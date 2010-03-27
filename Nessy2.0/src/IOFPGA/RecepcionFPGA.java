@@ -7,7 +7,6 @@ package IOFPGA;
 //package MiLib;
 import app.*;
 import java.awt.TextArea;
-import nessy20.GUIPrincipal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
