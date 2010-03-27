@@ -49,6 +49,7 @@ public class Ejecucion extends Thread {
         setwait = false;
 
 
+
     }
     public void setCadena(String as_cadenaajecutar){
         ls_cadenaaejecutar =  as_cadenaajecutar ;

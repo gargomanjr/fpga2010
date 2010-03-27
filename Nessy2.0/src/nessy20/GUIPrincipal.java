@@ -635,27 +635,37 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
-        // TODO: mandar enable a la placa
-        System.out.println("PARANDO HILOS..");
-        this.ejec.setSetwait(true);
-        this.hiloreceptor.setSetwait(true);
-
-        this._btnReanudar.setEnabled(true);
-
-        this._btnPararEjecucion.setEnabled(false);
+        try {
+            // TODO: mandar enable a la placa
+            int longitud = this.entidad.getBitsEntrada();
+            int DatoAEnviar = (int) Math.pow(2, longitud);
+            this.com1.sendSingleData(DatoAEnviar);
+            System.out.println("PARANDO HILOS..");
+            this.ejec.setSetwait(true);
+            this.hiloreceptor.setSetwait(true);
+            this._btnReanudar.setEnabled(true);
+            this._btnPararEjecucion.setEnabled(false);
+        } catch (Exception ex) {
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event__btnPararEjecucionActionPerformed
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
-
-        synchronized (this.hiloreceptor) {
-            this.hiloreceptor.notify();
+        try {
+            this.com1.sendSingleData(0);
+            synchronized (this.hiloreceptor) {
+                this.hiloreceptor.notify();
+            }
+            synchronized (this.ejec) {
+                this.ejec.notify();
+            }
+            this._btnReanudar.setEnabled(false);
+            this._btnPararEjecucion.setEnabled(true);
+            //TODO : Función que volviera activar la fpga.
+        } catch (Exception ex) {
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        synchronized (this.ejec) {
-            this.ejec.notify();
-        }
-        this._btnReanudar.setEnabled(false);
-        this._btnPararEjecucion.setEnabled(true);
         //TODO : Función que volviera activar la fpga.
     }//GEN-LAST:event__btnReanudarActionPerformed
 
