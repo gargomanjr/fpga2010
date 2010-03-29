@@ -736,9 +736,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
 
        javax.swing.JPanel panel=(javax.swing.JPanel) jTabbedPane1.getSelectedComponent();
-       javax.swing.JTextArea txtArea=(javax.swing.JTextArea)panel.getComponent(0);
+       javax.swing.JScrollPane scrPanel=(javax.swing.JScrollPane)panel.getComponent(0);
+       javax.swing.JViewport viewPort = (javax.swing.JViewport) scrPanel.getComponent(0);
+       
+       javax.swing.JTextArea txtArea = (javax.swing.JTextArea) viewPort.getComponent(0);
        txtArea.setText("");
-
     }
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
