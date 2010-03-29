@@ -502,6 +502,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
+
         boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
@@ -524,7 +525,28 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     linea = br.readLine();
                 }
                 br.close();
-            } catch (IOException ex) {
+                jTabbedPane1.setSelectedComponent(panelVHD);
+            }   catch (IllegalArgumentException ex) {
+
+        _TxtEntityVHD.setColumns(20);
+        _TxtEntityVHD.setEditable(false);
+        _TxtEntityVHD.setRows(5);
+        jScrollPane1.setViewportView(_TxtEntityVHD);
+
+        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+        panelVHD.setLayout(panelVHDLayout);
+        panelVHDLayout.setHorizontalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+        );
+        panelVHDLayout.setVerticalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Entity VHDL", panelVHD);
+        }
+             catch (IOException ex) {
                 error = true;
                 Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 this._TxtEntityVHD.append("Error al cargar la entity");
