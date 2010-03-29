@@ -334,6 +334,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _lblnInst.setEditable(false);
 
         _btnClear.setText("Clear");
+	_btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnClearActionPerformed(evt);
+            }
+        });
 
         menuOpciones.setText("Opciones");
 
@@ -727,6 +732,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         this.jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event__btnCargarTBActionPerformed
+
+    private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
+
+       javax.swing.JPanel panel=(javax.swing.JPanel) jTabbedPane1.getSelectedComponent();
+       javax.swing.JTextArea txtArea=(javax.swing.JTextArea)panel.getComponent(0);
+       txtArea.setText("");
+
+    }
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
