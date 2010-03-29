@@ -738,7 +738,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
        javax.swing.JPanel panel=(javax.swing.JPanel) jTabbedPane1.getSelectedComponent();
        javax.swing.JScrollPane scrPanel=(javax.swing.JScrollPane)panel.getComponent(0);
        javax.swing.JViewport viewPort = (javax.swing.JViewport) scrPanel.getComponent(0);
-       
        javax.swing.JTextArea txtArea = (javax.swing.JTextArea) viewPort.getComponent(0);
        txtArea.setText("");
     }
