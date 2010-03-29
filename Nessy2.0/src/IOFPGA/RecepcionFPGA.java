@@ -6,7 +6,7 @@ package IOFPGA;
  */
 //package MiLib;
 import app.*;
-import java.awt.TextArea;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -28,7 +29,7 @@ public class RecepcionFPGA extends Thread {
     Com com1;
     boolean recibiendo;
     private int enteroAnterior;
-    private TextArea ata_textarea;
+    private JTextArea ata_textarea;
     private int long_bits;
     private boolean setwait;
     private String salidafichero;
@@ -47,7 +48,7 @@ public class RecepcionFPGA extends Thread {
     }
 
     //public RecepcionFPGA(GUIPrincipal aux, Parameters a_param, Com a_com) {
-    public RecepcionFPGA(TextArea aux, int il_longitud, Parameters a_param, Com a_com) {
+    public RecepcionFPGA(JTextArea aux, int il_longitud, Parameters a_param, Com a_com) {
         //miInterfaz = aux;
         ata_textarea = aux;
         long_bits = il_longitud;
