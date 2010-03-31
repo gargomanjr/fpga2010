@@ -64,7 +64,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 com1 = new Com(param);
             } else {
                 JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " + "el PC no posee puerto COM1", "Info", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
+                //System.exit(0);
                 //  com1 = new Com(param);
                 }
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
@@ -502,7 +502,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
-
         boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
@@ -525,28 +524,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     linea = br.readLine();
                 }
                 br.close();
-                jTabbedPane1.setSelectedComponent(panelVHD);
-            }   catch (IllegalArgumentException ex) {
-
-        _TxtEntityVHD.setColumns(20);
-        _TxtEntityVHD.setEditable(false);
-        _TxtEntityVHD.setRows(5);
-        jScrollPane1.setViewportView(_TxtEntityVHD);
-
-        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
-        panelVHD.setLayout(panelVHDLayout);
-        panelVHDLayout.setHorizontalGroup(
-            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
-        );
-        panelVHDLayout.setVerticalGroup(
-            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Entity VHDL", panelVHD);
-        }
-             catch (IOException ex) {
+            } catch (IOException ex) {
                 error = true;
                 Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 this._TxtEntityVHD.append("Error al cargar la entity");
@@ -827,7 +805,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelCargar);
         } catch (IllegalArgumentException ex) {
 
-            _TextCargarbit.setColumns(20);
+         _TextCargarbit.setColumns(20);
         _TextCargarbit.setRows(5);
         _TextCargarbit.setMaximumSize(getMaximumSize());
         jScrollPane2.setViewportView(_TextCargarbit);
@@ -836,7 +814,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelCargar.setLayout(panelCargarLayout);
         panelCargarLayout.setHorizontalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
         );
         panelCargarLayout.setVerticalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -852,16 +830,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
         try {
             jTabbedPane1.setSelectedComponent(panelTB);
         } catch (IllegalArgumentException ex) {
+        _txtTB.setColumns(20);
+        _txtTB.setRows(5);
+        jScrollPane3.setViewportView(_txtTB);
 
-            javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
+        javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
         panelTB.setLayout(panelTBLayout);
         panelTBLayout.setHorizontalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
         );
         panelTBLayout.setVerticalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(_txtTB, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("TestBench", panelTB);
@@ -874,14 +855,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelOutPut);
         } catch (IllegalArgumentException ex) {
 
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
-            panelOutPut.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(_TextSalida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE));
+            _TextSalida.setColumns(20);
+        _TextSalida.setEditable(false);
+        _TextSalida.setRows(5);
+        jScrollPane4.setViewportView(_TextSalida);
 
-            jTabbedPane1.addTab("OutPut", panelOutPut);
+        javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
+        panelOutPut.setLayout(panelOutPutLayout);
+        panelOutPutLayout.setHorizontalGroup(
+            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+        );
+        panelOutPutLayout.setVerticalGroup(
+            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("OutPut", panelOutPut);
 
         }
     }//GEN-LAST:event_menuVistasOutPutActionPerformed
