@@ -64,7 +64,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 com1 = new Com(param);
             } else {
                 JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " + "el PC no posee puerto COM1", "Info", JOptionPane.INFORMATION_MESSAGE);
-                //System.exit(0);
+                System.exit(0);
                 //  com1 = new Com(param);
                 }
             /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
