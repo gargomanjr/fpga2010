@@ -577,7 +577,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 this._TxtEntityVHD.append("Error al cargar la entity");
             }
-            error = error || compilarEntidad();
+            error = error || !compilarEntidad();
             if (!error) {
                 JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
