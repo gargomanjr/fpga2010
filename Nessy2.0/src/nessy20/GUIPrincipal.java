@@ -602,7 +602,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
-        this.jTabbedPane1.setSelectedIndex(1);
+        //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
         String fichero_bit;
         boolean error;
@@ -653,7 +653,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
                 ejec.start();
-                this.jTabbedPane1.setSelectedIndex(3);
+                //this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
