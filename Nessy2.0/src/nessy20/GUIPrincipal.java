@@ -588,7 +588,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } else {
             System.out.println("No Selection ");
         }
-        this.jTabbedPane1.setSelectedIndex(0);
+        //this.jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -631,21 +631,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.println("Selecc ");
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
-        // Tony nuevo código. Compruebo si esta ejecutándose el hilo o esta esperandao para matar
-        // el hilo antiguo y no tener 2 hilos leyendo si pulsaramos varias veces cargar .bit.
-        if (this.ejec != null || this.ejec.getState() == State.WAITING) {
-            this.hiloreceptor.pararrecepcionfpga();
-        }
-        this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
-        hiloreceptor.start();
+        
 
-        //TODO
+        
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
-
-
+        
+        // Tony nuevo código. Compruebo si esta ejecutándose el hilo o esta esperandao para matar
+        // el hilo antiguo y no tener 2 hilos leyendo si pulsaramos varias veces cargar .bit.
+        if (this.ejec != null){// || this.ejec.getState() == State.WAITING) {
+            this.hiloreceptor.pararrecepcionfpga();
+        }
+        this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
+        hiloreceptor.start();
         String ls_cadenaaejecutar = this._txtTB.getText();
         this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
         this.ejec.setCadena(ls_cadenaaejecutar);
@@ -709,7 +709,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         this._TxtEntityVHD.setText("");
         chooser =
-                new JFileChooser();
+        new JFileChooser();
         Filtro filter = new Filtro("txt");
         chooser.addChoosableFileFilter(filter);
         chooser.setCurrentDirectory(new java.io.File("."));
@@ -747,7 +747,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.println("No Selection ");
         }
 
-        this.jTabbedPane1.setSelectedIndex(2);
+//        this.jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
