@@ -57,9 +57,9 @@ public class SintacticoEntidad {
     public boolean Entidad() throws Exception{
         Cabecera();
         boolean error = false;
-        if (token.getCodigo() == LexicoEntidad.GENERIC){
+        /*if (token.getCodigo() == LexicoEntidad.GENERIC){
             error = error | Generic();
-        }
+        }*/
         empareja(LexicoEntidad.ENTITY);
         String nomEntidadInicio = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
