@@ -1,11 +1,19 @@
-Entidad = Cabecera entity identificador is Puertos end identificador
+Entidad = Cabecera entity identificador is Generic Puertos end identificador
+Generic = generic (Variables);
+Variables = Variable RVariables;
+Variable = identificador : InOut integer := entero
+RVariables = ; Variable Rvariables
+RVariables = lambda
 Puertos = port(Señales);
-Señales = Señal RSeñaless
+Señales = Señal RSeñales
 Señal = identificador : InOut Tipo
 RSeñales = ; Señal RSeñales
 RSeñales = lambda
 InOut = in
 InOut = out
 Tipo = std_logic
-Tipo = std_logic_vector(entero downto entero)
+Tipo = std_logic_vector(Exp downto Exp)
+Exp = entero + Exp
+Exp = entero - Exp
+Exp = entero
 Cabecera = *

@@ -22,7 +22,7 @@ public class SintacticoEntidad {
     private Entidad entidad;
     private LexicoEntidad lector;
     private Errores errores;
-    private HashMap<String,Puerto> tablaSimbolos;
+    private HashMap<String,Integer> tablaSimbolos;
 
     public Entidad getEntidad() {
         return entidad;
@@ -48,18 +48,23 @@ public class SintacticoEntidad {
     }
 
     public void Cabecera() throws IOException{
-        while(token != null && token.getCodigo() != LexicoEntidad.ENTITY){
+        while(token != null && token.getCodigo() != LexicoEntidad.ENTITY
+                && token.getCodigo() != LexicoEntidad.GENERIC){
             token = lector.sigToken();
         }
     }
 
     public boolean Entidad() throws Exception{
         Cabecera();
+        boolean error = false;
+        if (token.getCodigo() == LexicoEntidad.GENERIC){
+            error = error | Generic();
+        }
         empareja(LexicoEntidad.ENTITY);
         String nomEntidadInicio = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
         empareja(LexicoEntidad.IS);
-        boolean error = Puertos();
+        error = error | Puertos();
         empareja(LexicoEntidad.END);
         String nomEntidadEnd = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
@@ -68,6 +73,42 @@ public class SintacticoEntidad {
         }else{
             errores.error("El nombre de la entidad no coincide");
             error = true;
+        }
+        return error;
+    }
+
+    public boolean Generic() throws Exception{
+        empareja(LexicoEntidad.GENERIC);
+        empareja(LexicoEntidad.ABRE_PARENTESIS);
+        boolean error = Variables();
+        empareja(LexicoEntidad.CIERRA_PARENTESIS);
+        return error;
+    }
+
+    public boolean Variables() throws Exception{
+        boolean error = Variable();
+        error = error | RVariables();
+        return error;
+    }
+
+    public boolean Variable() throws Exception{
+        String var = token.getLexema();
+        empareja(LexicoEntidad.IDENTIFICADOR);
+        empareja(LexicoEntidad.DOS_PUNTOS);
+        empareja(LexicoEntidad.IN);
+        empareja(LexicoEntidad.INTEGER);
+        empareja(LexicoEntidad.ASIG_GENERIC);
+        String valor = token.getLexema();
+        empareja(LexicoEntidad.ENTERO);
+        tablaSimbolos.put(var,new Integer(valor));
+        return false;
+    }
+
+    public boolean RVariables() throws Exception{
+        boolean error = false;
+        if (token.getCodigo() == LexicoEntidad.PUNTO_Y_COMA){
+            empareja(LexicoEntidad.PUNTO_Y_COMA);
+            error = Variable() | RVariables();
         }
         return error;
     }

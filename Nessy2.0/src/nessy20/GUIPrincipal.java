@@ -20,6 +20,7 @@ import compiladorEntidad.Entidad;
 import core.SerialPort;
 import generadorVHDL.GeneraVhdl;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -177,8 +178,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
-       // panelVHD = new javax.swing.JTabbedPane();
-        panelVHD = new javax.swing.JPanel();
+        panelVHD = new javax.swing.JTabbedPane();
+        panelVHD1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         _TxtEntityVHD = new javax.swing.JTextArea();
         panelCargar = new javax.swing.JPanel();
@@ -311,18 +312,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _TxtEntityVHD.setRows(5);
         jScrollPane1.setViewportView(_TxtEntityVHD);
 
-        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
-        panelVHD.setLayout(panelVHDLayout);
-        panelVHDLayout.setHorizontalGroup(
-            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelVHD1Layout = new javax.swing.GroupLayout(panelVHD1);
+        panelVHD1.setLayout(panelVHD1Layout);
+        panelVHD1Layout.setHorizontalGroup(
+            panelVHD1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
         );
-        panelVHDLayout.setVerticalGroup(
-            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+        panelVHD1Layout.setVerticalGroup(
+            panelVHD1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Entity VHDL", panelVHD);
+        panelVHD.addTab("Entity VHDL", panelVHD1);
 
         _TextCargarbit.setColumns(20);
         _TextCargarbit.setRows(5);
@@ -337,10 +338,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelCargarLayout.setVerticalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Cargar", panelCargar);
+        panelVHD.addTab("Cargar", panelCargar);
 
         _txtTB.setColumns(20);
         _txtTB.setRows(5);
@@ -354,10 +355,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelTBLayout.setVerticalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("TestBench", panelTB);
+        panelVHD.addTab("TestBench", panelTB);
 
         _TextSalida.setColumns(20);
         _TextSalida.setEditable(false);
@@ -372,17 +373,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelOutPutLayout.setVerticalGroup(
             panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("OutPut", panelOutPut);
+        panelVHD.addTab("OutPut", panelOutPut);
 
         jLabel1.setText("Número de Instrucción");
 
         _lblnInst.setEditable(false);
 
         _btnClear.setText("Clear");
-	_btnClear.addActionListener(new java.awt.event.ActionListener() {
+        _btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 _btnClearActionPerformed(evt);
             }
@@ -514,7 +515,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(375, Short.MAX_VALUE)
+                .addContainerGap(377, Short.MAX_VALUE)
                 .addComponent(_btnClear)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
@@ -524,7 +525,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                .addComponent(panelVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -539,11 +540,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(_btnClear))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addComponent(panelVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addGap(36, 36, 36))
         );
 
-        jTabbedPane1.getAccessibleContext().setAccessibleName("Entity VHD");
+        panelVHD.getAccessibleContext().setAccessibleName("Entity VHD");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -559,6 +560,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Seleccionar Archivo VHDL");
         chooser.setAcceptAllFileFilterUsed(false);
+        //chooser.setMultiSelectionEnabled(true);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
@@ -917,9 +919,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuVistasTB;
     private javax.swing.JPanel panelCargar;
     private javax.swing.JPanel panelOutPut;
-    private javax.swing.JPanel panelTB; 
-    //private javax.swing.JTabbedPane panelVHD;
-    private javax.swing.JPanel panelVHD;
+    private javax.swing.JPanel panelTB;
+    private javax.swing.JTabbedPane panelVHD;
+    private javax.swing.JPanel panelVHD1;
     // End of variables declaration//GEN-END:variables
     private JTabbedPaneWithCloseIcon jTabbedPane1;
 }

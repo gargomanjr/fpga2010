@@ -41,6 +41,10 @@ public class LexicoEntidad {
 
     public static final int OTRO = 16;
 
+    public static final int GENERIC = 17;
+    public static final int INTEGER = 18;
+    public static final int ASIG_GENERIC = 19;
+
     private BufferedReader reader;
     private Errores errores;
     private Character ultimoCharLeido;
@@ -88,6 +92,8 @@ public class LexicoEntidad {
         palabrasReservadas.put("OUT",OUT);
         palabrasReservadas.put("DOWNTO",DOWNTO);
         palabrasReservadas.put("END",END);
+        palabrasReservadas.put("GENERIC",GENERIC);
+        palabrasReservadas.put("INTEGER",INTEGER);
 
     }
 
@@ -203,7 +209,11 @@ public class LexicoEntidad {
                 case 6:
                     return new Token(EOF,cadena,numLinea,numColumna);
                 case 7:
-                    return new Token(DOS_PUNTOS,cadena,numLinea,numColumna);
+                    if (caracterLeido == '='){
+                        transita(11);
+                    }else{
+                        return new Token(DOS_PUNTOS,cadena,numLinea,numColumna);
+                    }
                 case 8:
                     if (caracterLeido == '-'){
                         transita(9);
@@ -219,6 +229,8 @@ public class LexicoEntidad {
                     }
                 case 10://desconocido
                     return new Token(OTRO, cadena,numLinea,numColumna);
+                case 11:
+                    return new Token(ASIG_GENERIC,cadena,numLinea,numColumna);
             }
         }
     }
