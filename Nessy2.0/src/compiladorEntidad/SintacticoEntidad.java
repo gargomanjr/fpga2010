@@ -57,9 +57,9 @@ public class SintacticoEntidad {
     public boolean Entidad() throws Exception{
         Cabecera();
         boolean error = false;
-        /*if (token.getCodigo() == LexicoEntidad.GENERIC){
+        if (token.getCodigo() == LexicoEntidad.GENERIC){
             error = error | Generic();
-        }*/
+        }
         empareja(LexicoEntidad.ENTITY);
         String nomEntidadInicio = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
@@ -190,6 +190,7 @@ public class SintacticoEntidad {
             empareja(LexicoEntidad.STD_LOGIC_VECTOR);
             empareja(LexicoEntidad.ABRE_PARENTESIS);
             String cadenaEnt1, cadenaEnt2;
+            int inicio = Exp();
             cadenaEnt1 = token.getLexema();
             empareja(LexicoEntidad.ENTERO);
             empareja(LexicoEntidad.DOWNTO);
@@ -203,6 +204,12 @@ public class SintacticoEntidad {
         }
         return tamano;
     }
+
+    public int Exp(){
+        return EvaluadorExps.evaluarExpresion();
+    }
+
+    
 
     public void empareja(int tk) throws Exception {
         if (token != null)//si no ha habido error lexico
