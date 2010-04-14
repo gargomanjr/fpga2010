@@ -11,14 +11,14 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class Pila {
+public class Pila<T> {
 
-    int cima;
+    private int cima;
 
-    ArrayList<String> pila;
+    ArrayList<T> pila;
 
     public Pila(){
-        pila = new ArrayList<String>();
+        pila = new ArrayList<T>();
         cima = -1;
     }
 
@@ -26,18 +26,18 @@ public class Pila {
         return cima == -1;
     }
 
-    public void apilar(String c){
-        pila.set(++cima, c);
+    public void apilar(T t){
+        pila.set(++cima, t);
     }
 
-    public String desapilar(){
+    public T desapilar(){
         if (!esVacia()){
             return pila.remove(cima--);
         }
         return null;
     }
 
-    public String getCima(){
+    public T getCima(){
         if (!esVacia()){
             return pila.get(cima--);
         }

@@ -7,6 +7,7 @@ package compiladorEntidad;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -206,7 +207,69 @@ public class SintacticoEntidad {
     }
 
     public int Exp(){
-        return EvaluadorExps.evaluarExpresion();
+        int exp = -1;
+        return exp;
+    }
+
+    public ArrayList<Token> pasarAPostFija() throws Exception{
+        Pila<Token> pila = new Pila<Token>();
+        boolean finExp = false;
+        ArrayList<Token> post = new ArrayList<Token>();
+        Token t;
+        while (!finExp){
+            t = new Token(token);//hace una copia del token
+            if (EvaluadorExps.esOperando(t.getCodigo())){
+                post.add(t);
+                empareja(t.getCodigo());
+            }else if(t.getCodigo() == LexicoEntidad.ABRE_PARENTESIS){
+                pila.apilar(t);
+                empareja(LexicoEntidad.ABRE_PARENTESIS);
+            }else if(t.getCodigo() == LexicoEntidad.CIERRA_PARENTESIS){
+                while (pila.getCima().getCodigo() != LexicoEntidad.ABRE_PARENTESIS){
+                    post.add(pila.desapilar());
+                }
+                pila.desapilar();
+                empareja(LexicoEntidad.CIERRA_PARENTESIS);
+            }else if(EvaluadorExps.esOperador(t.getCodigo())){
+                while(!pila.esVacia() && EvaluadorExps.esMenorIg(t.getCodigo(),pila.getCima().getCodigo())){
+                    post.add(pila.desapilar());
+                }
+                pila.apilar(t);
+                empareja(t.getCodigo());
+            }else{
+                finExp = true;
+            }
+        }
+        return post;
+    }
+
+    public int evaluar() throws Exception{
+        int valor = -1;
+        Pila<Integer> pila = new Pila<Integer>();
+        ArrayList<Token> post = pasarAPostFija();
+        int i = 0;
+        Token t;
+        while (i < post.size()){
+            t = post.get(i);
+            i++;
+            if (t.getCodigo() == LexicoEntidad.IDENTIFICADOR){
+                if (tablaSimbolos.get(t.getLexema()) != null){
+                    int v = tablaSimbolos.get(t.getLexema()); //el valor de la variable
+                    pila.apilar(v);
+                }else{
+                    errores.error("La variable " + t.getLexema() + " no está definida");
+                    return -1;
+                }
+            }else if(t.getCodigo() == LexicoEntidad.ENTERO){
+                pila.apilar(Integer.parseInt(t.getLexema()));//sabemos seguro que es un entero
+            }else{ //operador
+                int op2 = pila.desapilar();
+                int op1 = pila.desapilar();
+                valor = EvaluadorExps.aplicar(t.getCodigo(),op1,op2);
+                pila.apilar(valor);
+            }
+        }
+        return pila.desapilar();
     }
 
     

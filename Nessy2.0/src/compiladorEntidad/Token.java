@@ -31,6 +31,13 @@ public class Token {
 
     }
 
+    public Token(Token otro){
+        this.codigo = otro.codigo;
+        this.lexema = otro.lexema;
+        this.numColumna = otro.numColumna;
+        this.numLinea = otro.numLinea;
+    }
+
     public int getCodigo() {
         return codigo;
     }
