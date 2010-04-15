@@ -16,8 +16,8 @@ import java.util.HashMap;
  */
 public class SintacticoEntidad {
 
-    public static final int MAX_ENTRADAS = 8;
-    public static final int MAX_SALIDAS = 8;
+    public static final int MAX_ENTRADAS = 32;
+    public static final int MAX_SALIDAS = 32;
 
     private Token token;
     private Entidad entidad;
@@ -33,6 +33,7 @@ public class SintacticoEntidad {
         lector = new LexicoEntidad(brd, errores);
         this.errores = errores;
         entidad = new Entidad();//creamos una entidad vacía
+        tablaSimbolos = new HashMap<String,Integer>();
 
      }
 
@@ -58,13 +59,13 @@ public class SintacticoEntidad {
     public boolean Entidad() throws Exception{
         Cabecera();
         boolean error = false;
-        if (token.getCodigo() == LexicoEntidad.GENERIC){
-            error = error | Generic();
-        }
         empareja(LexicoEntidad.ENTITY);
         String nomEntidadInicio = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
         empareja(LexicoEntidad.IS);
+        if (token.getCodigo() == LexicoEntidad.GENERIC){
+            error = error | Generic();
+        }
         error = error | Puertos();
         empareja(LexicoEntidad.END);
         String nomEntidadEnd = token.getLexema();
@@ -83,6 +84,7 @@ public class SintacticoEntidad {
         empareja(LexicoEntidad.ABRE_PARENTESIS);
         boolean error = Variables();
         empareja(LexicoEntidad.CIERRA_PARENTESIS);
+        empareja(LexicoEntidad.PUNTO_Y_COMA);
         return error;
     }
 
@@ -190,15 +192,12 @@ public class SintacticoEntidad {
         }else if(token.getCodigo() == LexicoEntidad.STD_LOGIC_VECTOR){
             empareja(LexicoEntidad.STD_LOGIC_VECTOR);
             empareja(LexicoEntidad.ABRE_PARENTESIS);
-            String cadenaEnt1, cadenaEnt2;
             int inicio = Exp();
-            cadenaEnt1 = token.getLexema();
-            empareja(LexicoEntidad.ENTERO);
             empareja(LexicoEntidad.DOWNTO);
-            cadenaEnt2 = token.getLexema();
+            int fin = 0;//TODO
             empareja(LexicoEntidad.ENTERO);
-            //si ha llegado hasta aqui es que ambas cadenas son enteros
-            tamano = Integer.parseInt(cadenaEnt1)- Integer.parseInt(cadenaEnt2)+1;
+            if (inicio >= 0 && fin >= 0)
+                tamano = inicio - fin +1;
             empareja(LexicoEntidad.CIERRA_PARENTESIS);
         }else{
             throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
@@ -206,9 +205,8 @@ public class SintacticoEntidad {
         return tamano;
     }
 
-    public int Exp(){
-        int exp = -1;
-        return exp;
+    public int Exp() throws Exception{
+        return evaluar();
     }
 
     public ArrayList<Token> pasarAPostFija() throws Exception{
@@ -239,6 +237,9 @@ public class SintacticoEntidad {
             }else{
                 finExp = true;
             }
+        }
+        while (!pila.esVacia()){
+            post.add(pila.desapilar());
         }
         return post;
     }

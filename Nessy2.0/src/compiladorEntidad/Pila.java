@@ -15,7 +15,7 @@ public class Pila<T> {
 
     private int cima;
 
-    ArrayList<T> pila;
+    private ArrayList<T> pila;
 
     public Pila(){
         pila = new ArrayList<T>();
@@ -27,7 +27,8 @@ public class Pila<T> {
     }
 
     public void apilar(T t){
-        pila.set(++cima, t);
+        pila.add(t);
+        cima++;
     }
 
     public T desapilar(){
@@ -39,7 +40,7 @@ public class Pila<T> {
 
     public T getCima(){
         if (!esVacia()){
-            return pila.get(cima--);
+            return pila.get(cima);
         }
         return null;
     }

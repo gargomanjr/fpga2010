@@ -213,6 +213,7 @@ public class LexicoEntidad {
                     } else {
                         return new Token(DOS_PUNTOS, cadena, numLinea, numColumna);
                     }
+                    break;
                 case 8:
                     if (caracterLeido == '-') {
                         transita(9);
@@ -226,6 +227,7 @@ public class LexicoEntidad {
                     } else {
                         transita(9);
                     }
+                    break;
                 case 10://desconocido
                     return new Token(OTRO, cadena, numLinea, numColumna);
                 case 11:
