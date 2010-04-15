@@ -85,7 +85,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             if (e.getMessage() != null) {
-                System.out.println(e.getMessage());
+                errores.error(e.getMessage());
+                this.muestraErroresConsola(errores);
             } else {
                 e.printStackTrace();
             }
@@ -142,8 +143,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     private void muestraErroresConsola(Errores errores) {
+        this._TxtEntityVHD.setText("");
         for (int i = 0; i < errores.getErrores().size(); i++) {
-            System.out.println(errores.getErrores().get(i));
+            this._TxtEntityVHD.append(errores.getErrores().get(i)+"\n");
         }
     }
 
