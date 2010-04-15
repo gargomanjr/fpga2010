@@ -23,9 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.lang.Thread.State;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -59,10 +57,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         GeneraVhdl generador;
 
         try {
-            StringReader rd = new StringReader(this._TxtEntityVHD.getText());
-            BufferedReader brd = new BufferedReader(rd);
+            /*StringReader rd = new StringReader(this._TxtEntityVHD.getText());
+            BufferedReader brd = new BufferedReader(rd);*/
 
-            compilador = new SintacticoEntidad(brd, errores);
+            compilador = new SintacticoEntidad(fichero, errores);
             compilador.inicia();
 
             boolean error = compilador.Entidad();
@@ -563,10 +561,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         //chooser.setMultiSelectionEnabled(true);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
+            //try {
                 fichero = chooser.getSelectedFile().getAbsolutePath();
 
-                FileReader fr = new FileReader(fichero);
+                /*FileReader fr = new FileReader(fichero);
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
                 while (linea != null) {
@@ -574,13 +572,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     linea = br.readLine();
                 }
                 br.close();
+
             } catch (IOException ex) {
                 error = true;
                 Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 this._TxtEntityVHD.append("Error al cargar la entity");
-            }
+            }*/
             error = error || !compilarEntidad();
             if (!error) {
+                this._TxtEntityVHD.setText(this.entidad.toString());
                 JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Error al cargar el fichero de la entity", "Error", JOptionPane.ERROR_MESSAGE);

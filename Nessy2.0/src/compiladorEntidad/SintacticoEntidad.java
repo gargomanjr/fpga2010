@@ -29,8 +29,8 @@ public class SintacticoEntidad {
         return entidad;
     }
 
-   public SintacticoEntidad(BufferedReader brd, Errores errores) throws IOException {
-        lector = new LexicoEntidad(brd, errores);
+   public SintacticoEntidad(String fichero, Errores errores) throws IOException {
+        lector = new LexicoEntidad(fichero, errores);
         this.errores = errores;
         entidad = new Entidad();//creamos una entidad vacía
         tablaSimbolos = new HashMap<String,Integer>();

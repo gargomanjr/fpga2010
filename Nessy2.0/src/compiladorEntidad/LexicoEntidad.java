@@ -89,8 +89,8 @@ public class LexicoEntidad {
 
     }
 
-    public LexicoEntidad(BufferedReader brd, Errores errores) throws FileNotFoundException, IOException {
-        reader = brd;
+    public LexicoEntidad(String fichero, Errores errores) throws FileNotFoundException, IOException {
+        reader = new BufferedReader(new FileReader(fichero));
         numLinea = 1;
         numColumna = 0;
         this.errores = errores;
