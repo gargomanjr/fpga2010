@@ -73,7 +73,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     generador.cerrar();
                     System.out.println("Fichero vhdl creado correctamente");
                     //compilación y creación del .bit
-                    //Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
+                   // Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
 
                 } else {
                     this.muestraErroresConsola(errores);
@@ -644,6 +644,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         // Tony nuevo código. Compruebo si esta ejecutándose el hilo o esta esperandao para matar
         // el hilo antiguo y no tener 2 hilos leyendo si pulsaramos varias veces cargar .bit.
         if (this.ejec != null){// || this.ejec.getState() == State.WAITING) {
+            this._TextSalida.setText("");
             this.hiloreceptor.pararrecepcionfpga();
         }
         this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);

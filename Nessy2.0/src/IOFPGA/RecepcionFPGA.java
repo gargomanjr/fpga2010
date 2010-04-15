@@ -34,10 +34,13 @@ public class RecepcionFPGA extends Thread {
     private boolean setwait;
     private String salidafichero;
     private File fichero_salida;
-    static String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
+    static  String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
     private BufferedWriter bw;
     private String compararcontraza;
     private BufferedReader rw;
+
+    private File fichero_escritura;
+    private FileWriter fw;
 
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
@@ -58,7 +61,8 @@ public class RecepcionFPGA extends Thread {
         setwait = false;
         salidafichero = "";
         fichero_salida = new File(rutafichero, "fichero.txt");
-
+        fichero_escritura = new File(rutafichero, "fichero.txt");
+        compararcontraza = "";
        // if (!(fichero_salida.exists())) {
             try {
                 fichero_salida.createNewFile();
@@ -70,7 +74,10 @@ public class RecepcionFPGA extends Thread {
                     linea = rw.readLine();
                 }
                 rw.close();
-                bw = new BufferedWriter(new FileWriter(fichero_salida));
+                //prueba FileWriter(sFichero,true)
+               // bw = new BufferedWriter(new FileWriter(fichero_escritura));
+
+
             } catch (IOException ex) {
                 Logger.getLogger(RecepcionFPGA.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -113,18 +120,18 @@ public class RecepcionFPGA extends Thread {
                 cAnterior = c;
                 //String c = convertirCadenaBinaria(entero);
                 // miInterfaz.EscribirDatoPantalla(c);
-                if (c != null){
-                    this.salidafichero = this.salidafichero + c + "\n";
-                    bw.write(c + "\n");
-                    this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
-                }
+              //  if (c != null){
+                this.salidafichero = this.salidafichero + c + "\n";
+                //fw.write(c + "\n");
+                this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
+                //}
             }
-          if(this.compararcontraza != null){
+         /* if(this.compararcontraza != null){
               if (this.compararcontraza.indexOf(this.salidafichero)!= -1 && !(mensaje)){
                   mensaje = true;
                  JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual no coincide con la salida generada por la anterior ejecución", "Info", JOptionPane.INFORMATION_MESSAGE);
-              }
-          }
+              }*/
+          
         }
     }
 
@@ -155,14 +162,18 @@ public class RecepcionFPGA extends Thread {
     }
 
     public void pararrecepcionfpga() {
-        this.recibiendo = false;
         try {
-          //  bw.write(this.salidafichero);
-            bw.close();
+            fichero_escritura.createNewFile();
+            fw = new FileWriter(fichero_escritura,false);
+            fw.write(this.salidafichero);
+            fw.close();
         } catch (IOException ex) {
             Logger.getLogger(RecepcionFPGA.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        this.recibiendo = false;
+        if (this.compararcontraza.indexOf(this.salidafichero)!= -1 ){
+                 JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual no coincide con la salida generada por la anterior ejecución", "Info", JOptionPane.INFORMATION_MESSAGE);
+              }
     }
 }
 
