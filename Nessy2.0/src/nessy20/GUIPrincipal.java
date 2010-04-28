@@ -380,10 +380,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jTabbedPane1.addTab("OutPut", panelOutPut);
 
         jLabel1.setText("Número de Instrucción");
+        jLabel1.setAutoscrolls(true);
 
         _lblnInst.setEditable(false);
 
         _btnClear.setText("Clear");
+        _btnClear.setAutoscrolls(true);
         _btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 _btnClearActionPerformed(evt);
