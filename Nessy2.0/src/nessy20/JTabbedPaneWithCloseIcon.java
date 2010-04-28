@@ -2,7 +2,9 @@ package nessy20;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
  
+
 /**
  * A JTabbedPane which has a close ('X') icon on each tab.
  *
@@ -12,12 +14,26 @@ import java.awt.event.*;
  * the method addTab(String, Component, Icon). Only clicking the 'X' closes the tab.
  */
 public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListener {
-  public JTabbedPaneWithCloseIcon() {
+    
+    private HashMap tablaPaneles;
+
+    public HashMap getTablaPaneles() {
+        return tablaPaneles;
+    }
+
+    public void setTablaPaneles(HashMap tablaPaneles) {
+        this.tablaPaneles = tablaPaneles;
+    }
+
+    public JTabbedPaneWithCloseIcon() {
     super();
+    tablaPaneles = new HashMap();
     addMouseListener(this);
   }
  
   public void addTab(String title, Component component) {
+
+    tablaPaneles.put(component, true);
     this.addTab(title, component, null);
   }
  
@@ -31,7 +47,9 @@ public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListen
     Rectangle rect=((CloseTabIcon)getIconAt(tabNumber)).getBounds();
     if (rect.contains(e.getX(), e.getY())) {
       //the tab is being closed
+      tablaPaneles.put(getComponent(tabNumber),false);
       this.removeTabAt(tabNumber);
+      
     }
   }
  
@@ -40,7 +58,6 @@ public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListen
   public void mousePressed(MouseEvent e) {}
   public void mouseReleased(MouseEvent e) {}
 }
-
 class CloseTabIcon implements Icon {
   private int x_pos;
   private int y_pos;
