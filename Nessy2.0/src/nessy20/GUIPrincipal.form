@@ -210,7 +210,7 @@
           <Component id="jToolBar1" alignment="1" pref="740" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelVHD" pref="720" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="720" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -228,7 +228,7 @@
                   <Component id="_btnClear" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelVHD" pref="322" max="32767" attributes="0"/>
+              <Component id="jTabbedPane1" pref="322" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -346,14 +346,17 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JTabbedPane" name="panelVHD">
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
       <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Entity VHD"/>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
       </AccessibilityProperties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTabbedPaneWithCloseIcon()"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="panelVHD1">
+        <Container class="javax.swing.JPanel" name="panelVHD">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Entity VHDL">
@@ -365,12 +368,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="715" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="1" pref="715" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="294" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="1" pref="294" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

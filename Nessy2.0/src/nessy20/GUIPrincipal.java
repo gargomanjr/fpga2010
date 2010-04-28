@@ -178,8 +178,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
-        panelVHD = new javax.swing.JTabbedPane();
-        panelVHD1 = new javax.swing.JPanel();
+        jTabbedPane1 = new JTabbedPaneWithCloseIcon();
+        panelVHD = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         _TxtEntityVHD = new javax.swing.JTextArea();
         panelCargar = new javax.swing.JPanel();
@@ -312,18 +312,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _TxtEntityVHD.setRows(5);
         jScrollPane1.setViewportView(_TxtEntityVHD);
 
-        javax.swing.GroupLayout panelVHD1Layout = new javax.swing.GroupLayout(panelVHD1);
-        panelVHD1.setLayout(panelVHD1Layout);
-        panelVHD1Layout.setHorizontalGroup(
-            panelVHD1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+        panelVHD.setLayout(panelVHDLayout);
+        panelVHDLayout.setHorizontalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
         );
-        panelVHD1Layout.setVerticalGroup(
-            panelVHD1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+        panelVHDLayout.setVerticalGroup(
+            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        panelVHD.addTab("Entity VHDL", panelVHD1);
+        jTabbedPane1.addTab("Entity VHDL", panelVHD);
 
         _TextCargarbit.setColumns(20);
         _TextCargarbit.setRows(5);
@@ -341,7 +341,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        panelVHD.addTab("Cargar", panelCargar);
+        jTabbedPane1.addTab("Cargar", panelCargar);
 
         _txtTB.setColumns(20);
         _txtTB.setRows(5);
@@ -358,7 +358,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        panelVHD.addTab("TestBench", panelTB);
+        jTabbedPane1.addTab("TestBench", panelTB);
 
         _TextSalida.setColumns(20);
         _TextSalida.setEditable(false);
@@ -376,7 +376,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        panelVHD.addTab("OutPut", panelOutPut);
+        jTabbedPane1.addTab("OutPut", panelOutPut);
 
         jLabel1.setText("Número de Instrucción");
 
@@ -525,7 +525,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -540,11 +540,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(_btnClear))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelVHD, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addGap(36, 36, 36))
         );
 
-        panelVHD.getAccessibleContext().setAccessibleName("Entity VHD");
+        jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -672,7 +672,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         try {
             // TODO: mandar enable a la placa
             int longitud = this.entidad.getBitsEntrada();
-            int DatoAEnviar = (int) Math.pow(2, longitud);
+            int DatoAEnviar = (int) Math.pow(2, longitud-1);
             this.com1.sendSingleData(DatoAEnviar);
             System.out.println("PARANDO HILOS..");
             this.ejec.setSetwait(true);
@@ -906,6 +906,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuOpcionesCargarBit;
@@ -923,8 +924,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelCargar;
     private javax.swing.JPanel panelOutPut;
     private javax.swing.JPanel panelTB;
-    private javax.swing.JTabbedPane panelVHD;
-    private javax.swing.JPanel panelVHD1;
+    private javax.swing.JPanel panelVHD;
     // End of variables declaration//GEN-END:variables
-    private JTabbedPaneWithCloseIcon jTabbedPane1;
+   // private JTabbedPaneWithCloseIcon jTabbedPane1;
 }
