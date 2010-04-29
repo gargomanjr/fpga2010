@@ -10,7 +10,7 @@ setMode -bs
 setMode -bs
 setCable -port auto
 Identify
-addDevice -p 3 -file "D:\PFC\Nessy2.0\IOSerie\circuito_fpga.bit"
+addDevice -p 3 -file "D:\PFC\Nessy2.0\test\cont_tx_serie.bit"
 deleteDevice -p 4
 Program -p 3 -defaultVersion 0
 exit

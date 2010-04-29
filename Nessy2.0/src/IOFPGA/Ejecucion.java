@@ -137,6 +137,7 @@ public class Ejecucion extends Thread {
         datosEnviar = new int[st.countTokens()];
         cadenaaEnviar = new ArrayList<Integer>();
         int i = 0;
+        correcto = datosEnviar.length > 0;
         while (st.hasMoreTokens() && correcto){
             String cadena = st.nextToken();
             if (cadena.length() == numBits){
@@ -174,7 +175,8 @@ public class Ejecucion extends Thread {
             }
             datoaenviar = this.cadenaaEnviar.get(intruccion);
             try {
-                this.com1.sendSingleData(datoaenviar);
+                this.com1.sendSingleData(datoaenviar);//TODO divido 32
+                // bits ebn 4 grupos y los envío
               //  this.interfaz.setNumeroInst(intruccion);
                 this.ljtfield.setText(Integer.toString(intruccion));
                 Thread.sleep(5000);

@@ -133,6 +133,53 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
+    private void ejec(){
+        if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
+                this._TextSalida.setText("");
+                this.hiloreceptor.pararrecepcionfpga();
+        }
+
+        if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
+            jTabbedPane1.setSelectedComponent(panelOutPut);
+        } else {
+            _TextSalida.setColumns(20);
+            _TextSalida.setEditable(false);
+            _TextSalida.setRows(5);
+            jScrollPane4.setViewportView(_TextSalida);
+
+            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
+            panelOutPut.setLayout(panelOutPutLayout);
+            panelOutPutLayout.setHorizontalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+            panelOutPutLayout.setVerticalGroup(
+                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+            jTabbedPane1.addTab("OutPut", panelOutPut);
+            jTabbedPane1.setSelectedComponent(panelOutPut);
+        }
+
+        if (this.entidad != null) {//si la entidad está definida
+            this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
+            hiloreceptor.start();
+            String ls_cadenaaejecutar = this._txtTB.getText();
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
+            this.ejec.setCadena(ls_cadenaaejecutar);
+            //this.ejec.TraduceString();
+            if (ejec.convierteCadenas()) {
+                ejec.start();
+                //this.jTabbedPane1.setSelectedIndex(3);
+                this._btnReanudar.setEnabled(false);
+                this._btnPararEjecucion.setEnabled(true);
+            } else {
+                //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     private void initComponentsAux() {
         jTabbedPane1 = new JTabbedPaneWithCloseIcon();
     }
@@ -673,49 +720,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
-        if (this.inicializarPuertoSerie())
-        {
-            if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
-                this._TextSalida.setText("");
-                this.hiloreceptor.pararrecepcionfpga();
+        if (this.com1 == null){
+            if (this.inicializarPuertoSerie()){
+                ejec();
             }
-        }
-        if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
-            jTabbedPane1.setSelectedComponent(panelOutPut);
-        } else {
-            _TextSalida.setColumns(20);
-            _TextSalida.setEditable(false);
-            _TextSalida.setRows(5);
-            jScrollPane4.setViewportView(_TextSalida);
-
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
-            panelOutPut.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-            jTabbedPane1.addTab("OutPut", panelOutPut);
-            jTabbedPane1.setSelectedComponent(panelOutPut);
-        }
-        this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
-        hiloreceptor.start();
-        String ls_cadenaaejecutar = this._txtTB.getText();
-        this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
-        this.ejec.setCadena(ls_cadenaaejecutar);
-        if (this.entidad != null) {//si la entidad está definida
-            //this.ejec.TraduceString();
-            if (ejec.convierteCadenas()) {
-                ejec.start();
-                //this.jTabbedPane1.setSelectedIndex(3);
-                this._btnReanudar.setEnabled(false);
-                this._btnPararEjecucion.setEnabled(true);
-            } else {
-                //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
-                JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            ejec();
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
