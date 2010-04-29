@@ -74,7 +74,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     generador.cerrar();
                     System.out.println("Fichero vhdl creado correctamente");
                     //compilación y creación del .bit
-                   // Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
+                    // Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
 
                 } else {
                     this.muestraErroresConsola(errores);
@@ -102,6 +102,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     /** Creates new form GUIPrincipal */
     public GUIPrincipal() {
+        logger.info("Ejecutando Nessy 2.0...");
+        initComponentsAux();
+        initComponents();
+        this._btnReanudar.setEnabled(false);
+        this._btnPararEjecucion.setEnabled(false);
+    }
+
+    public boolean inicializarPuertoSerie() {
+        boolean correcto = true;
         try {
             param = new Parameters();
             param.setPort("COM1");
@@ -113,30 +122,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 com1 = new Com(param);
             } else {
                 JOptionPane.showMessageDialog(this, "El puerto COM1 no se encuentra libre o " + "el PC no posee puerto COM1", "Info", JOptionPane.INFORMATION_MESSAGE);
-                //System.exit(0);
-                //  com1 = new Com(param);
-                }
-            /*this.hiloreceptor = new RecepcionFPGA(this, param, com1);
-            this.ejec = new Ejecucion(this, this.com1);*/
-            /* ruta = System.getenv("XilinxNessy");
-            if (ruta == null){
-            Process p = Runtime.getRuntime().exec("SET mivariable C:");
-            //    Process p = Runtime.getRuntime().exec("export mivariable = d:");
-            // System.setProperty("XilinxNessy", "dnhsjdhs");
-            System.out.print("nkdsnbdjsd");
-            }*/
-            logger.info("Ejecutando Nessy 2.0...");
-            initComponentsAux();
-            initComponents();
-            this._btnReanudar.setEnabled(false);
-            this._btnPararEjecucion.setEnabled(false);
+                correcto = false;
+            }
         } catch (Exception ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
             logger.info("La aplicacion ya se encuentra ejecutandose" + ex);
             System.exit(0);
         }
-
+        return correcto;
     }
 
     private void initComponentsAux() {
@@ -146,7 +140,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void muestraErroresConsola(Errores errores) {
         this._TxtEntityVHD.setText("");
         for (int i = 0; i < errores.getErrores().size(); i++) {
-            this._TxtEntityVHD.append(errores.getErrores().get(i)+"\n");
+            this._TxtEntityVHD.append(errores.getErrores().get(i) + "\n");
         }
     }
 
@@ -567,30 +561,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-                fichero = chooser.getSelectedFile().getAbsolutePath();
+            fichero = chooser.getSelectedFile().getAbsolutePath();
 
-                /*FileReader fr = new FileReader(fichero);
-                BufferedReader br = new BufferedReader(fr);
-                String linea = br.readLine();
-                while (linea != null) {
-                    this._TxtEntityVHD.append(linea + "\n");
-                    linea = br.readLine();
-                }
-                br.close();
+            /*FileReader fr = new FileReader(fichero);
+            BufferedReader br = new BufferedReader(fr);
+            String linea = br.readLine();
+            while (linea != null) {
+            this._TxtEntityVHD.append(linea + "\n");
+            linea = br.readLine();
+            }
+            br.close();
 
             } catch (IOException ex) {
-                error = true;
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                this._TxtEntityVHD.append("Error al cargar la entity");
+            error = true;
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            this._TxtEntityVHD.append("Error al cargar la entity");
             }*/
             error = error || !compilarEntidad();
-            if (!error) {    
-                if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelVHD))
-                {
+            if (!error) {
+                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
                     jTabbedPane1.setSelectedComponent(panelVHD);
-                }
-                else
-                {
+                } else {
                     _TxtEntityVHD.setColumns(20);
                     _TxtEntityVHD.setEditable(false);
                     _TxtEntityVHD.setRows(5);
@@ -655,12 +646,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } else {
             System.out.println("Selecc ");
-            if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelCargar))
-            {
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelCargar)) {
                 jTabbedPane1.setSelectedComponent(panelCargar);
-            }
-            else
-            {
+            } else {
                 _TextCargarbit.setColumns(20);
                 _TextCargarbit.setRows(5);
                 _TextCargarbit.setMaximumSize(getMaximumSize());
@@ -678,26 +666,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
-        
 
-        
+
+
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
-        
-        // Tony nuevo código. Compruebo si esta ejecutándose el hilo o esta esperandao para matar
-        // el hilo antiguo y no tener 2 hilos leyendo si pulsaramos varias veces cargar .bit.
-        if (this.ejec != null){// || this.ejec.getState() == State.WAITING) {
-            this._TextSalida.setText("");
-            this.hiloreceptor.pararrecepcionfpga();
-        }
-        if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelOutPut))
+        if (this.inicializarPuertoSerie())
         {
-                    jTabbedPane1.setSelectedComponent(panelOutPut);
+            if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
+                this._TextSalida.setText("");
+                this.hiloreceptor.pararrecepcionfpga();
+            }
         }
-        else
-        {
+        if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
+            jTabbedPane1.setSelectedComponent(panelOutPut);
+        } else {
             _TextSalida.setColumns(20);
             _TextSalida.setEditable(false);
             _TextSalida.setRows(5);
@@ -737,12 +722,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
         try {
             // TODO: mandar enable a la placa
-            if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelOutPut))
-            {
-                        jTabbedPane1.setSelectedComponent(panelOutPut);
-            }
-            else
-            {
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
+                jTabbedPane1.setSelectedComponent(panelOutPut);
+            } else {
                 _TextSalida.setColumns(20);
                 _TextSalida.setEditable(false);
                 _TextSalida.setRows(5);
@@ -759,7 +741,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 jTabbedPane1.setSelectedComponent(panelOutPut);
             }
             int longitud = this.entidad.getBitsEntrada();
-            int DatoAEnviar = (int) Math.pow(2, longitud-1);
+            int DatoAEnviar = (int) Math.pow(2, longitud - 1);
             this.com1.sendSingleData(DatoAEnviar);
             System.out.println("PARANDO HILOS..");
             this.ejec.setSetwait(true);
@@ -774,12 +756,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
         try {
-            if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelOutPut))
-            {
-                        jTabbedPane1.setSelectedComponent(panelOutPut);
-            }
-            else
-            {
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
+                jTabbedPane1.setSelectedComponent(panelOutPut);
+            } else {
                 _TextSalida.setColumns(20);
                 _TextSalida.setEditable(false);
                 _TextSalida.setRows(5);
@@ -820,7 +799,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         this._txtTB.setText("");
         chooser =
-        new JFileChooser();
+                new JFileChooser();
         Filtro filter = new Filtro("txt");
         chooser.addChoosableFileFilter(filter);
         chooser.setCurrentDirectory(new java.io.File("."));
@@ -834,12 +813,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 FileReader fr = new FileReader(fichero_tb);
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
-                if((Boolean)((JTabbedPaneWithCloseIcon)jTabbedPane1).getTablaPaneles().get(panelTB))
-                {
+                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
                     jTabbedPane1.setSelectedComponent(panelTB);
-                }
-                else
-                {
+                } else {
                     _txtTB.setColumns(20);
                     _txtTB.setRows(5);
                     jScrollPane3.setViewportView(_txtTB);
@@ -1057,5 +1033,5 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelTB;
     private javax.swing.JPanel panelVHD;
     // End of variables declaration//GEN-END:variables
-   // private JTabbedPaneWithCloseIcon jTabbedPane1;
+    // private JTabbedPaneWithCloseIcon jTabbedPane1;
 }

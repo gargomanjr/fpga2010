@@ -21,4 +21,4 @@ cd %pwd%
 call bitgen.bat
 cd %pwd%
 %pwd:~0,2%
-exit
+rem exit
