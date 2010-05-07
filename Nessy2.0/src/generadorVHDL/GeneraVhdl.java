@@ -107,7 +107,9 @@ public class GeneraVhdl {
         escribirLinea("Port ( clk : in  STD_LOGIC;");
         escribirLinea("reset : in  STD_LOGIC;");
         escribirLinea("salida_serie : out  STD_LOGIC;");
-        escribirLinea("entrada_serie : in  STD_LOGIC);");
+        escribirLinea("entrada_serie : in  STD_LOGIC)");
+        escribirLinea("ledsEntrada : out std_logic_vector(1 downto 0);");
+        escribirLinea("ledsSalida : out std_logic_vector(1 downto 0));");
         escribirLinea("end " + nomEntidadGeneral + ";");
         escribirLinea("");
     }
@@ -165,7 +167,7 @@ public class GeneraVhdl {
 
     private void senalEnableGeneral() {
         escribirLinea("");
-        escribirLinea("signal enable: std_logic;  --señal enable general");
+        escribirLinea("signal enable: std_logic;  --enable general");
         escribirLinea("");
     }
 
@@ -205,9 +207,29 @@ public class GeneraVhdl {
 
     private void regsEntradaSalida() {
         escribirLinea("");
-        escribirLinea("signal Reg_entradas: std_logic_vector(7 downto 0);");
-        escribirLinea("signal Reg_salidas: std_logic_vector(7 downto 0);");
+        escribirLinea("signal Reg_entradas_aux: std_logic_vector(31 downto 0);");
+        escribirLinea("signal Reg_entradas: std_logic_vector(31 downto 0);");
+        escribirLinea("signal Reg_salidas: std_logic_vector(31 downto 0);");
         escribirLinea("");
+    }
+
+    private void SenalesEstados(){
+        escribirLinea("");
+        escribirLinea("signal estadoEnt: integer;");
+        escribirLinea("signal estadoSal: integer;");
+        escribirLinea("");
+        escribirLinea("signal ledsEnt:std_logic_vector(1 downto 0);");
+        escribirLinea("signal ledsSal:std_logic_vector(1 downto 0);");
+        escribirLinea("");
+    }
+
+    private void SenalesIO(){
+        escribirLinea("");
+        escribirLinea("signal volcar : std_logic;");
+        escribirLinea("signal recibido,transmitido,biest_recibido, biest_transmitido: std_logic;");
+        escribirLinea("signal frecibido,ftransmitido,fin: std_logic;  --flancos de fin");
+        escribirLinea("");
+
     }
 
     private void begin() {
@@ -229,20 +251,36 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
-    private void entSalPuertoSerie() {
-        escribirLinea("");
-        escribirLinea("mi_resetserie <= reset;");
-        escribirLinea("salida_serie<=mi_datoserieout;");
-        escribirLinea("mi_rxdatoserie <= entrada_serie;");
-        escribirLinea("");
-    }
+    
 
     private void procesoEntradas() {
         escribirLinea("");
-        escribirLinea("process(mi_recibiendo)");
+        escribirLinea("process(mi_recibiendo,mi_resetserie)");
         escribirLinea("begin");
-        escribirLinea("\tif mi_recibiendo = '0' then");
-        escribirLinea("\t\tReg_entradas <= mi_datorxout;");
+        escribirLinea("\tif mi_resetserie = '0' then");
+        escribirLinea("\t\testadoEnt <= 0");
+        escribirLinea("\t\trecibido <= '0'");
+        escribirLinea("\telsif mi_recibiendo'event and mi_recibiendo = '0' then");
+        escribirLinea("\t\tvolcar <= '0';");
+        escribirLinea("\t\trecibido <= '0';");
+        escribirLinea("\t\tif estadoEnt = 0 then");
+        escribirLinea("\t\t\tReg_entradas_aux(7 downto 0) <= mi_datorxout;");
+        escribirLinea("\t\t\testadoEnt <= 1;");
+        escribirLinea("\t\telsif estadoEnt = 1 then");
+        escribirLinea("\t\t\tReg_entradas_aux(15 downto 8) <= mi_datorxout;");
+        escribirLinea("\t\t\testadoEnt <= 2;");
+        escribirLinea("\t\telsif estadoEnt = 2 then");
+        escribirLinea("\t\t\tReg_entradas_aux(23 downto 16) <= mi_datorxout;");
+        escribirLinea("\t\t\testadoEnt <= 3;");
+        escribirLinea("\t\telsif estadoEnt = 3 then");
+        escribirLinea("\t\t\tReg_entradas_aux(31 downto 24) <= mi_datorxout;");
+        escribirLinea("\t\t\testadoEnt <= 0;");
+        escribirLinea("\t\t\tvolcar <= '1';");
+        escribirLinea("\t\t\trecibido<= '1';");
+        escribirLinea("\t\telse;");
+        escribirLinea("\t\t\tReg_entradas_aux(7 downto 0) <= mi_datorxout;");
+        escribirLinea("\t\t\testadoEnt <= 1;");
+        escribirLinea("\t\tend if;");
         escribirLinea("\tend if;");
         escribirLinea("end process;");
         escribirLinea("");
@@ -251,10 +289,73 @@ public class GeneraVhdl {
 
     private void procesoSalidas() {
         escribirLinea("");
-        escribirLinea("process(mi_transmitiendo)");
+        escribirLinea("process(mi_transmitiendo,mi_resetserie)");
         escribirLinea("begin");
-        escribirLinea("\tif mi_transmitiendo = '0' then");
-        escribirLinea("\t\tmi_datotxin <= Reg_salidas;");
+        escribirLinea("\tif mi_resetserie = '0' then");
+        escribirLinea("\t\testadoSal<= 0;");
+        escribirLinea("\t\ttransmitido <= '0';");
+        escribirLinea("\telsif mi_transmitiendo'event and mi_transmitiendo = '0' then");
+        escribirLinea("\t\ttransmitido <= '0';");
+        escribirLinea("\t\tif estadoSal = 0 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
+        escribirLinea("\t\t\testadoSal <= 1;");
+        escribirLinea("\t\telsif estadoSal = 1 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(15 downto 8);");
+        escribirLinea("\t\t\testadoSal <= 2;");
+        escribirLinea("\t\telsif estadoSal = 2 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(23 downto 16);");
+        escribirLinea("\t\t\testadoSal <= 3;");
+        escribirLinea("\t\telsif estadoSal = 3 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(31 downto 24);");
+        escribirLinea("\t\t\testadoSal <= 4;");
+        escribirLinea("\t\telsif estadoSal = 4 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
+        escribirLinea("\t\t\testadoSal <= 0;");
+        escribirLinea("\t\t\ttransmitido <= '1';");
+        escribirLinea("\t\telse");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
+        escribirLinea("\t\t\testadoSal <= 1;");
+        escribirLinea("\t\tend if;");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    private void procesoVolcar(){
+        escribirLinea("");
+        escribirLinea("process(clk,volcar)");
+        escribirLinea("begin");
+        escribirLinea("\tif clk'event and clk='1' then");
+        escribirLinea("\t\tif volcar = '1' then");
+        escribirLinea("\t\t\tReg_entradas <= Reg_entradas_aux;");
+        escribirLinea("\t\tend if;");
+        escribirLinea("\tend if;");
+        escribirLinea("");
+
+    }
+
+    private void procesoBiest(){
+        escribirLinea("");
+        escribirLinea("process(clk)");
+        escribirLinea("begin");
+        escribirLinea("\tif clk'event and clk='1' then");
+        escribirLinea("\t\tbiest_recibido <= recibido;");
+        escribirLinea("\t\tbiest_transmitido <= transmitido;");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    private void procesoFin(){
+        escribirLinea("");
+        escribirLinea("process(fin)");
+        escribirLinea("begin");
+        escribirLinea("\tif fin'event and fin = '1' then");
+        escribirLinea("\t\tif mi_transmite = '0' then");
+        escribirLinea("\t\t\tmi_transmite <= '1';");
+        escribirLinea("\t\telse");
+        escribirLinea("\t\t\tmi_transmite <= '0';");
+        escribirLinea("\t\tend if;");
         escribirLinea("\tend if;");
         escribirLinea("end process;");
         escribirLinea("");
@@ -263,7 +364,7 @@ public class GeneraVhdl {
     private void procesoEnable() {
         if (hayReloj()) {
             escribirLinea("");
-            escribirLinea("process(ENABLE)");
+            escribirLinea("process(enable)");
             escribirLinea("begin");
             escribirLinea("\tif (enable = '0') then");
             escribirLinea("\t\tmi_clk <= '0';");
@@ -273,6 +374,63 @@ public class GeneraVhdl {
             escribirLinea("end process;");
             escribirLinea("");
         }
+    }
+
+    private void procesoLedsEnt(){
+        escribirLinea("");
+        escribirLinea("process(estadoEnt)");
+        escribirLinea("begin");
+        escribirLinea("\tif estadoEnt = 0 then");
+        escribirLinea("\t\tledsEnt <= \"00\";");
+        escribirLinea("\telsif estadoEnt = 1 then");
+        escribirLinea("\t\tledsEnt <= \"01\";");
+        escribirLinea("\telsif estadoEnt = 2 then");
+        escribirLinea("\t\tledsEnt <= \"10\";");
+        escribirLinea("elsif estadoEnt = 3 then");
+        escribirLinea("\t\tledsEnt <= \"11\";");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    private void procesoLedsSal(){
+        escribirLinea("");
+        escribirLinea("process(estadoSal)");
+        escribirLinea("begin");
+        escribirLinea("\tif estadoSal = 0 then");
+        escribirLinea("\t\tledsSal <= \"00\";");
+        escribirLinea("\telsif estadoSal = 1 then");
+        escribirLinea("\t\tledsSal <= \"01\";");
+        escribirLinea("\telsif estadoSal = 2 then");
+        escribirLinea("\t\tledsSal <= \"10\";");
+        escribirLinea("elsif estadoSal = 3 then");
+        escribirLinea("\t\tledsSal <= \"11\";");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    private void asigLeds(){
+        escribirLinea("");
+        escribirLinea("ledsEntrada <= ledsEnt;");
+        escribirLinea("ledsSalida <= ledsSal;");
+        escribirLinea("");
+    }
+
+    private void entSalPuertoSerie() {
+        escribirLinea("");
+        escribirLinea("mi_resetserie <= reset;");
+        escribirLinea("salida_serie<=mi_datoserieout;");
+        escribirLinea("mi_rxdatoserie <= entrada_serie;");
+        escribirLinea("");
+    }
+
+    private void asigSenalesTransmision(){
+        escribirLinea("");
+        escribirLinea("frecibido <= not biest_recibido and recibido; --flanco que indica fin de recepcion");
+        escribirLinea("ftransmitido <= not biest_transmitido and transmitido; --flanco que indica fin de transmision");
+        escribirLinea("fin <= frecibido or ftransmitido; --flanco que indica fin de envio o transmision");
+        escribirLinea("");
     }
 
     private void asigEntradasCircuitoPrinc() {
@@ -329,13 +487,22 @@ public class GeneraVhdl {
         SenalesEntradaSerie();
         SenalesSalidaSerie();
         regsEntradaSalida();
+        SenalesEstados();
+        SenalesIO();
         begin();
         asigSenalesCompsSerie();
         asigSenalesCompPrinc();
-        entSalPuertoSerie();
         procesoEntradas();
         procesoSalidas();
+        procesoVolcar();
+        procesoBiest();
+        procesoFin();
         procesoEnable();
+        procesoLedsEnt();
+        procesoLedsSal();
+        asigLeds();
+        entSalPuertoSerie();
+        asigSenalesTransmision();
         asigEntradasCircuitoPrinc();
         asigSalidasCircuitoPrinc();
         end();
