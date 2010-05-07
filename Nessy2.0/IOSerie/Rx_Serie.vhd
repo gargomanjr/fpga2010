@@ -29,8 +29,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity Rx_Serie is
 	 generic (
-				gFrecClk : integer :=100000000;--31125;--100000000; --31125; --100MHz
-				gBaud : integer :=9600--3--9600;--3 --9600bps			
+				gFrecClk : integer :=100000000; --31125; --100MHz
+				gBaud : integer :=9600--3 --9600bps			
 				);
     Port ( Rstn : in  STD_LOGIC;
            Clk : in  STD_LOGIC;
@@ -126,7 +126,7 @@ begin
 	begin
 		EnableCont <= '0';
 		Dsplza <= '0';
-		Recibiendo <= '1';
+		--recibiendo <= '1';
 		case Estado is
 			when eInit =>
 				EnableCont <= '0';
@@ -139,12 +139,15 @@ begin
 				end if;
 			when eBitInit => 
 				EnableCont <= '1';
+				Recibiendo <= '1';
 			when eBitsDato =>
 				EnableCont <= '1';
+				Recibiendo <= '1';
 				if ClkBaudMedio = '1' then
 					Dsplza <= '1';
 				end if;
-			when eBitFin =>	
+			when eBitFin =>
+				Recibiendo <= '1';
 				if ClkBaud = '1' then
 					EnableCont <= '0';
 				else

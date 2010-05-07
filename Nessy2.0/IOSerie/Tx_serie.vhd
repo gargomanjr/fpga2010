@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity Tx_serie is
 --
  generic (
-				gFrecClk : integer := 100000000; --100MHz
+				gFrecClk : integer := 100000000; --31125;-- --100MHz
 				gBaud : integer := 9600 --9600bps
 			);
     Port ( RstN : in  STD_LOGIC;
@@ -119,7 +119,7 @@ begin
 		Dsplza <= '0';
 		CargaDato <= '0';
 		EnableCont <= '1';
-		Transmitiendo <= '1';
+		
 		case Estado is
 			when eInit =>
 				EnableCont <= '0';
@@ -128,13 +128,14 @@ begin
 					CargaDato <= '1';
 					EnableCont <= '1';
 				end if;
-			when eBitInit => 			
-			when eBitsDato =>
+			when eBitInit => 	Transmitiendo <= '1';		
+			when eBitsDato => Transmitiendo <= '1';
 			--Transmitiendo <= '0';
 				if ClkBaud = '1' then 
 					Dsplza <= '1';
 				end if;
 			when eBitFin =>
+				Transmitiendo <= '1';
 				if ClkBaud = '1' then
 					EnableCont <= '0';
 					
