@@ -196,9 +196,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
             File[] files; 
-            String[] ficheros = null;
+            String[] ficheros;
             fichero = chooser.getSelectedFile().getAbsolutePath();
-            files=chooser.getSelectedFiles();  
+            files=chooser.getSelectedFiles();
+            ficheros = new String[files.length];
             for(int i=0; i<files.length;i++)
             {
                 ficheros[i]= files[i].getName();
