@@ -242,7 +242,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void ejec(){
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
                 this._TextSalida.setText("");
-                this.hiloreceptor.pararrecepcionfpga();
+                //this.hiloreceptor.pararrecepcionfpga();
         }
 
         if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
@@ -265,10 +265,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
 
         if (this.entidad != null) {//si la entidad está definida
-            this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
-            hiloreceptor.start();
+            //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
+            //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1);
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1, this._TextSalida);
             this.ejec.setCadena(ls_cadenaaejecutar);
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
@@ -814,7 +814,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             this.com1.sendSingleData(DatoAEnviar);
             System.out.println("PARANDO HILOS..");
             this.ejec.setSetwait(true);
-            this.hiloreceptor.setSetwait(true);
+            //this.hiloreceptor.setSetwait(true);
             this._btnReanudar.setEnabled(true);
             this._btnPararEjecucion.setEnabled(false);
         } catch (Exception ex) {
@@ -844,9 +844,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 jTabbedPane1.setSelectedComponent(panelOutPut);
             }
             this.com1.sendSingleData(0);
-            synchronized (this.hiloreceptor) {
+            /*synchronized (this.hiloreceptor) {
                 this.hiloreceptor.notify();
-            }
+            }*/
             synchronized (this.ejec) {
                 this.ejec.notify();
             }
@@ -937,7 +937,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
-        this.hiloreceptor.pararrecepcionfpga();
+        //this.hiloreceptor.pararrecepcionfpga();
     }//GEN-LAST:event_formWindowClosed
 
     private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed

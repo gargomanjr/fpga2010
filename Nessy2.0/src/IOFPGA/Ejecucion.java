@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import nessy20.GUIPrincipal;
 
@@ -20,7 +21,7 @@ import nessy20.GUIPrincipal;
 public class Ejecucion extends Thread {
 
    // private GUIPrincipal interfaz;
-    private ArrayList<Integer> cadenaaEnviar;
+    private ArrayList<String> cadenaaEnviar;
     private boolean ejecutando;
     private Com com1;
     private String ls_cadenaaejecutar;
@@ -29,6 +30,7 @@ public class Ejecucion extends Thread {
     private int li_bits_entrada;
     private final JTextField ljtfield;
     private boolean setwait;
+    private JTextArea ata_textarea;
 
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
@@ -39,7 +41,7 @@ public class Ejecucion extends Thread {
     }
 
     //public Ejecucion(GUIPrincipal gui,Com ac_com){
-    public Ejecucion(JTextField  lj_jtf,int bits_entrada,Com ac_com){
+    public Ejecucion(JTextField  lj_jtf,int bits_entrada,Com ac_com,JTextArea ata_textarea){
 //        this.interfaz=gui;
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
@@ -47,6 +49,7 @@ public class Ejecucion extends Thread {
         this.li_bits_entrada = bits_entrada;
         cadenaaEnviar = new ArrayList();
         setwait = false;
+        this.ata_textarea = ata_textarea;
 
 
 
@@ -124,8 +127,28 @@ public class Ejecucion extends Thread {
             }
             peso = peso * 2;
         }
-        n = n+peso;//el enable
+        //n = n+peso;//el enable
         return n;
+    }
+
+    private void enviarBinaria(String s) throws Exception{
+        String cad3, cad2,cad1,cad0;
+        int dif = 0;
+        if (s.length() < 32){
+            dif = 32-s.length();
+        }
+        for (int i = 0; i < dif; i++){
+            s = "0"+s; //se añaden 0's por la izquierda
+        }
+        cad3 = s.substring(0,8);
+        cad2 = s.substring(8,16);
+        cad1 = s.substring(16,24);
+        cad0 = s.substring(24);
+
+        com1.sendSingleData(traduceString(cad0));
+        com1.sendSingleData(traduceString(cad1));
+        com1.sendSingleData(traduceString(cad2));
+        com1.sendSingleData(traduceString(cad3));
     }
 
     public boolean convierteCadenas(){
@@ -135,15 +158,15 @@ public class Ejecucion extends Thread {
         int numBits = this.li_bits_entrada;
         boolean correcto = true;
         datosEnviar = new int[st.countTokens()];
-        cadenaaEnviar = new ArrayList<Integer>();
+        cadenaaEnviar = new ArrayList<String>();
         int i = 0;
         correcto = datosEnviar.length > 0;
         while (st.hasMoreTokens() && correcto){
             String cadena = st.nextToken();
             if (cadena.length() == numBits){
-                this.cadenaaEnviar.add(traduceString(cadena));
+                this.cadenaaEnviar.add(cadena);
                 //datosEnviar[i] = traduceString(cadena);
-                correcto = cadenaaEnviar.get(i) >= 0;
+                correcto = traduceString(cadena) >= 0;
                 i++;
             }else{
                 correcto = false;
@@ -161,7 +184,7 @@ public class Ejecucion extends Thread {
     private void ejecuta() {
        //TraduceString();
        int intruccion = 0;
-       int datoaenviar;
+       String datoaenviar;
        while(ejecutando && intruccion < this.cadenaaEnviar.size()){
             if (this.setwait){
                 try {
@@ -175,11 +198,13 @@ public class Ejecucion extends Thread {
             }
             datoaenviar = this.cadenaaEnviar.get(intruccion);
             try {
-                this.com1.sendSingleData(datoaenviar);//TODO divido 32
+                this.enviarBinaria(datoaenviar);//TODO divido 32
+                String c = this.recibirBinaria(16);
+                this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
                 // bits ebn 4 grupos y los envío
               //  this.interfaz.setNumeroInst(intruccion);
                 this.ljtfield.setText(Integer.toString(intruccion));
-                Thread.sleep(5000);
+                //Thread.sleep(5000);
             } catch (Exception ex) {
                 Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -189,6 +214,40 @@ public class Ejecucion extends Thread {
     }
     public void pararrecepcionfpga(){
         this.ejecutando=false;
+    }
+
+
+    private String recibirBinaria(int numBitsSalida) throws Exception{
+        int num ;
+        String s = "";
+        for (int i = 0; i < 5; i++){
+            num= com1.receiveSingleDataInt();
+            if (i > 0)
+                s = this.convertirCadenaBinaria(num,8)+s;
+        }
+
+        System.out.println(s.substring(s.length()-numBitsSalida));
+        return s.substring(s.length()-numBitsSalida);
+
+
+    }
+
+
+    private String convertirCadenaBinaria(int recibido,int numBits) {
+        String salida = "";
+        int numero;
+        numero = recibido;
+        //int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
+        int long_cadena = numBits;
+        for (int i = 0; i < long_cadena; i++) {
+            if (numero % 2 == 0) {
+                salida = "0" + salida;
+            } else {
+                salida = "1" + salida;
+            }
+            numero = numero / 2;
+        }
+        return salida;
     }
 
 }

@@ -135,6 +135,23 @@ public class RecepcionFPGA extends Thread {
         }
     }
 
+    private String convertirCadenaBinaria(int recibido,int numBits) {
+        String salida = "";
+        int numero;
+        numero = recibido;
+        //int long_cadena = this.miInterfaz.getEntidad().getBitsSalida();
+        int long_cadena = numBits;
+        for (int i = 0; i < long_cadena; i++) {
+            if (numero % 2 == 0) {
+                salida = "0" + salida;
+            } else {
+                salida = "1" + salida;
+            }
+            numero = numero / 2;
+        }
+        return salida;
+    }
+
     private String convertirCadenaBinaria(int entero) {
         String salida = "";
         int numero;
@@ -159,6 +176,20 @@ public class RecepcionFPGA extends Thread {
             c = (char) ('A' - 10 + entero);
         }
         return c;
+    }
+
+    private void recibirBinaria(int numBitsSalida) throws Exception{
+        int num ;
+        String s = "";
+        for (int i = 0; i < 5; i++){
+            num= com1.receiveSingleDataInt();
+            if (i > 0)
+                s = this.convertirCadenaBinaria(num,8)+s;
+        }
+
+        System.out.println(s.substring(s.length()-numBitsSalida));
+
+
     }
 
     public void pararrecepcionfpga() {
