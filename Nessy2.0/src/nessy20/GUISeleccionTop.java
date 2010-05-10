@@ -6,6 +6,8 @@
 
 package nessy20;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,18 +18,24 @@ import javax.swing.table.DefaultTableModel;
 public class GUISeleccionTop extends javax.swing.JDialog {
 
     private String[] ficheros;
+    private JFrame padre;
+    
     /** Creates new form GUISeleccionTop */
+    @SuppressWarnings("empty-statement")
     public GUISeleccionTop(java.awt.Frame parent, boolean modal,String[] fich) {
         super(parent, modal);
         initComponents();
+        
+        padre=(JFrame) parent;
         ficheros=fich;
         DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
-        Object[] row;
+        
         for(int i=0;i<ficheros.length;i++)
         {
-  //          row[i]={ficheros[i],false};
+          Object[] row={ficheros[i],false};
+          dtm.insertRow(i, row);
         }
-        
+       
     }
 
     /** This method is called from within the constructor to
@@ -45,6 +53,7 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Selección de fichero VHDL como Top");
         setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -85,6 +94,11 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(30);
 
         jButton1.setText("Ok");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,6 +137,35 @@ public class GUISeleccionTop extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+ 
+    int selecciones=0;
+    int pos=0;
+    DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
+    for(int i=0;i<ficheros.length;i++)
+    {
+        if((Boolean)dtm.getValueAt(i,1))
+        {    
+            selecciones ++;
+            pos=i;
+        }
+    }
+    if(selecciones ==1)
+    {
+        ((GUIPrincipal)padre).setTop(pos);
+        this.dispose();
+    }
+    else
+        if(selecciones >1)
+            JOptionPane.showMessageDialog(this, "Elija solo un fichero como Top" +
+                    " VHDL", "Error", JOptionPane.ERROR_MESSAGE);
+        else//GEN-LAST:event_jButton1ActionPerformed
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un fichero como Top" +
+                    " VHDL", "Error", JOptionPane.ERROR_MESSAGE);
+    
+}
 
     /**
     * @param args the command line arguments

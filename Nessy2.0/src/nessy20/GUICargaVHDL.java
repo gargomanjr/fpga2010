@@ -44,6 +44,8 @@ public class GUICargaVHDL extends javax.swing.JDialog {
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
 
+        setTitle("Cargar VHDL");
+        setIconImage(null);
         setResizable(false);
 
         _btn_CargarTop.setSelected(true);

@@ -45,6 +45,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private String ruta;
     private String fichero;
     private Entidad entidad;
+    private int top;
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
+    }
     private static Logger logger = Logger.getLogger("GUIPrincipal.class");
 
     public Entidad getEntidad() {
@@ -204,6 +213,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             {
                 ficheros[i]= files[i].getName();
             }
+            GUISeleccionTop selTop=new  GUISeleccionTop(this,true,ficheros);
+            selTop.setVisible(true);
             
        }   
             
@@ -362,6 +373,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nessy 2.0");
         setIconImage(new ImageIcon("src/recursos/Nessy.png").getImage());
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);

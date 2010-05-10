@@ -9,7 +9,7 @@ entity Circuito_FPGA is
 Port ( clk : in  STD_LOGIC;
 reset : in  STD_LOGIC;
 salida_serie : out  STD_LOGIC;
-entrada_serie : in  STD_LOGIC)
+entrada_serie : in  STD_LOGIC;
 ledsEntrada : out std_logic_vector(1 downto 0);
 ledsSalida : out std_logic_vector(1 downto 0));
 end Circuito_FPGA;
@@ -38,16 +38,12 @@ component Rx_Serie
 end component ;
 
 
-component CONTADOR
+component CIRCUITO
 	Port(
-		RESET: in STD_LOGIC;
+		ENTRADA: in STD_LOGIC_VECTOR(31 downto 0);
 		CLK: in STD_LOGIC;
-		ENABLE: in STD_LOGIC;
-		LOAD: in STD_LOGIC;
-		DATA_LOAD: in STD_LOGIC_VECTOR(3 downto 0);
 
-		CAMBIANDO: out STD_LOGIC;
-		SALIDA: out STD_LOGIC_VECTOR(3 downto 0)
+		SALIDA: out STD_LOGIC_VECTOR(31 downto 0)
 );
 end component;
 
@@ -55,14 +51,10 @@ end component;
 signal enable: std_logic;  --enable general
 
 
-signal mi_RESET: STD_LOGIC;
+signal mi_ENTRADA: STD_LOGIC_VECTOR(31 downto 0);
 signal mi_CLK: STD_LOGIC;
-signal mi_ENABLE: STD_LOGIC;
-signal mi_LOAD: STD_LOGIC;
-signal mi_DATA_LOAD: STD_LOGIC_VECTOR(3 downto 0);
 
-signal mi_CAMBIANDO: STD_LOGIC;
-signal mi_SALIDA: STD_LOGIC_VECTOR(3 downto 0);
+signal mi_SALIDA: STD_LOGIC_VECTOR(31 downto 0);
 
 
 signal mi_resetserie:std_logic;
@@ -78,7 +70,6 @@ signal mi_datoserieout:std_logic;
 signal mi_rxdatoserie:std_logic;
 
 
-signal Reg_entradas_aux: std_logic_vector(31 downto 0);
 signal Reg_entradas: std_logic_vector(31 downto 0);
 signal Reg_salidas: std_logic_vector(31 downto 0);
 
@@ -98,37 +89,35 @@ signal frecibido,ftransmitido,fin: std_logic;  --flancos de fin
 begin
 
 
-f: Tx_serie port map(mi_resetserie,clk,not mi_recibiendo,mi_datotxin,mi_transmitiendo,mi_datoserieout);
+f: Tx_serie port map(mi_resetserie,clk,mi_transmite,mi_datotxin,mi_transmitiendo,mi_datoserieout);
 R: Rx_serie port map(mi_resetserie,clk,mi_rxdatoserie,mi_datorxout,mi_avisorx,mi_recibiendo);
 
 
-U: CONTADOR port map(mi_RESET,mi_CLK,mi_ENABLE,mi_LOAD,mi_DATA_LOAD,mi_CAMBIANDO,mi_SALIDA);
+U: CIRCUITO port map(mi_ENTRADA,mi_CLK,mi_SALIDA);
 
 
 process(mi_recibiendo,mi_resetserie)
 begin
 	if mi_resetserie = '0' then
-		estadoEnt <= 0
-		recibido <= '0'
+		estadoEnt <= 0;
+		volcar <= '0';
 	elsif mi_recibiendo'event and mi_recibiendo = '0' then
 		volcar <= '0';
-		recibido <= '0';
 		if estadoEnt = 0 then
-			Reg_entradas_aux(7 downto 0) <= mi_datorxout;
+			Reg_entradas(7 downto 0) <= mi_datorxout;
 			estadoEnt <= 1;
 		elsif estadoEnt = 1 then
-			Reg_entradas_aux(15 downto 8) <= mi_datorxout;
+			Reg_entradas(15 downto 8) <= mi_datorxout;
 			estadoEnt <= 2;
 		elsif estadoEnt = 2 then
-			Reg_entradas_aux(23 downto 16) <= mi_datorxout;
+			Reg_entradas(23 downto 16) <= mi_datorxout;
 			estadoEnt <= 3;
 		elsif estadoEnt = 3 then
-			Reg_entradas_aux(31 downto 24) <= mi_datorxout;
+			Reg_entradas(31 downto 24) <= mi_datorxout;
 			estadoEnt <= 0;
 			volcar <= '1';
-			recibido<= '1';
-		else;
-			Reg_entradas_aux(7 downto 0) <= mi_datorxout;
+		else
+			Reg_entradas(7 downto 0) <= mi_datorxout;
 			estadoEnt <= 1;
 		end if;
 	end if;
@@ -170,9 +159,12 @@ process(clk,volcar)
 begin
 	if clk'event and clk='1' then
 		if volcar = '1' then
-			Reg_entradas <= Reg_entradas_aux;
+			recibido <= '1';
+		else
+			recibido <= '0';
 		end if;
 	end if;
+	end process;
 
 
 process(clk)
@@ -201,7 +193,7 @@ begin
 	if (enable = '0') then
 		mi_clk <= '0';
 	else
-		mi_clk <= clk;
+		mi_clk <= recibido;
 	end if;
 end process;
 
@@ -248,21 +240,73 @@ ftransmitido <= not biest_transmitido and transmitido; --flanco que indica fin d
 fin <= frecibido or ftransmitido; --flanco que indica fin de envio o transmision
 
 
-mi_RESET <= Reg_entradas(0);
-mi_ENABLE <= Reg_entradas(1);
-mi_LOAD <= Reg_entradas(2);
-mi_DATA_LOAD(0) <= Reg_entradas(3);
-mi_DATA_LOAD(1) <= Reg_entradas(4);
-mi_DATA_LOAD(2) <= Reg_entradas(5);
-mi_DATA_LOAD(3) <= Reg_entradas(6);
-enable <= Reg_entradas(7);
+mi_ENTRADA(0) <= Reg_entradas(0);
+mi_ENTRADA(1) <= Reg_entradas(1);
+mi_ENTRADA(2) <= Reg_entradas(2);
+mi_ENTRADA(3) <= Reg_entradas(3);
+mi_ENTRADA(4) <= Reg_entradas(4);
+mi_ENTRADA(5) <= Reg_entradas(5);
+mi_ENTRADA(6) <= Reg_entradas(6);
+mi_ENTRADA(7) <= Reg_entradas(7);
+mi_ENTRADA(8) <= Reg_entradas(8);
+mi_ENTRADA(9) <= Reg_entradas(9);
+mi_ENTRADA(10) <= Reg_entradas(10);
+mi_ENTRADA(11) <= Reg_entradas(11);
+mi_ENTRADA(12) <= Reg_entradas(12);
+mi_ENTRADA(13) <= Reg_entradas(13);
+mi_ENTRADA(14) <= Reg_entradas(14);
+mi_ENTRADA(15) <= Reg_entradas(15);
+mi_ENTRADA(16) <= Reg_entradas(16);
+mi_ENTRADA(17) <= Reg_entradas(17);
+mi_ENTRADA(18) <= Reg_entradas(18);
+mi_ENTRADA(19) <= Reg_entradas(19);
+mi_ENTRADA(20) <= Reg_entradas(20);
+mi_ENTRADA(21) <= Reg_entradas(21);
+mi_ENTRADA(22) <= Reg_entradas(22);
+mi_ENTRADA(23) <= Reg_entradas(23);
+mi_ENTRADA(24) <= Reg_entradas(24);
+mi_ENTRADA(25) <= Reg_entradas(25);
+mi_ENTRADA(26) <= Reg_entradas(26);
+mi_ENTRADA(27) <= Reg_entradas(27);
+mi_ENTRADA(28) <= Reg_entradas(28);
+mi_ENTRADA(29) <= Reg_entradas(29);
+mi_ENTRADA(30) <= Reg_entradas(30);
+mi_ENTRADA(31) <= Reg_entradas(31);
+enable <= '1';
 
 
-Reg_salidas(0) <= mi_CAMBIANDO;
-Reg_salidas(1) <= mi_SALIDA(0);
-Reg_salidas(2) <= mi_SALIDA(1);
-Reg_salidas(3) <= mi_SALIDA(2);
-Reg_salidas(4) <= mi_SALIDA(3);
+Reg_salidas(0) <= mi_SALIDA(0);
+Reg_salidas(1) <= mi_SALIDA(1);
+Reg_salidas(2) <= mi_SALIDA(2);
+Reg_salidas(3) <= mi_SALIDA(3);
+Reg_salidas(4) <= mi_SALIDA(4);
+Reg_salidas(5) <= mi_SALIDA(5);
+Reg_salidas(6) <= mi_SALIDA(6);
+Reg_salidas(7) <= mi_SALIDA(7);
+Reg_salidas(8) <= mi_SALIDA(8);
+Reg_salidas(9) <= mi_SALIDA(9);
+Reg_salidas(10) <= mi_SALIDA(10);
+Reg_salidas(11) <= mi_SALIDA(11);
+Reg_salidas(12) <= mi_SALIDA(12);
+Reg_salidas(13) <= mi_SALIDA(13);
+Reg_salidas(14) <= mi_SALIDA(14);
+Reg_salidas(15) <= mi_SALIDA(15);
+Reg_salidas(16) <= mi_SALIDA(16);
+Reg_salidas(17) <= mi_SALIDA(17);
+Reg_salidas(18) <= mi_SALIDA(18);
+Reg_salidas(19) <= mi_SALIDA(19);
+Reg_salidas(20) <= mi_SALIDA(20);
+Reg_salidas(21) <= mi_SALIDA(21);
+Reg_salidas(22) <= mi_SALIDA(22);
+Reg_salidas(23) <= mi_SALIDA(23);
+Reg_salidas(24) <= mi_SALIDA(24);
+Reg_salidas(25) <= mi_SALIDA(25);
+Reg_salidas(26) <= mi_SALIDA(26);
+Reg_salidas(27) <= mi_SALIDA(27);
+Reg_salidas(28) <= mi_SALIDA(28);
+Reg_salidas(29) <= mi_SALIDA(29);
+Reg_salidas(30) <= mi_SALIDA(30);
+Reg_salidas(31) <= mi_SALIDA(31);
 
 
 end Behavioral;
