@@ -595,6 +595,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
+
+
+        
+
+
         boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
@@ -610,20 +615,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //try {
             fichero = chooser.getSelectedFile().getAbsolutePath();
 
-            /*FileReader fr = new FileReader(fichero);
-            BufferedReader br = new BufferedReader(fr);
-            String linea = br.readLine();
-            while (linea != null) {
-            this._TxtEntityVHD.append(linea + "\n");
-            linea = br.readLine();
-            }
-            br.close();
-
-            } catch (IOException ex) {
-            error = true;
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            this._TxtEntityVHD.append("Error al cargar la entity");
-            }*/
+            
             error = error || !compilarEntidad();
             if (!error) {
                 if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
@@ -652,7 +644,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } else {
             System.out.println("No Selection ");
         }
-        //this.jTabbedPane1.setSelectedIndex(0);
+        //this.jTabbedPane1.setSelectedIndex(0);*/
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed

@@ -50,12 +50,11 @@ entity Contador is
 	Generic(a : in integer := 3;
 			b : in integer := 5);
     Port ( reset : in  STD_LOGIC;
-           clk : in  STD_LOGIC;
-			  enable : in STD_LOGIC;
-			  load : in STD_LOGIC;
-			  data_load : in  STD_LOGIC_VECTOR (3 downto 0);
-			  cambiando : out std_logic;
-           salida : out  STD_LOGIC_VECTOR (3 downto 0));
+			clk : in  STD_LOGIC;
+			enable : in STD_LOGIC;
+			load : in STD_LOGIC;
+			data_load : in  STD_LOGIC_VECTOR (15 downto 0);
+			salida : out  STD_LOGIC_VECTOR (15 downto 0));
 end Contador;
 ------------------------------------------------------------------------------
 
@@ -65,55 +64,35 @@ architecture Behavioral of Contador is
 
    -- Señales auxiliares -- 
 	
-	signal mienable, mireset, micambiando,miload: std_logic;
+	signal mienable, mireset, miload: std_logic;
 	--signal aux: std_logic_vector(31 downto 0);
 	signal aux: integer;
-	signal misalida,midata_load: std_logic_vector(3 downto 0);
-	--signal a:std_logic_vector(24 downto 0);
+	signal misalida,midata_load: std_logic_vector(15 downto 0);
 
 begin
 
 	process (clk,reset,enable,load)                                  
   	begin
-	if miload='1' then 
-			misalida <= midata_load;
-			micambiando <= '1';
-			aux<=0;
-	else
-			if mienable='1' then 
-				if mireset='1' then                     -- reset -> inicialización
-					aux<=0;
-					misalida <= "0000";
-					micambiando <= '1';
-				elsif(clk'event and clk='1') then     -- flanco de reloj ascendente
-					if(aux=100000000) then           -- cada 100.000.000 ciclos (a 1 sg.)
-						aux<=0;               -- vuelvo a comenzar
-						micambiando <= '1';
-						if misalida = "1111" then
-							misalida <= "0000";
-						else
-							misalida <= misalida +1;
-						end if;
+		if mireset = '1' then
+			misalida <= x"0000";
+		elsif enable = '1' then
+			if clk'event and clk = '1' then
+				if miload = '1' then
+					misalida <= midata_load;
+				else
+					if misalida = x"1111" then
+						misalida <= x"0000";
 					else
-						aux<=aux+1;                     -- cuento
-						micambiando <= '0';		
+						misalida <= misalida +1;
 					end if;
 				end if;
-	end if;
-	end if;
-  	                                     -- saco la salida
+			end if;
+		end if;
   	end process;
 	
-
-	-- Asignación de señales --
-	
-	-- Como en la placa los botones están negados, negamos el reset.
-	
-	--salida(3 downto 0)<=aux(31 downto 28);
 	salida <= misalida;
 	mireset <= not reset;
    mienable <= enable;
-	cambiando <= micambiando;
 	miload <= load;
 	midata_load<=data_load;
 	

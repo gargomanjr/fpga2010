@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class SintacticoEntidad {
 
-    public static final int MAX_ENTRADAS = 31; //reservar una para el enable general
+    public static final int MAX_ENTRADAS = 32; //reservar una para el enable general
     public static final int MAX_SALIDAS = 32;
 
     private Token token;

@@ -107,7 +107,7 @@ public class GeneraVhdl {
         escribirLinea("Port ( clk : in  STD_LOGIC;");
         escribirLinea("reset : in  STD_LOGIC;");
         escribirLinea("salida_serie : out  STD_LOGIC;");
-        escribirLinea("entrada_serie : in  STD_LOGIC)");
+        escribirLinea("entrada_serie : in  STD_LOGIC;");
         escribirLinea("ledsEntrada : out std_logic_vector(1 downto 0);");
         escribirLinea("ledsSalida : out std_logic_vector(1 downto 0));");
         escribirLinea("end " + nomEntidadGeneral + ";");
@@ -207,7 +207,6 @@ public class GeneraVhdl {
 
     private void regsEntradaSalida() {
         escribirLinea("");
-        escribirLinea("signal Reg_entradas_aux: std_logic_vector(31 downto 0);");
         escribirLinea("signal Reg_entradas: std_logic_vector(31 downto 0);");
         escribirLinea("signal Reg_salidas: std_logic_vector(31 downto 0);");
         escribirLinea("");
@@ -240,7 +239,7 @@ public class GeneraVhdl {
 
     private void asigSenalesCompsSerie() {
         escribirLinea("");
-        escribirLinea("f: Tx_serie port map(mi_resetserie,clk,not mi_recibiendo,mi_datotxin,mi_transmitiendo,mi_datoserieout);");
+        escribirLinea("f: Tx_serie port map(mi_resetserie,clk,mi_transmite,mi_datotxin,mi_transmitiendo,mi_datoserieout);");
         escribirLinea("R: Rx_serie port map(mi_resetserie,clk,mi_rxdatoserie,mi_datorxout,mi_avisorx,mi_recibiendo);");
         escribirLinea("");
     }
@@ -258,27 +257,25 @@ public class GeneraVhdl {
         escribirLinea("process(mi_recibiendo,mi_resetserie)");
         escribirLinea("begin");
         escribirLinea("\tif mi_resetserie = '0' then");
-        escribirLinea("\t\testadoEnt <= 0");
-        escribirLinea("\t\trecibido <= '0'");
+        escribirLinea("\t\testadoEnt <= 0;");
+        escribirLinea("\t\tvolcar <= '0';");
         escribirLinea("\telsif mi_recibiendo'event and mi_recibiendo = '0' then");
         escribirLinea("\t\tvolcar <= '0';");
-        escribirLinea("\t\trecibido <= '0';");
         escribirLinea("\t\tif estadoEnt = 0 then");
-        escribirLinea("\t\t\tReg_entradas_aux(7 downto 0) <= mi_datorxout;");
+        escribirLinea("\t\t\tReg_entradas(7 downto 0) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 1;");
         escribirLinea("\t\telsif estadoEnt = 1 then");
-        escribirLinea("\t\t\tReg_entradas_aux(15 downto 8) <= mi_datorxout;");
+        escribirLinea("\t\t\tReg_entradas(15 downto 8) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 2;");
         escribirLinea("\t\telsif estadoEnt = 2 then");
-        escribirLinea("\t\t\tReg_entradas_aux(23 downto 16) <= mi_datorxout;");
+        escribirLinea("\t\t\tReg_entradas(23 downto 16) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 3;");
         escribirLinea("\t\telsif estadoEnt = 3 then");
-        escribirLinea("\t\t\tReg_entradas_aux(31 downto 24) <= mi_datorxout;");
+        escribirLinea("\t\t\tReg_entradas(31 downto 24) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 0;");
         escribirLinea("\t\t\tvolcar <= '1';");
-        escribirLinea("\t\t\trecibido<= '1';");
-        escribirLinea("\t\telse;");
-        escribirLinea("\t\t\tReg_entradas_aux(7 downto 0) <= mi_datorxout;");
+        escribirLinea("\t\telse");
+        escribirLinea("\t\t\tReg_entradas(7 downto 0) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 1;");
         escribirLinea("\t\tend if;");
         escribirLinea("\tend if;");
@@ -327,9 +324,12 @@ public class GeneraVhdl {
         escribirLinea("begin");
         escribirLinea("\tif clk'event and clk='1' then");
         escribirLinea("\t\tif volcar = '1' then");
-        escribirLinea("\t\t\tReg_entradas <= Reg_entradas_aux;");
+        escribirLinea("\t\t\trecibido <= '1';");
+        escribirLinea("\t\telse");
+        escribirLinea("\t\t\trecibido <= '0';");
         escribirLinea("\t\tend if;");
         escribirLinea("\tend if;");
+        escribirLinea("\tend process;");
         escribirLinea("");
 
     }
@@ -369,7 +369,7 @@ public class GeneraVhdl {
             escribirLinea("\tif (enable = '0') then");
             escribirLinea("\t\tmi_clk <= '0';");
             escribirLinea("\telse");
-            escribirLinea("\t\tmi_clk <= clk;");
+            escribirLinea("\t\tmi_clk <= recibido;");
             escribirLinea("\tend if;");
             escribirLinea("end process;");
             escribirLinea("");
@@ -449,7 +449,8 @@ public class GeneraVhdl {
                 }
             }
         }
-        escribirLinea("enable <= Reg_entradas(" + numEntrada + ");");
+        escribirLinea("enable <= '1';");
+        //TODO escribirLinea("enable <= Reg_entradas(" + numEntrada + ");");
         escribirLinea("");
     }
 
