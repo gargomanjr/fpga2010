@@ -438,7 +438,7 @@ public class GeneraVhdl {
         int numEntrada = 0;
         for (int i = 0; i < entidad.getNumEntradas(); i++) {
             Entrada e = entidad.getEntrada(i);
-            if (!e.getEsReloj()) {
+            if (!e.getEsReloj() && !e.getEsReset()) {
                 if (e.getNumBits() > 1) {
                     for (int j = 0; j < e.getNumBits(); j++) {
                         escribirLinea("mi_" + e.getNombre() + "(" + j + ") <= Reg_entradas(" + numEntrada++ + ");");
@@ -448,6 +448,10 @@ public class GeneraVhdl {
                     escribirLinea("mi_" + e.getNombre() + " <= Reg_entradas(" + numEntrada++ + ");");
                 }
             }
+        }
+        String reset = entidad.getNombreReset();
+        if (reset != null){
+            escribirLinea("MI_"+reset + " <= reset;");
         }
         escribirLinea("enable <= '1';");
         //TODO escribirLinea("enable <= Reg_entradas(" + numEntrada + ");");

@@ -71,20 +71,16 @@ architecture Behavioral of Contador is
 
 begin
 
-	process (clk,reset,enable,load)                                  
+	process (clk,reset,mienable,load)                                  
   	begin
 		if mireset = '1' then
 			misalida <= x"0000";
-		elsif enable = '1' then
+		elsif mienable = '1' then
 			if clk'event and clk = '1' then
 				if miload = '1' then
 					misalida <= midata_load;
 				else
-					if misalida = x"1111" then
-						misalida <= x"0000";
-					else
-						misalida <= misalida +1;
-					end if;
+					misalida <= misalida +1;
 				end if;
 			end if;
 		end if;

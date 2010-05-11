@@ -62,8 +62,11 @@ public class Entidad {
 
     public void anadeEntrada(Entrada e) {
         this.entradas.add(e);
-        if (e.getNombre().equals("CLK")) {
+        if (e.getNombre().equals("CLK") || e.getNombre().equals("CLOCK") ||
+            e.getNombre().equals("RELOJ")) {
             e.ponerComoReloj();
+        }else if(e.getNombre().equals("RST") || e.getNombre().equals("RESET")){
+            e.ponerComoReset(true);
         } else {
             bitsEntrada += e.getNumBits();
         }
@@ -95,6 +98,18 @@ public class Entidad {
         System.out.println("Num_salidas: " + bitsSalida);
     }
 
+    public String getNombreReset(){
+        int i = 0;
+        String reset = null;
+        while (i < this.getNumEntradas() && reset == null){
+            if (this.getEntrada(i).getEsReset()){
+                reset = this.getEntrada(i).getNombre();
+            }
+            i++;
+        }
+        return reset;
+    }
+
     @Override
     public String toString() {
         String s = "";
@@ -102,7 +117,7 @@ public class Entidad {
         s += ("Entradas:") + "\n";
         for (int i = 0; i < entradas.size(); i++) {
             Entrada e = entradas.get(i);
-            if (!e.getEsReloj()) {
+            if (!e.getEsReloj() && !e.getEsReset()) {
                 for (int j = 0; j < e.getNumBits(); j++) {
                     s += ("\t" + e.getNombre() + "(" + j + ")") + "\n";
                 }

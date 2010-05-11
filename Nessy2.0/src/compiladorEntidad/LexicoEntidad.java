@@ -130,9 +130,9 @@ public class LexicoEntidad {
             if (ultimoCharLeido.charValue() == '\n') { //Si es un salto de lÃ­nea
                 numLinea++; //incrementa la linea
                 numColumna = 0;
-            } else if ((ultimoCharLeido.charValue() != '\r') && (ultimoCharLeido.charValue() != '\t')) {
+            } /*else if ((ultimoCharLeido.charValue() != '\r') && (ultimoCharLeido.charValue() != '\t')) {
                 numColumna++;
-            }
+            }*/
 
             return ultimoCharLeido;
         } else {

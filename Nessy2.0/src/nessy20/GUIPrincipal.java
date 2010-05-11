@@ -280,7 +280,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.com1, this._TextSalida);
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
             this.ejec.setCadena(ls_cadenaaejecutar);
             //this.ejec.TraduceString();
             if (ejec.convierteCadenas()) {
@@ -823,8 +823,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 jTabbedPane1.setSelectedComponent(panelOutPut);
             }
             int longitud = this.entidad.getBitsEntrada();
-            int DatoAEnviar = (int) Math.pow(2, longitud - 1);
-            this.com1.sendSingleData(DatoAEnviar);
+            //int DatoAEnviar = (int) Math.pow(2, longitud - 1);
+            //this.com1.sendSingleData(DatoAEnviar);
             System.out.println("PARANDO HILOS..");
             this.ejec.setSetwait(true);
             //this.hiloreceptor.setSetwait(true);

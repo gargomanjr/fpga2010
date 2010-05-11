@@ -28,6 +28,7 @@ public class Ejecucion extends Thread {
     private boolean error;
     private int datosEnviar[];
     private int li_bits_entrada;
+    private int li_bits_salida;
     private final JTextField ljtfield;
     private boolean setwait;
     private JTextArea ata_textarea;
@@ -41,12 +42,13 @@ public class Ejecucion extends Thread {
     }
 
     //public Ejecucion(GUIPrincipal gui,Com ac_com){
-    public Ejecucion(JTextField  lj_jtf,int bits_entrada,Com ac_com,JTextArea ata_textarea){
+    public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea){
 //        this.interfaz=gui;
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1= ac_com;
         this.li_bits_entrada = bits_entrada;
+        this.li_bits_salida = bits_salida;
         cadenaaEnviar = new ArrayList();
         setwait = false;
         this.ata_textarea = ata_textarea;
@@ -199,8 +201,9 @@ public class Ejecucion extends Thread {
             datoaenviar = this.cadenaaEnviar.get(intruccion);
             try {
                 this.enviarBinaria(datoaenviar);//TODO divido 32
-                String c = this.recibirBinaria(16);
-                this.ata_textarea.setText(this.ata_textarea.getText() + c + "\n");
+                String c = this.recibirBinaria(this.li_bits_salida);
+                this.ata_textarea.append(c + "\n");
+                this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
                 // bits ebn 4 grupos y los envío
               //  this.interfaz.setNumeroInst(intruccion);
                 this.ljtfield.setText(Integer.toString(intruccion));

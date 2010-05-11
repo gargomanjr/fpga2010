@@ -14,6 +14,8 @@ public class Entrada extends Puerto{
 
     private boolean esReloj;
 
+    private boolean esReset;
+
     public boolean getEsReloj() {
         return esReloj;
     }
@@ -24,6 +26,14 @@ public class Entrada extends Puerto{
     
     public void quitarComoReloj(){
         this.esReloj = false;
+    }
+
+    public boolean getEsReset(){
+        return this.esReset;
+    }
+
+    public void ponerComoReset(boolean valor){
+        this.esReset = valor;
     }
 
 
