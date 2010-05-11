@@ -41,6 +41,7 @@ public class Ejecucion extends Thread {
     private BufferedReader bfr;
     static  String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
     private final File fichero_escritura;
+    private final File fichero_compararTraza;
 
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
@@ -53,7 +54,8 @@ public class Ejecucion extends Thread {
     //public Ejecucion(GUIPrincipal gui,Com ac_com){
     public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea){
 //        this.interfaz=gui;
-        fichero_escritura = new File(rutafichero, "Salidad.txt");
+        fichero_escritura = new File(rutafichero, "Salida.txt");
+        fichero_compararTraza = new File(rutafichero, "Traza.txt");
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1= ac_com;
@@ -64,9 +66,9 @@ public class Ejecucion extends Thread {
         this.ata_textarea = ata_textarea;
         entraDesdeFichero = false;
     }
-        public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea,BufferedReader l_br){
-
-        fichero_escritura = new File(rutafichero, "Salidad.txt");
+    public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea,BufferedReader l_br){
+        fichero_compararTraza = new File(rutafichero, "Traza.txt");
+        fichero_escritura = new File(rutafichero, "Salida.txt");
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1= ac_com;
@@ -217,6 +219,9 @@ public class Ejecucion extends Thread {
        int intruccion = 0;
        String datoaenviar = "";
        datoaenviar = bfr.readLine();
+      /* if (fichero_escritura.exists()){
+            CopyFile();
+       }  */
        fichero_escritura.createNewFile();
        FileWriter fw = new FileWriter(fichero_escritura, false);
         while (ejecutando && datoaenviar != null) {
