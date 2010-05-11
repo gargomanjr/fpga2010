@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -46,6 +47,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private String fichero;
     private Entidad entidad;
     private int top;
+    private ArrayList<File> files;
+
+    public ArrayList<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<File> files) {
+        this.files = files;
+    }
 
     public int getTop() {
         return top;
@@ -116,6 +126,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         initComponents();
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
+        this.files=new ArrayList<File>();
     }
 
     public boolean inicializarPuertoSerie() {
@@ -204,14 +215,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
        
        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            File[] files; 
-            String[] ficheros;
-            fichero = chooser.getSelectedFile().getAbsolutePath();
-            files=chooser.getSelectedFiles();
-            ficheros = new String[files.length];
-            for(int i=0; i<files.length;i++)
+             
+            ArrayList<String> ficheros= new ArrayList<String>();
+           // fichero = chooser.getSelectedFile().getAbsolutePath();
+            File[] f=chooser.getSelectedFiles();
+            for(int i=0;i<f.length;i++)
+                files.add(f[i]);
+   
+            for(int i=0; i<f.length;i++)
             {
-                ficheros[i]= files[i].getName();
+                ficheros.add( f[i].getName());
             }
             GUISeleccionTop selTop=new  GUISeleccionTop(this,true,ficheros);
             selTop.setVisible(true);

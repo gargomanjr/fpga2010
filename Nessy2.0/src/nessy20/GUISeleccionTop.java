@@ -6,6 +6,9 @@
 
 package nessy20;
 
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -17,12 +20,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUISeleccionTop extends javax.swing.JDialog {
 
-    private String[] ficheros;
+    private ArrayList<String> ficheros;
     private JFrame padre;
     
     /** Creates new form GUISeleccionTop */
     @SuppressWarnings("empty-statement")
-    public GUISeleccionTop(java.awt.Frame parent, boolean modal,String[] fich) {
+    public GUISeleccionTop(java.awt.Frame parent, boolean modal,ArrayList<String> fich) {
         super(parent, modal);
         initComponents();
         
@@ -30,9 +33,9 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         ficheros=fich;
         DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
         
-        for(int i=0;i<ficheros.length;i++)
+        for(int i=0;i<ficheros.size();i++)
         {
-          Object[] row={ficheros[i],false};
+          Object[] row={ficheros.get(i),false};
           dtm.insertRow(i, row);
         }
        
@@ -51,6 +54,7 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        _btn_AddVHDL = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Selección de fichero VHDL como Top");
@@ -58,13 +62,7 @@ public class GUISeleccionTop extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, new Boolean(false)},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "VHDL", "Top"
@@ -100,6 +98,13 @@ public class GUISeleccionTop extends javax.swing.JDialog {
             }
         });
 
+        _btn_AddVHDL.setText("Añadir VHDL");
+        _btn_AddVHDL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_AddVHDLActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -108,19 +113,24 @@ public class GUISeleccionTop extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(_btn_AddVHDL))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
+                        .addGap(239, 239, 239)
                         .addComponent(jButton1)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(_btn_AddVHDL)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jButton1)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -128,7 +138,7 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +154,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     int selecciones=0;
     int pos=0;
     DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
-    for(int i=0;i<ficheros.length;i++)
+    int i;
+    for(i=0;i<ficheros.size();i++)
     {
         if((Boolean)dtm.getValueAt(i,1))
         {    
@@ -152,6 +163,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             pos=i;
         }
     }
+    
     if(selecciones ==1)
     {
         ((GUIPrincipal)padre).setTop(pos);
@@ -162,10 +174,49 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             JOptionPane.showMessageDialog(this, "Elija solo un fichero como Top" +
                     " VHDL", "Error", JOptionPane.ERROR_MESSAGE);
         else//GEN-LAST:event_jButton1ActionPerformed
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un fichero como Top" +
+           JOptionPane.showMessageDialog(this, "Debe seleccionar un fichero como Top" +
                     " VHDL", "Error", JOptionPane.ERROR_MESSAGE);
     
 }
+private void _btn_AddVHDLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_AddVHDLActionPerformed
+
+        JFileChooser chooser;
+        chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        Filtro filter = new Filtro("vhd");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccionar Archivos VHDL");
+        chooser.setAcceptAllFileFilterUsed(false);
+        String fichero;
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            //try {
+            File[] files; 
+                   
+            files=chooser.getSelectedFiles();
+            
+            for(int i=0; i<files.length;i++)
+            {
+                ficheros.add(files[i].getName());
+                ((GUIPrincipal)padre).getFiles().add(files[i]);
+               
+            }
+        }
+        DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
+        for(int i=0;i<dtm.getRowCount();i++)
+        {
+            dtm.removeRow(i);
+        }
+        
+        for(int i=0;i<ficheros.size();i++)
+        {
+          Object[] row={ficheros.get(i),false};
+          dtm.addRow( row);
+        }
+        
+    
+}//GEN-LAST:event__btn_AddVHDLActionPerformed
+ 
 
     /**
     * @param args the command line arguments
@@ -173,6 +224,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton _btn_AddVHDL;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
