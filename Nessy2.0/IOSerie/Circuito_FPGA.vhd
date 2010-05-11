@@ -264,7 +264,7 @@ mi_DATA_LOAD(12) <= Reg_entradas(14);
 mi_DATA_LOAD(13) <= Reg_entradas(15);
 mi_DATA_LOAD(14) <= Reg_entradas(16);
 mi_DATA_LOAD(15) <= Reg_entradas(17);
-MI_RESET <= reset;
+MI_RESET <= not reset;
 enable <= '1';
 
 

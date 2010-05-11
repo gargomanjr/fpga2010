@@ -20,8 +20,10 @@ import compiladorEntidad.Entidad;
 import core.SerialPort;
 import generadorVHDL.GeneraVhdl;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -48,9 +50,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private Entidad entidad;
     private int top;
     private ArrayList<File> files;
+    private boolean cerradoTop;
+
+
+    public boolean isCerradoTop() {
+        return cerradoTop;
+    }
+
+    public void setCerradoTop(boolean cerradoTop) {
+        this.cerradoTop = cerradoTop;
+    }
+
 
     private boolean SeleccionTBFich;
     private BufferedReader bf;
+
 
     public ArrayList<File> getFiles() {
         return files;
@@ -129,7 +143,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         initComponents();
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
-        this.files=new ArrayList<File>();
+        this.files = new ArrayList<File>();
     }
 
     public boolean inicializarPuertoSerie() {
@@ -156,8 +170,36 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
+    private void cargarVHDL() {
+        boolean error = !compilarEntidad();
+        if (!error) {
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
+                jTabbedPane1.setSelectedComponent(panelVHD);
+            } else {
+                _TxtEntityVHD.setColumns(20);
+                _TxtEntityVHD.setEditable(false);
+                _TxtEntityVHD.setRows(5);
+                jScrollPane1.setViewportView(_TxtEntityVHD);
+
+                javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+                panelVHD.setLayout(panelVHDLayout);
+                panelVHDLayout.setHorizontalGroup(
+                        panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE));
+                panelVHDLayout.setVerticalGroup(
+                        panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                jTabbedPane1.addTab("Entity VHDL", panelVHD);
+                jTabbedPane1.setSelectedComponent(panelVHD);
+            }
+            this._TxtEntityVHD.setText(this.entidad.toString());
+            JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al cargar el fichero de la entity", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     private void cargaTopVHDL() {
-        boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
         chooser = new JFileChooser();
@@ -167,44 +209,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setDialogTitle("Seleccionar Archivo VHDL");
         chooser.setAcceptAllFileFilterUsed(false);
         //chooser.setMultiSelectionEnabled(true);
-       
-       if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        files = new ArrayList<File>();
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            fichero = chooser.getSelectedFile().getAbsolutePath();
-
-            
-            error = error || !compilarEntidad();
-            if (!error) {
-                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
-                    jTabbedPane1.setSelectedComponent(panelVHD);
-                } else {
-                    _TxtEntityVHD.setColumns(20);
-                    _TxtEntityVHD.setEditable(false);
-                    _TxtEntityVHD.setRows(5);
-                    jScrollPane1.setViewportView(_TxtEntityVHD);
-
-                    javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
-                    panelVHD.setLayout(panelVHDLayout);
-                    panelVHDLayout.setHorizontalGroup(
-                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE));
-                    panelVHDLayout.setVerticalGroup(
-                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                    jTabbedPane1.addTab("Entity VHDL", panelVHD);
-                    jTabbedPane1.setSelectedComponent(panelVHD);
-                }
-                this._TxtEntityVHD.setText(this.entidad.toString());
-                JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de la entity", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            files.add(chooser.getSelectedFile());
+            fichero = files.get(0).getAbsolutePath();
+            this.cargarVHDL();
         } else {
             System.out.println("No Selection ");
         }
     }
 
     private void cargaVariosVHDL() {
-         boolean error = false;
+        boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
         chooser = new JFileChooser();
@@ -214,64 +231,55 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Seleccionar Archivos VHDL");
         chooser.setAcceptAllFileFilterUsed(false);
-        //chooser.setMultiSelectionEnabled(true);
-       
-       if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-             
-            ArrayList<String> ficheros= new ArrayList<String>();
-           // fichero = chooser.getSelectedFile().getAbsolutePath();
-            File[] f=chooser.getSelectedFiles();
-            for(int i=0;i<f.length;i++)
+
+            ArrayList<String> ficheros = new ArrayList<String>();
+            // fichero = chooser.getSelectedFile().getAbsolutePath();
+            File[] f = chooser.getSelectedFiles();
+            files = new ArrayList<File>();
+            for (int i = 0; i < f.length; i++) {
                 files.add(f[i]);
-   
-            for(int i=0; i<f.length;i++)
-            {
-                ficheros.add( f[i].getName());
             }
-            GUISeleccionTop selTop=new  GUISeleccionTop(this,true,ficheros);
+
+            for (int i = 0; i < f.length; i++) {
+                ficheros.add(f[i].getName());
+            }
+            cerradoTop = false;
+            GUISeleccionTop selTop = new GUISeleccionTop(this, true, ficheros);
             selTop.setVisible(true);
-            
-       }   
-            
-            
-            
-            
-           /* error = error || !compilarEntidad();
-            if (!error) {
-                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
-                    jTabbedPane1.setSelectedComponent(panelVHD);
-                } else {
-                    _TxtEntityVHD.setColumns(20);
-                    _TxtEntityVHD.setEditable(false);
-                    _TxtEntityVHD.setRows(5);
-                    jScrollPane1.setViewportView(_TxtEntityVHD);
-
-                    javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
-                    panelVHD.setLayout(panelVHDLayout);
-                    panelVHDLayout.setHorizontalGroup(
-                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE));
-                    panelVHDLayout.setVerticalGroup(
-                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                    jTabbedPane1.addTab("Entity VHDL", panelVHD);
-                    jTabbedPane1.setSelectedComponent(panelVHD);
-                }
-                this._TxtEntityVHD.setText(this.entidad.toString());
-                JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de la entity", "Error", JOptionPane.ERROR_MESSAGE);
+            if (!cerradoTop){
+                fichero = files.get(top).getAbsolutePath(); //el fichero es el absoluto
+                this.cargarVHDL();
             }
-        } else {
-            System.out.println("No Selection ");
-        }*/
+
+        }
     }
 
-    private void ejec(){
+    private void creaPrj() {
+        BufferedWriter bw = null;
+        boolean correcto = true;
+        try {
+            bw = new BufferedWriter(new FileWriter("IOSerie//Circuito_FPGA.prj"));
+            bw.write("vhdl work \"Tx_serie.vhd\"\n");
+            bw.write("vhdl work \"Rx_serie.vhd\"\n");
+            for (int i = 0; i < files.size(); i++) {
+                bw.write("vhdl work \"" + files.get(i).getAbsolutePath() + "\"\n");
+            }
+            bw.write("vhdl work \"Circuito_FPGA.vhd\"");
+            bw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            //TODO Mostrar error
+        }
+    }
+
+    private void ejec() {
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
-            ejec.pararrecepcionfpga();  
+            ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
-                //this.hiloreceptor.pararrecepcionfpga();
+            //this.hiloreceptor.pararrecepcionfpga();
         }
 
         if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
@@ -297,6 +305,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
+            this.ejec.setCadena(ls_cadenaaejecutar);
 
             if(SeleccionTBFich){
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,bf);
@@ -320,7 +330,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
             //this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
             //this.ejec.setCadena(ls_cadenaaejecutar);
-
 
 
             //this.ejec.TraduceString();
@@ -794,21 +803,22 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
-      
-         Seleccion sel=new Seleccion();
-         new GUICargaVHDL(this,true,sel).setVisible(true);
-            if(sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VHDL_TOP))
-            {cargaTopVHDL();}
-            else{
-                if(sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VARIOS_VHDL))
-                {
-                    cargaVariosVHDL();
-                }
+
+        Seleccion sel = new Seleccion();
+        new GUICargaVHDL(this, true, sel).setVisible(true);
+        if (sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VHDL_TOP)) {
+            cargaTopVHDL();
+        } else {
+            if (sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VARIOS_VHDL)) {
+                cargaVariosVHDL();
             }
+        }
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
         try {
+            //creamos el prj para poder crear el .bit
+            this.creaPrj();
             //compilación y creación del .bit
             Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
         } catch (IOException ex) {
@@ -872,11 +882,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
-        if (this.com1 == null){
-            if (this.inicializarPuertoSerie()){
+        if (this.com1 == null) {
+            if (this.inicializarPuertoSerie()) {
                 ejec();
             }
-        }else{
+        } else {
             ejec();
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
@@ -936,9 +946,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 jTabbedPane1.addTab("OutPut", panelOutPut);
                 jTabbedPane1.setSelectedComponent(panelOutPut);
             }
-           // this.com1.sendSingleData(0);
+            // this.com1.sendSingleData(0);
             /*synchronized (this.hiloreceptor) {
-                this.hiloreceptor.notify();
+            this.hiloreceptor.notify();
             }*/
             synchronized (this.ejec) {
                 this.ejec.notify();

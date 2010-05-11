@@ -59,6 +59,11 @@ public class GUISeleccionTop extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Selección de fichero VHDL como Top");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -203,9 +208,10 @@ private void _btn_AddVHDLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
         DefaultTableModel dtm= (DefaultTableModel) jTable1.getModel();
-        for(int i=0;i<dtm.getRowCount();i++)
+        int numFilas = dtm.getRowCount();
+        for(int i=0;i<numFilas;i++)
         {
-            dtm.removeRow(i);
+            dtm.removeRow(0);
         }
         
         for(int i=0;i<ficheros.size();i++)
@@ -216,6 +222,11 @@ private void _btn_AddVHDLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         
     
 }//GEN-LAST:event__btn_AddVHDLActionPerformed
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    // TODO add your handling code here:
+    ((GUIPrincipal)padre).setCerradoTop(true);
+}//GEN-LAST:event_formWindowClosing
  
 
     /**

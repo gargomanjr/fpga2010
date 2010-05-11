@@ -4,7 +4,7 @@ set pwd=%cd%
 rem borramos los archivos que no hacen falta
 call clearFiles
 rem creamos el fichero prj con el nombre adecuado
-call creaPrj %1%
+rem call creaPrj %1%
 rem después ejecutamos los procesos
 call sintetizarXST.bat
 cd %pwd%
