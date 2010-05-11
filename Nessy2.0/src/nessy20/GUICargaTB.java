@@ -15,17 +15,16 @@ import javax.swing.JTextArea;
  *
  * @author  David
  */
-public class GUICargaVHDL extends javax.swing.JDialog {
+public class GUICargaTB extends javax.swing.JDialog {
     
     private Seleccion sel;
-    
+    private JFrame padre;
 
     /** Creates new form GUICargaVHDL */
-    public GUICargaVHDL(JFrame jf,boolean bol,Seleccion sel) {
+    public GUICargaTB(JFrame jf,boolean bol,Seleccion sel) {
         super(jf,bol);
         initComponents();
         this.sel=sel;
-        
     }
 
     /** This method is called from within the constructor to
@@ -39,8 +38,8 @@ public class GUICargaVHDL extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        _btn_CargarTop = new javax.swing.JRadioButton();
-        _btn_CargarVariosVHDL = new javax.swing.JRadioButton();
+        _btn_CargarPantalla = new javax.swing.JRadioButton();
+        _btn_CargarFichero = new javax.swing.JRadioButton();
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
 
@@ -48,17 +47,17 @@ public class GUICargaVHDL extends javax.swing.JDialog {
         setIconImage(null);
         setResizable(false);
 
-        _btn_CargarTop.setSelected(true);
-        _btn_CargarTop.setText("Cargar un VHDL ( Top)");
-        buttonGroup1.add(_btn_CargarTop);
-        _btn_CargarTop.addActionListener(new java.awt.event.ActionListener() {
+        _btn_CargarPantalla.setSelected(true);
+        _btn_CargarPantalla.setText("Cargar TB en Pantalla");
+        buttonGroup1.add(_btn_CargarPantalla);
+        _btn_CargarPantalla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btn_CargarTopActionPerformed(evt);
+                _btn_CargarPantallaActionPerformed(evt);
             }
         });
 
-        _btn_CargarVariosVHDL.setText("Cargar Varios VHDL y Seleccionar Top");
-        buttonGroup1.add(_btn_CargarVariosVHDL);
+        _btn_CargarFichero.setText("Cargar TB desde Fichero y Ejecutar");
+        buttonGroup1.add(_btn_CargarFichero);
 
         _btnOK.setText("OK");
         _btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -79,16 +78,17 @@ public class GUICargaVHDL extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_btn_CargarTop)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(_btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(_btnCancelar))
-                        .addComponent(_btn_CargarVariosVHDL, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(79, Short.MAX_VALUE)
+                .addComponent(_btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(_btnCancelar)
                 .addGap(88, 88, 88))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(_btn_CargarPantalla)
+                    .addComponent(_btn_CargarFichero))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {_btnCancelar, _btnOK});
@@ -97,9 +97,9 @@ public class GUICargaVHDL extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
-                .addComponent(_btn_CargarTop)
+                .addComponent(_btn_CargarPantalla)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(_btn_CargarVariosVHDL)
+                .addComponent(_btn_CargarFichero)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnCancelar)
@@ -123,24 +123,25 @@ public class GUICargaVHDL extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void _btn_CargarTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CargarTopActionPerformed
+private void _btn_CargarPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CargarPantallaActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event__btn_CargarTopActionPerformed
+}//GEN-LAST:event__btn_CargarPantallaActionPerformed
 
 private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
     
-    if(_btn_CargarTop.isSelected())
+    if(_btn_CargarPantalla.isSelected())
     {
-        sel.seleccion=SeleccionCargaVHD.SELECCION_VHDL_TOP;
+        sel.selTB=SeleccionTB.CARGA_PANTALLA;
     }
     else
     {
-        if(_btn_CargarVariosVHDL.isSelected())
+        if(_btn_CargarFichero.isSelected())
         {   
-            sel.seleccion=SeleccionCargaVHD.SELECCION_VARIOS_VHDL;
+            sel.selTB=SeleccionTB.CARGA_FICHERO;
         }
         else
-            sel.seleccion=SeleccionCargaVHD.NADA;
+            sel.selTB=SeleccionTB.NADA;
+
     }
     this.dispose();
 }//GEN-LAST:event__btnOKActionPerformed
@@ -154,8 +155,8 @@ private void _btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnCancelar;
     private javax.swing.JButton _btnOK;
-    private javax.swing.JRadioButton _btn_CargarTop;
-    private javax.swing.JRadioButton _btn_CargarVariosVHDL;
+    private javax.swing.JRadioButton _btn_CargarFichero;
+    private javax.swing.JRadioButton _btn_CargarPantalla;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

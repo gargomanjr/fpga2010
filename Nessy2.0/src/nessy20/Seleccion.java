@@ -12,9 +12,10 @@ package nessy20;
 public class Seleccion {
 
     public SeleccionCargaVHD seleccion;
-    
+    public SeleccionTB selTB;
     public Seleccion()
     {
         seleccion=SeleccionCargaVHD.NADA;
+        selTB=SeleccionTB.NADA;
     }
 }

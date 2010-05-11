@@ -46,19 +46,19 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="97" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="_btn_CargarTop" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="1">
-                              <Component id="_btnOK" linkSize="1" min="-2" pref="78" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="_btnCancelar" linkSize="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="_btn_CargarVariosVHDL" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <EmptySpace pref="79" max="32767" attributes="0"/>
+                  <Component id="_btnOK" linkSize="1" min="-2" pref="78" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <Component id="_btnCancelar" linkSize="1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="_btn_CargarPantalla" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="_btn_CargarFichero" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="123" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -66,9 +66,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                  <Component id="_btn_CargarTop" min="-2" max="-2" attributes="0"/>
+                  <Component id="_btn_CargarPantalla" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="_btn_CargarVariosVHDL" min="-2" max="-2" attributes="0"/>
+                  <Component id="_btn_CargarFichero" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="_btnCancelar" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -80,24 +80,24 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="_btn_CargarTop">
+        <Component class="javax.swing.JRadioButton" name="_btn_CargarPantalla">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="Cargar un VHDL ( Top)"/>
+            <Property name="text" type="java.lang.String" value="Cargar TB en Pantalla"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_CargarTopActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_CargarPantallaActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(_btn_CargarTop);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(_btn_CargarPantalla);"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="_btn_CargarVariosVHDL">
+        <Component class="javax.swing.JRadioButton" name="_btn_CargarFichero">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cargar Varios VHDL y Seleccionar Top"/>
+            <Property name="text" type="java.lang.String" value="Cargar TB desde Fichero y Ejecutar"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(_btn_CargarVariosVHDL);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="buttonGroup1.add(_btn_CargarFichero);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="_btnOK">

@@ -7,14 +7,10 @@ package nessy20;
 
 /**
  *
- * @author David
+ * @author User
  */
-public enum SeleccionCargaVHD {
-    
+public enum SeleccionTB {
     NADA,
-    SELECCION_VHDL_TOP,
-    SELECCION_VARIOS_VHDL
-
+    CARGA_PANTALLA,
+    CARGA_FICHERO
 }
-
-

@@ -87,7 +87,7 @@ begin
   	end process;
 	
 	salida <= misalida;
-	mireset <= not reset;
+	mireset <= reset;
    mienable <= enable;
 	miload <= load;
 	midata_load<=data_load;

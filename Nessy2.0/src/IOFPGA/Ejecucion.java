@@ -6,10 +6,15 @@
 package IOFPGA;
 
 import app.Com;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import nessy20.GUIPrincipal;
@@ -32,6 +37,10 @@ public class Ejecucion extends Thread {
     private final JTextField ljtfield;
     private boolean setwait;
     private JTextArea ata_textarea;
+    private boolean entraDesdeFichero;
+    private BufferedReader bfr;
+    static  String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
+    private final File fichero_escritura;
 
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
@@ -44,6 +53,7 @@ public class Ejecucion extends Thread {
     //public Ejecucion(GUIPrincipal gui,Com ac_com){
     public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea){
 //        this.interfaz=gui;
+        fichero_escritura = new File(rutafichero, "Salidad.txt");
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1= ac_com;
@@ -52,10 +62,25 @@ public class Ejecucion extends Thread {
         cadenaaEnviar = new ArrayList();
         setwait = false;
         this.ata_textarea = ata_textarea;
-
-
-
+        entraDesdeFichero = false;
     }
+        public Ejecucion(JTextField  lj_jtf,int bits_entrada,int bits_salida,Com ac_com,JTextArea ata_textarea,BufferedReader l_br){
+
+        fichero_escritura = new File(rutafichero, "Salidad.txt");
+        this.ljtfield = lj_jtf;
+        this.ejecutando = true;
+        this.com1= ac_com;
+        this.li_bits_entrada = bits_entrada;
+        this.li_bits_salida = bits_salida;
+        cadenaaEnviar = new ArrayList();
+        setwait = false;
+        this.ata_textarea = ata_textarea;
+        bfr = l_br;
+        entraDesdeFichero = true;
+    }
+
+
+
     public void setCadena(String as_cadenaajecutar){
         ls_cadenaaejecutar =  as_cadenaajecutar ;
         
@@ -179,11 +204,54 @@ public class Ejecucion extends Thread {
     public void run(){
         synchronized(this)
         {
-         ejecuta();
+         if (entraDesdeFichero){
+            ejecuta2();
+         }
+         else{
+            ejecuta();
+         }
         }
     }
+   private void ejecuta2() {
+       try{
+       int intruccion = 0;
+       String datoaenviar = "";
+       datoaenviar = bfr.readLine();
+       fichero_escritura.createNewFile();
+       FileWriter fw = new FileWriter(fichero_escritura, false);
+        while (ejecutando && datoaenviar != null) {
+                  if (this.setwait) {
+                    System.out.println("Ejecución antes");
+                    this.wait();
+                    System.out.println("Ejecución despues");
+                    this.setwait = false;
+                }            
+                    this.enviarBinaria(datoaenviar); //TODO divido 32
+                String c = this.recibirBinaria(this.li_bits_salida);
+                if (intruccion < 250000) {
+                    this.ata_textarea.append(c + "\n");
+                }
+                fw.write(c + "\n");
+                this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
+                this.ljtfield.setText(Integer.toString(intruccion));
+                intruccion++;
+                datoaenviar = bfr.readLine();
+        }
+        fw.close();
+        if (intruccion >= 250000) {
+            JOptionPane.showMessageDialog(this.ata_textarea, "La Salida que se está generando al ser muy grande se volcará en Test//Salida.txt", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+            } catch (IOException ex) {
+                Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+              catch (Exception ex) {}
+    }
 
-    private void ejecuta() {
+
+
+   /* private void ejecuta() {
        //TraduceString();
        int intruccion = 0;
        String datoaenviar;
@@ -213,12 +281,11 @@ public class Ejecucion extends Thread {
             }
            intruccion ++;
        }
+    }*/
 
-    }
     public void pararrecepcionfpga(){
         this.ejecutando=false;
     }
-
 
     private String recibirBinaria(int numBitsSalida) throws Exception{
         int num ;
@@ -231,11 +298,7 @@ public class Ejecucion extends Thread {
 
         System.out.println(s.substring(s.length()-numBitsSalida));
         return s.substring(s.length()-numBitsSalida);
-
-
     }
-
-
     private String convertirCadenaBinaria(int recibido,int numBits) {
         String salida = "";
         int numero;
@@ -252,5 +315,41 @@ public class Ejecucion extends Thread {
         }
         return salida;
     }
+
+    private void ejecuta() {
+       //TraduceString();
+       try {
+       int intruccion = 0;
+       String datoaenviar;
+       fichero_escritura.createNewFile();
+       FileWriter fw = new FileWriter(fichero_escritura, false);
+       while(ejecutando && intruccion < this.cadenaaEnviar.size()){
+            if (this.setwait){
+                
+                    System.out.println("Ejecución antes");
+                    this.wait();
+                    System.out.println("Ejecución despues");
+                    this.setwait = false;
+            }
+            datoaenviar = this.cadenaaEnviar.get(intruccion);
+            this.enviarBinaria(datoaenviar);//TODO divido 32
+            String c = this.recibirBinaria(this.li_bits_salida);
+            this.ata_textarea.append(c + "\n");
+            fw.write(c + "\n");
+            this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
+            // bits ebn 4 grupos y los envío
+          //  this.interfaz.setNumeroInst(intruccion);
+            this.ljtfield.setText(Integer.toString(intruccion));
+                //Thread.sleep(5000);           
+           intruccion ++;
+       }
+       fw.close();
+    }catch (InterruptedException ex) {
+            Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+    }catch (Exception ex) {
+        Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
+
 
 }

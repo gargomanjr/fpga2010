@@ -49,6 +49,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private int top;
     private ArrayList<File> files;
 
+    private boolean SeleccionTBFich;
+    private BufferedReader bf;
+
     public ArrayList<File> getFiles() {
         return files;
     }
@@ -294,10 +297,34 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
-            this.ejec.setCadena(ls_cadenaaejecutar);
+
+            if(SeleccionTBFich){
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,bf);
+                this.ejec.setCadena("");
+                ejec.start();
+                this._btnReanudar.setEnabled(false);
+                this._btnPararEjecucion.setEnabled(true);
+            }
+            else{
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
+                this.ejec.setCadena(ls_cadenaaejecutar);
+                if (ejec.convierteCadenas()) {
+                    ejec.start();
+                    //this.jTabbedPane1.setSelectedIndex(3);
+                    this._btnReanudar.setEnabled(false);
+                    this._btnPararEjecucion.setEnabled(true);
+                } else {
+                    //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            //this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
+            //this.ejec.setCadena(ls_cadenaaejecutar);
+
+
+
             //this.ejec.TraduceString();
-            if (ejec.convierteCadenas()) {
+          /*  if (ejec.convierteCadenas()) {
                 ejec.start();
                 //this.jTabbedPane1.setSelectedIndex(3);
                 this._btnReanudar.setEnabled(false);
@@ -305,7 +332,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             } else {
                 //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
                 JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            }*/
         } else {
             JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -927,67 +954,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarTBActionPerformed
 
-        boolean error = false;
-        JFileChooser chooser;
-
-        String fichero_tb;
-
-        this._txtTB.setText("");
-        chooser =
-                new JFileChooser();
-        Filtro filter = new Filtro("txt");
-        chooser.addChoosableFileFilter(filter);
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Seleccionar TestBench");
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
-                fichero_tb = chooser.getSelectedFile().getAbsolutePath();
-
-                FileReader fr = new FileReader(fichero_tb);
-                BufferedReader br = new BufferedReader(fr);
-                String linea = br.readLine();
-                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
-                    jTabbedPane1.setSelectedComponent(panelTB);
-                } else {
-                    _txtTB.setColumns(20);
-                    _txtTB.setRows(5);
-                    jScrollPane3.setViewportView(_txtTB);
-
-                    javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
-                    panelTB.setLayout(panelTBLayout);
-                    panelTBLayout.setHorizontalGroup(
-                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                    panelTBLayout.setVerticalGroup(
-                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                    jTabbedPane1.addTab("TestBench", panelTB);
-                    jTabbedPane1.setSelectedComponent(panelTB);
+        Seleccion sel = new Seleccion();
+        new GUICargaTB(this, true, sel).setVisible(true);
+        if (sel.selTB.equals(SeleccionTB.CARGA_FICHERO)) {
+            SeleccionTBFich = true;
+            cargaFichero();
+            if (this.com1 == null) {
+                if (this.inicializarPuertoSerie()) {
+                    ejec();
                 }
-                while (linea != null) {
-                    this._txtTB.append(linea + "\n");
-                    linea = br.readLine();
-                }
-
-                br.close();
-            } catch (IOException ex) {
-                error = true;
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-
-
-                this._txtTB.append(
-                        "Error al cargar el banco de pruebas");
-            }
-            if (!error) {
-                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
+                ejec();
             }
 
         } else {
-            System.out.println("No Selection ");
+            if (sel.selTB.equals(SeleccionTB.CARGA_PANTALLA)) {
+                SeleccionTBFich = false;
+                cargarTextArea();
+            }
         }
+
+
 
 //        this.jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event__btnCargarTBActionPerformed
@@ -1170,5 +1157,135 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelTB;
     private javax.swing.JPanel panelVHD;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarTextArea() {
+        boolean error = false;
+        JFileChooser chooser;
+
+        String fichero_tb;
+
+        this._txtTB.setText("");
+        chooser =
+                new JFileChooser();
+        Filtro filter = new Filtro("txt");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccionar TestBench");
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                fichero_tb = chooser.getSelectedFile().getAbsolutePath();
+
+                FileReader fr = new FileReader(fichero_tb);
+                BufferedReader br = new BufferedReader(fr);
+                String linea = br.readLine();
+                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
+                    jTabbedPane1.setSelectedComponent(panelTB);
+                } else {
+                    _txtTB.setColumns(20);
+                    _txtTB.setRows(5);
+                    jScrollPane3.setViewportView(_txtTB);
+
+                    javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
+                    panelTB.setLayout(panelTBLayout);
+                    panelTBLayout.setHorizontalGroup(
+                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+                    panelTBLayout.setVerticalGroup(
+                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                    jTabbedPane1.addTab("TestBench", panelTB);
+                    jTabbedPane1.setSelectedComponent(panelTB);
+                }
+                int num_linea = 1;
+                while (linea != null) {
+                    if (num_linea > 280000) {
+                       JOptionPane.showMessageDialog(this, "Sobrepasado el número máximo de líneas en este modo de TB. Sugerencia: Seleccione la otra opción para poder ejecutar el fichero por completo", "Error", JOptionPane.ERROR_MESSAGE);
+                       br.close();
+                       return;
+                    }
+                    this._txtTB.append(linea + "\n");
+                    linea = br.readLine();
+                    num_linea ++;
+                }
+
+                br.close();
+            } catch (IOException ex) {
+                error = true;
+                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
+
+                this._txtTB.append(
+                        "Error al cargar el banco de pruebas");
+            }
+            if (!error) {
+                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            System.out.println("No Selection ");
+        }
+    }
+
+    private void cargaFichero() {
+        boolean error = false;
+        JFileChooser chooser;
+
+        String fichero_tb;
+
+        this._txtTB.setText("");
+        chooser =
+                new JFileChooser();
+        Filtro filter = new Filtro("txt");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccionar TestBench");
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                fichero_tb = chooser.getSelectedFile().getAbsolutePath();
+
+                FileReader fr = new FileReader(fichero_tb);
+                bf = new BufferedReader(fr);
+               // BufferedReader br = new BufferedReader(fr);
+               // String linea = br.readLine();
+                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
+                    jTabbedPane1.setSelectedComponent(panelTB);
+                } else {
+                    _txtTB.setColumns(20);
+                    _txtTB.setRows(5);
+                    jScrollPane3.setViewportView(_txtTB);
+
+                    javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
+                    panelTB.setLayout(panelTBLayout);
+                    panelTBLayout.setHorizontalGroup(
+                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+                    panelTBLayout.setVerticalGroup(
+                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                    jTabbedPane1.addTab("TestBench", panelTB);
+                    jTabbedPane1.setSelectedComponent(panelTB);
+                }
+                } catch (IOException ex) {
+                error = true;
+                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
+
+                this._txtTB.append(
+                        "Error al cargar el banco de pruebas");
+            }
+            if (!error) {
+                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            System.out.println("No Selection ");
+        }
+    }
     // private JTabbedPaneWithCloseIcon jTabbedPane1;
 }
