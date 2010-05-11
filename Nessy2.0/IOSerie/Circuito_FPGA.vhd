@@ -38,12 +38,15 @@ component Rx_Serie
 end component ;
 
 
-component CIRCUITO
+component CONTADOR
 	Port(
-		ENTRADA: in STD_LOGIC_VECTOR(31 downto 0);
+		RESET: in STD_LOGIC;
 		CLK: in STD_LOGIC;
+		ENABLE: in STD_LOGIC;
+		LOAD: in STD_LOGIC;
+		DATA_LOAD: in STD_LOGIC_VECTOR(15 downto 0);
 
-		SALIDA: out STD_LOGIC_VECTOR(31 downto 0)
+		SALIDA: out STD_LOGIC_VECTOR(15 downto 0)
 );
 end component;
 
@@ -51,10 +54,13 @@ end component;
 signal enable: std_logic;  --enable general
 
 
-signal mi_ENTRADA: STD_LOGIC_VECTOR(31 downto 0);
+signal mi_RESET: STD_LOGIC;
 signal mi_CLK: STD_LOGIC;
+signal mi_ENABLE: STD_LOGIC;
+signal mi_LOAD: STD_LOGIC;
+signal mi_DATA_LOAD: STD_LOGIC_VECTOR(15 downto 0);
 
-signal mi_SALIDA: STD_LOGIC_VECTOR(31 downto 0);
+signal mi_SALIDA: STD_LOGIC_VECTOR(15 downto 0);
 
 
 signal mi_resetserie:std_logic;
@@ -93,7 +99,7 @@ f: Tx_serie port map(mi_resetserie,clk,mi_transmite,mi_datotxin,mi_transmitiendo
 R: Rx_serie port map(mi_resetserie,clk,mi_rxdatoserie,mi_datorxout,mi_avisorx,mi_recibiendo);
 
 
-U: CIRCUITO port map(mi_ENTRADA,mi_CLK,mi_SALIDA);
+U: CONTADOR port map(mi_RESET,mi_CLK,mi_ENABLE,mi_LOAD,mi_DATA_LOAD,mi_SALIDA);
 
 
 process(mi_recibiendo,mi_resetserie)
@@ -240,38 +246,25 @@ ftransmitido <= not biest_transmitido and transmitido; --flanco que indica fin d
 fin <= frecibido or ftransmitido; --flanco que indica fin de envio o transmision
 
 
-mi_ENTRADA(0) <= Reg_entradas(0);
-mi_ENTRADA(1) <= Reg_entradas(1);
-mi_ENTRADA(2) <= Reg_entradas(2);
-mi_ENTRADA(3) <= Reg_entradas(3);
-mi_ENTRADA(4) <= Reg_entradas(4);
-mi_ENTRADA(5) <= Reg_entradas(5);
-mi_ENTRADA(6) <= Reg_entradas(6);
-mi_ENTRADA(7) <= Reg_entradas(7);
-mi_ENTRADA(8) <= Reg_entradas(8);
-mi_ENTRADA(9) <= Reg_entradas(9);
-mi_ENTRADA(10) <= Reg_entradas(10);
-mi_ENTRADA(11) <= Reg_entradas(11);
-mi_ENTRADA(12) <= Reg_entradas(12);
-mi_ENTRADA(13) <= Reg_entradas(13);
-mi_ENTRADA(14) <= Reg_entradas(14);
-mi_ENTRADA(15) <= Reg_entradas(15);
-mi_ENTRADA(16) <= Reg_entradas(16);
-mi_ENTRADA(17) <= Reg_entradas(17);
-mi_ENTRADA(18) <= Reg_entradas(18);
-mi_ENTRADA(19) <= Reg_entradas(19);
-mi_ENTRADA(20) <= Reg_entradas(20);
-mi_ENTRADA(21) <= Reg_entradas(21);
-mi_ENTRADA(22) <= Reg_entradas(22);
-mi_ENTRADA(23) <= Reg_entradas(23);
-mi_ENTRADA(24) <= Reg_entradas(24);
-mi_ENTRADA(25) <= Reg_entradas(25);
-mi_ENTRADA(26) <= Reg_entradas(26);
-mi_ENTRADA(27) <= Reg_entradas(27);
-mi_ENTRADA(28) <= Reg_entradas(28);
-mi_ENTRADA(29) <= Reg_entradas(29);
-mi_ENTRADA(30) <= Reg_entradas(30);
-mi_ENTRADA(31) <= Reg_entradas(31);
+mi_ENABLE <= Reg_entradas(0);
+mi_LOAD <= Reg_entradas(1);
+mi_DATA_LOAD(0) <= Reg_entradas(2);
+mi_DATA_LOAD(1) <= Reg_entradas(3);
+mi_DATA_LOAD(2) <= Reg_entradas(4);
+mi_DATA_LOAD(3) <= Reg_entradas(5);
+mi_DATA_LOAD(4) <= Reg_entradas(6);
+mi_DATA_LOAD(5) <= Reg_entradas(7);
+mi_DATA_LOAD(6) <= Reg_entradas(8);
+mi_DATA_LOAD(7) <= Reg_entradas(9);
+mi_DATA_LOAD(8) <= Reg_entradas(10);
+mi_DATA_LOAD(9) <= Reg_entradas(11);
+mi_DATA_LOAD(10) <= Reg_entradas(12);
+mi_DATA_LOAD(11) <= Reg_entradas(13);
+mi_DATA_LOAD(12) <= Reg_entradas(14);
+mi_DATA_LOAD(13) <= Reg_entradas(15);
+mi_DATA_LOAD(14) <= Reg_entradas(16);
+mi_DATA_LOAD(15) <= Reg_entradas(17);
+MI_RESET <= reset;
 enable <= '1';
 
 
@@ -291,22 +284,6 @@ Reg_salidas(12) <= mi_SALIDA(12);
 Reg_salidas(13) <= mi_SALIDA(13);
 Reg_salidas(14) <= mi_SALIDA(14);
 Reg_salidas(15) <= mi_SALIDA(15);
-Reg_salidas(16) <= mi_SALIDA(16);
-Reg_salidas(17) <= mi_SALIDA(17);
-Reg_salidas(18) <= mi_SALIDA(18);
-Reg_salidas(19) <= mi_SALIDA(19);
-Reg_salidas(20) <= mi_SALIDA(20);
-Reg_salidas(21) <= mi_SALIDA(21);
-Reg_salidas(22) <= mi_SALIDA(22);
-Reg_salidas(23) <= mi_SALIDA(23);
-Reg_salidas(24) <= mi_SALIDA(24);
-Reg_salidas(25) <= mi_SALIDA(25);
-Reg_salidas(26) <= mi_SALIDA(26);
-Reg_salidas(27) <= mi_SALIDA(27);
-Reg_salidas(28) <= mi_SALIDA(28);
-Reg_salidas(29) <= mi_SALIDA(29);
-Reg_salidas(30) <= mi_SALIDA(30);
-Reg_salidas(31) <= mi_SALIDA(31);
 
 
 end Behavioral;

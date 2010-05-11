@@ -3,3 +3,8 @@ NET "salida_serie" LOC = "AE7";   #Datos puerto serie RS232_TX_DATA
 #NET "enable"  LOC="AD11" ;       #Switch 1
 NET "reset" loc="AG5";            #Botón enter el del centro
 NET "entrada_serie" LOC = "AJ8";  #Datos entrada puerto serie RS232_RX_DATA
+
+NET "ledsEntrada<0>" LOC = "AC4";
+NET "ledsEntrada<1>" LOC = "AC3";
+NET "ledsSalida<0>" LOC = "AA6";
+NET "ledsSalida<1>" LOC = "AA5";

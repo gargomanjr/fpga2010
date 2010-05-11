@@ -451,7 +451,7 @@ public class GeneraVhdl {
         }
         String reset = entidad.getNombreReset();
         if (reset != null){
-            escribirLinea("MI_"+reset + " <= reset;");
+            escribirLinea("MI_"+reset + " <= not reset;");
         }
         escribirLinea("enable <= '1';");
         //TODO escribirLinea("enable <= Reg_entradas(" + numEntrada + ");");

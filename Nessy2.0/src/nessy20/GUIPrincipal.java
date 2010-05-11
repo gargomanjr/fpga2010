@@ -266,7 +266,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void ejec(){
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
-                this._TextSalida.setText("");
+            ejec.pararrecepcionfpga();  
+            this._TextSalida.setText("");
                 //this.hiloreceptor.pararrecepcionfpga();
         }
 
@@ -343,6 +344,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         _btnCargarVhd = new javax.swing.JButton();
         _btnCrearBit = new javax.swing.JButton();
@@ -351,6 +353,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        _btnClear = new javax.swing.JButton();
+        _lblnInst = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new JTabbedPaneWithCloseIcon();
         panelVHD = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -365,9 +371,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         _TextSalida = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        _lblnInst = new javax.swing.JTextField();
-        _btnClear = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuOpciones = new javax.swing.JMenu();
         menuOpcionesCargarVHD = new javax.swing.JMenuItem();
@@ -392,6 +395,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 formWindowClosed(evt);
             }
         });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
+        jPanel2.setOpaque(false);
 
         jToolBar1.setBorder(null);
         jToolBar1.setRollover(true);
@@ -481,6 +487,37 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnReanudar);
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pantalla"));
+        jPanel1.setOpaque(false);
+
+        _btnClear.setText("Clear");
+        _btnClear.setAutoscrolls(true);
+        _btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnClearActionPerformed(evt);
+            }
+        });
+
+        _lblnInst.setEditable(false);
+
+        jLabel1.setText("Número de Instrucción");
+        jLabel1.setAutoscrolls(true);
+
         _TxtEntityVHD.setColumns(20);
         _TxtEntityVHD.setEditable(false);
         _TxtEntityVHD.setRows(5);
@@ -490,7 +527,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelVHD.setLayout(panelVHDLayout);
         panelVHDLayout.setHorizontalGroup(
             panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         panelVHDLayout.setVerticalGroup(
             panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,7 +545,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelCargar.setLayout(panelCargarLayout);
         panelCargarLayout.setHorizontalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         panelCargarLayout.setVerticalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,7 +562,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelTB.setLayout(panelTBLayout);
         panelTBLayout.setHorizontalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         panelTBLayout.setVerticalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,7 +580,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelOutPut.setLayout(panelOutPutLayout);
         panelOutPutLayout.setHorizontalGroup(
             panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
         );
         panelOutPutLayout.setVerticalGroup(
             panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,18 +589,42 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("OutPut", panelOutPut);
 
-        jLabel1.setText("Número de Instrucción");
-        jLabel1.setAutoscrolls(true);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 892, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(_btnClear)
+                            .addGap(31, 31, 31)
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(67, 67, 67))
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 836, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap()))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 393, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(_btnClear))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
 
-        _lblnInst.setEditable(false);
-
-        _btnClear.setText("Clear");
-        _btnClear.setAutoscrolls(true);
-        _btnClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btnClearActionPerformed(evt);
-            }
-        });
+        jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
         menuOpciones.setText("Opciones");
 
@@ -687,40 +748,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(377, Short.MAX_VALUE)
-                .addComponent(_btnClear)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
-            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(_lblnInst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(_btnClear))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-                .addGap(36, 36, 36))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -869,7 +909,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 jTabbedPane1.addTab("OutPut", panelOutPut);
                 jTabbedPane1.setSelectedComponent(panelOutPut);
             }
-            this.com1.sendSingleData(0);
+           // this.com1.sendSingleData(0);
             /*synchronized (this.hiloreceptor) {
                 this.hiloreceptor.notify();
             }*/
@@ -1103,6 +1143,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextArea _txtTB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
