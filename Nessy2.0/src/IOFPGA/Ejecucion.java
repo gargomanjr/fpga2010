@@ -266,7 +266,7 @@ public class Ejecucion extends Thread {
                     }
                 }
                 this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
-                this.ljtfield.setText(Integer.toString(instruccion));
+                this.ljtfield.setText(Integer.toString(instruccion + 1));
                 instruccion++;
                 datoaenviar = bfr.readLine();
             }
@@ -404,7 +404,7 @@ public class Ejecucion extends Thread {
                 this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
                 // bits ebn 4 grupos y los envío
                 //  this.interfaz.setNumeroInst(intruccion);
-                this.ljtfield.setText(Integer.toString(instruccion));
+                this.ljtfield.setText(Integer.toString(instruccion + 1));
                 //Thread.sleep(5000);           
                 instruccion++;
             }
