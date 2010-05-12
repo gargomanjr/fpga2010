@@ -846,6 +846,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 error = !cargaBit.cargar();
                 if (!error) {
                     JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    if (com1 == null)
+                        inicializarPuertoSerie();
+                    com1.receiveSingleDataInt();
+                    com1.receiveSingleDataInt();
+                    com1.receiveSingleDataInt();
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al cargar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
                 }
