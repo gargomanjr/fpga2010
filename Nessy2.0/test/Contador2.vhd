@@ -75,12 +75,12 @@ begin
   	begin
 		if mireset = '1' then
 			misalida <= x"0000";
-		elsif mienable = '1' then
-			if clk'event and clk = '1' then
-				if miload = '1' then
-					misalida <= midata_load;
-				else
-					misalida <= misalida +1;
+		elsif clk'event and clk = '1' then
+			if mienable = '1' then
+				misalida <= misalida +1;
+			elsif miload = '1' then
+				misalida <= midata_load;
+					
 				end if;
 			end if;
 		end if;

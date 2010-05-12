@@ -7,8 +7,13 @@ package IOFPGA;
 import app.Com;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -41,6 +46,10 @@ public class Ejecucion extends Thread {
     static String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
     private final File fichero_escritura;
     private final File fichero_compararTraza;
+    private FileWriter file_wr;
+    private boolean coincideTraza;
+    private boolean mostrarMensaje;
+    private int NumInstrNoCoincideTraza;
 
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
@@ -64,6 +73,9 @@ public class Ejecucion extends Thread {
         setwait = false;
         this.ata_textarea = ata_textarea;
         entraDesdeFichero = false;
+        coincideTraza = true;
+        mostrarMensaje = true;
+        NumInstrNoCoincideTraza = 0;
     }
 
     public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, BufferedReader l_br) {
@@ -79,6 +91,9 @@ public class Ejecucion extends Thread {
         this.ata_textarea = ata_textarea;
         bfr = l_br;
         entraDesdeFichero = true;
+        coincideTraza = true;
+        mostrarMensaje = true;
+        NumInstrNoCoincideTraza = 0;
     }
 
     public void setCadena(String as_cadenaajecutar) {
@@ -214,18 +229,25 @@ public class Ejecucion extends Thread {
 
     private void ejecuta2() {
         try {
+            CopiarSalida();
+            FileReader fr = new FileReader(fichero_compararTraza);
+            BufferedReader rw = new BufferedReader(fr);
+            String linea_traza = "";
             int instruccion = 0;
             String datoaenviar = "";
             datoaenviar = bfr.readLine();
-            /* if (fichero_escritura.exists()){
-            CopyFile();
-            }  */
             fichero_escritura.createNewFile();
-            FileWriter fw = new FileWriter(fichero_escritura, false);
+            file_wr = new FileWriter(fichero_escritura, false);
             while (ejecutando && datoaenviar != null) {
                 if (this.setwait) {
                     System.out.println("Ejecución antes");
+                    file_wr.close();
+                    if(coincideTraza == false && mostrarMensaje){
+                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                         mostrarMensaje = false;
+                    }
                     this.wait();
+                    file_wr = new FileWriter(fichero_escritura, true);
                     System.out.println("Ejecución despues");
                     this.setwait = false;
                 }
@@ -234,13 +256,31 @@ public class Ejecucion extends Thread {
                 if (instruccion < 250000) {
                     this.ata_textarea.append((instruccion+1)+". "+c + "\n");
                 }
-                fw.write(c + "\n");
+                file_wr.write(c + "\n");
+
+                if(coincideTraza && linea_traza != null){
+                    linea_traza = rw.readLine();
+                    if ( linea_traza == null  || linea_traza.compareTo(c)!=0 ){
+                        coincideTraza = false;
+                        NumInstrNoCoincideTraza = instruccion + 1;
+                    }
+                }
                 this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
                 this.ljtfield.setText(Integer.toString(instruccion));
                 instruccion++;
                 datoaenviar = bfr.readLine();
             }
-            fw.close();
+            file_wr.close();
+            rw.close();
+            if(coincideTraza){
+               JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                if (mostrarMensaje){
+                                           JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                     mostrarMensaje = false;
+                }
+            }
             if (instruccion == 250000) {
                 JOptionPane.showMessageDialog(this.ata_textarea, "La Salida que se está generando al ser muy grande se volcará en Test//Salida.txt", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -285,6 +325,9 @@ public class Ejecucion extends Thread {
     }*/
     public void pararrecepcionfpga() {
         this.ejecutando = false;
+        if(coincideTraza == false && mostrarMensaje){
+            JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private String recibirBinaria(int numBitsSalida) throws Exception {
@@ -297,7 +340,7 @@ public class Ejecucion extends Thread {
             }
         }
 
-        System.out.println(s.substring(s.length() - numBitsSalida));
+       // System.out.println(s.substring(s.length() - numBitsSalida));
         return s.substring(s.length() - numBitsSalida);
     }
 
@@ -321,15 +364,24 @@ public class Ejecucion extends Thread {
     private void ejecuta() {
         //TraduceString();
         try {
+            CopiarSalida();
+            FileReader fr = new FileReader(fichero_compararTraza);
+            BufferedReader rw = new BufferedReader(fr);
+            String linea_traza = "";
             int instruccion = 0;
             String datoaenviar;
             fichero_escritura.createNewFile();
-            FileWriter fw = new FileWriter(fichero_escritura, false);
+            file_wr = new FileWriter(fichero_escritura, false);
             while (ejecutando && instruccion < this.cadenaaEnviar.size()) {
                 if (this.setwait) {
-
                     System.out.println("Ejecución antes");
+                    file_wr.close();
+                    if(coincideTraza == false && mostrarMensaje){
+                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                         mostrarMensaje = false;
+                    }
                     this.wait();
+                    file_wr = new FileWriter(fichero_escritura, true);
                     System.out.println("Ejecución despues");
                     this.setwait = false;
                 }
@@ -337,7 +389,18 @@ public class Ejecucion extends Thread {
                 this.enviarBinaria(datoaenviar);//TODO divido 32
                 String c = this.recibirBinaria(this.li_bits_salida);
                 this.ata_textarea.append((instruccion+1)+". "+c + "\n");
-                fw.write(c + "\n");
+                file_wr.write(c + "\n");
+
+                if(coincideTraza && linea_traza != null){
+                    linea_traza = rw.readLine();
+                    if ( linea_traza == null  || linea_traza.compareTo(c)!=0 ){
+                        coincideTraza = false;
+                        NumInstrNoCoincideTraza = instruccion + 1;
+                    }
+                }
+
+
+
                 this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
                 // bits ebn 4 grupos y los envío
                 //  this.interfaz.setNumeroInst(intruccion);
@@ -345,11 +408,36 @@ public class Ejecucion extends Thread {
                 //Thread.sleep(5000);           
                 instruccion++;
             }
-            fw.close();
+            file_wr.close();
+            rw.close();
+            if(coincideTraza){
+               JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                if (mostrarMensaje){
+                     JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                     mostrarMensaje = false;
+                }
+            }
         } catch (InterruptedException ex) {
             Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    // Función para copiar la salida en el otro fichero.
+    public void CopiarSalida() throws IOException {
+
+        InputStream in = new FileInputStream(fichero_escritura);
+        OutputStream out = new FileOutputStream(fichero_compararTraza);
+
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+}
 }
