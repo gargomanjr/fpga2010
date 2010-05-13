@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import nessy20.GUIPrincipal;
 
 /**
  *
@@ -60,10 +59,10 @@ public class Ejecucion extends Thread {
     }
 
     //public Ejecucion(GUIPrincipal gui,Com ac_com){
-    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea) {
+    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea,String nombreSalida,String nombreTraza) {
 //        this.interfaz=gui;
-        fichero_escritura = new File(rutafichero, "Salida.txt");
-        fichero_compararTraza = new File(rutafichero, "Traza.txt");
+        fichero_escritura = new File(rutafichero, nombreSalida);
+        fichero_compararTraza = new File(rutafichero, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
@@ -78,7 +77,7 @@ public class Ejecucion extends Thread {
         NumInstrNoCoincideTraza = 0;
     }
 
-    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, BufferedReader l_br) {
+    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, BufferedReader l_br,String nombreSalida,String nombreTraza) {
         fichero_compararTraza = new File(rutafichero, "Traza.txt");
         fichero_escritura = new File(rutafichero, "Salida.txt");
         this.ljtfield = lj_jtf;
@@ -101,62 +100,6 @@ public class Ejecucion extends Thread {
 
     }
 
-    /*public void TraduceString (){
-    int i = 0;
-    int potencia = 1;
-    this.error = false;
-    int longcadena = interfaz.getEntidad().getBitsEntrada();
-    //int longcadena = 4;
-    // num_bit controlara que la cadena tiene la misma logitud que longcadena
-    int num_bit = longcadena ;
-    // al ser el bit mas significativo el enable le sumamos la posición del enable elevado al longcadena
-    int enteroaenviar = (int) Math.pow(2, longcadena);
-    potencia = (int) Math.pow(2, longcadena - 1);
-    while (i < this.ls_cadenaaejecutar.length() && this.error==false){
-    char lc_caracter  = ls_cadenaaejecutar.charAt(i);
-    if ((lc_caracter == ' ') || (lc_caracter == '\t') || (lc_caracter == '\n') || (lc_caracter == '\r')){
-    potencia = 0;
-    if (i > 0){
-    if (num_bit ==0){
-    cadenaaEnviar.add(i);
-    System.out.println(enteroaenviar);
-    enteroaenviar = (int) Math.pow(2, longcadena);
-    num_bit = longcadena ;
-    potencia = (int) Math.pow(2, longcadena - 1);
-    }
-    else{
-    this.error = true;
-    }
-    }
-    }
-    else {
-    if ((lc_caracter == '1') || (lc_caracter == '0')) {
-    if (lc_caracter == '1') {
-    enteroaenviar = enteroaenviar +  potencia ;
-    }
-    potencia = potencia / 2;
-    num_bit = num_bit -1;
-    }
-    else{
-    this.error = true;
-    }
-
-    }
-    i++;
-    }
-    if (i > 0){
-    if (num_bit ==0){
-    cadenaaEnviar.add(i);
-    System.out.println(enteroaenviar);
-    enteroaenviar = (int) Math.pow(2, longcadena);
-    num_bit = longcadena ;
-    potencia = (int) Math.pow(2, longcadena - 1);
-    }
-    else{
-    this.error = true;
-    }
-    }
-    }*/
     public int traduceString(String s) {
         int n = 0;
         int peso = 1;
@@ -292,37 +235,6 @@ public class Ejecucion extends Thread {
         }
     }
 
-    /* private void ejecuta() {
-    //TraduceString();
-    int intruccion = 0;
-    String datoaenviar;
-    while(ejecutando && intruccion < this.cadenaaEnviar.size()){
-    if (this.setwait){
-    try {
-    System.out.println("Ejecución antes");
-    this.wait();
-    System.out.println("Ejecución despues");
-    this.setwait = false;
-    } catch (InterruptedException ex) {
-    Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    }
-    datoaenviar = this.cadenaaEnviar.get(intruccion);
-    try {
-    this.enviarBinaria(datoaenviar);//TODO divido 32
-    String c = this.recibirBinaria(this.li_bits_salida);
-    this.ata_textarea.append(c + "\n");
-    this.ata_textarea.setCaretPosition(this.ata_textarea.getText().length());
-    // bits ebn 4 grupos y los envío
-    //  this.interfaz.setNumeroInst(intruccion);
-    this.ljtfield.setText(Integer.toString(intruccion));
-    //Thread.sleep(5000);
-    } catch (Exception ex) {
-    Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    intruccion ++;
-    }
-    }*/
     public void pararrecepcionfpga() {
         this.ejecutando = false;
         if(coincideTraza == false && mostrarMensaje){
@@ -339,8 +251,6 @@ public class Ejecucion extends Thread {
                 s = this.convertirCadenaBinaria(num, 8) + s;
             }
         }
-
-       // System.out.println(s.substring(s.length() - numBitsSalida));
         return s.substring(s.length() - numBitsSalida);
     }
 

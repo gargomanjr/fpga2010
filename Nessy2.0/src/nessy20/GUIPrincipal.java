@@ -22,6 +22,7 @@ import generadorVHDL.GeneraVhdl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private int top;
     private ArrayList<File> files;
     private boolean cerradoTop;
-
+    String fichero_tb;
 
     public boolean isCerradoTop() {
         return cerradoTop;
@@ -60,11 +61,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void setCerradoTop(boolean cerradoTop) {
         this.cerradoTop = cerradoTop;
     }
-
-
     private boolean SeleccionTBFich;
     private BufferedReader bf;
-
 
     public ArrayList<File> getFiles() {
         return files;
@@ -249,7 +247,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             cerradoTop = false;
             GUISeleccionTop selTop = new GUISeleccionTop(this, true, ficheros);
             selTop.setVisible(true);
-            if (!cerradoTop){
+            if (!cerradoTop) {
                 fichero = files.get(top).getAbsolutePath(); //el fichero es el absoluto
                 this.cargarVHDL();
             }
@@ -305,18 +303,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,"Salida.txt","Traza,txt");
             this.ejec.setCadena(ls_cadenaaejecutar);
 
-            if(SeleccionTBFich){
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,bf);
+            if (SeleccionTBFich) {
+                try {
+                    bf = new BufferedReader(new FileReader(fichero_tb));
+                } catch (FileNotFoundException ex) {
+                }
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,"Salida.txt","Traza.txt");
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
-            }
-            else{
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
+            } else {
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,"Salida.txt","Traza.txt");
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -328,20 +329,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            //this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(),this.getEntidad().getBitsSalida(), this.com1, this._TextSalida);
-            //this.ejec.setCadena(ls_cadenaaejecutar);
-
-
-            //this.ejec.TraduceString();
-          /*  if (ejec.convierteCadenas()) {
-                ejec.start();
-                //this.jTabbedPane1.setSelectedIndex(3);
-                this._btnReanudar.setEnabled(false);
-                this._btnPararEjecucion.setEnabled(true);
-            } else {
-                //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
-                JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
-            }*/
         } else {
             JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -369,6 +356,31 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     void escribirEnPantalla(String str) {
         this._TextCargarbit.append(str + "\n");
+    }
+
+    private void cargarBit(String fichero_bit) {
+        boolean error = false;
+        CargaBit cargaBit = new CargaBit(this, fichero_bit);
+        try {
+            do {//si hay un error lo vuelve a intentar
+                error = !cargaBit.cargar();
+                if (!error) {
+                    JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    if (com1 == null) {
+                        inicializarPuertoSerie();
+                    }
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                }
+            } while (error);
+        } catch (Exception e) {
+        }
     }
 
     /** This method is called from within the constructor to
@@ -846,11 +858,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 error = !cargaBit.cargar();
                 if (!error) {
                     JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    if (com1 == null)
+                    if (com1 == null) {
                         inicializarPuertoSerie();
-                    com1.receiveSingleDataInt();
-                    com1.receiveSingleDataInt();
-                    com1.receiveSingleDataInt();
+                    }
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al cargar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1177,8 +1195,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         boolean error = false;
         JFileChooser chooser;
 
-        String fichero_tb;
-
         this._txtTB.setText("");
         chooser =
                 new JFileChooser();
@@ -1214,14 +1230,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 }
                 int num_linea = 1;
                 while (linea != null) {
-                    if (num_linea > 280000) {
-                       JOptionPane.showMessageDialog(this, "Sobrepasado el número máximo de líneas en este modo de TB. Sugerencia: Seleccione la otra opción para poder ejecutar el fichero por completo", "Error", JOptionPane.ERROR_MESSAGE);
-                       br.close();
-                       return;
+                    if (num_linea == 280000) {
+                        JOptionPane.showMessageDialog(this, "Sobrepasado el número máximo de líneas en este modo de TB. Sugerencia: Seleccione la otra opción para poder ejecutar el fichero por completo", "Error", JOptionPane.ERROR_MESSAGE);
+                        br.close();
+                        return;
                     }
                     this._txtTB.append(linea + "\n");
                     linea = br.readLine();
-                    num_linea ++;
+                    num_linea++;
                 }
 
                 br.close();
@@ -1248,7 +1264,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         boolean error = false;
         JFileChooser chooser;
 
-        String fichero_tb;
+        
 
         this._txtTB.setText("");
         chooser =
@@ -1260,13 +1276,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
                 fichero_tb = chooser.getSelectedFile().getAbsolutePath();
-
-                FileReader fr = new FileReader(fichero_tb);
-                bf = new BufferedReader(fr);
-               // BufferedReader br = new BufferedReader(fr);
-               // String linea = br.readLine();
                 if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
                     jTabbedPane1.setSelectedComponent(panelTB);
                 } else {
@@ -1284,14 +1294,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     jTabbedPane1.addTab("TestBench", panelTB);
                     jTabbedPane1.setSelectedComponent(panelTB);
                 }
-                } catch (IOException ex) {
-                error = true;
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-
-
-                this._txtTB.append(
-                        "Error al cargar el banco de pruebas");
-            }
             if (!error) {
                 JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
