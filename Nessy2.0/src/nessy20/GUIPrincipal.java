@@ -34,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -130,24 +131,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } else {
             System.out.println("Selecc ");
-            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelCargar)) {
-                jTabbedPane1.setSelectedComponent(panelCargar);
-            } else {
-                _TextCargarbit.setColumns(20);
-                _TextCargarbit.setRows(5);
-                _TextCargarbit.setMaximumSize(getMaximumSize());
-                jScrollPane2.setViewportView(_TextCargarbit);
-
-                javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
-                panelCargar.setLayout(panelCargarLayout);
-                panelCargarLayout.setHorizontalGroup(
-                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                panelCargarLayout.setVerticalGroup(
-                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                jTabbedPane1.addTab("Cargar", panelCargar);
-                jTabbedPane1.setSelectedComponent(panelCargar);
-            }
+            //Selecciona panel
+            seleccionaPanel(panelCargar);
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
         return !error;
@@ -239,24 +224,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void cargarVHDL() {
         boolean error = !compilarEntidad();
         if (!error) {
-            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelVHD)) {
-                jTabbedPane1.setSelectedComponent(panelVHD);
-            } else {
-                _TxtEntityVHD.setColumns(20);
-                _TxtEntityVHD.setEditable(false);
-                _TxtEntityVHD.setRows(5);
-                jScrollPane1.setViewportView(_TxtEntityVHD);
-
-                javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
-                panelVHD.setLayout(panelVHDLayout);
-                panelVHDLayout.setHorizontalGroup(
-                        panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE));
-                panelVHDLayout.setVerticalGroup(
-                        panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                jTabbedPane1.addTab("Entity VHDL", panelVHD);
-                jTabbedPane1.setSelectedComponent(panelVHD);
-            }
+            //Selecciona panel
+            seleccionaPanel(panelVHD);
             this._TxtEntityVHD.setText(this.entidad.toString());
             JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -348,24 +317,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor.pararrecepcionfpga();
         }
 
-        if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
-            jTabbedPane1.setSelectedComponent(panelOutPut);
-        } else {
-            _TextSalida.setColumns(20);
-            _TextSalida.setEditable(false);
-            _TextSalida.setRows(5);
-            jScrollPane4.setViewportView(_TextSalida);
-
-            javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
-            panelOutPut.setLayout(panelOutPutLayout);
-            panelOutPutLayout.setHorizontalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-            panelOutPutLayout.setVerticalGroup(
-                    panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-            jTabbedPane1.addTab("OutPut", panelOutPut);
-            jTabbedPane1.setSelectedComponent(panelOutPut);
-        }
+       //Selecciona panel
+            seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
@@ -469,6 +422,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
+        _btnGenerarGolden = new javax.swing.JButton();
+        _btnGenerarGolden1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         _btnClear = new javax.swing.JButton();
         _lblnInst = new javax.swing.JTextField();
@@ -603,13 +558,37 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnReanudar);
 
+        _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/golden.png"))); // NOI18N
+        _btnGenerarGolden.setText("Generar Golden");
+        _btnGenerarGolden.setFocusable(false);
+        _btnGenerarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnGenerarGolden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnGenerarGolden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnGenerarGoldenActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(_btnGenerarGolden);
+
+        _btnGenerarGolden1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/golden.png"))); // NOI18N
+        _btnGenerarGolden1.setText("Generar Golden");
+        _btnGenerarGolden1.setFocusable(false);
+        _btnGenerarGolden1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnGenerarGolden1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnGenerarGolden1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnGenerarGolden1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(_btnGenerarGolden1);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -709,7 +688,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 892, Short.MAX_VALUE)
+            .addGap(0, 900, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -865,7 +844,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -946,24 +925,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } else {
             System.out.println("Selecc ");
-            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelCargar)) {
-                jTabbedPane1.setSelectedComponent(panelCargar);
-            } else {
-                _TextCargarbit.setColumns(20);
-                _TextCargarbit.setRows(5);
-                _TextCargarbit.setMaximumSize(getMaximumSize());
-                jScrollPane2.setViewportView(_TextCargarbit);
-
-                javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
-                panelCargar.setLayout(panelCargarLayout);
-                panelCargarLayout.setHorizontalGroup(
-                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                panelCargarLayout.setVerticalGroup(
-                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                jTabbedPane1.addTab("Cargar", panelCargar);
-                jTabbedPane1.setSelectedComponent(panelCargar);
-            }
+            //Selecciona panel
+            seleccionaPanel(panelCargar);
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
         }
 
@@ -983,26 +946,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
-        try {
+       
+        
+       
+        
             // TODO: mandar enable a la placa
-            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
-                jTabbedPane1.setSelectedComponent(panelOutPut);
-            } else {
-                _TextSalida.setColumns(20);
-                _TextSalida.setEditable(false);
-                _TextSalida.setRows(5);
-                jScrollPane4.setViewportView(_TextSalida);
-
-                javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
-                panelOutPut.setLayout(panelOutPutLayout);
-                panelOutPutLayout.setHorizontalGroup(
-                        panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                panelOutPutLayout.setVerticalGroup(
-                        panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                jTabbedPane1.addTab("OutPut", panelOutPut);
-                jTabbedPane1.setSelectedComponent(panelOutPut);
-            }
+            //Selecciona el panel
+            seleccionaPanel(panelOutPut);
+            
             int longitud = this.entidad.getBitsEntrada();
             //int DatoAEnviar = (int) Math.pow(2, longitud - 1);
             //this.com1.sendSingleData(DatoAEnviar);
@@ -1011,45 +962,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor.setSetwait(true);
             this._btnReanudar.setEnabled(true);
             this._btnPararEjecucion.setEnabled(false);
-        } catch (Exception ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
 
     }//GEN-LAST:event__btnPararEjecucionActionPerformed
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
-        try {
-            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelOutPut)) {
-                jTabbedPane1.setSelectedComponent(panelOutPut);
-            } else {
-                _TextSalida.setColumns(20);
-                _TextSalida.setEditable(false);
-                _TextSalida.setRows(5);
-                jScrollPane4.setViewportView(_TextSalida);
-
-                javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
-                panelOutPut.setLayout(panelOutPutLayout);
-                panelOutPutLayout.setHorizontalGroup(
-                        panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                panelOutPutLayout.setVerticalGroup(
-                        panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                jTabbedPane1.addTab("OutPut", panelOutPut);
-                jTabbedPane1.setSelectedComponent(panelOutPut);
-            }
+       
             // this.com1.sendSingleData(0);
             /*synchronized (this.hiloreceptor) {
             this.hiloreceptor.notify();
             }*/
+        
+            //Selecciona panel
+            seleccionaPanel(panelOutPut);
+            
             synchronized (this.ejec) {
                 this.ejec.notify();
             }
             this._btnReanudar.setEnabled(false);
             this._btnPararEjecucion.setEnabled(true);
             //TODO : Función que volviera activar la fpga.
-        } catch (Exception ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         //TODO : Función que volviera activar la fpga.
     }//GEN-LAST:event__btnReanudarActionPerformed
 
@@ -1209,6 +1142,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jTabbedPane1.setSelectedComponent(panelOutPut);
         }
     }//GEN-LAST:event_menuVistasOutPutActionPerformed
+
+private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGoldenActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event__btnGenerarGoldenActionPerformed
+
+private void _btnGenerarGolden1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGolden1ActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event__btnGenerarGolden1ActionPerformed
     public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
     }
@@ -1225,6 +1166,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton _btnClear;
     private javax.swing.JButton _btnCrearBit;
     private javax.swing.JButton _btnEjecutar;
+    private javax.swing.JButton _btnGenerarGolden;
+    private javax.swing.JButton _btnGenerarGolden1;
     private javax.swing.JButton _btnPararEjecucion;
     private javax.swing.JButton _btnReanudar;
     private javax.swing.JTextField _lblnInst;
@@ -1279,24 +1222,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 FileReader fr = new FileReader(fichero_tb);
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
-                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
-                    jTabbedPane1.setSelectedComponent(panelTB);
-                } else {
-                    _txtTB.setColumns(20);
-                    _txtTB.setRows(5);
-                    jScrollPane3.setViewportView(_txtTB);
-
-                    javax.swing.GroupLayout panelTBLayout = new javax.swing.GroupLayout(panelTB);
-                    panelTB.setLayout(panelTBLayout);
-                    panelTBLayout.setHorizontalGroup(
-                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
-                    panelTBLayout.setVerticalGroup(
-                            panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
-
-                    jTabbedPane1.addTab("TestBench", panelTB);
-                    jTabbedPane1.setSelectedComponent(panelTB);
-                }
+               
                 int num_linea = 1;
+                
+                //Selecciona panel
+                seleccionaPanel(panelTB);
+                
                 while (linea != null) {
                     if (num_linea == 280000) {
                         JOptionPane.showMessageDialog(this, "Sobrepasado el número máximo de líneas en este modo de TB. Sugerencia: Seleccione la otra opción para poder ejecutar el fichero por completo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1345,9 +1276,64 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 fichero_tb = chooser.getSelectedFile().getAbsolutePath();
-                if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelTB)) {
-                    jTabbedPane1.setSelectedComponent(panelTB);
-                } else {
+                
+                //Selecciona panel
+                seleccionaPanel(panelTB);
+                
+            if (!error) {
+                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            System.out.println("No Selection ");
+        }
+    }
+
+    private void seleccionaPanel(JPanel panel) {
+       try {
+            // TODO: mandar enable a la placa
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panel)) {
+                jTabbedPane1.setSelectedComponent(panel);
+            } else {             
+                
+                if(panel.getName().equals(panelOutPut))
+                {
+                    _TextSalida.setColumns(20);
+                    _TextSalida.setEditable(false);
+                    _TextSalida.setRows(5);
+                    jScrollPane4.setViewportView(_TextSalida);
+
+                    javax.swing.GroupLayout panelOutPutLayout = new javax.swing.GroupLayout(panelOutPut);
+                    panelOutPut.setLayout(panelOutPutLayout);
+                    panelOutPutLayout.setHorizontalGroup(
+                            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+                    panelOutPutLayout.setVerticalGroup(
+                            panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                    jTabbedPane1.addTab("OutPut", panelOutPut);
+                    jTabbedPane1.setSelectedComponent(panelOutPut);
+                }
+                else if(panel.getName().equals(panelCargar))
+                {
+                    _TextCargarbit.setColumns(20);
+                    _TextCargarbit.setRows(5);
+                    _TextCargarbit.setMaximumSize(getMaximumSize());
+                    jScrollPane2.setViewportView(_TextCargarbit);
+
+                    javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
+                    panelCargar.setLayout(panelCargarLayout);
+                    panelCargarLayout.setHorizontalGroup(
+                            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+                    panelCargarLayout.setVerticalGroup(
+                            panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                    jTabbedPane1.addTab("Cargar", panelCargar);
+                    jTabbedPane1.setSelectedComponent(panelCargar);
+                }
+                else if(panel.getName().equals(panelTB)) 
+                {
                     _txtTB.setColumns(20);
                     _txtTB.setRows(5);
                     jScrollPane3.setViewportView(_txtTB);
@@ -1362,14 +1348,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     jTabbedPane1.addTab("TestBench", panelTB);
                     jTabbedPane1.setSelectedComponent(panelTB);
                 }
-            if (!error) {
-                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+                else 
+                {
+                    _TxtEntityVHD.setColumns(20);
+                    _TxtEntityVHD.setEditable(false);
+                    _TxtEntityVHD.setRows(5);
+                    jScrollPane1.setViewportView(_TxtEntityVHD);
 
-        } else {
-            System.out.println("No Selection ");
+                    javax.swing.GroupLayout panelVHDLayout = new javax.swing.GroupLayout(panelVHD);
+                    panelVHD.setLayout(panelVHDLayout);
+                    panelVHDLayout.setHorizontalGroup(
+                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE));
+                    panelVHDLayout.setVerticalGroup(
+                            panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                    jTabbedPane1.addTab("Entity VHDL", panelVHD);
+                    jTabbedPane1.setSelectedComponent(panelVHD);
+                
+                }
+                
+            }} catch (Exception ex) {
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     // private JTabbedPaneWithCloseIcon jTabbedPane1;
