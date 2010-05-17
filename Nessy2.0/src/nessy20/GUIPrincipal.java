@@ -85,6 +85,73 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return entidad;
     }
 
+    public void procesoModificarFicheros(){
+        int numBits = 32;
+        int numFrames = 361942;
+        cargarConChooser();
+    }
+
+    public boolean cargarConChooser(){
+        this._TextCargarbit.setText("Cargando ..........");
+        String fichero_bit;
+        boolean error = false;
+        JFileChooser chooser;
+        chooser = new JFileChooser();
+        Filtro filter = new Filtro("bit");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Cargar BitStream");
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                fichero_bit = chooser.getSelectedFile().getAbsolutePath();
+                CargaBit cargaBit = new CargaBit(this, fichero_bit);
+                error = !cargaBit.cargar();
+                if (!error) {
+                    JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    if (com1 == null) {
+                        inicializarPuertoSerie();
+                    }
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    com1.sendSingleData(0);
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al cargar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (Exception ex) {
+                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("Selecc ");
+            if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panelCargar)) {
+                jTabbedPane1.setSelectedComponent(panelCargar);
+            } else {
+                _TextCargarbit.setColumns(20);
+                _TextCargarbit.setRows(5);
+                _TextCargarbit.setMaximumSize(getMaximumSize());
+                jScrollPane2.setViewportView(_TextCargarbit);
+
+                javax.swing.GroupLayout panelCargarLayout = new javax.swing.GroupLayout(panelCargar);
+                panelCargar.setLayout(panelCargarLayout);
+                panelCargarLayout.setHorizontalGroup(
+                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE));
+                panelCargarLayout.setVerticalGroup(
+                        panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
+
+                jTabbedPane1.addTab("Cargar", panelCargar);
+                jTabbedPane1.setSelectedComponent(panelCargar);
+            }
+            this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
+        }
+        return !error;
+    }
+
     public boolean compilarEntidad() {
         boolean correcto = true;
         SintacticoEntidad compilador = null;
