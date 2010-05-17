@@ -88,7 +88,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void procesoModificarFicheros(){
         int numBits = 32;
         int numFrames = 361942;
-        cargarConChooser();
+        cargarConChooser();//pide un fichero
+
     }
 
     public boolean cargarConChooser(){
