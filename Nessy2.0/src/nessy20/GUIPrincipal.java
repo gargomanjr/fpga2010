@@ -93,6 +93,50 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
+    public void generarGolden(){
+        if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
+            ejec.pararrecepcionfpga();
+            this._TextSalida.setText("");
+            //this.hiloreceptor.pararrecepcionfpga();
+        }
+
+       //Selecciona panel
+            seleccionaPanel(panelOutPut);
+
+        if (this.entidad != null) {//si la entidad está definida
+            //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
+            //hiloreceptor.start();
+
+            if (SeleccionTBFich) {
+                try {
+                    bf = new BufferedReader(new FileReader(fichero_tb));
+                } catch (FileNotFoundException ex) {
+                }
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,false,"Golden.txt","Traza.txt");
+                this.ejec.setCadena("");
+                ejec.start();
+                this._btnReanudar.setEnabled(false);
+                this._btnPararEjecucion.setEnabled(true);
+            } else {
+                String ls_cadenaaejecutar = this._txtTB.getText();
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,false,"Golden.txt","Traza.txt");
+                this.ejec.setCadena(ls_cadenaaejecutar);
+                if (ejec.convierteCadenas()) {
+                    ejec.start();
+                    //this.jTabbedPane1.setSelectedIndex(3);
+                    this._btnReanudar.setEnabled(false);
+                    this._btnPararEjecucion.setEnabled(true);
+                } else {
+                    //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
     public boolean cargarConChooser(){
         this._TextCargarbit.setText("Cargando ..........");
         String fichero_bit;
@@ -324,7 +368,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,"Salida.txt","Traza,txt");
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Traza,txt");
             this.ejec.setCadena(ls_cadenaaejecutar);
 
             if (SeleccionTBFich) {
@@ -332,13 +376,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,"Salida.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,true,"Salida.txt","Traza.txt");
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,"Salida.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Traza.txt");
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
