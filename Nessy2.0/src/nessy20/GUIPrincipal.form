@@ -354,7 +354,7 @@
             <Component class="javax.swing.JButton" name="_btnGenerarGolden">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/recursos/cargaGolden.png"/>
+                  <Image iconType="3" name="/recursos/btnGeneraGolden.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Generar Golden"/>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -368,7 +368,7 @@
             <Component class="javax.swing.JButton" name="_btnCargarGolden">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/recursos/generaGolden.jpg"/>
+                  <Image iconType="3" name="/recursos/btnCargaGolden.jpg"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cargar Golden"/>
                 <Property name="focusable" type="boolean" value="false"/>

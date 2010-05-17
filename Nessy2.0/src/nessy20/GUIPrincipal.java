@@ -627,7 +627,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnReanudar);
 
-        _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/cargaGolden.png"))); // NOI18N
+        _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnGeneraGolden.png"))); // NOI18N
         _btnGenerarGolden.setText("Generar Golden");
         _btnGenerarGolden.setFocusable(false);
         _btnGenerarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -639,7 +639,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnGenerarGolden);
 
-        _btnCargarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/generaGolden.jpg"))); // NOI18N
+        _btnCargarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargaGolden.jpg"))); // NOI18N
         _btnCargarGolden.setText("Cargar Golden");
         _btnCargarGolden.setFocusable(false);
         _btnCargarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1231,7 +1231,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             
-            copiaArchivo(chooser.getSelectedFile().getAbsolutePath(),"Golden.txt");
+            copiaArchivo(chooser.getSelectedFile().getAbsolutePath(),"test//Golden.txt");
             
         } else {
             System.out.println("No Selection ");
