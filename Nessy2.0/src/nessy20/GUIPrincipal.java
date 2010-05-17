@@ -22,11 +22,15 @@ import generadorVHDL.GeneraVhdl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -336,6 +340,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
+    private void copiaArchivo(String fich_lectura, String fich_escritura) {
+       
+        try {
+        InputStream in;
+        OutputStream out = new FileOutputStream(fich_escritura);
+
+        byte[] buf = new byte[1024];
+        int len;
+        
+            in = new FileInputStream(fich_lectura);
+        
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void creaPrj() {
         BufferedWriter bw = null;
         boolean correcto = true;
@@ -368,7 +393,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Traza,txt");
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Golden.txt");
             this.ejec.setCadena(ls_cadenaaejecutar);
 
             if (SeleccionTBFich) {
@@ -376,13 +401,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,true,"Salida.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,true,"Salida.txt","Golden.txt");
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Golden.txt");
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -467,7 +492,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
         _btnGenerarGolden = new javax.swing.JButton();
-        _btnGenerarGolden1 = new javax.swing.JButton();
+        _btnCargarGolden = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         _btnClear = new javax.swing.JButton();
         _lblnInst = new javax.swing.JTextField();
@@ -602,7 +627,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnReanudar);
 
-        _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/golden.png"))); // NOI18N
+        _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/cargaGolden.png"))); // NOI18N
         _btnGenerarGolden.setText("Generar Golden");
         _btnGenerarGolden.setFocusable(false);
         _btnGenerarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -614,17 +639,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnGenerarGolden);
 
-        _btnGenerarGolden1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/golden.png"))); // NOI18N
-        _btnGenerarGolden1.setText("Generar Golden");
-        _btnGenerarGolden1.setFocusable(false);
-        _btnGenerarGolden1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _btnGenerarGolden1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _btnGenerarGolden1.addActionListener(new java.awt.event.ActionListener() {
+        _btnCargarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/generaGolden.jpg"))); // NOI18N
+        _btnCargarGolden.setText("Cargar Golden");
+        _btnCargarGolden.setFocusable(false);
+        _btnCargarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnCargarGolden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnCargarGolden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btnGenerarGolden1ActionPerformed(evt);
+                _btnCargarGoldenActionPerformed(evt);
             }
         });
-        jToolBar1.add(_btnGenerarGolden1);
+        jToolBar1.add(_btnCargarGolden);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1145,7 +1170,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVistasCargarActionPerformed
 
     private void menuVistasTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasTBActionPerformed
-        try {
+      
+        
+          try {
             jTabbedPane1.setSelectedComponent(panelTB);
         } catch (IllegalArgumentException ex) {
             _txtTB.setColumns(20);
@@ -1188,12 +1215,29 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVistasOutPutActionPerformed
 
 private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGoldenActionPerformed
-// TODO add your handling code here:
+    generarGolden();
 }//GEN-LAST:event__btnGenerarGoldenActionPerformed
 
-private void _btnGenerarGolden1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGolden1ActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event__btnGenerarGolden1ActionPerformed
+private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarGoldenActionPerformed
+
+    
+    JFileChooser chooser;
+        this._TxtEntityVHD.setText("");
+        chooser = new JFileChooser();
+        Filtro filter = new Filtro("txt");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccionar Archivo Golden");
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            
+            copiaArchivo(chooser.getSelectedFile().getAbsolutePath(),"Golden.txt");
+            
+        } else {
+            System.out.println("No Selection ");
+        }
+    
+}//GEN-LAST:event__btnCargarGoldenActionPerformed
     public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
     }
@@ -1205,13 +1249,13 @@ private void _btnGenerarGolden1ActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JTextArea _TextSalida;
     private javax.swing.JTextArea _TxtEntityVHD;
     private javax.swing.JButton _btnCargarBit;
+    private javax.swing.JButton _btnCargarGolden;
     private javax.swing.JButton _btnCargarTB;
     private javax.swing.JButton _btnCargarVhd;
     private javax.swing.JButton _btnClear;
     private javax.swing.JButton _btnCrearBit;
     private javax.swing.JButton _btnEjecutar;
     private javax.swing.JButton _btnGenerarGolden;
-    private javax.swing.JButton _btnGenerarGolden1;
     private javax.swing.JButton _btnPararEjecucion;
     private javax.swing.JButton _btnReanudar;
     private javax.swing.JTextField _lblnInst;
