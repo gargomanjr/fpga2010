@@ -226,7 +226,6 @@ public class Ejecucion extends Thread {
             }
             file_wr.close();
             rw.close();
-            this.notifyAll();
             if(comparar && coincideTraza){
                JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -250,7 +249,6 @@ public class Ejecucion extends Thread {
 
     public void pararrecepcionfpga() {
         this.ejecutando = false;
-//        this.notifyAll();
         if(coincideTraza == false && mostrarMensaje){
             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -337,7 +335,6 @@ public class Ejecucion extends Thread {
             }
             file_wr.close();
             rw.close();
-            this.notifyAll();
             if(comparar && coincideTraza){
                JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
