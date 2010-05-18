@@ -97,8 +97,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         cargarBitConChooser();//pide un fichero
         SeleccionTBModifFichero();
         seleccionaPanel(panelOutPut);
-      //  while(this.ejec.isAlive())
-      //  while (ejec != null && ejec.getejecutando()){}
         for(int i=1;i<=numFrames;i++){
             for(int j=0;j<=numBits;j++){
                 try {
@@ -106,16 +104,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     FileOutputStream os = new FileOutputStream(fichero_escritura);
                     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                     String coms = "java -jar Virtex_II_Partial_Reconfiguration -i circuito_fpga.bit -o circuito_fpga_modif.bit -f "+ i +" -b "+ j;
-                    bw.write(coms);
-                    
+                    bw.write(coms);                  
                     bw.close();
                     os.close();
-                   // fichero_escritura.;
                     Process p = Runtime.getRuntime().exec("cmd.exe /C start " + fichero_escritura);
-                  //  File fichero_bit = new File(RUTA_IOSERIE, "circuito_fpga.bit");
+//                    this.wait();
 //                    synchronized(this)
 //	            {
-//                    this.wait();
                     this.cargarBit(RUTA_IOSERIE+"//" + "circuito_fpga_modif.bit");
                     //cargarBitConChooser();//pide un fichero
                     if (this.com1 == null) {
@@ -125,7 +120,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     } else {
                         ejec();
                     }
-                    
+                    //ejec.join();
+
 //                    this.wait();
 //
 //                    }
@@ -136,7 +132,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
                              //ejec();
                     //while (ejec != null || ejec.getejecutando()){}
-//                    while(this.hiloreceptor.isAlive()){}
+                  //  ejec.join();
+                   // while(this.hiloreceptor.isAlive()){}
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -993,8 +991,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
-        this.cargarBitConChooser();
-       // procesoModificarFicheros();
+        //this.cargarBitConChooser();
+        procesoModificarFicheros();
 
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
