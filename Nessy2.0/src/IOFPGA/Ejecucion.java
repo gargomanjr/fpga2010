@@ -231,7 +231,7 @@ public class Ejecucion extends Thread {
                      mostrarMensaje = false;
                 }
             }
-            if (instruccion == 250000) {
+            if (instruccion > 250000) {
                 JOptionPane.showMessageDialog(this.ata_textarea, "La Salida que se está generando al ser muy grande se volcará en Test//Salida.txt", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (IOException ex) {
@@ -239,6 +239,7 @@ public class Ejecucion extends Thread {
         } catch (InterruptedException ex) {
             Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -252,11 +253,11 @@ public class Ejecucion extends Thread {
     private String recibirBinaria(int numBitsSalida) throws Exception {
         int num;
         String s = "";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             num = com1.receiveSingleDataInt();
-            if (i > 0) {
+            //if (i > 0) {
                 s = this.convertirCadenaBinaria(num, 8) + s;
-            }
+            //}
         }
         return s.substring(s.length() - numBitsSalida);
     }
@@ -301,12 +302,14 @@ public class Ejecucion extends Thread {
                     file_wr = new FileWriter(fichero_escritura, true);
                     System.out.println("Ejecución despues");
                     this.setwait = false;
-                }
+                }else{
                 datoaenviar = this.cadenaaEnviar.get(instruccion);
                 this.enviarBinaria(datoaenviar);//TODO divido 32
                 String c = this.recibirBinaria(this.li_bits_salida);
+                
                 this.ata_textarea.append((instruccion+1)+". "+c + "\n");
                 file_wr.write(c + "\n");
+                
 
                 if(comparar && coincideTraza && linea_traza != null){
                     linea_traza = rw.readLine();
@@ -314,6 +317,7 @@ public class Ejecucion extends Thread {
                         coincideTraza = false;
                         NumInstrNoCoincideTraza = instruccion + 1;
                     }
+                }
                 }
 
 

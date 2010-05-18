@@ -284,7 +284,48 @@ public class GeneraVhdl {
 
     }
 
-    private void procesoSalidas() {
+    private void procesoSalidas(){
+        escribirLinea("");
+        escribirLinea("process(estadoSal, clk, mi_resetserie)");
+        escribirLinea("begin");
+        escribirLinea("\tif mi_resetserie = '0' then");
+        escribirLinea("\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
+        escribirLinea("\telsif clk'event and clk = '1' then");
+        escribirLinea("\t\tif estadoSal = 0 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
+        escribirLinea("\t\telsif estadoSal = 1 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(15 downto 8);");
+        escribirLinea("\t\telsif estadoSal = 2 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(23 downto 16);");
+        escribirLinea("\t\telsif estadoSal = 3 then");
+        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(31 downto 24);");
+        escribirLinea("\t\tend if;");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    private void procesoEstadoSalidas(){
+        escribirLinea("");
+        escribirLinea("process(mi_transmitiendo, mi_resetserie)");
+        escribirLinea("begin");
+        escribirLinea("\tif mi_resetserie = '0' then");
+        escribirLinea("\t\testadoSal<= 0;");
+        escribirLinea("\t\ttransmitido <= '0';");
+        escribirLinea("\telsif mi_transmitiendo'event and mi_transmitiendo = '1' then");
+        escribirLinea("\t\tif estadoSal = 3 then");
+        escribirLinea("\t\t\ttransmitido <= '1';");
+        escribirLinea("\t\t\testadoSal <= 0;");
+        escribirLinea("\t\telse");
+        escribirLinea("\t\t\testadoSal <= estadoSal+1;");
+        escribirLinea("\t\t\ttransmitido <= '0';");
+        escribirLinea("\t\tend if;");
+        escribirLinea("\tend if;");
+        escribirLinea("end process;");
+        escribirLinea("");
+    }
+
+    /*private void procesoSalidas() {
         escribirLinea("");
         escribirLinea("process(mi_transmitiendo,mi_resetserie)");
         escribirLinea("begin");
@@ -316,7 +357,7 @@ public class GeneraVhdl {
         escribirLinea("\tend if;");
         escribirLinea("end process;");
         escribirLinea("");
-    }
+    }*/
 
     private void procesoVolcar(){
         escribirLinea("");
@@ -499,6 +540,7 @@ public class GeneraVhdl {
         asigSenalesCompPrinc();
         procesoEntradas();
         procesoSalidas();
+        procesoEstadoSalidas();
         procesoVolcar();
         procesoBiest();
         procesoFin();

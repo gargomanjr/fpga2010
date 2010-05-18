@@ -90,22 +90,22 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return entidad;
     }
 
-    public void procesoModificarFicheros(){
+    public void procesoModificarFicheros() {
         int numBits = 32;
         int numFrames = 361942;
         cargarBitConChooser();//pide un fichero
 
     }
 
-    public void generarGolden(){
+    public void generarGolden() {
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
             //this.hiloreceptor.pararrecepcionfpga();
         }
 
-       //Selecciona panel
-            seleccionaPanel(panelOutPut);
+        //Selecciona panel
+        seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
@@ -116,14 +116,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,false,"Golden.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt");
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,false,"Golden.txt","Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt");
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -141,7 +141,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
-    public boolean cargarBitConChooser(){
+    public boolean cargarBitConChooser() {
         //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
         String fichero_bit;
@@ -320,21 +320,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     private void copiaArchivo(String fich_lectura, String fich_escritura) {
-       
-        try {
-        InputStream in;
-        OutputStream out = new FileOutputStream(fich_escritura);
 
-        byte[] buf = new byte[1024];
-        int len;
-        
+        try {
+            InputStream in;
+            OutputStream out = new FileOutputStream(fich_escritura);
+
+            byte[] buf = new byte[1024];
+            int len;
+
             in = new FileInputStream(fich_lectura);
-        
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-        in.close();
-        out.close();
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
         } catch (IOException ex) {
             Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -365,14 +365,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor.pararrecepcionfpga();
         }
 
-       //Selecciona panel
-            seleccionaPanel(panelOutPut);
+        //Selecciona panel
+        seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Golden.txt");
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt");
             this.ejec.setCadena(ls_cadenaaejecutar);
 
             if (SeleccionTBFich) {
@@ -380,13 +380,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf,true,"Salida.txt","Golden.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt");
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida,true,"Salida.txt","Golden.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt");
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -435,9 +435,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 error = !cargaBit.cargar();
                 if (!error) {
                     JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    /*if (com1 == null) {
-                        inicializarPuertoSerie();
+                    if (com1 != null) {
+                        com1.close();
+                        com1 = null;
                     }
+                    //inicializarPuertoSerie();
+                    /*
                     com1.sendSingleData(0);
                     com1.sendSingleData(0);
                     com1.sendSingleData(0);
@@ -947,48 +950,48 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 ejec();
             }
         } else {
-            ejec();
+                ejec();
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
-       
-        
-       
-        
-            // TODO: mandar enable a la placa
-            //Selecciona el panel
-            seleccionaPanel(panelOutPut);
-            
-            int longitud = this.entidad.getBitsEntrada();
-            //int DatoAEnviar = (int) Math.pow(2, longitud - 1);
-            //this.com1.sendSingleData(DatoAEnviar);
-            System.out.println("PARANDO HILOS..");
-            this.ejec.setSetwait(true);
-            //this.hiloreceptor.setSetwait(true);
-            this._btnReanudar.setEnabled(true);
-            this._btnPararEjecucion.setEnabled(false);
-        
+
+
+
+
+        // TODO: mandar enable a la placa
+        //Selecciona el panel
+        seleccionaPanel(panelOutPut);
+
+        int longitud = this.entidad.getBitsEntrada();
+        //int DatoAEnviar = (int) Math.pow(2, longitud - 1);
+        //this.com1.sendSingleData(DatoAEnviar);
+        System.out.println("PARANDO HILOS..");
+        this.ejec.setSetwait(true);
+        //this.hiloreceptor.setSetwait(true);
+        this._btnReanudar.setEnabled(true);
+        this._btnPararEjecucion.setEnabled(false);
 
     }//GEN-LAST:event__btnPararEjecucionActionPerformed
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
-       
-            // this.com1.sendSingleData(0);
+
+        // this.com1.sendSingleData(0);
             /*synchronized (this.hiloreceptor) {
-            this.hiloreceptor.notify();
-            }*/
-        
-            //Selecciona panel
-            seleccionaPanel(panelOutPut);
-            
-            synchronized (this.ejec) {
-                this.ejec.notify();
-            }
-            this._btnReanudar.setEnabled(false);
-            this._btnPararEjecucion.setEnabled(true);
-            //TODO : Función que volviera activar la fpga.
-       
+        this.hiloreceptor.notify();
+        }*/
+
+        //Selecciona panel
+        //this.inicializarPuertoSerie();
+        seleccionaPanel(panelOutPut);
+
+        synchronized (this.ejec) {
+            this.ejec.notify();
+        }
+        this._btnReanudar.setEnabled(false);
+        this._btnPararEjecucion.setEnabled(true);
+        //TODO : Función que volviera activar la fpga.
+
         //TODO : Función que volviera activar la fpga.
     }//GEN-LAST:event__btnReanudarActionPerformed
 
@@ -1107,9 +1110,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVistasCargarActionPerformed
 
     private void menuVistasTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVistasTBActionPerformed
-      
-        
-          try {
+
+
+        try {
             jTabbedPane1.setSelectedComponent(panelTB);
         } catch (IllegalArgumentException ex) {
             _txtTB.setColumns(20);
@@ -1157,23 +1160,23 @@ private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarGoldenActionPerformed
 
-    
+
     JFileChooser chooser;
-        this._TxtEntityVHD.setText("");
-        chooser = new JFileChooser();
-        Filtro filter = new Filtro("txt");
-        chooser.addChoosableFileFilter(filter);
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Seleccionar Archivo Golden");
-        chooser.setAcceptAllFileFilterUsed(false);
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            
-            copiaArchivo(chooser.getSelectedFile().getAbsolutePath(),"test//Golden.txt");
-            
-        } else {
-            System.out.println("No Selection ");
-        }
-    
+    this._TxtEntityVHD.setText("");
+    chooser = new JFileChooser();
+    Filtro filter = new Filtro("txt");
+    chooser.addChoosableFileFilter(filter);
+    chooser.setCurrentDirectory(new java.io.File("."));
+    chooser.setDialogTitle("Seleccionar Archivo Golden");
+    chooser.setAcceptAllFileFilterUsed(false);
+    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+        copiaArchivo(chooser.getSelectedFile().getAbsolutePath(), "test//Golden.txt");
+
+    } else {
+        System.out.println("No Selection ");
+    }
+
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
     public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
@@ -1247,12 +1250,12 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
                 FileReader fr = new FileReader(fichero_tb);
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
-               
+
                 int num_linea = 1;
-                
+
                 //Selecciona panel
                 seleccionaPanel(panelTB);
-                
+
                 while (linea != null) {
                     if (num_linea == 280000) {
                         JOptionPane.showMessageDialog(this, "Sobrepasado el número máximo de líneas en este modo de TB. Sugerencia: Seleccione la otra opción para poder ejecutar el fichero por completo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1288,7 +1291,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
         boolean error = false;
         JFileChooser chooser;
 
-        
+
 
         this._txtTB.setText("");
         chooser =
@@ -1300,11 +1303,11 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                fichero_tb = chooser.getSelectedFile().getAbsolutePath();
-                
-                //Selecciona panel
-                seleccionaPanel(panelTB);
-                
+            fichero_tb = chooser.getSelectedFile().getAbsolutePath();
+
+            //Selecciona panel
+            seleccionaPanel(panelTB);
+
             if (!error) {
                 JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -1317,14 +1320,13 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
     }
 
     private void seleccionaPanel(JPanel panel) {
-       try {
+        try {
             // TODO: mandar enable a la placa
             if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panel)) {
                 jTabbedPane1.setSelectedComponent(panel);
-            } else {             
-                
-                if(panel.getName().equals(panelOutPut))
-                {
+            } else {
+
+                if (panel.getName().equals(panelOutPut)) {
                     _TextSalida.setColumns(20);
                     _TextSalida.setEditable(false);
                     _TextSalida.setRows(5);
@@ -1339,9 +1341,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
                     jTabbedPane1.addTab("OutPut", panelOutPut);
                     jTabbedPane1.setSelectedComponent(panelOutPut);
-                }
-                else if(panel.getName().equals(panelCargar))
-                {
+                } else if (panel.getName().equals(panelCargar)) {
                     _TextCargarbit.setColumns(20);
                     _TextCargarbit.setRows(5);
                     _TextCargarbit.setMaximumSize(getMaximumSize());
@@ -1356,9 +1356,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
                     jTabbedPane1.addTab("Cargar", panelCargar);
                     jTabbedPane1.setSelectedComponent(panelCargar);
-                }
-                else if(panel.getName().equals(panelTB)) 
-                {
+                } else if (panel.getName().equals(panelTB)) {
                     _txtTB.setColumns(20);
                     _txtTB.setRows(5);
                     jScrollPane3.setViewportView(_txtTB);
@@ -1372,9 +1370,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
                     jTabbedPane1.addTab("TestBench", panelTB);
                     jTabbedPane1.setSelectedComponent(panelTB);
-                }
-                else 
-                {
+                } else {
                     _TxtEntityVHD.setColumns(20);
                     _TxtEntityVHD.setEditable(false);
                     _TxtEntityVHD.setRows(5);
@@ -1389,10 +1385,11 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
                     jTabbedPane1.addTab("Entity VHDL", panelVHD);
                     jTabbedPane1.setSelectedComponent(panelVHD);
-                
+
                 }
-                
-            }} catch (Exception ex) {
+
+            }
+        } catch (Exception ex) {
             Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
