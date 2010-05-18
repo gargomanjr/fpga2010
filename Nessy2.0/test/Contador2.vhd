@@ -76,12 +76,10 @@ begin
 		if mireset = '1' then
 			misalida <= x"0000";
 		elsif clk'event and clk = '1' then
-			if mienable = '1' then
-				misalida <= misalida +1;
-			elsif miload = '1' then
+			if miload = '1' then
 				misalida <= midata_load;
-					
-				end if;
+			elsif mienable = '1' then
+				misalida <= misalida +1;
 			end if;
 		end if;
   	end process;

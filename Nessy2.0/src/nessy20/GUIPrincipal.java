@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ import javax.swing.JPanel;
  */
 public class GUIPrincipal extends javax.swing.JFrame {
     //private EstadoContador estado_cont;
-
+    private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
     private Parameters param;
     private Com com1;
     private RecepcionFPGA hiloreceptor;
@@ -94,6 +95,60 @@ public class GUIPrincipal extends javax.swing.JFrame {
         int numBits = 32;
         int numFrames = 361942;
         cargarBitConChooser();//pide un fichero
+        SeleccionTBModifFichero();
+        seleccionaPanel(panelOutPut);
+      //  while(this.ejec.isAlive())
+      //  while (ejec != null && ejec.getejecutando()){}
+        for(int i=1;i<=numFrames;i++){
+            for(int j=0;j<=numBits;j++){
+                try {
+                    File fichero_escritura = new File(RUTA_IOSERIE, "carga2.txt");
+                    FileOutputStream os = new FileOutputStream(fichero_escritura);
+                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                    String coms = "java -jar Virtex_II_Partial_Reconfiguration -i circuito_fpga.bit -o circuito_fpga_modif.bit -f "+ i +" -b "+ j;
+                    bw.write(coms);
+                    
+                    bw.close();
+                    os.close();
+                   // fichero_escritura.;
+                    Process p = Runtime.getRuntime().exec("cmd.exe /C start " + fichero_escritura);
+                  //  File fichero_bit = new File(RUTA_IOSERIE, "circuito_fpga.bit");
+//                    synchronized(this)
+//	            {
+//                    this.wait();
+                    this.cargarBit(RUTA_IOSERIE+"//" + "circuito_fpga_modif.bit");
+                    //cargarBitConChooser();//pide un fichero
+                    if (this.com1 == null) {
+                        if (this.inicializarPuertoSerie()) {
+                             ejec();
+                        }
+                    } else {
+                        ejec();
+                    }
+                    
+//                    this.wait();
+//
+//                    }
+                        //ejec();
+                //     while (ejec != null && ejec.getejecutando()){}
+//                    while(this.hiloreceptor.isAlive()){}
+
+
+                             //ejec();
+                    //while (ejec != null || ejec.getejecutando()){}
+//                    while(this.hiloreceptor.isAlive()){}
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//                catch (InterruptedException ex) {
+//                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+
+            }
+        }
+   
 
     }
 
@@ -468,9 +523,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         _btnCargarVhd = new javax.swing.JButton();
         _btnCrearBit = new javax.swing.JButton();
+        _btnEjecutar = new javax.swing.JButton();
         _btnCargarBit = new javax.swing.JButton();
         _btnCargarTB = new javax.swing.JButton();
-        _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
         _btnGenerarGolden = new javax.swing.JButton();
@@ -548,6 +603,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCrearBit);
 
+        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
+        _btnEjecutar.setText("Ejecutar");
+        _btnEjecutar.setContentAreaFilled(false);
+        _btnEjecutar.setFocusable(false);
+        _btnEjecutar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnEjecutar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnEjecutarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(_btnEjecutar);
+
         _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarBit.png"))); // NOI18N
         _btnCargarBit.setText("Cargar .Bit");
         _btnCargarBit.setFocusable(false);
@@ -571,19 +639,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(_btnCargarTB);
-
-        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
-        _btnEjecutar.setText("Ejecutar");
-        _btnEjecutar.setContentAreaFilled(false);
-        _btnEjecutar.setFocusable(false);
-        _btnEjecutar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _btnEjecutar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btnEjecutarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(_btnEjecutar);
 
         _btnPararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnPararEjec.png"))); // NOI18N
         _btnPararEjecucion.setText("Parar Ejecución");
@@ -895,7 +950,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -939,7 +994,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
         this.cargarBitConChooser();
-
+       // procesoModificarFicheros();
 
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
@@ -996,7 +1051,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnReanudarActionPerformed
 
     private void _btnCargarTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarTBActionPerformed
-
         Seleccion sel = new Seleccion();
         new GUICargaTB(this, true, sel).setVisible(true);
         if (sel.selTB.equals(SeleccionTB.CARGA_FICHERO)) {
@@ -1017,9 +1071,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         }
 
-
-
-//        this.jTabbedPane1.setSelectedIndex(2);
+        this.jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1394,4 +1446,22 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
         }
     }
     // private JTabbedPaneWithCloseIcon jTabbedPane1;
+
+  private void SeleccionTBModifFichero (){
+
+
+        SeleccionTBFich = true;
+        cargaFichero();
+        if (this.com1 == null) {
+            if (this.inicializarPuertoSerie()) {
+                generarGolden();
+            }
+        } else {
+            generarGolden();
+        }
+  }
+
+
+
+
 }

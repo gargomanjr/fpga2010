@@ -80,8 +80,10 @@ public class Ejecucion extends Thread {
     }
 
     public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, BufferedReader l_br,boolean comparar,String nombreSalida,String nombreTraza) {
-        fichero_compararTraza = new File(rutafichero, "Traza.txt");
-        fichero_escritura = new File(rutafichero, "Salida.txt");
+//        fichero_compararTraza = new File(rutafichero, "Traza.txt");
+//        fichero_escritura = new File(rutafichero, "Salida.txt");
+        fichero_escritura = new File(rutafichero, nombreSalida);
+        fichero_compararTraza = new File(rutafichero, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
@@ -176,7 +178,9 @@ public class Ejecucion extends Thread {
             }
         }
     }
-
+    public boolean getejecutando (){
+        return ejecutando;
+    }
     private void ejecuta2() {
         try {
             CopiarSalida();
