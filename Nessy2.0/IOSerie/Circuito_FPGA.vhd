@@ -135,7 +135,7 @@ begin
 	if mi_resetserie = '0' then
 		estadoSal<= 0;
 		transmitido <= '0';
-	elsif mi_transmitiendo'event and mi_transmitiendo = '0' then
+	elsif mi_transmitiendo'event and mi_transmitiendo = '1' then
 		transmitido <= '0';
 		if estadoSal = 0 then
 			mi_datotxin <= Reg_salidas(7 downto 0);
@@ -150,7 +150,7 @@ begin
 			mi_datotxin <= Reg_salidas(31 downto 24);
 			estadoSal <= 4;
 		elsif estadoSal = 4 then
-			mi_datotxin <= Reg_salidas(7 downto 0);
+			--mi_datotxin <= Reg_salidas(7 downto 0);
 			estadoSal <= 0;
 			transmitido <= '1';
 		else

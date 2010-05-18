@@ -93,7 +93,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void procesoModificarFicheros(){
         int numBits = 32;
         int numFrames = 361942;
-        cargarConChooser();//pide un fichero
+        cargarBitConChooser();//pide un fichero
 
     }
 
@@ -141,7 +141,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
-    public boolean cargarConChooser(){
+    public boolean cargarBitConChooser(){
+        //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
         String fichero_bit;
         boolean error = false;
@@ -153,30 +154,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setDialogTitle("Cargar BitStream");
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
-                fichero_bit = chooser.getSelectedFile().getAbsolutePath();
-                CargaBit cargaBit = new CargaBit(this, fichero_bit);
-                error = !cargaBit.cargar();
-                if (!error) {
-                    JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    if (com1 == null) {
-                        inicializarPuertoSerie();
-                    }
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error al cargar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception ex) {
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            fichero_bit = chooser.getSelectedFile().getAbsolutePath();
+            this.cargarBit(fichero_bit);
         } else {
             System.out.println("Selecc ");
             //Selecciona panel
@@ -456,7 +435,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 error = !cargaBit.cargar();
                 if (!error) {
                     JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    if (com1 == null) {
+                    /*if (com1 == null) {
                         inicializarPuertoSerie();
                     }
                     com1.sendSingleData(0);
@@ -466,7 +445,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     System.out.println(com1.receiveSingleDataInt());
                     System.out.println(com1.receiveSingleDataInt());
                     System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
+                    System.out.println(com1.receiveSingleDataInt());*/
                 }
             } while (error);
         } catch (Exception e) {
@@ -956,49 +935,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
-        //this.jTabbedPane1.setSelectedIndex(1);
-        this._TextCargarbit.setText("Cargando ..........");
-        String fichero_bit;
-        boolean error;
-        JFileChooser chooser;
-        chooser = new JFileChooser();
-        Filtro filter = new Filtro("bit");
-        chooser.addChoosableFileFilter(filter);
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Cargar BitStream");
-        chooser.setAcceptAllFileFilterUsed(false);
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            try {
-                fichero_bit = chooser.getSelectedFile().getAbsolutePath();
-                CargaBit cargaBit = new CargaBit(this, fichero_bit);
-                error = !cargaBit.cargar();
-                if (!error) {
-                    JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-                    if (com1 == null) {
-                        inicializarPuertoSerie();
-                    }
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error al cargar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception ex) {
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            System.out.println("Selecc ");
-            //Selecciona panel
-            seleccionaPanel(panelCargar);
-            this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
-        }
-
+        this.cargarBitConChooser();
 
 
 

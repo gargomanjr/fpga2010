@@ -119,7 +119,7 @@ public class Ejecucion extends Thread {
         return n;
     }
 
-    private void enviarBinaria(String s) throws Exception {
+    private void enviarBinaria(String s) {
         String cad3, cad2, cad1, cad0;
         int dif = 0;
         if (s.length() < 32) {
@@ -132,11 +132,15 @@ public class Ejecucion extends Thread {
         cad2 = s.substring(8, 16);
         cad1 = s.substring(16, 24);
         cad0 = s.substring(24);
+        try {
+            com1.sendSingleData(traduceString(cad0));
 
-        com1.sendSingleData(traduceString(cad0));
         com1.sendSingleData(traduceString(cad1));
         com1.sendSingleData(traduceString(cad2));
         com1.sendSingleData(traduceString(cad3));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public boolean convierteCadenas() {

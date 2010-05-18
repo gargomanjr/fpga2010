@@ -1,7 +1,7 @@
 Release 10.1.03 par K.39 (nt)
 Copyright (c) 1995-2008 Xilinx, Inc.  All rights reserved.
 
-GHADIR6::  Tue May 11 20:24:03 2010
+GHADIR6::  Tue May 18 10:38:13 2010
 
 par -w -intstyle ise -ol std -t 1
 D:\PFC\Nessy2.0\comandosXilinx\..\IOSerie/Circuito_FPGA_map.ncd
@@ -33,8 +33,7 @@ Device Utilization Summary:
    Number of External IOBs                   8 out of 556     1%
       Number of LOCed IOBs                   8 out of 8     100%
 
-   Number of MULT18X18s                     48 out of 136    35%
-   Number of SLICEs                        925 out of 13696   6%
+   Number of SLICEs                        223 out of 13696   1%
 
 
 Overall effort level (-ol):   Standard 
@@ -46,91 +45,87 @@ Router effort level (-rl):    Standard
 Starting Placer
 
 Phase 1.1
-Phase 1.1 (Checksum:acb99) REAL time: 8 secs 
+Phase 1.1 (Checksum:3d7d0) REAL time: 5 secs 
 
 Phase 2.7
-Phase 2.7 (Checksum:acb99) REAL time: 8 secs 
+Phase 2.7 (Checksum:3d7d0) REAL time: 5 secs 
 
 Phase 3.31
-Phase 3.31 (Checksum:acb99) REAL time: 8 secs 
+Phase 3.31 (Checksum:3d7d0) REAL time: 5 secs 
 
 Phase 4.2
 
 .
-Phase 4.2 (Checksum:b44a0) REAL time: 9 secs 
+Phase 4.2 (Checksum:450d7) REAL time: 5 secs 
 
 Phase 5.30
-Phase 5.30 (Checksum:b44a0) REAL time: 9 secs 
+Phase 5.30 (Checksum:450d7) REAL time: 5 secs 
 
 Phase 6.3
-Phase 6.3 (Checksum:b44a0) REAL time: 9 secs 
+Phase 6.3 (Checksum:450d7) REAL time: 5 secs 
 
 Phase 7.5
-Phase 7.5 (Checksum:b44a0) REAL time: 9 secs 
+Phase 7.5 (Checksum:450d7) REAL time: 5 secs 
 
 Phase 8.8
-.......................................
+....
 .
-.
-.
-.
-.
-Phase 8.8 (Checksum:f9ad6e) REAL time: 1 mins 27 secs 
+Phase 8.8 (Checksum:5264cc) REAL time: 10 secs 
 
 Phase 9.5
-Phase 9.5 (Checksum:f9ad6e) REAL time: 1 mins 27 secs 
+Phase 9.5 (Checksum:5264cc) REAL time: 10 secs 
 
 Phase 10.18
-Phase 10.18 (Checksum:fd1e16) REAL time: 1 mins 38 secs 
+Phase 10.18 (Checksum:527cab) REAL time: 11 secs 
 
 Phase 11.5
-Phase 11.5 (Checksum:fd1e16) REAL time: 1 mins 38 secs 
+Phase 11.5 (Checksum:527cab) REAL time: 11 secs 
 
 Phase 12.27
-Phase 12.27 (Checksum:fd1e16) REAL time: 1 mins 39 secs 
+Phase 12.27 (Checksum:527cab) REAL time: 11 secs 
 
 Phase 13.24
-Phase 13.24 (Checksum:fd1e16) REAL time: 1 mins 39 secs 
+Phase 13.24 (Checksum:527cab) REAL time: 11 secs 
 
-REAL time consumed by placer: 1 mins 40 secs 
-CPU  time consumed by placer: 1 mins 38 secs 
+REAL time consumed by placer: 11 secs 
+CPU  time consumed by placer: 10 secs 
 Writing design to file D:\PFC\Nessy2.0\comandosXilinx\..\IOSerie/Circuito_FPGA.ncd
 
 
-Total REAL time to Placer completion: 1 mins 40 secs 
-Total CPU time to Placer completion: 1 mins 39 secs 
+Total REAL time to Placer completion: 12 secs 
+Total CPU time to Placer completion: 10 secs 
 
 Starting Router
 
-Phase 1: 8248 unrouted;       REAL time: 1 mins 54 secs 
+Phase 1: 1313 unrouted;       REAL time: 24 secs 
 
-Phase 2: 7616 unrouted;       REAL time: 2 mins 9 secs 
+Phase 2: 1197 unrouted;       REAL time: 28 secs 
 
-Phase 3: 1934 unrouted;       REAL time: 2 mins 12 secs 
+Phase 3: 192 unrouted;       REAL time: 29 secs 
 
-Phase 4: 1934 unrouted; (342570)      REAL time: 2 mins 12 secs 
+Phase 4: 192 unrouted; (4417)      REAL time: 29 secs 
 
-Phase 5: 1955 unrouted; (0)      REAL time: 2 mins 25 secs 
+Phase 5: 204 unrouted; (0)      REAL time: 29 secs 
 
-Phase 6: 0 unrouted; (193)      REAL time: 2 mins 35 secs 
+Phase 6: 0 unrouted; (159)      REAL time: 29 secs 
 
-Phase 7: 0 unrouted; (193)      REAL time: 2 mins 37 secs 
+Phase 7: 0 unrouted; (159)      REAL time: 30 secs 
 
-Phase 8: 0 unrouted; (193)      REAL time: 2 mins 37 secs 
+Phase 8: 0 unrouted; (159)      REAL time: 30 secs 
 
-Phase 9: 0 unrouted; (128)      REAL time: 2 mins 40 secs 
+Phase 9: 0 unrouted; (150)      REAL time: 30 secs 
 
-Phase 10: 0 unrouted; (128)      REAL time: 2 mins 44 secs 
+Phase 10: 0 unrouted; (150)      REAL time: 31 secs 
 
-Phase 11: 0 unrouted; (128)      REAL time: 2 mins 44 secs 
+Phase 11: 0 unrouted; (150)      REAL time: 31 secs 
 
-Phase 12: 0 unrouted; (128)      REAL time: 2 mins 53 secs 
+Phase 12: 0 unrouted; (150)      REAL time: 31 secs 
 
-WARNING:Route - CLK Net:R/Rx_Registro_7_cmp_eq0000 may have excessive skew because 1 CLK pins and 33 NON_CLK pins failed
+WARNING:Route - CLK Net:R/Rx_Registro_7_cmp_eq0000 may have excessive skew because 1 CLK pins and 32 NON_CLK pins failed
    to route using a CLK template.
 
-Total REAL time to Router completion: 3 mins 
-Total CPU time to Router completion: 2 mins 57 secs 
+Total REAL time to Router completion: 31 secs 
+Total CPU time to Router completion: 29 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -148,46 +143,46 @@ Generating Clock Report
 +---------------------+--------------+------+------+------------+-------------+
 |        Clock Net    |   Resource   |Locked|Fanout|Net Skew(ns)|Max Delay(ns)|
 +---------------------+--------------+------+------+------------+-------------+
-|            recibido |     BUFGMUX4S| No   |  326 |  0.270     |  1.256      |
+|       mi_recibiendo |     BUFGMUX4S| No   |   11 |  0.043     |  1.122      |
 +---------------------+--------------+------+------+------------+-------------+
-|           clk_BUFGP |     BUFGMUX0P| No   |   77 |  0.256     |  1.233      |
+|           clk_BUFGP |     BUFGMUX0P| No   |   76 |  0.204     |  1.231      |
++---------------------+--------------+------+------+------------+-------------+
+|            recibido |         Local|      |   10 |  0.011     |  1.294      |
 +---------------------+--------------+------+------+------------+-------------+
 |R/Rx_Registro_0_not0 |              |      |      |            |             |
-|                 001 |         Local|      |    1 |  0.000     |  0.572      |
+|                 001 |         Local|      |    1 |  0.000     |  0.828      |
 +---------------------+--------------+------+------+------------+-------------+
-|         f/CargaDato |         Local|      |    5 |  0.008     |  1.303      |
+|         f/CargaDato |         Local|      |    5 |  0.008     |  1.014      |
 +---------------------+--------------+------+------+------------+-------------+
-|            _mux0001 |         Local|      |    3 |  0.000     |  2.141      |
+|            _mux0001 |         Local|      |    3 |  0.000     |  1.288      |
 +---------------------+--------------+------+------+------------+-------------+
 |estadoSal_cmp_eq0000 |              |      |      |            |             |
-|                     |         Local|      |    3 |  0.000     |  2.536      |
+|                     |         Local|      |    3 |  0.000     |  1.288      |
 +---------------------+--------------+------+------+------------+-------------+
-|    mi_transmitiendo |         Local|      |   11 |  0.022     |  1.344      |
+|    mi_transmitiendo |         Local|      |    8 |  0.188     |  2.581      |
 +---------------------+--------------+------+------+------------+-------------+
 |R/Rx_Registro_7_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |   34 |  0.000     |  0.937      |
-+---------------------+--------------+------+------+------------+-------------+
-|       mi_recibiendo |         Local|      |    6 |  0.195     |  2.312      |
-+---------------------+--------------+------+------+------------+-------------+
-|                 fin |         Local|      |    1 |  0.000     |  0.570      |
-+---------------------+--------------+------+------+------------+-------------+
-|R/Rx_Registro_2_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.625      |
+|              eq0000 |         Local|      |   33 |  0.000     |  0.738      |
 +---------------------+--------------+------+------+------------+-------------+
 |R/Rx_Registro_1_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.479      |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.413      |
 +---------------------+--------------+------+------+------------+-------------+
-|R/Rx_Registro_4_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.752      |
+|                 fin |         Local|      |    1 |  0.000     |  0.549      |
 +---------------------+--------------+------+------+------------+-------------+
 |R/Rx_Registro_3_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.220      |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.768      |
 +---------------------+--------------+------+------+------------+-------------+
-|R/Rx_Registro_6_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.364      |
+|R/Rx_Registro_2_cmp_ |              |      |      |            |             |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.582      |
 +---------------------+--------------+------+------+------------+-------------+
 |R/Rx_Registro_5_cmp_ |              |      |      |            |             |
-|              eq0000 |         Local|      |    1 |  0.000     |  0.625      |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.803      |
++---------------------+--------------+------+------+------------+-------------+
+|R/Rx_Registro_4_cmp_ |              |      |      |            |             |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.414      |
++---------------------+--------------+------+------+------------+-------------+
+|R/Rx_Registro_6_cmp_ |              |      |      |            |             |
+|              eq0000 |         Local|      |    1 |  0.000     |  0.802      |
 +---------------------+--------------+------+------+------------+-------------+
 
 * Net Skew is the difference between the minimum and maximum routing
@@ -206,23 +201,23 @@ Asterisk (*) preceding a constraint indicates it was not met.
   Constraint                                |  Check  | Worst Case |  Best Case | Timing |   Timing   
                                             |         |    Slack   | Achievable | Errors |    Score   
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net rec | SETUP   |         N/A|    37.290ns|     N/A|           0
-  ibido                                     | HOLD    |     0.614ns|            |       0|           0
+  Autotimespec constraint for clock net rec | SETUP   |         N/A|     2.503ns|     N/A|           0
+  ibido                                     | HOLD    |     0.865ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net f/C | SETUP   |         N/A|     3.711ns|     N/A|           0
-  argaDato                                  | HOLD    |     3.181ns|            |       0|           0
+  Autotimespec constraint for clock net f/C | SETUP   |         N/A|     3.744ns|     N/A|           0
+  argaDato                                  | HOLD    |     3.208ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net clk | SETUP   |         N/A|     4.641ns|     N/A|           0
-  _BUFGP                                    | HOLD    |     0.622ns|            |       0|           0
+  Autotimespec constraint for clock net mi_ | SETUP   |         N/A|     2.215ns|     N/A|           0
+  recibiendo                                | HOLD    |     0.807ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net mi_ | SETUP   |         N/A|     2.047ns|     N/A|           0
-  transmitiendo                             | HOLD    |     0.640ns|            |       0|           0
+  Autotimespec constraint for clock net clk | SETUP   |         N/A|     4.219ns|     N/A|           0
+  _BUFGP                                    | HOLD    |     0.614ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net mi_ | SETUP   |         N/A|     2.963ns|     N/A|           0
-  recibiendo                                | HOLD    |     0.818ns|            |       0|           0
+  Autotimespec constraint for clock net mi_ | SETUP   |         N/A|     2.205ns|     N/A|           0
+  transmitiendo                             | HOLD    |     0.639ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
-  Autotimespec constraint for clock net fin | SETUP   |         N/A|     1.399ns|     N/A|           0
-                                            | HOLD    |     0.704ns|            |       0|           0
+  Autotimespec constraint for clock net fin | SETUP   |         N/A|     1.433ns|     N/A|           0
+                                            | HOLD    |     0.730ns|            |       0|           0
 ------------------------------------------------------------------------------------------------------
 
 
@@ -235,10 +230,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 5 mins 42 secs 
-Total CPU time to PAR completion: 5 mins 25 secs 
+Total REAL time to PAR completion: 50 secs 
+Total CPU time to PAR completion: 35 secs 
 
-Peak Memory Usage:  286 MB
+Peak Memory Usage:  227 MB
 
 Placement: Completed - No errors found.
 Routing: Completed - No errors found.
