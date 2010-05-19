@@ -183,7 +183,7 @@ public class Ejecucion extends Thread {
     }
     private void ejecuta2() {
         try {
-            CopiarSalida();
+            //CopiarSalida();
             FileReader fr = new FileReader(fichero_compararTraza);
             BufferedReader rw = new BufferedReader(fr);
             String linea_traza = "";
@@ -231,7 +231,7 @@ public class Ejecucion extends Thread {
             }
             else{
                 if (comparar && mostrarMensaje){
-                                           JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+              JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                      mostrarMensaje = false;
                 }
             }

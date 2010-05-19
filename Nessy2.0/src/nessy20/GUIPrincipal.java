@@ -59,6 +59,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private ArrayList<File> files;
     private boolean cerradoTop;
     String fichero_tb;
+    String fichero_bit;
 
     public boolean isCerradoTop() {
         return cerradoTop;
@@ -94,63 +95,54 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void procesoModificarFicheros() {
         int numBits = 32;
         int numFrames = 361942;
-        cargarBitConChooser();//pide un fichero
-        SeleccionTBModifFichero();
-        seleccionaPanel(panelOutPut);
-        for(int i=1;i<=numFrames;i++){
-            for(int j=0;j<=numBits;j++){
-                try {
-                    File fichero_escritura = new File(RUTA_IOSERIE, "carga2.txt");
-                    FileOutputStream os = new FileOutputStream(fichero_escritura);
-                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-                    String coms = "java -jar Virtex_II_Partial_Reconfiguration -i circuito_fpga.bit -o circuito_fpga_modif.bit -f "+ i +" -b "+ j;
-                    bw.write(coms);                  
-                    bw.close();
-                    os.close();
-                    Process p = Runtime.getRuntime().exec("cmd.exe /C start " + fichero_escritura);
-//                    this.wait();
-//                    synchronized(this)
-//	            {
-                    this.cargarBit(RUTA_IOSERIE+"//" + "circuito_fpga_modif.bit");
-                    //cargarBitConChooser();//pide un fichero
-                    if (this.com1 == null) {
-                        if (this.inicializarPuertoSerie()) {
-                             ejec();
+
+        if (cargarBitConChooser() && SeleccionTBModifFichero()){
+            seleccionaPanel(panelOutPut);
+            for(int frame = 1; frame < numFrames; frame++){
+                for(int bit = 0; bit < numBits; bit++){
+                    try {
+                        /*File ficheroParametros = new File(RUTA_IOSERIE, "paramsReconfig.txt");
+                        FileOutputStream os = new FileOutputStream(ficheroParametros);
+                        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+                        
+                        bw.write(coms);
+                        bw.close();
+                        os.close();*/
+                        String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
+                        Process p = Runtime.getRuntime().exec("cmd.exe /C start " + coms);
+    //                    this.wait();
+    //                    synchronized(this)
+    //	            {
+                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit");
+                        //cargarBitConChooser();//pide un fichero
+                        if (this.com1 == null) {
+                            if (this.inicializarPuertoSerie()) {
+                                 ejec();
+                            }
+                        } else {
+                            ejec();
                         }
-                    } else {
-                        ejec();
-                    }
-                    //ejec.join();
+                        //TODO cargar restorer
+                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit");
 
-//                    this.wait();
-//
-//                    }
-                        //ejec();
-                //     while (ejec != null && ejec.getejecutando()){}
-//                    while(this.hiloreceptor.isAlive()){}
-
-
-                             //ejec();
-                    //while (ejec != null || ejec.getejecutando()){}
-                  //  ejec.join();
-                   // while(this.hiloreceptor.isAlive()){}
-                    
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
+                    } catch (FileNotFoundException ex) {
                         Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                }
-//                catch (InterruptedException ex) {
-//                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                    } catch (IOException ex) {
+                            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+    //                catch (InterruptedException ex) {
+    //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+    //                }
 
+                }
             }
         }
    
 
     }
 
-    public void generarGolden() {
+    public boolean generarGolden() {
+        boolean correcto = true;
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
@@ -168,6 +160,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 try {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
+                    correcto = false;
                 }
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt");
                 this.ejec.setCadena("");
@@ -190,14 +183,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
+            correcto = false;
         }
-
+        return correcto;
     }
 
     public boolean cargarBitConChooser() {
         //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
-        String fichero_bit;
         boolean error = false;
         JFileChooser chooser;
         chooser = new JFileChooser();
@@ -208,12 +201,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
-            this.cargarBit(fichero_bit);
+            error = !this.cargarBit(fichero_bit);
         } else {
             System.out.println("Selecc ");
             //Selecciona panel
             seleccionaPanel(panelCargar);
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
+            error = true;
         }
         return !error;
     }
@@ -480,8 +474,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._TextCargarbit.append(str + "\n");
     }
 
-    private void cargarBit(String fichero_bit) {
+    private boolean cargarBit(String fichero_bit) {
         boolean error = false;
+        int intentos = 6;
         CargaBit cargaBit = new CargaBit(this, fichero_bit);
         try {
             do {//si hay un error lo vuelve a intentar
@@ -492,20 +487,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                         com1.close();
                         com1 = null;
                     }
-                    //inicializarPuertoSerie();
-                    /*
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    com1.sendSingleData(0);
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());
-                    System.out.println(com1.receiveSingleDataInt());*/
-                }
-            } while (error);
+                 }else{
+                    intentos--;
+                 }
+            } while (error && intentos > 0);//intenta cargar 6 veces el .bit
         } catch (Exception e) {
+            error = true;
         }
+        return !error;
     }
 
     /** This method is called from within the constructor to
@@ -1053,7 +1042,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         new GUICargaTB(this, true, sel).setVisible(true);
         if (sel.selTB.equals(SeleccionTB.CARGA_FICHERO)) {
             SeleccionTBFich = true;
-            cargaFichero();
+            cargaFicheroTB();
             if (this.com1 == null) {
                 if (this.inicializarPuertoSerie()) {
                     ejec();
@@ -1337,7 +1326,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
         }
     }
 
-    private void cargaFichero() {
+    private boolean cargaFicheroTB() {
         boolean error = false;
         JFileChooser chooser;
 
@@ -1366,7 +1355,9 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
         } else {
             System.out.println("No Selection ");
+            error = true;
         }
+        return !error;
     }
 
     private void seleccionaPanel(JPanel panel) {
@@ -1445,18 +1436,19 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
     }
     // private JTabbedPaneWithCloseIcon jTabbedPane1;
 
-  private void SeleccionTBModifFichero (){
-
-
+  private boolean SeleccionTBModifFichero (){
+        boolean correcto = false;
         SeleccionTBFich = true;
-        cargaFichero();
-        if (this.com1 == null) {
-            if (this.inicializarPuertoSerie()) {
-                generarGolden();
+        if (cargaFicheroTB()){
+            if (this.com1 == null) {
+                if (this.inicializarPuertoSerie()) {
+                    return generarGolden();
+                }
+            } else {
+                return generarGolden();
             }
-        } else {
-            generarGolden();
         }
+        return correcto;
   }
 
 
