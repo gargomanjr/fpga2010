@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package compiladorEntidad;
 
@@ -16,7 +12,13 @@ import java.util.HashMap;
  */
 public class SintacticoEntidad {
 
+    /**
+     *
+     */
     public static final int MAX_ENTRADAS = 32; //reservar una para el enable general
+    /**
+     *
+     */
     public static final int MAX_SALIDAS = 32;
 
     private Token token;
@@ -25,11 +27,21 @@ public class SintacticoEntidad {
     private Errores errores;
     private HashMap<String,Integer> tablaSimbolos;
 
+    /**
+     *
+     * @return
+     */
     public Entidad getEntidad() {
         return entidad;
     }
 
-   public SintacticoEntidad(String fichero, Errores errores) throws IOException {
+    /**
+     *
+     * @param fichero
+     * @param errores
+     * @throws IOException
+     */
+    public SintacticoEntidad(String fichero, Errores errores) throws IOException {
         lector = new LexicoEntidad(fichero, errores);
         this.errores = errores;
         entidad = new Entidad();//creamos una entidad vacía
@@ -37,11 +49,18 @@ public class SintacticoEntidad {
 
      }
 
-     public void inicia() throws IOException {
+   /**
+    *
+    * @throws IOException
+    */
+   public void inicia() throws IOException {
         token = lector.iniciar();
     }
 
-    public void cerrar() {
+   /**
+    *
+    */
+   public void cerrar() {
         try {
             lector.cerrar();
         } catch (IOException ex) {
@@ -49,13 +68,22 @@ public class SintacticoEntidad {
         }
     }
 
-    public void Cabecera() throws IOException{
+   /**
+    *
+    * @throws IOException
+    */
+   public void Cabecera() throws IOException{
         while(token != null && token.getCodigo() != LexicoEntidad.ENTITY
                 && token.getCodigo() != LexicoEntidad.GENERIC){
             token = lector.sigToken();
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Entidad() throws Exception{
         Cabecera();
         boolean error = false;
@@ -79,6 +107,11 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Generic() throws Exception{
         empareja(LexicoEntidad.GENERIC);
         empareja(LexicoEntidad.ABRE_PARENTESIS);
@@ -88,12 +121,22 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
     public boolean Variables() throws Exception{
         boolean error = Variable();
         error = error | RVariables();
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Variable() throws Exception{
         String var = token.getLexema();
         empareja(LexicoEntidad.IDENTIFICADOR);
@@ -107,6 +150,11 @@ public class SintacticoEntidad {
         return false;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean RVariables() throws Exception{
         boolean error = false;
         if (token.getCodigo() == LexicoEntidad.PUNTO_Y_COMA){
@@ -116,6 +164,11 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Puertos() throws Exception{
         empareja(LexicoEntidad.PORT);
         empareja(LexicoEntidad.ABRE_PARENTESIS);
@@ -125,12 +178,22 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Senales() throws Exception{
         boolean error = Senal();
         error = error | RSenales();
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean Senal() throws Exception{
         String ident = token.getLexema();
         boolean error = false;
@@ -175,6 +238,11 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean RSenales() throws Exception{
         boolean error = false;
         if (token.getCodigo() == LexicoEntidad.PUNTO_Y_COMA){
@@ -184,6 +252,11 @@ public class SintacticoEntidad {
         return error;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public int Tipo() throws Exception{
         int tamano = 0;
         if (token.getCodigo() == LexicoEntidad.STD_LOGIC){
@@ -205,10 +278,20 @@ public class SintacticoEntidad {
         return tamano;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public int Exp() throws Exception{
         return evaluar();
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public ArrayList<Token> pasarAPostFija() throws Exception{
         Pila<Token> pila = new Pila<Token>();
         boolean finExp = false;
@@ -244,6 +327,11 @@ public class SintacticoEntidad {
         return post;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public int evaluar() throws Exception{
         int valor = -1;
         Pila<Integer> pila = new Pila<Integer>();
@@ -275,6 +363,11 @@ public class SintacticoEntidad {
 
     
 
+    /**
+     *
+     * @param tk
+     * @throws Exception
+     */
     public void empareja(int tk) throws Exception {
         if (token != null)//si no ha habido error lexico
         {
@@ -290,6 +383,10 @@ public class SintacticoEntidad {
     }
 
 
+    /**
+     *
+     * @throws Exception
+     */
     public void errorSint() throws Exception{
        errores.error("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
        throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");

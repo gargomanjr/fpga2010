@@ -13,35 +13,106 @@ import java.util.HashSet;
 
 /**
  *
- * @author Carlos
+ * @author Carlos, David y Tony
  */
 public class LexicoEntidad {
 
     /*Código de las palabras reservadas */
+    /**
+     * Código de la palabra reservada Entidad  -> 0
+     */
     public static final int ENTITY = 0;
+    /**
+     * Código de la palabra reservada IS  -> 1
+     */
     public static final int IS = 1;
+    /**
+     * Código de la palabra reservada Port  -> 2
+     */
     public static final int PORT = 2;
+    /**
+     * Código de la palabra reservada STD_LOGIC  -> 3
+     */
     public static final int STD_LOGIC = 3;
+    /**
+     * Código de la palabra reservada STD_LOGIC_VECTOR  -> 4
+     */
     public static final int STD_LOGIC_VECTOR = 4;
+    /**
+     * Código de la palabra reservada IN  -> 5
+     */
     public static final int IN = 5;
+    /**
+     * Código de la palabra reservada OUT  -> 6
+     */
     public static final int OUT = 6;
+    /**
+     * Código de la palabra reservada OUT  -> 6
+     */
     public static final int DOWNTO = 7;
+    /**
+     * Código de la palabra reservada DOWNTO  -> 7
+     */
     public static final int END = 8;
-    /*Código del resto de elementos*/
+    /**
+     * Código del elemento PUNTO_Y_COMA  -> 9
+     */
     public static final int PUNTO_Y_COMA = 9;
+    /**
+     * Código del elemento DOS_PUNTOS  -> 10
+     */
     public static final int DOS_PUNTOS = 10;
+    /**
+     * Código del elemento ABRE_PARENTESIS  -> 11
+     */
     public static final int ABRE_PARENTESIS = 11;
+    /**
+     * Código del elemento CIERRA_PARENTESIS  -> 12
+     */
     public static final int CIERRA_PARENTESIS = 12;
+    /**
+     * Código del elemento ENTERO  -> 13
+     */
     public static final int ENTERO = 13;
+    /**
+     * Código del elemento IDENTIFICADOR  -> 14
+     */
     public static final int IDENTIFICADOR = 14;
+    /**
+     * Código del elemento EOF  -> 15
+     */
     public static final int EOF = 15;
+    /**
+     * Código del elemento OTRO  -> 16
+     */
     public static final int OTRO = 16;
+    /**
+     * Código del elemento GENERIC  -> 17
+     */
     public static final int GENERIC = 17;
+    /**
+     * Código del elemento INTEGER  -> 18
+     */
     public static final int INTEGER = 18;
+    /**
+     * Código del elemento ASIG_GENERIC  -> 19
+     */
     public static final int ASIG_GENERIC = 19;
+    /**
+     * Código del elemento SUMA  -> 20
+     */
     public static final int SUMA = 20;
+    /**
+     * Código del elemento RESTA  -> 21
+     */
     public static final int RESTA = 21;
+    /**
+     * Código del elemento MULT  -> 22
+     */
     public static final int MULT = 22;
+    /**
+     * Código del elemento DIV  -> 23
+     */
     public static final int DIV = 23;
     private BufferedReader reader;
     private Errores errores;
@@ -51,6 +122,10 @@ public class LexicoEntidad {
     private int numColumna;
     private int estado;
 
+    /**
+     * Getter que devuelve el número de línea por la que va el Analizador.
+     * @return Integer Número de línea.
+     */
     public int getNumLinea() {
         return this.numLinea;
     }
@@ -86,9 +161,14 @@ public class LexicoEntidad {
         palabrasReservadas.put("END", END);
         palabrasReservadas.put("GENERIC", GENERIC);
         palabrasReservadas.put("INTEGER", INTEGER);
-
     }
-
+    /**
+     * Constructor de la clase.
+     * @param fichero Código a analizar.
+     * @param errores Errores que se han detectado
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public LexicoEntidad(String fichero, Errores errores) throws FileNotFoundException, IOException {
         reader = new BufferedReader(new FileReader(fichero));
         numLinea = 1;
@@ -97,10 +177,19 @@ public class LexicoEntidad {
         leerCaracter();
     }
 
+    /**
+     * Llama a la función sigToken()
+     * @return El siguiente Token.
+     * @throws IOException
+     */
     public Token iniciar() throws IOException {
         return sigToken();
     }
 
+    /**
+     * Cierra el Buffer de lectura del fichero.
+     * @throws IOException
+     */
     public void cerrar() throws IOException {
         this.reader.close();
     }
@@ -130,16 +219,18 @@ public class LexicoEntidad {
             if (ultimoCharLeido.charValue() == '\n') { //Si es un salto de lÃ­nea
                 numLinea++; //incrementa la linea
                 numColumna = 0;
-            } /*else if ((ultimoCharLeido.charValue() != '\r') && (ultimoCharLeido.charValue() != '\t')) {
-                numColumna++;
-            }*/
-
+            } 
             return ultimoCharLeido;
         } else {
             return null;
         }
     }
 
+    /**
+     * Método que devuelve el siguiente Token del Analizador Léxico.
+     * @return El siguiente Token a leer.
+     * @throws IOException
+     */
     public Token sigToken() throws IOException {
         estado = 0;
         cadena = "";
@@ -242,6 +333,11 @@ public class LexicoEntidad {
         }
     }
 
+    /**
+     * Transita la máquina de estados del Analizador Léxico.
+     * @param sigEstado Siguiente estado al que va el analizador.
+     * @throws IOException
+     */
     public void transita(int sigEstado) throws IOException {
         estado = sigEstado;
         if (ultimoCharLeido != null) {
@@ -250,6 +346,10 @@ public class LexicoEntidad {
         }
     }
 
+    /**
+     * Método de Consulta sobre el último carácter leído.
+     * @return El último carácter leído.
+     */
     public Character getUltimoCharLeido() {
         return ultimoCharLeido;
     }
