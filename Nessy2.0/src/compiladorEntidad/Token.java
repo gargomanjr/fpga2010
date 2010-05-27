@@ -16,6 +16,13 @@ public class Token {
     private int numLinea;
     private int numColumna;
 
+    /**
+     *
+     * @param codigo
+     * @param lexema
+     * @param numLinea
+     * @param numColumna
+     */
     public Token(int codigo, String lexema, int numLinea, int numColumna) {
 
         this.codigo = codigo;
@@ -31,6 +38,10 @@ public class Token {
 
     }
 
+    /**
+     *
+     * @param otro
+     */
     public Token(Token otro){
         this.codigo = otro.codigo;
         this.lexema = otro.lexema;
@@ -38,18 +49,34 @@ public class Token {
         this.numLinea = otro.numLinea;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCodigo() {
         return codigo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLexema() {
         return lexema;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumLinea() {
         return numLinea;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNumColumna() {
         return numColumna;
     }

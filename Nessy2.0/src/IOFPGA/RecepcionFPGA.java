@@ -42,15 +42,30 @@ public class RecepcionFPGA extends Thread {
     private File fichero_escritura;
     private FileWriter fw;
 
+    /**
+     *
+     * @param setwait
+     */
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
     }
 
+    /**
+     *
+     * @param enteroAnterior
+     */
     public void setEnteroAnterior(int enteroAnterior) {
         this.enteroAnterior = enteroAnterior;
     }
 
     //public RecepcionFPGA(GUIPrincipal aux, Parameters a_param, Com a_com) {
+    /** NO SE UTILIZA ESTA CLASE!!!!
+     * 
+     * @param aux
+     * @param il_longitud
+     * @param a_param
+     * @param a_com
+     */
     public RecepcionFPGA(JTextArea aux, int il_longitud, Parameters a_param, Com a_com) {
         //miInterfaz = aux;
         ata_textarea = aux;
@@ -85,6 +100,10 @@ public class RecepcionFPGA extends Thread {
 
     }
 
+    /**
+     *
+     */
+    @Override
     public void run() {
         synchronized (this) {
             try {
@@ -95,6 +114,10 @@ public class RecepcionFPGA extends Thread {
         }
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public void recibirDatos() throws Exception {
         Character datoRecibido;
         boolean mensaje = false;
@@ -192,6 +215,9 @@ public class RecepcionFPGA extends Thread {
 
     }
 
+    /**
+     *
+     */
     public void pararrecepcionfpga() {
         try {
             fichero_escritura.createNewFile();

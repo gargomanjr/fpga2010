@@ -14,52 +14,102 @@ public class Entidad {
     private ArrayList<Entrada> entradas;
     private ArrayList<Salida> salidas;
 
+    /**
+     * Crea un Objeto de la clase Entidad e Inicializa sus atributos.
+     *
+     */
     public Entidad() {
         entradas = new ArrayList<Entrada>();
         salidas = new ArrayList<Salida>();
         bitsEntrada = bitsSalida = 0;
     }
 
+    /**
+     *
+     * @return Devuelve el nombre de la entidad.
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Cambia el nombre de la entidad.
+     * @param nombre Nuevo nombre de la entidad
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Getter para consultar el número de entradas de la Entidad.
+     * @return El número de Entradas de la entidad.
+     */
     public int getNumEntradas() {
         return entradas.size();
     }
 
+    /**
+     * Getter para consultar el número de salidas de la Entidad.
+     * @return El número de Salidas de la entidad.
+     */
     public int getNumSalidas() {
         return salidas.size();
     }
 
+    /**
+     * Getter para consultar el número de bits de la Entidad
+     * @return El número de bits de entrada de la entidad.
+     */
     public int getBitsEntrada() {
         return bitsEntrada;
     }
 
+    /**
+     * Setter para establecer el número de bits de entrada de la Entidad
+     * @param bitsEntrada
+     */
     public void setBitsEntrada(int bitsEntrada) {
         this.bitsEntrada = bitsEntrada;
     }
 
+    /**
+     * Getter para consultar el número de bits salida de la Entidad
+     * @return El número de bits de salida de la entidad.
+     */
     public int getBitsSalida() {
         return bitsSalida;
     }
 
+    /**
+     * Setter para establecer el número de bits de salida de la Entidad
+     * @param bitsSalida Número de bits de salida
+     */
     public void setBitsSalida(int bitsSalida) {
         this.bitsSalida = bitsSalida;
     }
 
+    /**
+     * Getter que devuelve la entrada i del ArrayList de las entradas.
+     * @param i Posición de la Entrada que queremos devolver.
+     * @return La entrada i del ArrayList de Entradas.
+     */
     public Entrada getEntrada(int i) {
         return entradas.get(i);
     }
 
+    /**
+     * Getter que devuelve la salida i del ArrayList de las entradas.
+     * @param i Posición de la Salida que queremos devolver.
+     * @return La entrada i del ArrayList de salidas.
+     */
     public Salida getSalida(int i) {
         return salidas.get(i);
     }
 
+    /**
+     * Añade el argumento e de la clase Entrada al array de entradas de la entidad.
+     * @param e Entrada a añadir a la entidad
+     */
     public void anadeEntrada(Entrada e) {
         this.entradas.add(e);
         if (e.getNombre().equals("CLK") || e.getNombre().equals("CLOCK") ||
@@ -72,12 +122,18 @@ public class Entidad {
         }
     }
 
+    /**
+     * Añade el argumento s de la clase Salida al array de salidas de la entidad.
+     * @param s Salida a añadir a la entidad
+     */
     public void anadeSalida(Salida s) {
         this.salidas.add(s);
         bitsSalida += s.getNumBits();
     }
 
-    /* Para mostrar por pantalla. Sólo de prueba */
+    /**
+     *Para mostrar por pantalla. Sólo de prueba
+     */
     public void muestra() {
         System.out.println("Entidad: " + nombre);
         System.out.println("Entradas:");
@@ -98,6 +154,10 @@ public class Entidad {
         System.out.println("Num_salidas: " + bitsSalida);
     }
 
+    /**
+     * Método para consultar el nombre de la entrada de reset.
+     * @return Devuelve el Nombre de la Entrada de reset.
+     */
     public String getNombreReset(){
         int i = 0;
         String reset = null;
@@ -110,6 +170,10 @@ public class Entidad {
         return reset;
     }
 
+    /**
+     * Devuelve una cadena con la descripción de las entradas y salidas de la entidad.
+     * @return Cadena con las entradas y salidas de la Entidad.
+     */
     @Override
     public String toString() {
         String s = "";

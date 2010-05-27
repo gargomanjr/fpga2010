@@ -113,17 +113,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
     //                    this.wait();
     //                    synchronized(this)
     //	            {
-                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit");
+                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit",false);
                         //cargarBitConChooser();//pide un fichero
                         if (this.com1 == null) {
                             if (this.inicializarPuertoSerie()) {
-                                 ejec();
+                                 ejec(true);
                             }
                         } else {
-                            ejec();
+                            ejec(true);
                         }
                         //TODO cargar restorer
-                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit");
+                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
 
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,14 +162,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 } catch (FileNotFoundException ex) {
                     correcto = false;
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt",false);
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt",false);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -201,7 +201,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
-            error = !this.cargarBit(fichero_bit);
+            error = !this.cargarBit(fichero_bit,true);
         } else {
             System.out.println("Selecc ");
             //Selecciona panel
@@ -405,7 +405,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void ejec() {
+    private void ejec(boolean lb_recunfiguracion_pracial) {
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
@@ -419,7 +419,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
             //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt");
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
             this.ejec.setCadena(ls_cadenaaejecutar);
 
             if (SeleccionTBFich) {
@@ -427,13 +427,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     bf = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt");
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -474,7 +474,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._TextCargarbit.append(str + "\n");
     }
 
-    private boolean cargarBit(String fichero_bit) {
+    private boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
         boolean error = false;
         int intentos = 6;
         CargaBit cargaBit = new CargaBit(this, fichero_bit);
@@ -482,7 +482,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             do {//si hay un error lo vuelve a intentar
                 error = !cargaBit.cargar();
                 if (!error) {
-                    JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    if (ab_mostrar_mensajes){
+                        JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     if (com1 != null) {
                         com1.close();
                         com1 = null;
@@ -989,10 +991,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
         if (this.com1 == null) {
             if (this.inicializarPuertoSerie()) {
-                ejec();
+                ejec(false);
             }
         } else {
-                ejec();
+                ejec(false);
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
@@ -1045,10 +1047,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
             cargaFicheroTB();
             if (this.com1 == null) {
                 if (this.inicializarPuertoSerie()) {
-                    ejec();
+                    ejec(false);
                 }
             } else {
-                ejec();
+                ejec(false);
             }
 
         } else {
