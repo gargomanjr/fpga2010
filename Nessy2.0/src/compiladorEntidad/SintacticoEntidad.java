@@ -8,16 +8,16 @@ import java.util.HashMap;
 
 /**
  *
- * @author Carlos
+ * @author Carlos,David y Tony
  */
 public class SintacticoEntidad {
 
     /**
-     *
+     * Número de entradas máximo. En nuestra Aplicación son 32
      */
     public static final int MAX_ENTRADAS = 32; //reservar una para el enable general
     /**
-     *
+     * Número de salidas máximo. En nuestra Aplicación son 32
      */
     public static final int MAX_SALIDAS = 32;
 
@@ -29,15 +29,15 @@ public class SintacticoEntidad {
 
     /**
      *
-     * @return
+     * @return Devuelve el Objeto de la clase Entidad
      */
     public Entidad getEntidad() {
         return entidad;
     }
 
     /**
-     *
-     * @param fichero
+     * Constructor de la clase
+     * @param fichero que vamos a analizar sintácticamente.
      * @param errores
      * @throws IOException
      */
@@ -50,7 +50,7 @@ public class SintacticoEntidad {
      }
 
    /**
-    *
+    * Inicia el análisis sintáctico.
     * @throws IOException
     */
    public void inicia() throws IOException {
@@ -58,7 +58,7 @@ public class SintacticoEntidad {
     }
 
    /**
-    *
+    * Función para cerrar el fichero que estamos analizando.
     */
    public void cerrar() {
         try {
@@ -69,7 +69,7 @@ public class SintacticoEntidad {
     }
 
    /**
-    *
+    * Analiza la Cabecera.
     * @throws IOException
     */
    public void Cabecera() throws IOException{
@@ -80,8 +80,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza la entidad del fichero.
+     * @return Devuelve True si ha habido algún error, si no devuelve Falso.
      * @throws Exception
      */
     public boolean Entidad() throws Exception{
@@ -108,8 +108,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza la parte un componente genérico.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Generic() throws Exception{
@@ -122,8 +122,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     * 
-     * @return
+     * Analiza la parte de declaración de variables.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Variables() throws Exception{
@@ -133,8 +133,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza la declaración de una variable y la inserta en la tabla de símbolos.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Variable() throws Exception{
@@ -151,8 +151,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza el resto de variables.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean RVariables() throws Exception{
@@ -165,8 +165,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza la parte de los Puertos.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Puertos() throws Exception{
@@ -179,8 +179,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza la parte donde se declaran todas las señales.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Senales() throws Exception{
@@ -190,8 +190,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza si está bien declarada una señal.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean Senal() throws Exception{
@@ -239,8 +239,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza el resto de señales.
+     * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
     public boolean RSenales() throws Exception{
@@ -253,8 +253,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Consulta el tipo de un token.
+     * @return devuelve el tipo asociado al token.
      * @throws Exception
      */
     public int Tipo() throws Exception{
@@ -279,8 +279,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Analiza una expresión.
+     * @return Devuelve el valor de la expresión.
      * @throws Exception
      */
     public int Exp() throws Exception{
@@ -288,8 +288,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Transforma una expresión a PostFija para poder evaluarla.
+     * @return Devuelve el ArrayList con la expresión transformada a PostFija.
      * @throws Exception
      */
     public ArrayList<Token> pasarAPostFija() throws Exception{
@@ -328,8 +328,8 @@ public class SintacticoEntidad {
     }
 
     /**
-     *
-     * @return
+     * Evalúa una expresión y devuelve el resultado.
+     * @return El resultado de la expresión.
      * @throws Exception
      */
     public int evaluar() throws Exception{
@@ -364,8 +364,8 @@ public class SintacticoEntidad {
     
 
     /**
-     *
-     * @param tk
+     * Intenta emparejar el token actual del analizador con el del fichero.
+     * @param tk Token a emparejar
      * @throws Exception
      */
     public void empareja(int tk) throws Exception {
@@ -384,7 +384,7 @@ public class SintacticoEntidad {
 
 
     /**
-     *
+     * Añade el error al atributo errores y lanza la excepción indicando el error.
      * @throws Exception
      */
     public void errorSint() throws Exception{

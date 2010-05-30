@@ -1,13 +1,9 @@
 package compiladorEntidad;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
- * @author Vellisco
+ * @author Carlos, Tony y David
  */
 public class Token {
 
@@ -17,21 +13,16 @@ public class Token {
     private int numColumna;
 
     /**
-     *
-     * @param codigo
-     * @param lexema
-     * @param numLinea
-     * @param numColumna
+     * Constructor de la clase.
+     * @param codigo Código del Token.
+     * @param lexema String del Token
+     * @param numLinea Entero que indica la línea donde se encuentra el token dentro del fichero.
+     * @param numColumna Entero donde se encuentra el token dentro del fichero.
      */
     public Token(int codigo, String lexema, int numLinea, int numColumna) {
 
         this.codigo = codigo;
-       /*if (codigo == 1) //Si es un ID
-        {*/
-            this.lexema = lexema.toUpperCase();
-        /*} else {
-            this.lexema = lexema;
-        }*/
+        this.lexema = lexema.toUpperCase();
         this.numLinea = numLinea;
         this.numColumna = numColumna;
         //System.out.println("Token("+codigo+","+lexema+","+numLinea+","+numColumna+")");
@@ -39,8 +30,8 @@ public class Token {
     }
 
     /**
-     *
-     * @param otro
+     * Contructura que crea una copia de un Token a partir de otro.
+     * @param otro Token a copiar.
      */
     public Token(Token otro){
         this.codigo = otro.codigo;
@@ -50,32 +41,32 @@ public class Token {
     }
 
     /**
-     *
-     * @return
+     * Obtiene el código de un Token
+     * @return Entero que codifica el Token.
      */
     public int getCodigo() {
         return codigo;
     }
 
     /**
-     *
-     * @return
+     * Obtiene la cadena del String.
+     * @return El String del Token asociado.
      */
     public String getLexema() {
         return lexema;
     }
 
     /**
-     *
-     * @return
+     * Obtiene el número de línea donde se encuentra el Token.
+     * @return El entero con la línea donde se encuentra el Token.
      */
     public int getNumLinea() {
         return numLinea;
     }
 
     /**
-     *
-     * @return
+     * Obtiene el número de columna donde se encuentra el Token.
+     * @return El entero con la columna donde se encuentra el Token.
      */
     public int getNumColumna() {
         return numColumna;
