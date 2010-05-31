@@ -6,8 +6,8 @@
 package nessy20;
 
 /**
- *
- * @author David
+ * Opciones al seleccionar la Carga los VHDL's en nuestra aplicación.
+ * @author David,Tony y Carlos
  */
 public enum SeleccionCargaVHD {
     

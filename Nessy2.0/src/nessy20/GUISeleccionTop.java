@@ -16,17 +16,17 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author  David
+ * @author  David,Carlos y Tony
  */
 public class GUISeleccionTop extends javax.swing.JDialog {
 
     private ArrayList<String> ficheros;
     private JFrame padre;
     
-    /** Creates new form GUISeleccionTop
-     * @param parent
-     * @param modal
-     * @param fich
+    /** Constructor de form GUISeleccionTop
+     * @param parent Frame padre encargado de la llamada.
+     * @param modal  Indica si es modal o no.
+     * @param fich   ArrayList de ficheros seleccionados.
      */
     @SuppressWarnings("empty-statement")
     public GUISeleccionTop(java.awt.Frame parent, boolean modal,ArrayList<String> fich) {
@@ -228,15 +228,9 @@ private void _btn_AddVHDLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event__btn_AddVHDLActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    // TODO add your handling code here:
     ((GUIPrincipal)padre).setCerradoTop(true);
 }//GEN-LAST:event_formWindowClosing
  
-
-    /**
-    * @param args the command line arguments
-    */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btn_AddVHDL;

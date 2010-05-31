@@ -6,8 +6,9 @@
 package nessy20;
 
 /**
- *
- * @author David
+ * Clase donde tenemos los tipos de selecciones que se hacen en la aplicación.
+ * Ya sea al elegir el tipo de carga de VHDL's o del TestBench
+ * @author David,Tony y Carlos
  */
 public class Seleccion {
 

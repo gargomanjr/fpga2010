@@ -13,17 +13,17 @@ import javax.swing.JTextArea;
 
 /**
  *
- * @author  David
+ * @author  David,Carlos y Tony
  */
 public class GUICargaVHDL extends javax.swing.JDialog {
     
     private Seleccion sel;
     
 
-    /** Creates new form GUICargaVHDL
-     * @param jf
-     * @param bol
-     * @param sel
+    /** Constructor del form GUICargaVHDL.
+     * @param jf  Frame padre encargado de la llamada.
+     * @param sel Tipo de Seleccion a elegir.
+     * @param bol Indica si es modal o no.
      */
     public GUICargaVHDL(JFrame jf,boolean bol,Seleccion sel) {
         super(jf,bol);

@@ -6,8 +6,8 @@
 package nessy20;
 
 /**
- *
- * @author User
+ * Opciones al seleccionar la Carga de un Test Bench en nuestra aplicación.
+ * @author David,Tony y Carlos
  */
 public enum SeleccionTB {
     /**

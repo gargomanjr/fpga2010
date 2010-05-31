@@ -1,48 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package nessy20;
 
 /**
  *
- * @author Tony
+ * @author Tony,David y Carlos.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author User
- */
 import javax.swing.filechooser.*;
 import java.io.File;
 
-/**
- *
- * @author Tony
- */
+
 public class Filtro extends FileFilter {
 
   String[] extensions;
   String description;
 
   /**
-   *
-   * @param ext
+   * Constructor de la clase.
+   * @param ext Extensión de ficheros que deseamos que aparezcan.
    */
   public Filtro(String ext) {
     this (new String[] {ext}, null);
   }
 
   /**
-   *
-   * @param exts
-   * @param descr
+   * Constructor de la clase.
+   * @param exts Extensiones que deseamos que aparezcan.
+   * @param descr Extensión de una de ellas.
    */
   public Filtro(String[] exts, String descr) {
     // Clone and lowercase the extensions

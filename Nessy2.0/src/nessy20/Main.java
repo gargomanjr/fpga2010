@@ -9,11 +9,11 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author Tony
+ * @author Tony, David y Carlos
  */
 public class Main {
 
-    /**
+    /** Ejecuta la aplicación.
      * @param args the command line arguments
      */
     public static void main(String[] args) {

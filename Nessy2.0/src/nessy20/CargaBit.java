@@ -14,38 +14,33 @@ import javax.swing.JFrame;
  */
 
 /**
- *
+ * Clase para Cargar un archivo .bit.
  * @author User
  */
 public class CargaBit {
 
     private final static String RUTA_IMPACT = "C://Xilinx82//bin//nt//impact.exe";
 
-    //private String rutaBatch;
     private String ficheroBit;
 
     GUIPrincipal interfaz;
-   /* public String getRutaBatch() {
-        return rutaBatch;
-    }
 
-    public void setRutaBit(String rutaBatch) {
-        this.rutaBatch = rutaBatch;
-    }*/
-
-
+    /**
+     * Constructor de la clase.
+     * @param interfaz Interfaz sobre la que estamos ejecutando
+     * @param fich String con la ruta del fichero .bit que deseamos cargar.
+     */
     CargaBit(GUIPrincipal interfaz, String fich){
         this.ficheroBit = fich;
         this.interfaz = interfaz;
-   
-        String prueba = Dir_impact();
+
 
     }
 
     /**
-     *
-     * @param ruta
-     * @return
+     * Comprueba si existe o no un fichero.
+     * @param ruta Cadena de la ruta del fichero
+     * @return Boolean,cierto si existe el fichero falso en caso contrario.
      */
     public boolean existeFichero(String ruta){
         File fichero = new File(ruta);
@@ -53,15 +48,13 @@ public class CargaBit {
     }
 
     /**
-     *
-     * @return
+     * Procedimiento que carga un archivo .bit en la FPGA.
+     * @return Cierto si se ha conseguido cargar correctamente, falso en caso contrario.
      * @throws java.io.FileNotFoundException
      */
     public boolean cargar() throws FileNotFoundException{
         boolean correcto = true;
-
-
-        
+     
         if (existeFichero(RUTA_IMPACT)){
             try{
                 interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
@@ -105,13 +98,6 @@ public class CargaBit {
         }
 
         return correcto;
-    }
-    /**
-     *
-     * @return
-     */
-    public static String Dir_impact() {
-       return System.getenv("PATH");
     }
 
 }
