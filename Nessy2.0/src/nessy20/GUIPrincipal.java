@@ -370,6 +370,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //try {
             files.add(chooser.getSelectedFile());
             fichero = files.get(0).getAbsolutePath();
+            _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "+
+                    chooser.getSelectedFile().getName());
             this.cargarVHDL();
         } else {
             System.out.println("No Selection ");
@@ -407,6 +409,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             selTop.setVisible(true);
             if (!cerradoTop) {
                 fichero = files.get(top).getAbsolutePath(); //el fichero es el absoluto
+                 _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "
+                         +files.get(top).getName());
                 this.cargarVHDL();
             }
 
@@ -438,14 +442,26 @@ public class GUIPrincipal extends javax.swing.JFrame {
         BufferedWriter bw = null;
         boolean correcto = true;
         try {
-            bw = new BufferedWriter(new FileWriter("IOSerie//Circuito_FPGA.prj"));
-            bw.write("vhdl work \"Tx_serie.vhd\"\n");
-            bw.write("vhdl work \"Rx_serie.vhd\"\n");
-            for (int i = 0; i < files.size(); i++) {
-                bw.write("vhdl work \"" + files.get(i).getAbsolutePath() + "\"\n");
-            }
-            bw.write("vhdl work \"Circuito_FPGA.vhd\"");
-            bw.close();
+//            JFileChooser chooser = new JFileChooser();
+//            Filtro filter = new Filtro("bit");
+//            chooser.addChoosableFileFilter(filter);
+//            chooser.setCurrentDirectory(new java.io.File("."));
+//            chooser.setDialogTitle("Guardar .bit");
+//            chooser.setFileFilter(filter);
+//            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+//                String rutaFichBit = chooser.getSelectedFile().getAbsolutePath();
+                bw = new BufferedWriter(new FileWriter("IOSerie//Circuito_FPGA.prj"));
+               // bw = new BufferedWriter(new FileWriter(rutaFichBit));
+                bw.write("vhdl work \"Tx_serie.vhd\"\n");
+                bw.write("vhdl work \"Rx_serie.vhd\"\n");
+                for (int i = 0; i < files.size(); i++) {
+                    bw.write("vhdl work \"" + files.get(i).getAbsolutePath() + "\"\n");
+                }
+
+                
+                bw.write("vhdl work \"Circuito_FPGA.vhd\"");
+                bw.close();
+            //}
         } catch (IOException ex) {
             ex.printStackTrace();
             //TODO Mostrar error
@@ -591,6 +607,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         panelOutPut = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         _TextSalida = new javax.swing.JTextArea();
+        _lbl_BitCargado = new javax.swing.JLabel();
+        _lbl_VHDLCargado = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuOpciones = new javax.swing.JMenu();
@@ -738,7 +756,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,7 +856,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(_lbl_VHDLCargado)
+                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(804, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -856,7 +879,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(402, Short.MAX_VALUE)
+                .addComponent(_lbl_VHDLCargado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(_lbl_BitCargado)
+                .addGap(6, 6, 6))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -1301,6 +1329,8 @@ public void setNumeroInst(int inst) {
     private javax.swing.JButton _btnGenerarGolden;
     private javax.swing.JButton _btnPararEjecucion;
     private javax.swing.JButton _btnReanudar;
+    private javax.swing.JLabel _lbl_BitCargado;
+    private javax.swing.JLabel _lbl_VHDLCargado;
     private javax.swing.JTextField _lblnInst;
     private javax.swing.JTextArea _txtTB;
     private javax.swing.JLabel jLabel1;
