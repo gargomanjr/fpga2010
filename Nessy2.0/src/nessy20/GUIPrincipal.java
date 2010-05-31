@@ -42,7 +42,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
+ * Constructor de la clase
  * @author Tony
  */
 public class GUIPrincipal extends javax.swing.JFrame {
@@ -60,38 +60,69 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private boolean cerradoTop;
     String fichero_tb;
     String fichero_bit;
-
-    public boolean isCerradoTop() {
-        return cerradoTop;
-    }
-
-    public void setCerradoTop(boolean cerradoTop) {
-        this.cerradoTop = cerradoTop;
-    }
     private boolean SeleccionTBFich;
     private BufferedReader bf;
 
+    /**
+     * Devuelve el Array de ficheros Vhdl Cargados en la aplicación.
+     * @return
+     */
     public ArrayList<File> getFiles() {
         return files;
     }
 
+    /**
+     * Establece el Array de ficheros Vhdl Cargados en la aplicación.
+     * @param files ArrayList de ficheros vhdl de la aplicación.
+     */
     public void setFiles(ArrayList<File> files) {
         this.files = files;
     }
 
+    /**
+     * Devuelve el índice del fichero top dentro del ArrayList
+     * @return
+     */
     public int getTop() {
         return top;
     }
 
+    /**
+     * Establece el fichero Top
+     * @param top
+     */
     public void setTop(int top) {
         this.top = top;
     }
     private static Logger logger = Logger.getLogger("GUIPrincipal.class");
 
+    /**
+     * Devuelve la Entidad con la que se está trabajado
+     * @return Entidad con la que se está trabajando.
+     */
     public Entidad getEntidad() {
         return entidad;
     }
 
+    /**
+     * Devuelve el atributo cerradoTop
+     * @return
+     */
+    public boolean isCerradoTop() {
+        return cerradoTop;
+    }
+
+    /**
+     * Establece el campo cerradoTop, con el valor del argumento de la función.
+     * @param cerradoTop Nuevo valor de tipo boolean de cerradoTop.
+     */
+    public void setCerradoTop(boolean cerradoTop) {
+        this.cerradoTop = cerradoTop;
+    }
+    /**
+     * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa.
+     * No muestra mensajes de aviso.
+     */
     public void procesoModificarFicheros() {
         int numBits = 32;
         int numFrames = 361942;
@@ -141,6 +172,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean generarGolden() {
         boolean correcto = true;
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
@@ -188,6 +223,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean cargarBitConChooser() {
         //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
@@ -212,6 +251,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return !error;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean compilarEntidad() {
         boolean correcto = true;
         SintacticoEntidad compilador = null;
@@ -271,6 +314,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this.files = new ArrayList<File>();
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean inicializarPuertoSerie() {
         boolean correcto = true;
         try {
@@ -462,10 +509,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * @param c
+     */
     public void EscribirDatoPantalla(char c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + " ");
     }
 
+    /**
+     *
+     * @param c
+     */
     public void EscribirDatoPantalla(String c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + "\n");
     }
@@ -1219,7 +1274,11 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
     }
 
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
-    public void setNumeroInst(int inst) {
+/**
+ *
+ * @param inst
+ */
+public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
     }
     /**

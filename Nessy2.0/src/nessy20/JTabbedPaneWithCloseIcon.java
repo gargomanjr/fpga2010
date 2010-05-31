@@ -17,14 +17,25 @@ public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListen
     
     private HashMap tablaPaneles;
 
+    /**
+     *
+     * @return
+     */
     public HashMap getTablaPaneles() {
         return tablaPaneles;
     }
 
+    /**
+     *
+     * @param tablaPaneles
+     */
     public void setTablaPaneles(HashMap tablaPaneles) {
         this.tablaPaneles = tablaPaneles;
     }
 
+    /**
+     *
+     */
     public JTabbedPaneWithCloseIcon() {
     super();
     tablaPaneles = new HashMap();
@@ -37,6 +48,12 @@ public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListen
     this.addTab(title, component, null);
   }
  
+  /**
+   *
+   * @param title
+   * @param component
+   * @param extraIcon
+   */
   public void addTab(String title, Component component, Icon extraIcon) {
     super.addTab(title, new CloseTabIcon(extraIcon), component);
   }

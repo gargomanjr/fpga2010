@@ -20,7 +20,11 @@ public class GUICargaTB extends javax.swing.JDialog {
     private Seleccion sel;
     private JFrame padre;
 
-    /** Creates new form GUICargaVHDL */
+    /** Creates new form GUICargaVHDL
+     * @param jf
+     * @param sel
+     * @param bol
+     */
     public GUICargaTB(JFrame jf,boolean bol,Seleccion sel) {
         super(jf,bol);
         initComponents();

@@ -23,7 +23,11 @@ public class GUISeleccionTop extends javax.swing.JDialog {
     private ArrayList<String> ficheros;
     private JFrame padre;
     
-    /** Creates new form GUISeleccionTop */
+    /** Creates new form GUISeleccionTop
+     * @param parent
+     * @param modal
+     * @param fich
+     */
     @SuppressWarnings("empty-statement")
     public GUISeleccionTop(java.awt.Frame parent, boolean modal,ArrayList<String> fich) {
         super(parent, modal);

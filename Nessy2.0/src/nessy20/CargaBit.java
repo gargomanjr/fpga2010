@@ -42,11 +42,21 @@ public class CargaBit {
 
     }
 
+    /**
+     *
+     * @param ruta
+     * @return
+     */
     public boolean existeFichero(String ruta){
         File fichero = new File(ruta);
         return fichero.exists();
     }
 
+    /**
+     *
+     * @return
+     * @throws java.io.FileNotFoundException
+     */
     public boolean cargar() throws FileNotFoundException{
         boolean correcto = true;
 
@@ -96,6 +106,10 @@ public class CargaBit {
 
         return correcto;
     }
+    /**
+     *
+     * @return
+     */
     public static String Dir_impact() {
        return System.getenv("PATH");
     }

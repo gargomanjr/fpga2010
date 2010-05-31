@@ -10,7 +10,16 @@ package nessy20;
  * @author User
  */
 public enum SeleccionTB {
+    /**
+     *
+     */
     NADA,
+    /**
+     *
+     */
     CARGA_PANTALLA,
+    /**
+     *
+     */
     CARGA_FICHERO
 }

@@ -11,8 +11,17 @@ package nessy20;
  */
 public enum SeleccionCargaVHD {
     
+    /**
+     *
+     */
     NADA,
+    /**
+     *
+     */
     SELECCION_VHDL_TOP,
+    /**
+     *
+     */
     SELECCION_VARIOS_VHDL
 
 }

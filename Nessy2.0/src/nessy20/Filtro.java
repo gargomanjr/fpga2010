@@ -22,15 +22,28 @@ package nessy20;
 import javax.swing.filechooser.*;
 import java.io.File;
 
+/**
+ *
+ * @author Tony
+ */
 public class Filtro extends FileFilter {
 
   String[] extensions;
   String description;
 
+  /**
+   *
+   * @param ext
+   */
   public Filtro(String ext) {
     this (new String[] {ext}, null);
   }
 
+  /**
+   *
+   * @param exts
+   * @param descr
+   */
   public Filtro(String[] exts, String descr) {
     // Clone and lowercase the extensions
     extensions = new String[exts.length];
