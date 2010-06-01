@@ -89,7 +89,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     /**
      * Establece el fichero Top
-     * @param top
+     * @param top Índice del archivo TOP.
      */
     public void setTop(int top) {
         this.top = top;
@@ -120,8 +120,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this.cerradoTop = cerradoTop;
     }
     /**
-     * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa.
-     * No muestra mensajes de aviso.
+     * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa,
+     * e ir comparando con nuestra salida Golden.
+     * NOTA : No muestra mensajes de aviso, aunque no coincidan la salida del .bit modificado, con nuestra salida GOLDEN.
      */
     public boolean procesoModificarFicheros() {
         int numBits = 32;
@@ -134,20 +135,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             for(int frame = 1; frame < numFrames; frame++){
                 for(int bit = 0; bit < numBits; bit++){
                     try {
-                        /*File ficheroParametros = new File(RUTA_IOSERIE, "paramsReconfig.txt");
-                        FileOutputStream os = new FileOutputStream(ficheroParametros);
-                        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-                        
-                        bw.write(coms);
-                        bw.close();
-                        os.close();*/
                         String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
                         Process p = Runtime.getRuntime().exec("cmd.exe /C start " + coms);
-    //                    this.wait();
-    //                    synchronized(this)
-    //	            {
                         this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit",false);
-                        //cargarBitConChooser();//pide un fichero
                         if (this.com1 == null) {
                             if (this.inicializarPuertoSerie()) {
                                  ejec(true);
@@ -155,7 +145,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                         } else {
                             ejec(true);
                         }
-                        //TODO cargar restorer
                         b=this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
 
 
@@ -167,10 +156,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                             Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             return false;
                     }
-    //                catch (InterruptedException ex) {
-    //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-    //                }
-
                 }
             }
         }
@@ -251,7 +236,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * Compila la entidad y genera el archivo VHDL a partir de la entidad.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean compilarEntidad() {
@@ -1296,8 +1281,8 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
 /**
- *
- * @param inst
+ * Actualiza el numero de instrucción que se está ejecutando.
+ * @param inst Número de instruccion actual.
  */
 public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
