@@ -272,6 +272,7 @@
                   <Image iconType="3" name="/recursos/btnCrearBit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Crear .Bit"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -280,27 +281,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnCrearBitActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="_btnEjecutar">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/recursos/btnEjec.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Ejecutar"/>
-                <Property name="contentAreaFilled" type="boolean" value="false"/>
-                <Property name="focusable" type="boolean" value="false"/>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
-                <Property name="verticalTextPosition" type="int" value="3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnEjecutarActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="_btnCargarBit">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/btnCargarBit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cargar .Bit"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -315,6 +302,7 @@
                   <Image iconType="3" name="/recursos/btnCargarTB.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cargar TB"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -323,12 +311,29 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnCargarTBActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="_btnEjecutar">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/recursos/btnEjec.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ejecutar"/>
+                <Property name="contentAreaFilled" type="boolean" value="false"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnEjecutarActionPerformed"/>
+              </Events>
+            </Component>
             <Component class="javax.swing.JButton" name="_btnPararEjecucion">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/btnPararEjec.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Parar Ejecuci&#xf3;n"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -343,6 +348,7 @@
                   <Image iconType="3" name="/recursos/btnReanudarEjec.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Reanudar Ejecuci&#xf3;n"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -357,6 +363,7 @@
                   <Image iconType="3" name="/recursos/btnGeneraGolden.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Generar Golden"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -371,6 +378,7 @@
                   <Image iconType="3" name="/recursos/btnCargaGolden.jpg"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cargar Golden"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>

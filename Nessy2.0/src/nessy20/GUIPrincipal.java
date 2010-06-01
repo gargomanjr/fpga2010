@@ -123,9 +123,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa.
      * No muestra mensajes de aviso.
      */
-    public void procesoModificarFicheros() {
+    public boolean procesoModificarFicheros() {
         int numBits = 32;
         int numFrames = 361942;
+
+        boolean b=false;
 
         if (cargarBitConChooser() && SeleccionTBModifFichero()){
             seleccionaPanel(panelOutPut);
@@ -154,12 +156,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
                             ejec(true);
                         }
                         //TODO cargar restorer
-                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
+                        b=this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
+
 
                     } catch (FileNotFoundException ex) {
+
                         Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
                     } catch (IOException ex) {
                             Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            return false;
                     }
     //                catch (InterruptedException ex) {
     //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,7 +175,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         }
    
-
+        return b;
     }
 
     /**
@@ -571,9 +577,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         _btnCargarVhd = new javax.swing.JButton();
         _btnCrearBit = new javax.swing.JButton();
-        _btnEjecutar = new javax.swing.JButton();
         _btnCargarBit = new javax.swing.JButton();
         _btnCargarTB = new javax.swing.JButton();
+        _btnEjecutar = new javax.swing.JButton();
         _btnPararEjecucion = new javax.swing.JButton();
         _btnReanudar = new javax.swing.JButton();
         _btnGenerarGolden = new javax.swing.JButton();
@@ -643,6 +649,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _btnCrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCrearBit.png"))); // NOI18N
         _btnCrearBit.setText("Crear .Bit");
+        _btnCrearBit.setEnabled(false);
         _btnCrearBit.setFocusable(false);
         _btnCrearBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnCrearBit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -653,21 +660,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCrearBit);
 
-        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
-        _btnEjecutar.setText("Ejecutar");
-        _btnEjecutar.setContentAreaFilled(false);
-        _btnEjecutar.setFocusable(false);
-        _btnEjecutar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        _btnEjecutar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        _btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btnEjecutarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(_btnEjecutar);
-
         _btnCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarBit.png"))); // NOI18N
         _btnCargarBit.setText("Cargar .Bit");
+        _btnCargarBit.setEnabled(false);
         _btnCargarBit.setFocusable(false);
         _btnCargarBit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnCargarBit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -680,6 +675,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarTB.png"))); // NOI18N
         _btnCargarTB.setText("Cargar TB");
+        _btnCargarTB.setEnabled(false);
         _btnCargarTB.setFocusable(false);
         _btnCargarTB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnCargarTB.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -690,8 +686,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarTB);
 
+        _btnEjecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnEjec.png"))); // NOI18N
+        _btnEjecutar.setText("Ejecutar");
+        _btnEjecutar.setContentAreaFilled(false);
+        _btnEjecutar.setEnabled(false);
+        _btnEjecutar.setFocusable(false);
+        _btnEjecutar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnEjecutar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnEjecutarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(_btnEjecutar);
+
         _btnPararEjecucion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnPararEjec.png"))); // NOI18N
         _btnPararEjecucion.setText("Parar Ejecución");
+        _btnPararEjecucion.setEnabled(false);
         _btnPararEjecucion.setFocusable(false);
         _btnPararEjecucion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnPararEjecucion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -704,6 +715,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _btnReanudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnReanudarEjec.png"))); // NOI18N
         _btnReanudar.setText("Reanudar Ejecución");
+        _btnReanudar.setEnabled(false);
         _btnReanudar.setFocusable(false);
         _btnReanudar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnReanudar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -716,6 +728,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _btnGenerarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnGeneraGolden.png"))); // NOI18N
         _btnGenerarGolden.setText("Generar Golden");
+        _btnGenerarGolden.setEnabled(false);
         _btnGenerarGolden.setFocusable(false);
         _btnGenerarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnGenerarGolden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -728,6 +741,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         _btnCargarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargaGolden.jpg"))); // NOI18N
         _btnCargarGolden.setText("Cargar Golden");
+        _btnCargarGolden.setEnabled(false);
         _btnCargarGolden.setFocusable(false);
         _btnCargarGolden.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         _btnCargarGolden.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1038,6 +1052,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 cargaVariosVHDL();
             }
         }
+        _btnCrearBit.setEnabled(true);
+        _btnCargarBit.setEnabled(true);
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -1054,7 +1070,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
         //this.cargarBitConChooser();
-        procesoModificarFicheros();
+       if( procesoModificarFicheros())
+            _btnCargarTB.setEnabled(true);
 
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
@@ -1115,6 +1132,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
 
         this.jTabbedPane1.setSelectedIndex(2);
+        _btnEjecutar.setEnabled(true);
+        _btnCargarGolden.setEnabled(true);
+        _btnGenerarGolden.setEnabled(true);
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
