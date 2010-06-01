@@ -178,7 +178,7 @@ public class LexicoEntidad {
     }
 
     /**
-     * Llama a la función sigToken()
+     * Inicia el análisis, llama a la función sigToken()
      * @return El siguiente Token.
      * @throws IOException
      */

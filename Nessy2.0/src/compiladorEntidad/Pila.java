@@ -19,7 +19,7 @@ public class Pila<T> {
     private ArrayList<T> pila;
 
     /**
-     * Método constructor de la clase.
+     * Método constructor de la clase. Crea una pila vacía.
      */
     public Pila(){
         pila = new ArrayList<T>();
@@ -28,7 +28,7 @@ public class Pila<T> {
 
     /**
      * Método para saber si es pila vacía.
-     * @return Boolean si es pila vacía.
+     * @return Boolean, true si es pila vacía, false en caso contrario.
      */
     public boolean esVacia(){
         return cima == -1;
@@ -45,7 +45,7 @@ public class Pila<T> {
 
     /**
      * Desapila un elemento de la pila
-     * @return devuelve el elemento desapilado.
+     * @return Devuelve el elemento desapilado.
      */
     public T desapilar(){
         if (!esVacia()){
@@ -56,7 +56,7 @@ public class Pila<T> {
 
     /**
      * Consulta la cima de la pila
-     * @return el elemento de la cima de la Pila
+     * @return El elemento de la cima de la Pila
      */
     public T getCima(){
         if (!esVacia()){

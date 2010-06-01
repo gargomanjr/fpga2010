@@ -7,7 +7,7 @@ package compiladorEntidad;
 
 /**
  *
- * @author 
+ * @author Carlos, David y Tony
  */
 public class Entrada extends Puerto{
 
@@ -46,7 +46,7 @@ public class Entrada extends Puerto{
     }
 
     /**
-     * Establece la entrada como Reset.
+     * Establece la entrada como Reset o le quita la propiedad.
      * @param valor Nuevo valor para el parámetro esReset.
      */
     public void ponerComoReset(boolean valor){

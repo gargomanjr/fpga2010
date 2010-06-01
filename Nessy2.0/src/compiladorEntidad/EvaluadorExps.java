@@ -7,14 +7,7 @@ package compiladorEntidad;
  */
 public class EvaluadorExps {
 
-    /**
-     *
-     * @return devuelve -1
-     */
-    public static int evaluarExpresion(){
 
-        return -1;
-    }
 
     /*public static String pasarAPostFija(String cadena){
         Pila pila = new Pila();
@@ -41,7 +34,7 @@ public class EvaluadorExps {
     }*/
 
     /**
-     * Método que devuelve un booleano dependiendo si la entrada es un Operadorando
+     * Método que devuelve un booleano dependiendo si la entrada es un Operador
      * @param t Entero a consultar.
      * @return Booleano que indica si la entrada es un Operador o no.
      */
@@ -51,7 +44,7 @@ public class EvaluadorExps {
     }
 
     /**
-     * Método que devuelve un booleano dependiendo si la entrada es un Operador
+     * Método que devuelve un booleano dependiendo si la entrada es un Operando
      * @param t Entero a consultar.
      * @return Booleano que indica si la entrada es un Operando o no.
      */

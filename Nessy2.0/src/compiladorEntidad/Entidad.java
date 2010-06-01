@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Carlos
+ * @author Carlos, David y Tony
  */
 public class Entidad {
 
@@ -57,7 +57,7 @@ public class Entidad {
     }
 
     /**
-     * Getter para consultar el número de bits de la Entidad
+     * Getter para consultar el número de bits de entrada de la Entidad
      * @return El número de bits de entrada de la entidad.
      */
     public int getBitsEntrada() {
@@ -65,7 +65,7 @@ public class Entidad {
     }
 
     /**
-     * Setter para establecer el número de bits de entrada de la Entidad
+     * Setter para establecer el número de bits de entrada de la Entidad.
      * @param bitsEntrada
      */
     public void setBitsEntrada(int bitsEntrada) {
@@ -73,7 +73,7 @@ public class Entidad {
     }
 
     /**
-     * Getter para consultar el número de bits salida de la Entidad
+     * Getter para consultar el número de bits de salida de la Entidad.
      * @return El número de bits de salida de la entidad.
      */
     public int getBitsSalida() {
@@ -81,7 +81,7 @@ public class Entidad {
     }
 
     /**
-     * Setter para establecer el número de bits de salida de la Entidad
+     * Setter para establecer el número de bits de salida de la Entidad.
      * @param bitsSalida Número de bits de salida
      */
     public void setBitsSalida(int bitsSalida) {

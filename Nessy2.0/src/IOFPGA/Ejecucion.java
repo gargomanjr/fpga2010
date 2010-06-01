@@ -36,7 +36,6 @@ public class Ejecucion extends Thread {
     private boolean ejecutando;
     private Com com1;
     private String ls_cadenaaejecutar;
-    private boolean error;
     private int datosEnviar[];
     private int li_bits_entrada;
     private int li_bits_salida;
@@ -137,7 +136,7 @@ public class Ejecucion extends Thread {
     }
 
    /**
-     * Transforma un String en du entero equivalente
+     * Transforma un String en su entero equivalente
      * @param s Cadena a traducir.
      * @return Entero equivalente al String introducido.
      */
@@ -159,19 +158,12 @@ public class Ejecucion extends Thread {
 
    /**
      * Indica si el hilo que se está ejecutando tiene que pararse o reanudarse, según el argumento que recibe.
-     * @param setwait boolean que indica si se tiene que detener el hilo o continuar.
+     * @param setwait boolean, valor true que indica que el hilo tiene que continuar, false para pararlo.
      */
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
     }
 
-    /**
-     * Transforma un String en un entero que será el que se mande a la FPGA
-     * @return Booleano que indica si hay diferencias entre el fichero de traza y la salida que se está generando.
-     */
-    public boolean isError() {
-        return error;
-    }
     /**
      * Envía una cadena binaria a la FPGA en 4 partes, porque la instrucción es de 32 bits
      * y solo podemos enviar 8 por cada ciclo
@@ -200,7 +192,8 @@ public class Ejecucion extends Thread {
         }
     }
     /**
-     * Envía una cadena binaria a la FPGA en 4 partes, porque la instrucción es de 32 bits
+     * Envía una cadena binaria a la FPGA en 4 partes, porque la instrucción es de 32 bits y
+     * por el puerto serie solo podemos enviar cadenas de 8 bits.
      * @return boolean si todo es correcto.
      */
     public boolean convierteCadenas() {
@@ -237,7 +230,7 @@ public class Ejecucion extends Thread {
     }
    /**
      * Método que consulta el estado de la ejecucución del hilo.
-     * @return Boolean estado de la ejecución.
+     * @return Boolean estado de la ejecución. Cierto si está ejecutando, falso en caso contrario.
      */
     public boolean getejecutando() {
         return ejecutando;
@@ -370,7 +363,8 @@ public class Ejecucion extends Thread {
     }
 
    /**
-     * Función para copiar un fichero en otro fichero.
+     * Función para copiar un fichero en otro fichero. En nuestro caso copiamos el
+    *  archivo de escritura en el de comparar con traza.
     * @throws IOException
     */
     public void CopiarSalida() throws IOException {

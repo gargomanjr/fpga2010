@@ -28,7 +28,7 @@ public class SintacticoEntidad {
     private HashMap<String,Integer> tablaSimbolos;
 
     /**
-     *
+     * Getter para consultar la Entidad.
      * @return Devuelve el Objeto de la clase Entidad
      */
     public Entidad getEntidad() {
@@ -37,8 +37,8 @@ public class SintacticoEntidad {
 
     /**
      * Constructor de la clase
-     * @param fichero que vamos a analizar sintácticamente.
-     * @param errores
+     * @param fichero Ruta del fichero que vamos a analizar sintácticamente.
+     * @param errores ArrayList de errores encontrados
      * @throws IOException
      */
     public SintacticoEntidad(String fichero, Errores errores) throws IOException {
@@ -108,7 +108,7 @@ public class SintacticoEntidad {
     }
 
     /**
-     * Analiza la parte un componente genérico.
+     * Analiza la parte de un componente genérico.
      * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
