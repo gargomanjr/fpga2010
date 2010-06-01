@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  *
- * @author Carlos
+ * @author Carlos, Tony y David.
  */
 public class GeneraVhdl {
 
@@ -19,6 +19,13 @@ public class GeneraVhdl {
     private String fichero;
     private Errores errores;
 
+    /**
+     * Constructor de la clase
+     * @param fichero Sobre el que vamos a generar el nuevo vhdl.
+     * @param entidad Entidad con la que estamos trabajando y a partir de la cual se genera el vhdl.
+     * @param errores Objeto de la clase Errores para ir almacenando los errores encontrados.
+     * @throws java.io.IOException
+     */
     public GeneraVhdl(String fichero, Entidad entidad, Errores errores) throws IOException {
         this.fichero = fichero;
         this.entidad = entidad;
@@ -26,6 +33,10 @@ public class GeneraVhdl {
         nomEntidadGeneral = "Circuito_FPGA"; //de momento lo llamamos asi
     }
 
+    /**
+     * Abre el fichero para escribir el nuevo archivo vhdl.
+     * @return Cierto si no ha habido ningún error, falso en caso contrario.
+     */
     public boolean abrir() {
         boolean correcto = fichero != null;
         try {
@@ -37,6 +48,10 @@ public class GeneraVhdl {
         return correcto;
     }
 
+    /**
+     * Cierra el fichero VHDL que estamos construyendo
+     * @return Cierto si no ha habido ningún error, falso en caso contrario.
+     */
     public boolean cerrar() {
         boolean correcto = bw != null;
         try {
@@ -521,6 +536,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Crea el nuevo fichero VHDL a partir de la entidad que tiene la clase.
+     */
     public void crearFichero() {
         librerias();
         entidadGeneral();

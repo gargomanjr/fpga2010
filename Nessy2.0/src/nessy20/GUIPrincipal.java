@@ -42,8 +42,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- * Constructor de la clase
- * @author Tony
+ * Frame principal de la aplicación
+ * @author Tony, David y Carlos.
  */
 public class GUIPrincipal extends javax.swing.JFrame {
     //private EstadoContador estado_cont;
@@ -173,24 +173,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *
-     * @return
+     * Genera el archivo Golden.txt que será el fichero con el que compararemos nuestras salidas.
+     * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean generarGolden() {
         boolean correcto = true;
         if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
-            //this.hiloreceptor.pararrecepcionfpga();
         }
-
-        //Selecciona panel
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
-            //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
-            //hiloreceptor.start();
-
             if (SeleccionTBFich) {
                 try {
                     bf = new BufferedReader(new FileReader(fichero_tb));
@@ -211,8 +205,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     //this.jTabbedPane1.setSelectedIndex(3);
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
-                } else {
-                    //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {                
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -224,8 +217,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * 
-     * @return
+     * Función para cargar el archivo .bit. Te abre un JFileChooser para elegir el archivo a cargar
+     * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean cargarBitConChooser() {
         //this.jTabbedPane1.setSelectedIndex(1);
@@ -253,7 +246,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     /**
      *
-     * @return
+     * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean compilarEntidad() {
         boolean correcto = true;
@@ -262,9 +255,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         GeneraVhdl generador;
 
         try {
-            /*StringReader rd = new StringReader(this._TxtEntityVHD.getText());
-            BufferedReader brd = new BufferedReader(rd);*/
-
             compilador = new SintacticoEntidad(fichero, errores);
             compilador.inicia();
 
@@ -277,9 +267,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     generador.crearFichero();
                     generador.cerrar();
                     System.out.println("Fichero vhdl creado correctamente");
-                    //compilación y creación del .bit
-                    // Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
-
                 } else {
                     this.muestraErroresConsola(errores);
                     correcto = false;
@@ -304,7 +291,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
-    /** Creates new form GUIPrincipal */
+    /** Constructor de la clase.
+     *  Los botones reanudar y parar ejecución se ponen a no visibles.
+     */
     public GUIPrincipal() {
         logger.info("Ejecutando Nessy 2.0...");
         initComponentsAux();
@@ -315,8 +304,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *
-     * @return
+     * Función que inicializa el puerto serie necesario para la comuncicación con la FPGA. Comprueba que
+     * esté libre el puerto y que la maquina sobre la que estamos ejecutando tenga el puerto COM1.
+     * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean inicializarPuertoSerie() {
         boolean correcto = true;
@@ -324,8 +314,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             param = new Parameters();
             param.setPort("COM1");
             param.setBaudRate("9600");
-            //Comprobamos que el puerto COM1 está libre, o si la maquina
-            // en la que ejecutamos posee puerto COM1
             SerialPort puerto = new SerialPort();
             if (puerto.getStateSerialPortC("COM1").equals("free")) {
                 com1 = new Com(param);
@@ -345,7 +333,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void cargarVHDL() {
         boolean error = !compilarEntidad();
         if (!error) {
-            //Selecciona panel
             seleccionaPanel(panelVHD);
             this._TxtEntityVHD.setText(this.entidad.toString());
             JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -469,18 +456,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     private void ejec(boolean lb_recunfiguracion_pracial) {
-        if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
+        if (this.ejec != null) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
-            //this.hiloreceptor.pararrecepcionfpga();
         }
 
         //Selecciona panel
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
-            //this.hiloreceptor = new RecepcionFPGA(this._TextSalida, this.entidad.getBitsSalida(), param, com1);
-            //hiloreceptor.start();
             String ls_cadenaaejecutar = this._txtTB.getText();
             this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
             this.ejec.setCadena(ls_cadenaaejecutar);
@@ -503,8 +487,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     //this.jTabbedPane1.setSelectedIndex(3);
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
-                } else {
-                    //JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n"+"Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a "+ Integer.toString(4)+" .", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {                  
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -526,22 +509,27 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *
-     * @param c
+     * Escribe un carácter que se le pasa como argumento en el text Area correspondiente a la salida de la FPGA.
+     * @param c Carácter a escribir.
      */
     public void EscribirDatoPantalla(char c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + " ");
     }
 
     /**
-     *
-     * @param c
+     * Escribe una cadena que se le pasa como argumento en el text Area correspondiente a la salida de la FPGA.
+     * @param c Cadena a escribir.
      */
     public void EscribirDatoPantalla(String c) {
         this._TextSalida.setText(this._TextSalida.getText() + c + "\n");
     }
 
-    void escribirEnPantalla(String str) {
+    /**
+     * Escribe una cadena que se le pasa como argumento en el text Area correspondiente al proceso
+     * de cargar un archivo .bit en la FPGA
+     * @param str Cadena a escribir.
+     */
+    public void escribirEnPantalla(String str) {
         this._TextCargarbit.append(str + "\n");
     }
 
@@ -1083,19 +1071,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
 
-
-
-
-        // TODO: mandar enable a la placa
-        //Selecciona el panel
         seleccionaPanel(panelOutPut);
 
         int longitud = this.entidad.getBitsEntrada();
-        //int DatoAEnviar = (int) Math.pow(2, longitud - 1);
-        //this.com1.sendSingleData(DatoAEnviar);
-        System.out.println("PARANDO HILOS..");
+        System.out.println("PARANDO EL HILO..");
         this.ejec.setSetwait(true);
-        //this.hiloreceptor.setSetwait(true);
         this._btnReanudar.setEnabled(true);
         this._btnPararEjecucion.setEnabled(false);
 
@@ -1103,13 +1083,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
 
-        // this.com1.sendSingleData(0);
-            /*synchronized (this.hiloreceptor) {
-        this.hiloreceptor.notify();
-        }*/
-
-        //Selecciona panel
-        //this.inicializarPuertoSerie();
         seleccionaPanel(panelOutPut);
 
         synchronized (this.ejec) {
@@ -1117,9 +1090,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(true);
-        //TODO : Función que volviera activar la fpga.
 
-        //TODO : Función que volviera activar la fpga.
     }//GEN-LAST:event__btnReanudarActionPerformed
 
     private void _btnCargarTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarTBActionPerformed
@@ -1160,7 +1131,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
-        //this.hiloreceptor.pararrecepcionfpga();
     }//GEN-LAST:event_formWindowClosed
 
     private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed
@@ -1528,7 +1498,7 @@ public void setNumeroInst(int inst) {
             Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    // private JTabbedPaneWithCloseIcon jTabbedPane1;
+    
 
   private boolean SeleccionTBModifFichero (){
         boolean correcto = false;
