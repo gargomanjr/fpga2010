@@ -1,4 +1,4 @@
 vhdl work "Tx_serie.vhd"
 vhdl work "Rx_serie.vhd"
-vhdl work "D:\PFC\Nessy2.0\test\Contador2.vhd"
+vhdl work "E:\Universidad 2009-2010\PFC\Nessy2.0\IOSerie\Circuito_FPGA.vhd"
 vhdl work "Circuito_FPGA.vhd"

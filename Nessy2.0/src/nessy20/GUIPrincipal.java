@@ -13,9 +13,12 @@ package nessy20;
 import compiladorEntidad.Errores;
 import compiladorEntidad.SintacticoEntidad;
 
+
+
 import IOFPGA.Ejecucion;
 import IOFPGA.RecepcionFPGA;
 import app.*;
+//import com.sun.org.apache.bcel.internal.util.ClassPath;
 import compiladorEntidad.Entidad;
 import core.SerialPort;
 import generadorVHDL.GeneraVhdl;
@@ -33,13 +36,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import org.apache.log4j.*;
 
 /**
  * Frame principal de la aplicación
@@ -47,6 +49,9 @@ import javax.swing.JPanel;
  */
 public class GUIPrincipal extends javax.swing.JFrame {
     //private EstadoContador estado_cont;
+
+    private static Logger log= Logger.getLogger(GUIPrincipal.class);
+
     private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
     private Parameters param;
     private Com com1;
@@ -62,6 +67,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     String fichero_bit;
     private boolean SeleccionTBFich;
     private BufferedReader bf;
+
 
     /**
      * Devuelve el Array de ficheros Vhdl Cargados en la aplicación.
@@ -94,7 +100,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void setTop(int top) {
         this.top = top;
     }
-    private static Logger logger = Logger.getLogger("GUIPrincipal.class");
 
     /**
      * Devuelve la Entidad con la que se está trabajado
@@ -150,10 +155,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
                     } catch (FileNotFoundException ex) {
 
-                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     } catch (IOException ex) {
-                            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                       //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             return false;
                     }
                 }
@@ -286,14 +291,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
      *  Los botones reanudar y parar ejecución se ponen a no visibles.
      */
     public GUIPrincipal() {
-        logger.info("Ejecutando Nessy 2.0...");
+        
+     
+        PropertyConfigurator.configure("src/recursos/log4j.properties");
+
+        
         initComponentsAux();
         initComponents();
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
         this.files = new ArrayList<File>();
+        log.info("Inicializado Nessy 2.0");
+        
     }
-
     /**
      * Función que inicializa el puerto serie necesario para la comuncicación con la FPGA. Comprueba que
      * esté libre el puerto y que la maquina sobre la que estamos ejecutando tenga el puerto COM1.
@@ -315,7 +325,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(this, "La aplicación ya se encuentra ejecutándose, ciérrela para ejecutar nuevamente la aplicación.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            logger.info("La aplicacion ya se encuentra ejecutandose" + ex);
+            log.info("La aplicacion ya se encuentra ejecutandose" + ex);
             System.exit(0);
         }
         return correcto;
@@ -328,6 +338,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             this._TxtEntityVHD.setText(this.entidad.toString());
             JOptionPane.showMessageDialog(this, "Entity cargada correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
         } else {
+            log.error("Error al cargar VHDL");
             JOptionPane.showMessageDialog(this, "Error al cargar el fichero de la entity", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -352,7 +363,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     chooser.getSelectedFile().getName());
             this.cargarVHDL();
         } else {
-            System.out.println("No Selection ");
+            log.info("Seleccion no llevada a cabo");
         }
     }
 
@@ -412,7 +423,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             in.close();
             out.close();
         } catch (IOException ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+     //       Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -1048,7 +1059,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //compilación y creación del .bit
             Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
         } catch (IOException ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+  //          Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event__btnCrearBitActionPerformed
@@ -1378,7 +1389,7 @@ public void setNumeroInst(int inst) {
                 br.close();
             } catch (IOException ex) {
                 error = true;
-                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
 
 
                 this._txtTB.append(
@@ -1500,7 +1511,7 @@ public void setNumeroInst(int inst) {
 
             }
         } catch (Exception ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

@@ -44,9 +44,10 @@ component CONTADOR
 		CLK: in STD_LOGIC;
 		ENABLE: in STD_LOGIC;
 		LOAD: in STD_LOGIC;
-		DATA_LOAD: in STD_LOGIC_VECTOR(15 downto 0);
+		DATA_LOAD: in STD_LOGIC_VECTOR(3 downto 0);
 
-		SALIDA: out STD_LOGIC_VECTOR(15 downto 0)
+		CAMBIANDO: out STD_LOGIC;
+		SALIDA: out STD_LOGIC_VECTOR(3 downto 0)
 );
 end component;
 
@@ -58,9 +59,10 @@ signal mi_RESET: STD_LOGIC;
 signal mi_CLK: STD_LOGIC;
 signal mi_ENABLE: STD_LOGIC;
 signal mi_LOAD: STD_LOGIC;
-signal mi_DATA_LOAD: STD_LOGIC_VECTOR(15 downto 0);
+signal mi_DATA_LOAD: STD_LOGIC_VECTOR(3 downto 0);
 
-signal mi_SALIDA: STD_LOGIC_VECTOR(15 downto 0);
+signal mi_CAMBIANDO: STD_LOGIC;
+signal mi_SALIDA: STD_LOGIC_VECTOR(3 downto 0);
 
 
 signal mi_resetserie:std_logic;
@@ -99,7 +101,7 @@ f: Tx_serie port map(mi_resetserie,clk,mi_transmite,mi_datotxin,mi_transmitiendo
 R: Rx_serie port map(mi_resetserie,clk,mi_rxdatoserie,mi_datorxout,mi_avisorx,mi_recibiendo);
 
 
-U: CONTADOR port map(mi_RESET,mi_CLK,mi_ENABLE,mi_LOAD,mi_DATA_LOAD,mi_SALIDA);
+U: CONTADOR port map(mi_RESET,mi_CLK,mi_ENABLE,mi_LOAD,mi_DATA_LOAD,mi_CAMBIANDO,mi_SALIDA);
 
 
 process(mi_recibiendo,mi_resetserie)
@@ -130,32 +132,36 @@ begin
 end process;
 
 
-process(mi_transmitiendo,mi_resetserie)
+process(estadoSal, clk, mi_resetserie)
+begin
+	if mi_resetserie = '0' then
+		mi_datotxin <= Reg_salidas(7 downto 0);
+	elsif clk'event and clk = '1' then
+		if estadoSal = 0 then
+			mi_datotxin <= Reg_salidas(7 downto 0);
+		elsif estadoSal = 1 then
+			mi_datotxin <= Reg_salidas(15 downto 8);
+		elsif estadoSal = 2 then
+			mi_datotxin <= Reg_salidas(23 downto 16);
+		elsif estadoSal = 3 then
+			mi_datotxin <= Reg_salidas(31 downto 24);
+		end if;
+	end if;
+end process;
+
+
+process(mi_transmitiendo, mi_resetserie)
 begin
 	if mi_resetserie = '0' then
 		estadoSal<= 0;
 		transmitido <= '0';
 	elsif mi_transmitiendo'event and mi_transmitiendo = '1' then
-		transmitido <= '0';
-		if estadoSal = 0 then
-			mi_datotxin <= Reg_salidas(7 downto 0);
-			estadoSal <= 1;
-		elsif estadoSal = 1 then
-			mi_datotxin <= Reg_salidas(15 downto 8);
-			estadoSal <= 2;
-		elsif estadoSal = 2 then
-			mi_datotxin <= Reg_salidas(23 downto 16);
-			estadoSal <= 3;
-		elsif estadoSal = 3 then
-			mi_datotxin <= Reg_salidas(31 downto 24);
-			estadoSal <= 4;
-		elsif estadoSal = 4 then
-			--mi_datotxin <= Reg_salidas(7 downto 0);
-			estadoSal <= 0;
+		if estadoSal = 3 then
 			transmitido <= '1';
+			estadoSal <= 0;
 		else
-			mi_datotxin <= Reg_salidas(7 downto 0);
-			estadoSal <= 1;
+			estadoSal <= estadoSal+1;
+			transmitido <= '0';
 		end if;
 	end if;
 end process;
@@ -252,38 +258,15 @@ mi_DATA_LOAD(0) <= Reg_entradas(2);
 mi_DATA_LOAD(1) <= Reg_entradas(3);
 mi_DATA_LOAD(2) <= Reg_entradas(4);
 mi_DATA_LOAD(3) <= Reg_entradas(5);
-mi_DATA_LOAD(4) <= Reg_entradas(6);
-mi_DATA_LOAD(5) <= Reg_entradas(7);
-mi_DATA_LOAD(6) <= Reg_entradas(8);
-mi_DATA_LOAD(7) <= Reg_entradas(9);
-mi_DATA_LOAD(8) <= Reg_entradas(10);
-mi_DATA_LOAD(9) <= Reg_entradas(11);
-mi_DATA_LOAD(10) <= Reg_entradas(12);
-mi_DATA_LOAD(11) <= Reg_entradas(13);
-mi_DATA_LOAD(12) <= Reg_entradas(14);
-mi_DATA_LOAD(13) <= Reg_entradas(15);
-mi_DATA_LOAD(14) <= Reg_entradas(16);
-mi_DATA_LOAD(15) <= Reg_entradas(17);
 MI_RESET <= not reset;
 enable <= '1';
 
 
-Reg_salidas(0) <= mi_SALIDA(0);
-Reg_salidas(1) <= mi_SALIDA(1);
-Reg_salidas(2) <= mi_SALIDA(2);
-Reg_salidas(3) <= mi_SALIDA(3);
-Reg_salidas(4) <= mi_SALIDA(4);
-Reg_salidas(5) <= mi_SALIDA(5);
-Reg_salidas(6) <= mi_SALIDA(6);
-Reg_salidas(7) <= mi_SALIDA(7);
-Reg_salidas(8) <= mi_SALIDA(8);
-Reg_salidas(9) <= mi_SALIDA(9);
-Reg_salidas(10) <= mi_SALIDA(10);
-Reg_salidas(11) <= mi_SALIDA(11);
-Reg_salidas(12) <= mi_SALIDA(12);
-Reg_salidas(13) <= mi_SALIDA(13);
-Reg_salidas(14) <= mi_SALIDA(14);
-Reg_salidas(15) <= mi_SALIDA(15);
+Reg_salidas(0) <= mi_CAMBIANDO;
+Reg_salidas(1) <= mi_SALIDA(0);
+Reg_salidas(2) <= mi_SALIDA(1);
+Reg_salidas(3) <= mi_SALIDA(2);
+Reg_salidas(4) <= mi_SALIDA(3);
 
 
 end Behavioral;
