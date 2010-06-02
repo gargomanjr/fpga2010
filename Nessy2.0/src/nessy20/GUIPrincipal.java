@@ -1434,7 +1434,7 @@ public void setNumeroInst(int inst) {
             }
 
         } else {
-            System.out.println("No Selection ");
+           log.info("Seleccion TB no realizada ");
             error = true;
         }
         return !error;
@@ -1511,6 +1511,7 @@ public void setNumeroInst(int inst) {
 
             }
         } catch (Exception ex) {
+            log.error("Selecciona Panel() : "+ex);
 //            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
