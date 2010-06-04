@@ -11,6 +11,15 @@
 
 package nessy20;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -175,9 +184,22 @@ public class GUIConfig extends javax.swing.JDialog {
     }//GEN-LAST:event__btn_HomeImpactActionPerformed
 
     private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
+        try {
+            //TODO cargar configuracion en archivos.Properties prop = new Properties();
+            InputStream is = null;
+            Properties prop = new Properties();
+            //Para leer prop
+           // is = new FileInputStream("src/recursos/Config.properties");
+         //   prop.load(is);
+            prop.setProperty("HomeXilins", rutaXilins);
+            prop.setProperty("HomeImpact", rutaImpact);
+            prop.store(new FileOutputStream("src/recursos/Config.properties"), "rutas");
+            this.dispose();
+        } catch (IOException ex) {
+       //     Logger.getLogger(GUIConfig.class.getName()).log(Level.SEVERE, null, ex);
 
-        //TODO cargar configuracion en archivos.
-        this.dispose();
+            System.out.println("Fallo");
+        }
 }//GEN-LAST:event__btnOKActionPerformed
 
     private void _btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCancelarActionPerformed
