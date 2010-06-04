@@ -614,6 +614,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuVistasCargar = new javax.swing.JMenuItem();
         menuVistasTB = new javax.swing.JMenuItem();
         menuVistasOutPut = new javax.swing.JMenuItem();
+        menuConfig = new javax.swing.JMenu();
+        menuConfigNessy = new javax.swing.JMenuItem();
+        menuConfigFichConf = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nessy 2.0");
@@ -1013,6 +1016,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuVistas);
 
+        menuConfig.setText("Configuración");
+
+        menuConfigNessy.setText("Configurar Nessy");
+        menuConfigNessy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuConfigNessyActionPerformed(evt);
+            }
+        });
+        menuConfig.add(menuConfigNessy);
+
+        menuConfigFichConf.setText("Cargar Fichero Configuración");
+        menuConfig.add(menuConfigFichConf);
+
+        jMenuBar1.add(menuConfig);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1291,6 +1309,11 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
     }
 
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
+
+private void menuConfigNessyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigNessyActionPerformed
+     GUIConfig config = new GUIConfig(this, true);
+     config.setVisible(true);
+}//GEN-LAST:event_menuConfigNessyActionPerformed
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.
@@ -1330,6 +1353,9 @@ public void setNumeroInst(int inst) {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenu menuConfig;
+    private javax.swing.JMenuItem menuConfigFichConf;
+    private javax.swing.JMenuItem menuConfigNessy;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuOpcionesCargarBit;
     private javax.swing.JMenuItem menuOpcionesCargarTB;
