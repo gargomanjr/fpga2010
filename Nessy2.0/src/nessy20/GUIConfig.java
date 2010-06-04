@@ -11,16 +11,21 @@
 
 package nessy20;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author David
  */
 public class GUIConfig extends javax.swing.JDialog {
-
+    
+    private String rutaXilins;
+    private String rutaImpact;
     /** Creates new form GUIConfig */
     public GUIConfig(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
     }
 
     /** This method is called from within the constructor to
@@ -32,40 +37,167 @@ public class GUIConfig extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        _lbl_HomeXilins = new javax.swing.JLabel();
+        _txt_HomeXilins = new javax.swing.JTextField();
+        _btn_HomeXilins = new javax.swing.JButton();
+        _txt_HomeImpact = new javax.swing.JTextField();
+        _btn_HomeImpact = new javax.swing.JButton();
+        _lbl_HomeImpact = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        _btnOK = new javax.swing.JButton();
+        _btnCancelar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Configuración Nessy");
+
+        _lbl_HomeXilins.setText("Home Xilins ISE :");
+
+        _btn_HomeXilins.setText("Seleccion");
+        _btn_HomeXilins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_HomeXilinsActionPerformed(evt);
+            }
+        });
+
+        _btn_HomeImpact.setText("Seleccion");
+        _btn_HomeImpact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btn_HomeImpactActionPerformed(evt);
+            }
+        });
+
+        _lbl_HomeImpact.setText("Home Impact :");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Configuración");
+
+        _btnOK.setText("OK");
+        _btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnOKActionPerformed(evt);
+            }
+        });
+
+        _btnCancelar.setText("Cancelar");
+        _btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(_lbl_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(_txt_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(_btn_HomeImpact))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(_lbl_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(_btn_HomeXilins)))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(227, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(220, 220, 220))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(180, Short.MAX_VALUE)
+                .addComponent(_btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(_btnCancelar)
+                .addGap(174, 174, 174))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(_lbl_HomeXilins)
+                    .addComponent(_btn_HomeXilins)
+                    .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(_lbl_HomeImpact)
+                    .addComponent(_btn_HomeImpact)
+                    .addComponent(_txt_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(_btnCancelar)
+                    .addComponent(_btnOK))
+                .addGap(31, 31, 31))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                GUIConfig dialog = new GUIConfig(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void _btn_HomeXilinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_HomeXilinsActionPerformed
+        JFileChooser chooser;
+        chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("C:/"));
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setDialogTitle("Seleccionar Home Xilins ISE");
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            //try {
+            rutaXilins=chooser.getSelectedFile().getAbsolutePath();
+            _txt_HomeXilins.setText(rutaXilins);
+        } else {
+            //log.info("Seleccion no llevada a cabo");
+        }
+
+    }//GEN-LAST:event__btn_HomeXilinsActionPerformed
+
+    private void _btn_HomeImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_HomeImpactActionPerformed
+        JFileChooser chooser;
+        chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("C:/"));
+        chooser.setDialogTitle("Seleccionar Home Impact");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setMultiSelectionEnabled(false);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            //try {
+            rutaImpact=chooser.getSelectedFile().getAbsolutePath();
+            _txt_HomeImpact.setText(rutaImpact);
+        } else {
+            //log.info("Seleccion no llevada a cabo");
+        }
+    }//GEN-LAST:event__btn_HomeImpactActionPerformed
+
+    private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
+
+        //TODO cargar configuracion en archivos.
+        this.dispose();
+}//GEN-LAST:event__btnOKActionPerformed
+
+    private void _btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCancelarActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        
+}//GEN-LAST:event__btnCancelarActionPerformed
+
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton _btnCancelar;
+    private javax.swing.JButton _btnOK;
+    private javax.swing.JButton _btn_HomeImpact;
+    private javax.swing.JButton _btn_HomeXilins;
+    private javax.swing.JLabel _lbl_HomeImpact;
+    private javax.swing.JLabel _lbl_HomeXilins;
+    private javax.swing.JTextField _txt_HomeImpact;
+    private javax.swing.JTextField _txt_HomeXilins;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
 }
