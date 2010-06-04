@@ -1027,6 +1027,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuConfig.add(menuConfigNessy);
 
         menuConfigFichConf.setText("Cargar Fichero Configuración");
+        menuConfigFichConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuConfigFichConfActionPerformed(evt);
+            }
+        });
         menuConfig.add(menuConfigFichConf);
 
         jMenuBar1.add(menuConfig);
@@ -1314,6 +1319,25 @@ private void menuConfigNessyActionPerformed(java.awt.event.ActionEvent evt) {//G
      GUIConfig config = new GUIConfig(this, true);
      config.setVisible(true);
 }//GEN-LAST:event_menuConfigNessyActionPerformed
+
+private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigFichConfActionPerformed
+
+        JFileChooser chooser;
+        chooser = new JFileChooser();
+        Filtro filter = new Filtro("properties");
+        chooser.addChoosableFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Seleccionar Archivo Configuración");
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setMultiSelectionEnabled(false);
+        files = new ArrayList<File>();
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
+            
+
+        }
+
+}//GEN-LAST:event_menuConfigFichConfActionPerformed
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.
