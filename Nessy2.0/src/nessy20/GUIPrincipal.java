@@ -295,7 +295,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      
         PropertyConfigurator.configure("src/recursos/log4j.properties");
 
-        
+        reconf();
         initComponentsAux();
         initComponents();
         this._btnReanudar.setEnabled(false);
@@ -1557,6 +1557,12 @@ public void setNumeroInst(int inst) {
         }
         return correcto;
   }
+
+    private void reconf() {
+
+       //TODO
+
+    }
 
 
 
