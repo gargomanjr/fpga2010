@@ -19,20 +19,23 @@ import javax.swing.JFrame;
  */
 public class CargaBit {
 
-    private final static String RUTA_IMPACT = "C://Xilinx82//bin//nt//impact.exe";
+    //private final static String RUTA_IMPACT = "C://Xilinx82//bin//nt//impact.exe";
 
     private String ficheroBit;
 
     GUIPrincipal interfaz;
+
+    String rutaImpact;
 
     /**
      * Constructor de la clase.
      * @param interfaz Interfaz sobre la que estamos ejecutando
      * @param fich String con la ruta del fichero .bit que deseamos cargar.
      */
-    CargaBit(GUIPrincipal interfaz, String fich){
+    CargaBit(GUIPrincipal interfaz, String fich, String rutaImpact){
         this.ficheroBit = fich;
         this.interfaz = interfaz;
+        this.rutaImpact = rutaImpact;
 
 
     }
@@ -55,7 +58,7 @@ public class CargaBit {
     public boolean cargar() throws FileNotFoundException{
         boolean correcto = true;
      
-        if (existeFichero(RUTA_IMPACT)){
+        if (existeFichero(rutaImpact)){
             try{
                 interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
                 FileOutputStream os = new FileOutputStream("carga2.txt");
@@ -66,7 +69,7 @@ public class CargaBit {
                         "deleteDevice -p 4\nProgram -p 3 -defaultVersion 0\nexit";
                 bw.write(coms);
                 bw.close();
-                Process p = Runtime.getRuntime().exec(RUTA_IMPACT+ " -batch carga2.txt");
+                Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga2.txt");
                 
                 
                 InputStream is = p.getInputStream();

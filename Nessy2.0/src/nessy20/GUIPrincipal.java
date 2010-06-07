@@ -540,7 +540,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
         boolean error = false;
         int intentos = 6;
-        CargaBit cargaBit = new CargaBit(this, fichero_bit);
+        CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"//bin//nt/impact.exe");
         try {
             do {//si hay un error lo vuelve a intentar
                 error = !cargaBit.cargar();
@@ -1083,7 +1083,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //creamos el prj para poder crear el .bit
             this.creaPrj();
             //compilación y creación del .bit
-            Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + fichero);
+            Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX);
         } catch (IOException ex) {
   //          Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }

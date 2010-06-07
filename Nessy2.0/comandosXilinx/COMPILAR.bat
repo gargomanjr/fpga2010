@@ -12,13 +12,13 @@ cd %pwd%
 call translateNGDBUILD.bat %1%
 cd %pwd%
 %pwd:~0,2%
-call map.bat
+call map.bat %1%
 cd %pwd%
 %pwd:~0,2%
-call par.bat
+call par.bat %1%
 cd %pwd%
 %pwd:~0,2%
-call bitgen.bat
+call bitgen.bat %1%
 cd %pwd%
 %pwd:~0,2%
 rem exit
