@@ -6,10 +6,10 @@ call clearFiles
 rem creamos el fichero prj con el nombre adecuado
 rem call creaPrj %1%
 rem después ejecutamos los procesos
-call sintetizarXST.bat
+call sintetizarXST.bat %1%
 cd %pwd%
 %pwd:~0,2%
-call translateNGDBUILD.bat
+call translateNGDBUILD.bat %1%
 cd %pwd%
 %pwd:~0,2%
 call map.bat
