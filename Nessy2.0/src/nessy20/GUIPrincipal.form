@@ -219,7 +219,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-          <Component id="jSeparator1" alignment="0" pref="920" max="32767" attributes="0"/>
+          <Component id="jSeparator1" alignment="0" pref="924" max="32767" attributes="0"/>
           <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -408,6 +408,20 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnCargarGoldenActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="_btnCargBitReconfParcial">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/recursos/reconParc.JPG"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Reconfiguraci&#xf3;n Parcial" postCode="_btnCargBitReconfParcial.setEnabled(false);"/>
+                <Property name="focusable" type="boolean" value="false"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="verticalTextPosition" type="int" value="3"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnCargBitReconfParcialActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

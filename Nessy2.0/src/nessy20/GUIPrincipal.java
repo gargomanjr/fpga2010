@@ -274,6 +274,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             if (e.getMessage() != null) {
+
                 errores.error(e.getMessage());
                 this.muestraErroresConsola(errores);
             } else {
@@ -358,6 +359,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         files = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
+            desabilitarBtn();
             files.add(chooser.getSelectedFile());
             fichero = files.get(0).getAbsolutePath();
             _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "+
@@ -382,7 +384,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-
+            desabilitarBtn();
             ArrayList<String> ficheros = new ArrayList<String>();
             // fichero = chooser.getSelectedFile().getAbsolutePath();
             File[] f = chooser.getSelectedFiles();
@@ -559,6 +561,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         } catch (Exception e) {
             error = true;
         }
+        if(!error){
+            _lbl_BitCargado.setText("Ultimo Archivo .bit cargado : "
+                 +fichero_bit);
+        }
         return !error;
     }
 
@@ -582,6 +588,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnReanudar = new javax.swing.JButton();
         _btnGenerarGolden = new javax.swing.JButton();
         _btnCargarGolden = new javax.swing.JButton();
+        _btnCargBitReconfParcial = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         _btnClear = new javax.swing.JButton();
         _lblnInst = new javax.swing.JTextField();
@@ -753,13 +760,26 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(_btnCargarGolden);
 
+        _btnCargBitReconfParcial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/reconParc.JPG"))); // NOI18N
+        _btnCargBitReconfParcial.setText("Reconfiguración Parcial");
+        _btnCargBitReconfParcial.setEnabled(false);
+        _btnCargBitReconfParcial.setFocusable(false);
+        _btnCargBitReconfParcial.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        _btnCargBitReconfParcial.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        _btnCargBitReconfParcial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnCargBitReconfParcialActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(_btnCargBitReconfParcial);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -864,7 +884,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(_lbl_VHDLCargado)
                     .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(804, Short.MAX_VALUE))
+                .addContainerGap(808, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -1045,7 +1065,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1063,6 +1083,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
+        
 
         Seleccion sel = new Seleccion();
         new GUICargaVHDL(this, true, sel).setVisible(true);
@@ -1076,6 +1097,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnCrearBit.setEnabled(true);
         _btnCargarBit.setEnabled(true);
         _btnCargarTB.setEnabled(true);
+        _btnCargBitReconfParcial.setEnabled(true);
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -1091,10 +1113,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnCrearBitActionPerformed
 
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
-        //this.cargarBitConChooser();
-       if( procesoModificarFicheros())
-            _btnCargarTB.setEnabled(true);
 
+        //POsibilidad de ver si se carga con exito
+          this.cargarBitConChooser();
+      
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
@@ -1153,7 +1175,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         }
 
-       // this.jTabbedPane1.setSelectedIndex(2);
         _btnEjecutar.setEnabled(true);
         _btnCargarGolden.setEnabled(true);
         _btnGenerarGolden.setEnabled(true);
@@ -1345,6 +1366,10 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
         }
 
 }//GEN-LAST:event_menuConfigFichConfActionPerformed
+
+private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
+    procesoModificarFicheros();
+}//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.
@@ -1359,6 +1384,7 @@ public void setNumeroInst(int inst) {
     private javax.swing.JTextArea _TextCargarbit;
     private javax.swing.JTextArea _TextSalida;
     private javax.swing.JTextArea _TxtEntityVHD;
+    private javax.swing.JButton _btnCargBitReconfParcial;
     private javax.swing.JButton _btnCargarBit;
     private javax.swing.JButton _btnCargarGolden;
     private javax.swing.JButton _btnCargarTB;
@@ -1630,6 +1656,18 @@ public void setNumeroInst(int inst) {
 
         }
 
+    }
+
+    private void desabilitarBtn() {
+        _btnCrearBit.setEnabled(false);
+        _btnCargarBit.setEnabled(false);
+        _btnEjecutar.setEnabled(false);
+        _btnPararEjecucion.setEnabled(false);
+        _btnReanudar.setEnabled(false);
+        _btnGenerarGolden.setEnabled(false);
+        _btnCargarGolden.setEnabled(false);
+        _btnCargarTB.setEnabled(false);
+        _btnCargBitReconfParcial.setEnabled(false);
     }
 
 
