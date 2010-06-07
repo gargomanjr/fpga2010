@@ -459,6 +459,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     private void ejec(boolean lb_recunfiguracion_pracial) {
+
         if (this.ejec != null) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
@@ -1074,6 +1075,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         _btnCrearBit.setEnabled(true);
         _btnCargarBit.setEnabled(true);
+        _btnCargarTB.setEnabled(true);
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -1151,7 +1153,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         }
 
-        this.jTabbedPane1.setSelectedIndex(2);
+       // this.jTabbedPane1.setSelectedIndex(2);
         _btnEjecutar.setEnabled(true);
         _btnCargarGolden.setEnabled(true);
         _btnGenerarGolden.setEnabled(true);
