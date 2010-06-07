@@ -59,7 +59,7 @@ public class GUIConfig extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Nessy");
 
-        _lbl_HomeXilins.setText("Home Xilins ISE :");
+        _lbl_HomeXilins.setText("Home Xilinx ISE :");
 
         _btn_HomeXilins.setText("Seleccion");
         _btn_HomeXilins.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +77,7 @@ public class GUIConfig extends javax.swing.JDialog {
 
         _lbl_HomeImpact.setText("Home Impact :");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setText("Configuración");
 
         _btnOK.setText("OK");

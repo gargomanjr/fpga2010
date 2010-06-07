@@ -87,7 +87,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="_lbl_HomeXilins">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Home Xilins ISE :"/>
+        <Property name="text" type="java.lang.String" value="Home Xilinx ISE :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="_txt_HomeXilins">
