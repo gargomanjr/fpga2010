@@ -45,9 +45,9 @@ Optimization Effort                : 1
 =========================================================================
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" in Library work.
 Architecture behavioral of Entity tx_serie is up to date.
-Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd" in Library work.
+Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" in Library work.
 Architecture behavioral of Entity rx_serie is up to date.
-Compiling vhdl file "D:/PFC/Nessy2.0/test/Contador.vhd" in Library work.
+Compiling vhdl file "D:/PFC/Nessy2.0/test/Contador2.vhd" in Library work.
 Architecture behavioral of Entity contador is up to date.
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" in Library work.
 Entity <circuito_fpga> compiled.
@@ -66,42 +66,44 @@ Analyzing hierarchy for entity <Rx_Serie> in library <work> (architecture <behav
 	gBaud = 9600
 	gFrecClk = 100000000
 
-Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <behavioral>).
+Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <behavioral>) with generics.
+	a = 3
+	b = 5
 
 
 =========================================================================
 *                            HDL Analysis                               *
 =========================================================================
 Analyzing Entity <Circuito_FPGA> in library <work> (Architecture <behavioral>).
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 98: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
-   <mi_datorxout>
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 106: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 133: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <Reg_salidas>
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 114: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
-   <clk>
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 201: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <recibido>
 Entity <Circuito_FPGA> analyzed. Unit <Circuito_FPGA> generated.
 
 Analyzing generic Entity <Tx_serie> in library <work> (Architecture <behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 178: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 179: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <DatoTxIn>
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 191: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 192: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <SalReg>
 Entity <Tx_serie> analyzed. Unit <Tx_serie> generated.
 
 Analyzing generic Entity <Rx_Serie> in library <work> (Architecture <behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd" line 71: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 71: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <EnableCont>
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd" line 189: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 192: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <Estado>, <CuentaBits>, <RxDatoReg>
 Entity <Rx_Serie> analyzed. Unit <Rx_Serie> generated.
 
-Analyzing Entity <CONTADOR> in library <work> (Architecture <behavioral>).
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/test/Contador.vhd" line 74: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
-   <miload>, <midata_load>, <mienable>, <mireset>
+Analyzing generic Entity <CONTADOR> in library <work> (Architecture <behavioral>).
+	a = 3
+	b = 5
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/test/Contador2.vhd" line 74: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <mireset>
 Entity <CONTADOR> analyzed. Unit <CONTADOR> generated.
 
 
@@ -136,7 +138,7 @@ WARNING:Xst:737 - Found 1-bit latch for signal <SalReg>. Latches may be generate
     Found 32-bit register for signal <CuentaBits>.
     Found 32-bit adder for signal <CuentaBits$addsub0000> created at line 103.
     Found 32-bit 4-to-1 multiplexer for signal <CuentaBits$mux0001>.
-    Found 1-bit 8-to-1 multiplexer for signal <SalReg$mux0000> created at line 183.
+    Found 1-bit 8-to-1 multiplexer for signal <SalReg$mux0000> created at line 184.
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   1 Counter(s).
@@ -147,7 +149,7 @@ Unit <Tx_serie> synthesized.
 
 
 Synthesizing Unit <Rx_Serie>.
-    Related source file is "D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd".
+    Related source file is "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd".
 WARNING:Xst:1780 - Signal <SalidaSeleccion> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:1780 - Signal <MiDatoTxIn> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
     Found finite state machine <FSM_1> for signal <Estado>.
@@ -190,25 +192,47 @@ Unit <Rx_Serie> synthesized.
 
 
 Synthesizing Unit <CONTADOR>.
-    Related source file is "D:/PFC/Nessy2.0/test/Contador.vhd".
-WARNING:Xst:1780 - Signal <a> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
-INFO:Xst:1608 - Relative priorities of control signals on register <misalida> differ from those commonly found in the selected device family. This will result in additional logic around the register.
-    Found 32-bit up counter for signal <aux>.
-    Found 1-bit register for signal <micambiando>.
-    Found 4-bit up counter for signal <misalida>.
+    Related source file is "D:/PFC/Nessy2.0/test/Contador2.vhd".
+WARNING:Xst:1780 - Signal <aux> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+    Found 16-bit up counter for signal <misalida>.
     Summary:
-	inferred   2 Counter(s).
-	inferred   1 D-type flip-flop(s).
+	inferred   1 Counter(s).
 Unit <CONTADOR> synthesized.
 
 
 Synthesizing Unit <Circuito_FPGA>.
     Related source file is "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd".
-WARNING:Xst:1780 - Signal <mi_transmite> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:646 - Signal <mi_avisoRx> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
-WARNING:Xst:653 - Signal <Reg_salidas<7:5>> is used but never assigned. This sourceless signal will be automatically connected to value 000.
-WARNING:Xst:737 - Found 8-bit latch for signal <mi_datotxin>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
-WARNING:Xst:737 - Found 8-bit latch for signal <Reg_entradas>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:653 - Signal <Reg_salidas<31:16>> is used but never assigned. This sourceless signal will be automatically connected to value 0000000000000000.
+WARNING:Xst:646 - Signal <Reg_entradas<31:18>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Found finite state machine <FSM_2> for signal <estadoEnt>.
+    -----------------------------------------------------------------------
+    | States             | 4                                              |
+    | Transitions        | 4                                              |
+    | Inputs             | 0                                              |
+    | Outputs            | 8                                              |
+    | Clock              | mi_recibiendo (falling_edge)                   |
+    | Reset              | mi_resetserie (negative)                       |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | 00000000000000000000000000000000               |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+WARNING:Xst:737 - Found 2-bit latch for signal <ledsSal>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 2-bit latch for signal <ledsEnt>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+    Found 1-bit register for signal <biest_recibido>.
+    Found 1-bit register for signal <biest_transmitido>.
+    Found 32-bit up counter for signal <estadoSal>.
+    Found 8-bit register for signal <mi_datotxin>.
+    Found 1-bit register for signal <mi_transmite>.
+    Found 1-bit register for signal <recibido>.
+    Found 18-bit register for signal <Reg_entradas<17:0>>.
+    Found 1-bit register for signal <transmitido>.
+    Found 1-bit register for signal <volcar>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 Counter(s).
+	inferred  24 D-type flip-flop(s).
 Unit <Circuito_FPGA> synthesized.
 
 
@@ -219,14 +243,16 @@ Macro Statistics
 # Adders/Subtractors                                   : 2
  32-bit adder                                          : 2
 # Counters                                             : 4
+ 16-bit up counter                                     : 1
  32-bit up counter                                     : 3
- 4-bit up counter                                      : 1
-# Registers                                            : 7
- 1-bit register                                        : 5
+# Registers                                            : 31
+ 1-bit register                                        : 28
  32-bit register                                       : 2
+ 8-bit register                                        : 1
 # Latches                                              : 13
  1-bit latch                                           : 10
- 8-bit latch                                           : 3
+ 2-bit latch                                           : 2
+ 8-bit latch                                           : 1
 # Multiplexers                                         : 3
  1-bit 8-to-1 multiplexer                              : 1
  32-bit 4-to-1 multiplexer                             : 2
@@ -237,6 +263,16 @@ Macro Statistics
 *                       Advanced HDL Synthesis                          *
 =========================================================================
 
+Analyzing FSM <FSM_2> for best encoding.
+Optimizing FSM <estadoEnt/FSM> on signal <estadoEnt[1:2]> with gray encoding.
+----------------------------------------------
+ State                            | Encoding
+----------------------------------------------
+ 00000000000000000000000000000000 | 00
+ 00000000000000000000000000000001 | 01
+ 00000000000000000000000000000010 | 11
+ 00000000000000000000000000000011 | 10
+----------------------------------------------
 Analyzing FSM <FSM_1> for best encoding.
 Optimizing FSM <R/Estado/FSM> on signal <Estado[1:2]> with sequential encoding.
 -----------------------
@@ -263,17 +299,18 @@ Loading device for application Rf_Device from file '2vp30.nph' in environment C:
 Advanced HDL Synthesis Report
 
 Macro Statistics
-# FSMs                                                 : 2
+# FSMs                                                 : 3
 # Adders/Subtractors                                   : 2
  32-bit adder                                          : 2
 # Counters                                             : 4
+ 16-bit up counter                                     : 1
  32-bit up counter                                     : 3
- 4-bit up counter                                      : 1
-# Registers                                            : 69
- Flip-Flops                                            : 69
+# Registers                                            : 92
+ Flip-Flops                                            : 92
 # Latches                                              : 13
  1-bit latch                                           : 10
- 8-bit latch                                           : 3
+ 2-bit latch                                           : 2
+ 8-bit latch                                           : 1
 # Multiplexers                                         : 3
  1-bit 8-to-1 multiplexer                              : 1
  32-bit 4-to-1 multiplexer                             : 2
@@ -283,21 +320,18 @@ Macro Statistics
 =========================================================================
 *                         Low Level Synthesis                           *
 =========================================================================
-INFO:Xst:2261 - The FF/Latch <mi_datotxin_5> in Unit <Circuito_FPGA> is equivalent to the following 2 FFs/Latches, which will be removed : <mi_datotxin_6> <mi_datotxin_7> 
-WARNING:Xst:1710 - FF/Latch <mi_datotxin_5> (without init value) has a constant value of 0 in block <Circuito_FPGA>. This FF/Latch will be trimmed during the optimization process.
 
 Optimizing unit <Circuito_FPGA> ...
 
 Optimizing unit <Rx_Serie> ...
 
 Optimizing unit <Tx_serie> ...
-WARNING:Xst:1710 - FF/Latch <f/Registro_7> (without init value) has a constant value of 0 in block <Circuito_FPGA>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <f/Registro_6> (without init value) has a constant value of 0 in block <Circuito_FPGA>. This FF/Latch will be trimmed during the optimization process.
-WARNING:Xst:1710 - FF/Latch <f/Registro_5> (without init value) has a constant value of 0 in block <Circuito_FPGA>. This FF/Latch will be trimmed during the optimization process.
 WARNING:Xst:2677 - Node <R/AvisoRx> of sequential type is unconnected in block <Circuito_FPGA>.
 
 Mapping all equations...
 Building and optimizing final netlist ...
+FlipFlop estadoSal_0 has been replicated 1 time(s)
+FlipFlop estadoSal_1 has been replicated 1 time(s)
 
 Final Macro Processing ...
 
@@ -305,8 +339,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 173
- Flip-Flops                                            : 173
+# Registers                                            : 220
+ Flip-Flops                                            : 220
 
 =========================================================================
 
@@ -331,38 +365,43 @@ Optimization Goal                  : Speed
 Keep Hierarchy                     : no
 
 Design Statistics
-# IOs                              : 4
+# IOs                              : 8
 
 Cell Usage :
-# BELS                             : 780
+# BELS                             : 855
 #      GND                         : 1
-#      INV                         : 7
+#      INV                         : 10
 #      LUT1                        : 155
-#      LUT2                        : 137
-#      LUT3                        : 15
-#      LUT4                        : 102
+#      LUT2                        : 123
+#      LUT3                        : 36
+#      LUT4                        : 138
 #      LUT4_D                      : 1
 #      LUT4_L                      : 1
-#      MUXCY                       : 193
-#      MUXF5                       : 6
+#      MUXCY                       : 208
+#      MUXF5                       : 4
 #      MUXF6                       : 1
 #      VCC                         : 1
-#      XORCY                       : 160
-# FlipFlops/Latches                : 200
-#      FDC                         : 3
-#      FDCE                        : 163
-#      FDCPE                       : 4
+#      XORCY                       : 176
+# FlipFlops/Latches                : 241
+#      FD                          : 2
+#      FDC                         : 38
+#      FDC_1                       : 3
+#      FDCE                        : 147
+#      FDCPE                       : 8
+#      FDE_1                       : 18
 #      FDP                         : 2
-#      FDPE                        : 1
-#      LD                          : 5
-#      LD_1                        : 14
+#      FDR                         : 2
+#      LD                          : 8
+#      LD_1                        : 1
+#      LDCP                        : 4
 #      LDE                         : 7
 #      LDE_1                       : 1
-# Clock Buffers                    : 2
+# Clock Buffers                    : 3
 #      BUFG                        : 2
-# IO Buffers                       : 4
-#      IBUF                        : 3
-#      OBUF                        : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 7
+#      IBUF                        : 2
+#      OBUF                        : 5
 =========================================================================
 
 Device utilization summary:
@@ -370,12 +409,13 @@ Device utilization summary:
 
 Selected Device : 2vp30ff896-7 
 
- Number of Slices:                      226  out of  13696     1%  
- Number of Slice Flip Flops:            200  out of  27392     0%  
- Number of 4 input LUTs:                418  out of  27392     1%  
- Number of IOs:                           4
- Number of bonded IOBs:                   4  out of    556     0%  
- Number of GCLKs:                         2  out of     16    12%  
+ Number of Slices:                      248  out of  13696     1%  
+ Number of Slice Flip Flops:            237  out of  27392     0%  
+ Number of 4 input LUTs:                464  out of  27392     1%  
+ Number of IOs:                           8
+ Number of bonded IOBs:                   8  out of    556     1%  
+    IOB Flip Flops:                       4
+ Number of GCLKs:                         3  out of     16    18%  
 
 ---------------------------
 Partition Resource Summary:
@@ -398,10 +438,13 @@ Clock Information:
 -----------------------------------------------------------+-------------------------+-------+
 Clock Signal                                               | Clock buffer(FF name)   | Load  |
 -----------------------------------------------------------+-------------------------+-------+
-mi_recibiendo(R/Estado_FSM_Out41:O)                        | NONE(*)(Reg_entradas_0) | 8     |
-mi_transmitiendo(f/Estado_FSM_Out41:O)                     | NONE(*)(mi_datotxin_0)  | 5     |
-mi_CLK1(mi_CLK1:O)                                         | BUFG(*)(U/misalida_0)   | 37    |
-clk                                                        | IBUF+BUFG               | 136   |
+fin(fin1:O)                                                | NONE(*)(mi_transmite)   | 1     |
+mi_recibiendo1(R/Estado_FSM_Out41:O)                       | BUFG(*)(Reg_entradas_16)| 21    |
+mi_transmitiendo1(f/Estado_FSM_Out41:O)                    | BUFG(*)(transmitido)    | 35    |
+clk                                                        | BUFGP                   | 147   |
+_mux0001(estadoEnt_FSM_Out31:O)                            | NONE(*)(ledsEnt_1)      | 2     |
+ledsSal_cmp_eq0000(ledsSal_cmp_eq00001:O)                  | NONE(*)(ledsSal_0)      | 2     |
+recibido                                                   | NONE(U/misalida_0)      | 16    |
 R/Rx_Registro_0_not0001(R/Rx_Registro_0_not0001_wg_cy<7>:O)| NONE(*)(R/Rx_Registro_0)| 1     |
 R/Rx_Registro_1_cmp_eq0000(R/Rx_Registro_1_cmp_eq00001:O)  | NONE(*)(R/Rx_Registro_1)| 1     |
 R/Rx_Registro_2_cmp_eq0000(R/Rx_Registro_2_cmp_eq00001:O)  | NONE(*)(R/Rx_Registro_2)| 1     |
@@ -410,36 +453,51 @@ R/Rx_Registro_4_cmp_eq0000(R/Rx_Registro_4_cmp_eq00001:O)  | NONE(*)(R/Rx_Regist
 R/Rx_Registro_5_cmp_eq0000(R/Rx_Registro_5_cmp_eq00001:O)  | NONE(*)(R/Rx_Registro_5)| 1     |
 R/Rx_Registro_6_cmp_eq0000(R/Rx_Registro_6_cmp_eq00001:O)  | NONE(*)(R/Rx_Registro_6)| 1     |
 R/Rx_Registro_7_cmp_eq0000(R/Rx_Registro_7_cmp_eq00001:O)  | NONE(*)(R/Rx_Registro_7)| 1     |
-f/CargaDato(f/CargaDato1:O)                                | NONE(*)(f/Registro_4)   | 6     |
+f/CargaDato(f/CargaDato1:O)                                | NONE(*)(f/Registro_7)   | 9     |
 -----------------------------------------------------------+-------------------------+-------+
-(*) These 12 clock signal(s) are generated by combinatorial logic,
+(*) These 14 clock signal(s) are generated by combinatorial logic,
 and XST is not able to identify which are the primary clock signals.
 Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------------------------+------------------------+-------+
-Control Signal                                       | Buffer(FF name)        | Load  |
------------------------------------------------------+------------------------+-------+
-R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(f/CuentaBits_29)  | 136   |
-U/aux_or0000(U/aux_or00001:O)                        | NONE(U/aux_9)          | 33    |
-U/misalida_0__and0000(U/misalida_0__and00001:O)      | NONE(U/misalida_0)     | 1     |
-U/misalida_0__or0000(U/misalida_0__or00001:O)        | NONE(U/misalida_0)     | 1     |
-U/misalida_1__and0000(U/misalida_1__and00001:O)      | NONE(U/misalida_1)     | 1     |
-U/misalida_1__or0000(U/misalida_1__or00001:O)        | NONE(U/misalida_1)     | 1     |
-U/misalida_2__and0000(U/misalida_2__and00001:O)      | NONE(U/misalida_2)     | 1     |
-U/misalida_2__or0000(U/misalida_2__or00001:O)        | NONE(U/misalida_2)     | 1     |
-U/misalida_3__and0000(U/misalida_3__and00001:O)      | NONE(U/misalida_3)     | 1     |
-U/misalida_3__or0000(U/misalida_3__or00001:O)        | NONE(U/misalida_3)     | 1     |
------------------------------------------------------+------------------------+-------+
+-----------------------------------------------------+-------------------------+-------+
+Control Signal                                       | Buffer(FF name)         | Load  |
+-----------------------------------------------------+-------------------------+-------+
+R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(estadoEnt_FSM_FFd1)| 190   |
+estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)         | 1     |
+ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)         | 1     |
+ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)         | 1     |
+ledsEnt_1__and0000(estadoEnt_FSM_Out21:O)            | NONE(ledsEnt_1)         | 1     |
+ledsSal_0__or0000(ledsSal_0__or00001:O)              | NONE(ledsSal_0)         | 1     |
+ledsSal_0__or0001(ledsSal_cmp_eq00011:O)             | NONE(ledsSal_0)         | 1     |
+ledsSal_1__and0000(ledsSal_cmp_eq00021:O)            | NONE(ledsSal_1)         | 1     |
+ledsSal_1__or0000(ledsSal_1__or00001:O)              | NONE(ledsSal_1)         | 1     |
+mi_datotxin_0__and0000(mi_datotxin_0__and00001:O)    | NONE(mi_datotxin_0)     | 1     |
+mi_datotxin_0__and0001(mi_datotxin_0__and00011:O)    | NONE(mi_datotxin_0)     | 1     |
+mi_datotxin_1__and0000(mi_datotxin_1__and00001:O)    | NONE(mi_datotxin_1)     | 1     |
+mi_datotxin_1__and0001(mi_datotxin_1__and00011:O)    | NONE(mi_datotxin_1)     | 1     |
+mi_datotxin_2__and0000(mi_datotxin_2__and00001:O)    | NONE(mi_datotxin_2)     | 1     |
+mi_datotxin_2__and0001(mi_datotxin_2__and00011:O)    | NONE(mi_datotxin_2)     | 1     |
+mi_datotxin_3__and0000(mi_datotxin_3__and00001:O)    | NONE(mi_datotxin_3)     | 1     |
+mi_datotxin_3__and0001(mi_datotxin_3__and00011:O)    | NONE(mi_datotxin_3)     | 1     |
+mi_datotxin_4__and0000(mi_datotxin_4__and00001:O)    | NONE(mi_datotxin_4)     | 1     |
+mi_datotxin_4__and0001(mi_datotxin_4__and00011:O)    | NONE(mi_datotxin_4)     | 1     |
+mi_datotxin_5__and0000(mi_datotxin_5__and00001:O)    | NONE(mi_datotxin_5)     | 1     |
+mi_datotxin_5__and0001(mi_datotxin_5__and00011:O)    | NONE(mi_datotxin_5)     | 1     |
+mi_datotxin_6__and0000(mi_datotxin_6__and00001:O)    | NONE(mi_datotxin_6)     | 1     |
+mi_datotxin_6__and0001(mi_datotxin_6__and00011:O)    | NONE(mi_datotxin_6)     | 1     |
+mi_datotxin_7__and0000(mi_datotxin_7__and00001:O)    | NONE(mi_datotxin_7)     | 1     |
+mi_datotxin_7__and0001(mi_datotxin_7__and00011:O)    | NONE(mi_datotxin_7)     | 1     |
+-----------------------------------------------------+-------------------------+-------+
 
 Timing Summary:
 ---------------
 Speed Grade: -7
 
    Minimum period: 4.225ns (Maximum Frequency: 236.695MHz)
-   Minimum input arrival time before clock: 1.418ns
+   Minimum input arrival time before clock: 2.870ns
    Maximum output required time after clock: 4.182ns
    Maximum combinational path delay: No path found
 
@@ -448,63 +506,105 @@ Timing Detail:
 All values displayed in nanoseconds (ns)
 
 =========================================================================
-Timing constraint: Default period analysis for Clock 'mi_CLK1'
-  Clock period: 4.172ns (frequency: 239.679MHz)
-  Total number of paths / destination ports: 1724 / 41
+Timing constraint: Default period analysis for Clock 'fin'
+  Clock period: 1.319ns (frequency: 758.093MHz)
+  Total number of paths / destination ports: 1 / 1
 -------------------------------------------------------------------------
-Delay:               4.172ns (Levels of Logic = 33)
-  Source:            U/aux_1 (FF)
-  Destination:       U/aux_31 (FF)
-  Source Clock:      mi_CLK1 rising
-  Destination Clock: mi_CLK1 rising
+Delay:               1.319ns (Levels of Logic = 0)
+  Source:            mi_transmite (FF)
+  Destination:       mi_transmite (FF)
+  Source Clock:      fin rising
+  Destination Clock: fin rising
 
-  Data Path: U/aux_1 to U/aux_31
+  Data Path: mi_transmite to mi_transmite
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDCE:C->Q             2   0.370   0.514  U/aux_1 (U/aux_1)
-     LUT1:I0->O            1   0.275   0.000  U/Mcount_aux_cy<1>_rt (U/Mcount_aux_cy<1>_rt)
-     MUXCY:S->O            1   0.334   0.000  U/Mcount_aux_cy<1> (U/Mcount_aux_cy<1>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<2> (U/Mcount_aux_cy<2>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<3> (U/Mcount_aux_cy<3>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<4> (U/Mcount_aux_cy<4>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<5> (U/Mcount_aux_cy<5>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<6> (U/Mcount_aux_cy<6>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<7> (U/Mcount_aux_cy<7>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<8> (U/Mcount_aux_cy<8>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<9> (U/Mcount_aux_cy<9>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<10> (U/Mcount_aux_cy<10>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<11> (U/Mcount_aux_cy<11>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<12> (U/Mcount_aux_cy<12>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<13> (U/Mcount_aux_cy<13>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<14> (U/Mcount_aux_cy<14>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<15> (U/Mcount_aux_cy<15>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<16> (U/Mcount_aux_cy<16>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<17> (U/Mcount_aux_cy<17>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<18> (U/Mcount_aux_cy<18>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<19> (U/Mcount_aux_cy<19>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<20> (U/Mcount_aux_cy<20>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<21> (U/Mcount_aux_cy<21>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<22> (U/Mcount_aux_cy<22>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<23> (U/Mcount_aux_cy<23>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<24> (U/Mcount_aux_cy<24>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<25> (U/Mcount_aux_cy<25>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<26> (U/Mcount_aux_cy<26>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<27> (U/Mcount_aux_cy<27>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<28> (U/Mcount_aux_cy<28>)
-     MUXCY:CI->O           1   0.036   0.000  U/Mcount_aux_cy<29> (U/Mcount_aux_cy<29>)
-     MUXCY:CI->O           0   0.036   0.000  U/Mcount_aux_cy<30> (U/Mcount_aux_cy<30>)
-     XORCY:CI->O           1   0.708   0.430  U/Mcount_aux_xor<31> (Result<31>)
-     LUT2:I1->O            1   0.275   0.000  U/Mcount_aux_eqn_311 (U/Mcount_aux_eqn_31)
-     FDCE:D                    0.208          U/aux_31
+     FDR:C->Q              4   0.370   0.413  mi_transmite (mi_transmite)
+     FDR:R                     0.536          mi_transmite
     ----------------------------------------
-    Total                      4.172ns (3.228ns logic, 0.944ns route)
-                                       (77.4% logic, 22.6% route)
+    Total                      1.319ns (0.906ns logic, 0.413ns route)
+                                       (68.7% logic, 31.3% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'mi_recibiendo1'
+  Clock period: 1.983ns (frequency: 504.375MHz)
+  Total number of paths / destination ports: 40 / 21
+-------------------------------------------------------------------------
+Delay:               1.983ns (Levels of Logic = 1)
+  Source:            estadoEnt_FSM_FFd1 (FF)
+  Destination:       Reg_entradas_0 (FF)
+  Source Clock:      mi_recibiendo1 falling
+  Destination Clock: mi_recibiendo1 falling
+
+  Data Path: estadoEnt_FSM_FFd1 to Reg_entradas_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC_1:C->Q            9   0.370   0.597  estadoEnt_FSM_FFd1 (estadoEnt_FSM_FFd1)
+     LUT3:I1->O            8   0.275   0.478  Reg_entradas_0_and00001 (Reg_entradas_0_and0000)
+     FDE_1:CE                  0.263          Reg_entradas_0
+    ----------------------------------------
+    Total                      1.983ns (0.908ns logic, 1.075ns route)
+                                       (45.8% logic, 54.2% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'mi_transmitiendo1'
+  Clock period: 4.056ns (frequency: 246.564MHz)
+  Total number of paths / destination ports: 1651 / 35
+-------------------------------------------------------------------------
+Delay:               4.056ns (Levels of Logic = 32)
+  Source:            estadoSal_2 (FF)
+  Destination:       estadoSal_31 (FF)
+  Source Clock:      mi_transmitiendo1 rising
+  Destination Clock: mi_transmitiendo1 rising
+
+  Data Path: estadoSal_2 to estadoSal_31
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.370   0.514  estadoSal_2 (estadoSal_2)
+     LUT1:I0->O            1   0.275   0.000  Mcount_estadoSal_cy<2>_rt (Mcount_estadoSal_cy<2>_rt)
+     MUXCY:S->O            1   0.334   0.000  Mcount_estadoSal_cy<2> (Mcount_estadoSal_cy<2>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<3> (Mcount_estadoSal_cy<3>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<4> (Mcount_estadoSal_cy<4>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<5> (Mcount_estadoSal_cy<5>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<6> (Mcount_estadoSal_cy<6>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<7> (Mcount_estadoSal_cy<7>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<8> (Mcount_estadoSal_cy<8>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<9> (Mcount_estadoSal_cy<9>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<10> (Mcount_estadoSal_cy<10>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<11> (Mcount_estadoSal_cy<11>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<12> (Mcount_estadoSal_cy<12>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<13> (Mcount_estadoSal_cy<13>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<14> (Mcount_estadoSal_cy<14>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<15> (Mcount_estadoSal_cy<15>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<16> (Mcount_estadoSal_cy<16>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<17> (Mcount_estadoSal_cy<17>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<18> (Mcount_estadoSal_cy<18>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<19> (Mcount_estadoSal_cy<19>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<20> (Mcount_estadoSal_cy<20>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<21> (Mcount_estadoSal_cy<21>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<22> (Mcount_estadoSal_cy<22>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<23> (Mcount_estadoSal_cy<23>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<24> (Mcount_estadoSal_cy<24>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<25> (Mcount_estadoSal_cy<25>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<26> (Mcount_estadoSal_cy<26>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<27> (Mcount_estadoSal_cy<27>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<28> (Mcount_estadoSal_cy<28>)
+     MUXCY:CI->O           1   0.036   0.000  Mcount_estadoSal_cy<29> (Mcount_estadoSal_cy<29>)
+     MUXCY:CI->O           0   0.036   0.000  Mcount_estadoSal_cy<30> (Mcount_estadoSal_cy<30>)
+     XORCY:CI->O           1   0.708   0.349  Mcount_estadoSal_xor<31> (Result<31>)
+     LUT4:I2->O            1   0.275   0.000  Mcount_estadoSal_eqn_311 (Mcount_estadoSal_eqn_31)
+     FDC:D                     0.208          estadoSal_31
+    ----------------------------------------
+    Total                      4.056ns (3.192ns logic, 0.864ns route)
+                                       (78.7% logic, 21.3% route)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'clk'
   Clock period: 4.225ns (frequency: 236.695MHz)
-  Total number of paths / destination ports: 7010 / 266
+  Total number of paths / destination ports: 6943 / 267
 -------------------------------------------------------------------------
 Delay:               4.225ns (Levels of Logic = 33)
   Source:            R/CuentaBits_1 (FF)
@@ -556,9 +656,47 @@ Delay:               4.225ns (Levels of Logic = 33)
                                        (76.4% logic, 23.6% route)
 
 =========================================================================
+Timing constraint: Default period analysis for Clock 'recibido'
+  Clock period: 2.917ns (frequency: 342.806MHz)
+  Total number of paths / destination ports: 136 / 16
+-------------------------------------------------------------------------
+Delay:               2.917ns (Levels of Logic = 17)
+  Source:            U/misalida_0 (FF)
+  Destination:       U/misalida_15 (FF)
+  Source Clock:      recibido rising
+  Destination Clock: recibido rising
+
+  Data Path: U/misalida_0 to U/misalida_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q             4   0.370   0.511  U/misalida_0 (U/misalida_0)
+     LUT3:I1->O            1   0.275   0.000  U/Mcount_misalida_lut<0> (U/Mcount_misalida_lut<0>)
+     MUXCY:S->O            1   0.334   0.000  U/Mcount_misalida_cy<0> (U/Mcount_misalida_cy<0>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<1> (U/Mcount_misalida_cy<1>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<2> (U/Mcount_misalida_cy<2>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<3> (U/Mcount_misalida_cy<3>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<4> (U/Mcount_misalida_cy<4>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<5> (U/Mcount_misalida_cy<5>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<6> (U/Mcount_misalida_cy<6>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<7> (U/Mcount_misalida_cy<7>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<8> (U/Mcount_misalida_cy<8>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<9> (U/Mcount_misalida_cy<9>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<10> (U/Mcount_misalida_cy<10>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<11> (U/Mcount_misalida_cy<11>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<12> (U/Mcount_misalida_cy<12>)
+     MUXCY:CI->O           1   0.036   0.000  U/Mcount_misalida_cy<13> (U/Mcount_misalida_cy<13>)
+     MUXCY:CI->O           0   0.036   0.000  U/Mcount_misalida_cy<14> (U/Mcount_misalida_cy<14>)
+     XORCY:CI->O           1   0.708   0.000  U/Mcount_misalida_xor<15> (U/Mcount_misalida15)
+     FDCE:D                    0.208          U/misalida_15
+    ----------------------------------------
+    Total                      2.917ns (2.406ns logic, 0.511ns route)
+                                       (82.5% logic, 17.5% route)
+
+=========================================================================
 Timing constraint: Default period analysis for Clock 'f/CargaDato'
   Clock period: 4.079ns (frequency: 245.158MHz)
-  Total number of paths / destination ports: 5 / 1
+  Total number of paths / destination ports: 8 / 1
 -------------------------------------------------------------------------
 Delay:               2.039ns (Levels of Logic = 3)
   Source:            f/Registro_0 (LATCH)
@@ -580,23 +718,45 @@ Delay:               2.039ns (Levels of Logic = 3)
                                        (78.9% logic, 21.1% route)
 
 =========================================================================
-Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
-  Total number of paths / destination ports: 1 / 1
+Timing constraint: Default OFFSET IN BEFORE for Clock 'mi_recibiendo1'
+  Total number of paths / destination ports: 18 / 18
 -------------------------------------------------------------------------
-Offset:              1.418ns (Levels of Logic = 1)
-  Source:            entrada_serie (PAD)
-  Destination:       R/RxDatoReg (FF)
-  Destination Clock: clk rising
+Offset:              2.650ns (Levels of Logic = 2)
+  Source:            reset (PAD)
+  Destination:       Reg_entradas_0 (FF)
+  Destination Clock: mi_recibiendo1 falling
 
-  Data Path: entrada_serie to R/RxDatoReg
+  Data Path: reset to Reg_entradas_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     IBUF:I->O             1   0.878   0.331  entrada_serie_IBUF (entrada_serie_IBUF)
-     FDP:D                     0.208          R/RxDatoReg
+     IBUF:I->O            22   0.878   0.757  reset_IBUF (reset_IBUF)
+     LUT3:I0->O            8   0.275   0.478  Reg_entradas_8_and00001 (Reg_entradas_8_and0000)
+     FDE_1:CE                  0.263          Reg_entradas_8
     ----------------------------------------
-    Total                      1.418ns (1.086ns logic, 0.331ns route)
-                                       (76.6% logic, 23.4% route)
+    Total                      2.650ns (1.416ns logic, 1.234ns route)
+                                       (53.4% logic, 46.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 17 / 9
+-------------------------------------------------------------------------
+Offset:              2.870ns (Levels of Logic = 3)
+  Source:            reset (PAD)
+  Destination:       mi_datotxin_0 (FF)
+  Destination Clock: clk rising
+
+  Data Path: reset to mi_datotxin_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O            22   0.878   0.719  reset_IBUF (reset_IBUF)
+     LUT4:I1->O            8   0.275   0.516  mi_datotxin_mux0000<0>21 (N2)
+     LUT4:I3->O            1   0.275   0.000  mi_datotxin_mux0000<7>1 (mi_datotxin_mux0000<7>)
+     FDCPE:D                   0.208          mi_datotxin_7
+    ----------------------------------------
+    Total                      2.870ns (1.636ns logic, 1.234ns route)
+                                       (57.0% logic, 43.0% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
@@ -639,16 +799,54 @@ Offset:              4.164ns (Levels of Logic = 2)
                                        (81.7% logic, 18.3% route)
 
 =========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'ledsSal_cmp_eq0000'
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Offset:              3.460ns (Levels of Logic = 1)
+  Source:            ledsSal_1 (LATCH)
+  Destination:       ledsSalida<1> (PAD)
+  Source Clock:      ledsSal_cmp_eq0000 falling
+
+  Data Path: ledsSal_1 to ledsSalida<1>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     LDCP:G->Q             1   0.536   0.332  ledsSal_1 (ledsSal_1)
+     OBUF:I->O                 2.592          ledsSalida_1_OBUF (ledsSalida<1>)
+    ----------------------------------------
+    Total                      3.460ns (3.128ns logic, 0.332ns route)
+                                       (90.4% logic, 9.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock '_mux0001'
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Offset:              3.460ns (Levels of Logic = 1)
+  Source:            ledsEnt_1 (LATCH)
+  Destination:       ledsEntrada<1> (PAD)
+  Source Clock:      _mux0001 falling
+
+  Data Path: ledsEnt_1 to ledsEntrada<1>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     LDCP:G->Q             1   0.536   0.332  ledsEnt_1 (ledsEnt_1)
+     OBUF:I->O                 2.592          ledsEntrada_1_OBUF (ledsEntrada<1>)
+    ----------------------------------------
+    Total                      3.460ns (3.128ns logic, 0.332ns route)
+                                       (90.4% logic, 9.6% route)
+
+=========================================================================
 
 
-Total REAL time to Xst completion: 15.00 secs
-Total CPU time to Xst completion: 14.95 secs
+Total REAL time to Xst completion: 17.00 secs
+Total CPU time to Xst completion: 16.56 secs
  
 --> 
 
-Total memory usage is 209888 kilobytes
+Total memory usage is 211872 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   34 (   0 filtered)
-Number of infos    :    3 (   0 filtered)
+Number of warnings :   29 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
 
