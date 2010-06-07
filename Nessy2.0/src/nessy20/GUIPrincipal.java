@@ -16,7 +16,6 @@ import compiladorEntidad.SintacticoEntidad;
 
 
 import IOFPGA.Ejecucion;
-import IOFPGA.RecepcionFPGA;
 import app.*;
 //import com.sun.org.apache.bcel.internal.util.ClassPath;
 import compiladorEntidad.Entidad;
@@ -55,7 +54,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
     private Parameters param;
     private Com com1;
-    private RecepcionFPGA hiloreceptor;
     private Ejecucion ejec;
     private String ruta;
     private String fichero;
