@@ -46,6 +46,7 @@ public class CargaBit {
      * @return Boolean,cierto si existe el fichero falso en caso contrario.
      */
     public boolean existeFichero(String ruta){
+        ruta.replace('\\', '/');
         File fichero = new File(ruta);
         return fichero.exists();
     }
