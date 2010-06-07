@@ -3,22 +3,20 @@ cd comandosXilinx
 set pwd=%cd%
 rem borramos los archivos que no hacen falta
 call clearFiles
-rem creamos el fichero prj con el nombre adecuado
-rem call creaPrj %1%
 rem después ejecutamos los procesos
 call sintetizarXST.bat %1%
 cd %pwd%
 %pwd:~0,2%
-call translateNGDBUILD.bat %1%
+call translateNGDBUILD.bat %1
 cd %pwd%
 %pwd:~0,2%
-call map.bat %1%
+call map.bat %1
 cd %pwd%
 %pwd:~0,2%
-call par.bat %1%
+call par.bat %1
 cd %pwd%
 %pwd:~0,2%
-call bitgen.bat %1%
+call bitgen.bat %1
 cd %pwd%
 %pwd:~0,2%
 rem exit
