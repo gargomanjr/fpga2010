@@ -25,22 +25,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="_lbl_HomeImpact" min="-2" pref="84" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="_txt_HomeImpact" min="-2" pref="330" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="_btn_HomeImpact" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="_lbl_HomeXilins" min="-2" pref="84" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="_txt_HomeXilins" min="-2" pref="330" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="_btn_HomeXilins" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="_lbl_HomeXilins" min="-2" pref="84" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="_txt_HomeXilins" min="-2" pref="330" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Component id="_btn_HomeXilins" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
@@ -68,13 +57,7 @@
                   <Component id="_btn_HomeXilins" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_txt_HomeXilins" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="_lbl_HomeImpact" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="_btn_HomeImpact" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="_txt_HomeImpact" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="34" max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="_btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="_btnOK" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -91,6 +74,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="_txt_HomeXilins">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="_txt_HomeXilins.setText(rutaXilins);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="_btn_HomeXilins">
       <Properties>
@@ -99,21 +85,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_HomeXilinsActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="_txt_HomeImpact">
-    </Component>
-    <Component class="javax.swing.JButton" name="_btn_HomeImpact">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Seleccion"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_HomeImpactActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="_lbl_HomeImpact">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Home Impact :"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

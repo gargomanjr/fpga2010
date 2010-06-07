@@ -31,8 +31,9 @@ public class GUIConfig extends javax.swing.JDialog {
     private String rutaXilins;
     private String rutaImpact;
     /** Creates new form GUIConfig */
-    public GUIConfig(java.awt.Frame parent, boolean modal) {
+    public GUIConfig(java.awt.Frame parent, boolean modal,String ruta) {
         super(parent, modal);
+        rutaXilins=ruta;
         initComponents();
 
     }
@@ -49,9 +50,6 @@ public class GUIConfig extends javax.swing.JDialog {
         _lbl_HomeXilins = new javax.swing.JLabel();
         _txt_HomeXilins = new javax.swing.JTextField();
         _btn_HomeXilins = new javax.swing.JButton();
-        _txt_HomeImpact = new javax.swing.JTextField();
-        _btn_HomeImpact = new javax.swing.JButton();
-        _lbl_HomeImpact = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
@@ -61,21 +59,14 @@ public class GUIConfig extends javax.swing.JDialog {
 
         _lbl_HomeXilins.setText("Home Xilinx ISE :");
 
+        _txt_HomeXilins.setText(rutaXilins);
+
         _btn_HomeXilins.setText("Seleccion");
         _btn_HomeXilins.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 _btn_HomeXilinsActionPerformed(evt);
             }
         });
-
-        _btn_HomeImpact.setText("Seleccion");
-        _btn_HomeImpact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btn_HomeImpactActionPerformed(evt);
-            }
-        });
-
-        _lbl_HomeImpact.setText("Home Impact :");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setText("Configuración");
@@ -100,19 +91,11 @@ public class GUIConfig extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(_lbl_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(_txt_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(_btn_HomeImpact))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(_lbl_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(_btn_HomeXilins)))
+                .addComponent(_lbl_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(_btn_HomeXilins)
                 .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(227, Short.MAX_VALUE)
@@ -135,12 +118,7 @@ public class GUIConfig extends javax.swing.JDialog {
                     .addComponent(_lbl_HomeXilins)
                     .addComponent(_btn_HomeXilins)
                     .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(_lbl_HomeImpact)
-                    .addComponent(_btn_HomeImpact)
-                    .addComponent(_txt_HomeImpact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnCancelar)
                     .addComponent(_btnOK))
@@ -167,22 +145,6 @@ public class GUIConfig extends javax.swing.JDialog {
 
     }//GEN-LAST:event__btn_HomeXilinsActionPerformed
 
-    private void _btn_HomeImpactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_HomeImpactActionPerformed
-        JFileChooser chooser;
-        chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("C:/"));
-        chooser.setDialogTitle("Seleccionar Home Impact");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setMultiSelectionEnabled(false);
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            //try {
-            rutaImpact=chooser.getSelectedFile().getAbsolutePath();
-            _txt_HomeImpact.setText(rutaImpact);
-        } else {
-            //log.info("Seleccion no llevada a cabo");
-        }
-    }//GEN-LAST:event__btn_HomeImpactActionPerformed
-
     private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
         try {
             //TODO cargar configuracion en archivos.Properties prop = new Properties();
@@ -191,8 +153,7 @@ public class GUIConfig extends javax.swing.JDialog {
             //Para leer prop
            // is = new FileInputStream("src/recursos/Config.properties");
          //   prop.load(is);
-            prop.setProperty("HomeXilins", rutaXilins);
-            prop.setProperty("HomeImpact", rutaImpact);
+            prop.setProperty("HomeXilinx", rutaXilins);
             prop.store(new FileOutputStream("src/recursos/Config.properties"), "rutas");
             this.dispose();
         } catch (IOException ex) {
@@ -213,11 +174,8 @@ public class GUIConfig extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnCancelar;
     private javax.swing.JButton _btnOK;
-    private javax.swing.JButton _btn_HomeImpact;
     private javax.swing.JButton _btn_HomeXilins;
-    private javax.swing.JLabel _lbl_HomeImpact;
     private javax.swing.JLabel _lbl_HomeXilins;
-    private javax.swing.JTextField _txt_HomeImpact;
     private javax.swing.JTextField _txt_HomeXilins;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

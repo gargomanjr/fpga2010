@@ -35,6 +35,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -52,6 +54,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private static Logger log= Logger.getLogger(GUIPrincipal.class);
 
     private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
+    private String RUTA_XILINX ;
     private Parameters param;
     private Com com1;
     private Ejecucion ejec;
@@ -293,7 +296,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      
         PropertyConfigurator.configure("src/recursos/log4j.properties");
 
-        reconf();
+        reconf("src/recursos/Config.properties",false);
         initComponentsAux();
         initComponents();
         this._btnReanudar.setEnabled(false);
@@ -1314,8 +1317,12 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
 
 private void menuConfigNessyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigNessyActionPerformed
-     GUIConfig config = new GUIConfig(this, true);
-     config.setVisible(true);
+    String ruta="";
+    if(RUTA_XILINX!=null)
+        ruta=RUTA_XILINX;
+    GUIConfig config = new GUIConfig(this, true,ruta);
+    config.setVisible(true);
+
 }//GEN-LAST:event_menuConfigNessyActionPerformed
 
 private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigFichConfActionPerformed
@@ -1331,7 +1338,7 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
         files = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            
+            reconf(chooser.getSelectedFile().getAbsolutePath(),true);
 
         }
 
@@ -1580,9 +1587,46 @@ public void setNumeroInst(int inst) {
         return correcto;
   }
 
-    private void reconf() {
+    private void reconf(String fichConf,boolean cargaFich) {
 
-       //TODO
+        Properties prop = new Properties();
+        InputStream is = null;
+        try
+        {
+            is=new FileInputStream(fichConf);
+            prop.load(is);
+           // Enumeration enume=prop.propertyNames();
+
+            RUTA_XILINX=prop.getProperty("HomeXilinx");
+            if (cargaFich )
+            {
+                if(RUTA_XILINX==null||RUTA_XILINX.equals(""))
+                {
+                    JOptionPane.showMessageDialog(this, "" +
+                        "El fichero de configuración seleccionado " +
+                        "no es valido", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+
+            }
+            else{
+
+                while(RUTA_XILINX==null||RUTA_XILINX.equals(""))
+                {
+                    GUIConfig config = new GUIConfig(this, true,"");
+                    config.setVisible(true);
+                    is=new FileInputStream(fichConf);
+                    prop.load(is);
+                    RUTA_XILINX=prop.getProperty("HomeXilinx");
+
+                }
+            }
+
+        }
+        catch(IOException ioe)
+        {
+
+        }
 
     }
 
