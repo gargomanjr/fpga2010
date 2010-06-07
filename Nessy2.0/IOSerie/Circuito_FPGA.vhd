@@ -157,7 +157,6 @@ begin
 		transmitido <= '0';
 	elsif mi_transmitiendo'event and mi_transmitiendo = '1' then
 		if estadoSal = 3 then
-			transmitido <= '1';
 			estadoSal <= 0;
 		else
 			estadoSal <= estadoSal+1;
