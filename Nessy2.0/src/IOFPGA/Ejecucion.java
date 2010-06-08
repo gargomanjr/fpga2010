@@ -25,39 +25,145 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Tony
+ * @author Carlos
  *
- * Clase que Ejecuta las operaciones que se le pasan.
- * hereda de la clase Thread.
+ * Clase encargada de hacer que se ejecute correctamente el circuito cargado
+ * en la FPGA. Contiene los métodos necesarios para el envío y la recepción de
+ * datos cn dicho dispositivo. La ejecución se hará a través de un Test Bench o
+ * Banco de Pruebas que podrá leerse bien desde fichero, o bien desde la pantalla
+ * de la aplicación (pestaña TestBench).
+ * Hereda de la clase Thread puesto que en ocasiones queremos que la ejecución
+ * se realice en paralelo con la escritura en la interfaz gráfica, operaciones que
+ * no pueden ser realizadas a la vez si no es en hilos diferentes.
  */
 public class Ejecucion extends Thread {
 
-    // private GUIPrincipal interfaz;
+    /**
+     * Estructura para almacenar las cadenas del banco de pruebas cuando éste se
+     * ha introducido por pantalla.
+     */
     private ArrayList<String> cadenaaEnviar;
+
+    /**
+     * Indica que el hilo de ejecución se encuentra activo cuando está a true
+     */
     private boolean ejecutando;
+
+    /**
+     * Objeto para controlar al puerto serie RS232
+     */
     private Com com1;
+
+    /**
+     * Almacena en un solo String todas las cadenas leidas de la pantalla de
+     * texto del Test Bench
+     */
     private String ls_cadenaaejecutar;
-    private int datosEnviar[];
+
+   /**
+    * Indica el número de bits de entrada que tiene la entidad sobre la que se va a
+    * ejecutar
+    */
     private int li_bits_entrada;
+
+    /**
+     * Indica el número de bits de salida que tiene la entidad sobre la que se va a
+     * ejecutar
+     */
     private int li_bits_salida;
+
+    /**
+     * Elemento gráfico sobre el que se desea escribir el número de instruccion
+     * mientras se ejecuta el  hilo de ejecución
+     */
     private final JTextField ljtfield;
+
+    /**
+     * Indica si se ha ordenado al hilo correspondiente a esta ejecución
+     * que espere.
+     */
     private boolean setwait;
+
+    /**
+     * Elemento gráfico sobre el que se desea escribir la salida de la ejecución
+     * mientras se ejecuta este hilo
+     */
     private JTextArea ata_textarea;
+
+    /**
+     * Indica a la ejecución que el banco de pruebas hay que leerlo desde fichero
+     */
     private boolean entraDesdeFichero;
+
+    /**
+     * Lectura de ficheros
+     */
     private BufferedReader bfr;
+
+    /**
+     * Ruta donde serán almacenados los ficheros correspondientes a la ejecución
+     * tales como la salida de la última ejecución y la salida golden.
+     */
     static String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
+
+    /**
+     * Fichero donde se volcará la salida
+     */
     private final File fichero_escritura;
+
+    /**
+     * Fichero con el cual se comparará la ejecución
+     */
     private final File fichero_compararTraza;
+
+    /**
+     * Escritura de fichero
+     */
     private FileWriter file_wr;
+
+    /**
+     * Indica si la ejecución coincide con la traza almacenada
+     */
     private boolean coincideTraza;
+
+    /**
+     * Indica si hay que mostrar mensajes con pantallas modales al ejecutar ya que
+     * en el caso de reconfigurar varios ficheros, no querremos ninguna pantalla
+     * que se nos muestre entre ejecuciones.
+     */
     private boolean mostrarMensaje;
+
+    /**
+     * Almacena la primera instrucción en la que no coincide la traza
+     */
     private int NumInstrNoCoincideTraza;
+
+    /**
+     * Indica si en la ejecuición hay que comparar o no con la traza. Por ejemplo,
+     * cuando se está generando la salida golden no hay que hacer ninguna comparación.
+     */
     private boolean comparar;
+
+    /**
+     * Indica si se trata de una ejecución especial, que se da cuando estamos
+     * realizando ejecuciones sucesivas cambiando un solo bit de la FPGA. Para esos
+     * casos no querremos que la ejecución sea un hilo diferente ni que ninguna
+     * pantalla se nos muestre. Simplemente querremos volcar la salida a un fichero
+     * y guardar el resultado del método en un fichero de log.
+     */
     private boolean reconfiguracionParcial;
+
+    /**
+     * Indica la posición en la que se encuentra el bit de reset en la entidad que
+     * se está ejecutando. La razón de almacenar esto es la de tener la posibilidad
+     * de resetear el circuito al comenzar cada ejecución. Para ello mandaremos una
+     * cadena de todo 0's excepto un 1 en la posición del reset
+     */
     private int posicionResetEntidad;
 
     /**
-     * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField .
+     * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField . Este constructor
+     * está definido para el caso en el que el test bench es leido desde la pantalla de la GUI
      * @param lj_jtf JTextField en el que se escribirá la salida que reciba de la FPGA al ejecutar las instrucciones.
      * @param e Entidad (top) sobre la que vamos a ejecutar.
      * @param ac_com Puerto con el que nos comunicamos con la FPGA.
@@ -92,7 +198,8 @@ public class Ejecucion extends Thread {
     }
 
     /**
-     * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField .
+     * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField. Este constructor está definido
+     * para el caso en el que el test bench es leido desde fichero
      * @param lj_jtf JTextField en el que se escribirá la salida que reciba de la FPGA al ejecutar las instrucciones.
      * @param e Entidad top sobre la que vamos a ejecutar.
      * @param ac_com Puerto con el que nos comunicamos con la FPGA.
@@ -130,7 +237,9 @@ public class Ejecucion extends Thread {
     }
 
     /**
-     * Asigna la cadena que se quiere ejecutar.
+     * Asigna la cadena que se quiere ejecutar para el caso de ejecución desde
+     * la pantalla de la GUI. Todas las cadenas a ejecutar estarán contenidas
+     * en as_cadenaaejecutar
      * @param as_cadenaajecutar Cadena a ejecutar.
      */
     public void setCadena(String as_cadenaajecutar) {
@@ -138,9 +247,10 @@ public class Ejecucion extends Thread {
     }
 
     /**
-     * Transforma un String en su entero equivalente
+     * Convierte a entero una una cadena en formato binario
      * @param s Cadena a traducir.
-     * @return Entero equivalente al String introducido.
+     * @return Entero equivalente al String introducido o -1 si el formato no es
+     * correcto (no son 0's y 1's)
      */
     public int traduceString(String s) {
         int n = 0;
@@ -203,10 +313,10 @@ public class Ejecucion extends Thread {
         st = new StringTokenizer(this.ls_cadenaaejecutar, "\n\r");
         int numBits = this.li_bits_entrada;
         boolean correcto = true;
-        datosEnviar = new int[st.countTokens()];
+        int numCadenas = st.countTokens();
         cadenaaEnviar = new ArrayList<String>();
         int i = 0;
-        correcto = datosEnviar.length > 0;
+        correcto = numCadenas > 0;
         while (st.hasMoreTokens() && correcto) {
             String cadena = st.nextToken();
             if (cadena.length() == numBits) {
@@ -244,7 +354,7 @@ public class Ejecucion extends Thread {
      */
     public void pararrecepcionfpga() {
         this.ejecutando = false;
-        if (coincideTraza == false && mostrarMensaje && reconfiguracionParcial == false) {
+        if (!coincideTraza && mostrarMensaje && !reconfiguracionParcial) {
             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -255,26 +365,26 @@ public class Ejecucion extends Thread {
      */
     private String recibirBinaria(int numBitsSalida) throws Exception {
         int num;
-        String s = "";
+        String cadenaRecibida = "";
         for (int i = 0; i < 4; i++) {
             num = com1.receiveSingleDataInt();
-            s = this.convertirCadenaBinaria(num, 8) + s;
+            cadenaRecibida = this.convertirByteBinario(num) + cadenaRecibida;
         }
-        return s.substring(s.length() - numBitsSalida);
+        return cadenaRecibida.substring(cadenaRecibida.length() - numBitsSalida);
     }
 
     /**
-     * Procedimiento que transforma un entero, que tiene una longitud de bits a una cadena.
-     * @param recibido Entero a transformar.
-     * @param numBits que tiene la cadena que se va a generar.
-     * @return Cadena equivalente en bits al entero recibido con la longitud numBits.
+     * Procedimiento que transforma un byte (representado mediante un entero)
+     * a una cadena de ceros y  unos. Utiliza el algoritmo de la división por 2.
+     * @param recibido Byte a traducir.
+     * @return Cadena equivalente en bits al byte recibido.
      */
-    private String convertirCadenaBinaria(int recibido, int numBits) {
+    private String convertirByteBinario(int recibido) {
         String salida = "";
         int numero;
         numero = recibido;
-        int long_cadena = numBits;
-        for (int i = 0; i < long_cadena; i++) {
+        int long_byte = 8;
+        for (int i = 0; i < long_byte; i++) {
             if (numero % 2 == 0) {
                 salida = "0" + salida;
             } else {
@@ -305,15 +415,15 @@ public class Ejecucion extends Thread {
                 seguir = instruccion < this.cadenaaEnviar.size();
             }
             file_wr = new FileWriter(fichero_escritura, false);
-            //Enviamos un reset antes que nada
+            //Enviamos un reset antes de la ejecución.
             this.enviaReset();
             this.recibirBinaria(li_bits_salida);
             while (ejecutando && seguir) {
                 if (this.setwait) {
                     System.out.println("Ejecución antes");
                     file_wr.close();
-                    if (comparar && coincideTraza == false && mostrarMensaje) {
-                        if (reconfiguracionParcial == false) {
+                    if (comparar && !coincideTraza && mostrarMensaje) {
+                        if (!reconfiguracionParcial) {
                             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                         }
                         mostrarMensaje = false;
@@ -356,12 +466,12 @@ public class Ejecucion extends Thread {
             file_wr.close();
             rw.close();
             if (comparar && coincideTraza) {
-                if (reconfiguracionParcial == false) {
+                if (!reconfiguracionParcial) {
                     JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 if (comparar && mostrarMensaje) {
-                    if (reconfiguracionParcial == false) {
+                    if (!reconfiguracionParcial) {
                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
                     mostrarMensaje = false;
@@ -392,6 +502,13 @@ public class Ejecucion extends Thread {
         out.close();
     }
 
+    /**
+     * Comprueba si un fichero de Test Bench tiene el formato correcto, es decir,
+     * si sus cadenas tienen el tamaño correcto correspondiente con las entradas
+     * de la entidad a ejecutar, y si se trata sólamente de cadenas de 0's y 1's
+     * @param br Fichero de lectura
+     * @return true si el formato es correcto y false en caso contrario
+     */
     public boolean formatoCorrectoFicheroTB(BufferedReader br) {
         String linea = null;
         boolean correcto = true;
@@ -417,6 +534,10 @@ public class Ejecucion extends Thread {
         return correcto;
     }
 
+    /**
+     * Realiza el envío de reset a la entidad, mandando para ello una cadena
+     * con todo ceros excepto un uno en la posición correspondiente al reset
+     */
     public void enviaReset(){
         String cadenaReset="";
         for (int i = 0; i < 32; i++){

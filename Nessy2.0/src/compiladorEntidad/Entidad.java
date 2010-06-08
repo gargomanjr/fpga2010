@@ -187,6 +187,8 @@ public class Entidad {
                 encontrado = true;
             }
         }
+        if (!encontrado)
+            return -1;
         return i;
 
     }
