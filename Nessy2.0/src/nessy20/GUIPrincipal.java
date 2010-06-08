@@ -1161,8 +1161,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
 
         //POsibilidad de ver si se carga con exito
-          this.cargarBitConChooser();
-      
+          if(this.cargarBitConChooser())
+            log.info("Cargar .BIT : Cargado archivo .bit correctamente");
+          else
+            log.warn("Cargar .BIT : No se ha podido Cargar el archivo .bit correctamente");
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
@@ -1240,6 +1242,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
+        log.info("Finalizado Nessy 2.0");
     }//GEN-LAST:event_formWindowClosed
 
     private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed
@@ -1363,10 +1366,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
 private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGoldenActionPerformed
     if (this.com1 == null) {
         if (this.inicializarPuertoSerie()) {
-           generarGolden();
+           if(generarGolden())
+                log.info("Generar Golden : Generado correctamente el archivo golden");
+            else
+                log.warn("Generar Golden : No se ha podido generar correctamente el archivo golden");
         }
     } else {
-           generarGolden();
+           if(generarGolden())
+                log.info("Generar Golden : Generado correctamente el archivo golden");
+            else
+                log.warn("Generar Golden : No se ha podido generar correctamente el archivo golden");
     }
 }//GEN-LAST:event__btnGenerarGoldenActionPerformed
 
@@ -1385,8 +1394,9 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 
         copiaArchivo(chooser.getSelectedFile().getAbsolutePath(), "test//Golden.txt");
 
+        log.info("Cargar Golden : Se ha cargado archivo golden correctamente");
     } else {
-        System.out.println("No Selection ");
+        log.info("Cargar Golden : No se ha seleccionado archivo");
     }
 
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
@@ -1421,7 +1431,11 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
 
 private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
     this._btnPararReconf.setEnabled(true);
-    procesoModificarFicheros();
+    if(procesoModificarFicheros())
+        log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
+    else
+        log.warn("Reconfiguración Parcial :No se ha podido ejecutar " +
+                "correctamente Reconfiguración Parcial");
     this._btnPararReconf.setEnabled(false);
 }//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
 
