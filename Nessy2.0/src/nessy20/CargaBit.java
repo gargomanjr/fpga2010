@@ -46,7 +46,6 @@ public class CargaBit {
      * @return Boolean,cierto si existe el fichero falso en caso contrario.
      */
     public boolean existeFichero(String ruta){
-        ruta.replace('\\', '/');
         File fichero = new File(ruta);
         return fichero.exists();
     }
@@ -64,12 +63,20 @@ public class CargaBit {
                 interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
                 FileOutputStream os = new FileOutputStream("carga2.txt");
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-                String coms = "setMode -ss \nsetMode -sm \n" +
+                /*String coms = "setMode -ss \nsetMode -sm \n" +
                         "setMode -sm \nsetMode -hw140 \nsetMode -spi\nsetMode -acecf\nsetMode -acempm\nsetMode -pff\n" +
                         "setMode -bs\nsetMode -bs\nsetCable -port auto\nIdentify\naddDevice -p 3 -file \""+ ficheroBit+"\"\n" +
-                        "deleteDevice -p 4\nProgram -p 3 -defaultVersion 0\nexit";
+                        "deleteDevice -p 4\nProgram -p 3 -defaultVersion 0\nexit";*/
+                String coms = "setMode -bs \n" +
+                        "setCable -port auto\n" +
+                        "Identify\n" +
+                        "identifyMPM\n" +
+                        "assignFile -p 3 -file \""+ ficheroBit+"\"\n" +
+                        "Program -p 3\n" +
+                        "exit";
                 bw.write(coms);
                 bw.close();
+                rutaImpact = "C://Xilinx82//bin//nt//impact.exe";
                 Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga2.txt");
                 
                 
@@ -79,7 +86,7 @@ public class CargaBit {
                 String s=br.readLine();
                 boolean errorCarga = true;
                 while(s!=null && errorCarga){
-                   // System.out.println(s);
+                   System.out.println(s);
                     interfaz.escribirEnPantalla(s);
                     if (s.contains("Programmed successfully")){
                         errorCarga = false;

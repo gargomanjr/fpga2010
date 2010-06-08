@@ -115,8 +115,6 @@ public class Entidad {
         if (e.getNombre().equals("CLK") || e.getNombre().equals("CLOCK") ||
             e.getNombre().equals("RELOJ")) {
             e.ponerComoReloj();
-        }else if(e.getNombre().equals("RST") || e.getNombre().equals("RESET")){
-            e.ponerComoReset(true);
         } else {
             bitsEntrada += e.getNumBits();
         }
@@ -154,21 +152,7 @@ public class Entidad {
         System.out.println("Num_salidas: " + bitsSalida);
     }
 
-    /**
-     * Método para consultar el nombre de la entrada de reset.
-     * @return Devuelve el Nombre de la Entrada de reset.
-     */
-    public String getNombreReset(){
-        int i = 0;
-        String reset = null;
-        while (i < this.getNumEntradas() && reset == null){
-            if (this.getEntrada(i).getEsReset()){
-                reset = this.getEntrada(i).getNombre();
-            }
-            i++;
-        }
-        return reset;
-    }
+    
 
     /**
      * Devuelve una cadena con la descripción de las entradas y salidas de la entidad.
@@ -181,7 +165,7 @@ public class Entidad {
         s += ("Entradas:") + "\n";
         for (int i = 0; i < entradas.size(); i++) {
             Entrada e = entradas.get(i);
-            if (!e.getEsReloj() && !e.getEsReset()) {
+            if (!e.getEsReloj()) {
                 for (int j = 0; j < e.getNumBits(); j++) {
                     s += ("\t" + e.getNombre() + "(" + j + ")") + "\n";
                 }

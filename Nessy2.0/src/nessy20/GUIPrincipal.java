@@ -542,7 +542,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
         boolean error = false;
         int intentos = 6;
-        CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"\\bin\\nt\\impact.exe");
+        CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"\\ISE\\bin\\nt\\impact.exe");
         try {
             do {//si hay un error lo vuelve a intentar
                 error = !cargaBit.cargar();
