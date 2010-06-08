@@ -5,19 +5,7 @@
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-37172 [AWT-EventQueue-0] INFO  nessy20.GUIPrincipal - Seleccion TB no realizada 
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
-42766 [AWT-EventQueue-0] INFO  nessy20.GUIPrincipal - Seleccion no llevada a cabo
+<<<<<<< .mine
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
@@ -31,3 +19,8 @@
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
 0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
+0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
+0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
+=======
+0    [main] INFO  nessy20.GUIPrincipal - Inicializado Nessy 2.0
+>>>>>>> .r108
