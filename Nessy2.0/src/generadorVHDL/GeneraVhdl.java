@@ -6,6 +6,7 @@ package generadorVHDL;
 
 import compiladorEntidad.*;
 import java.io.*;
+import java.util.Date;
 
 /**
  *
@@ -107,6 +108,27 @@ public class GeneraVhdl {
         return s;
     }
 
+    private void comentariosCabecera(){
+        escribirLinea("--------------------------------------------------------------------------------");
+        escribirLinea("--Descripción:");
+        escribirLinea("--\tEste fichero ha sido generado automáticamente por la aplicación Nessy2.0");
+        escribirLinea("--\tSe trata del fichero que describe la entidad top generada para cualquier circuto que quiera ser ejecutado en la FPGA");
+        escribirLinea("--");
+        escribirLinea("--");
+        escribirLinea("--Especificaciones:");
+        escribirLinea("--\tCircuito a ejecutar:");
+        escribirLinea("--\t\tNum. Entradas: "+ entidad.getBitsEntrada());
+        escribirLinea("--\t\tNum. Salidas: " + entidad.getBitsSalida());
+        escribirLinea("--Autor:");
+        escribirLinea("--\tCarlos Sanchez-Vellisco Sanchez");
+        escribirLinea("--\tFacultad de Informatica. Universidad Complutense de Madrid");
+        Date date = new Date();
+        escribirLinea("--Fecha: ");
+        escribirLinea("--\t"+date.toString());
+        escribirLinea("--------------------------------------------------------------------------------");
+        escribirLinea("");
+    }
+
     private void librerias() {
         escribirLinea("library IEEE;");
         escribirLinea("use IEEE.STD_LOGIC_1164.ALL;");
@@ -118,6 +140,7 @@ public class GeneraVhdl {
 
     private void entidadGeneral() {
         escribirLinea("");
+        escribirLinea("--Descripcion de la entidad");
         escribirLinea("entity " + nomEntidadGeneral + " is");
         escribirLinea("Port ( clk : in  STD_LOGIC;");
         escribirLinea("reset : in  STD_LOGIC;");
@@ -137,6 +160,7 @@ public class GeneraVhdl {
 
     private void compSalidaSerie() {
         escribirLinea("");
+        escribirLinea("--Transmisor serie");
         escribirLinea("component Tx_serie");
         escribirLinea("\tPort ( RstN : in  STD_LOGIC;");
         escribirLinea("\tclk : in  STD_LOGIC;");
@@ -150,6 +174,7 @@ public class GeneraVhdl {
 
     private void compEntradaSerie() {
         escribirLinea("");
+        escribirLinea("--Receptor Serie");
         escribirLinea("component Rx_Serie");
         escribirLinea("\tPort ( Rstn : in  STD_LOGIC;");
         escribirLinea("\tClk : in  STD_LOGIC;");
@@ -163,6 +188,7 @@ public class GeneraVhdl {
 
     private void componentePrincipal() {
         escribirLinea("");
+        escribirLinea("--Entidad que se quiere ejecutar");
         escribirLinea("component " + entidad.getNombre());
         escribirLinea("\tPort(");
         //Escribir las entradas
@@ -180,20 +206,18 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
-    private void senalEnableGeneral() {
-        escribirLinea("");
-        escribirLinea("signal enable: std_logic;  --enable general");
-        escribirLinea("");
-    }
-
     private void SenalesCircuitoPrincipal() {
         escribirLinea("");
+        escribirLinea("--Señales del circuito principal");
+        escribirLinea("");
+        escribirLinea("--Entradas");
         for (int i = 0; i < entidad.getNumEntradas(); i++) {
             Entrada e = entidad.getEntrada(i);
             //if (!e.getEsReloj())//si no es la entrada de reloj
             escribirLinea("signal mi_" + e.getNombre() + ": " + tipoPuerto(e) + ";");
         }
         escribirLinea("");
+        escribirLinea("--Salidas");
         for (int i = 0; i < entidad.getNumSalidas(); i++) {
             Salida s = entidad.getSalida(i);
             escribirLinea("signal mi_" + s.getNombre() + ": " + tipoPuerto(s) + ";");
@@ -203,6 +227,7 @@ public class GeneraVhdl {
 
     private void SenalesEntradaSerie() {
         escribirLinea("");
+        escribirLinea("--Señales para la Recepción Serie");
         escribirLinea("signal mi_resetserie:std_logic;");
         escribirLinea("signal mi_transmite:std_logic;");
         escribirLinea("signal mi_datotxin:std_logic_vector(7 downto 0);");
@@ -214,6 +239,7 @@ public class GeneraVhdl {
 
     private void SenalesSalidaSerie() {
         escribirLinea("");
+        escribirLinea("--Señales para la Transmisión Serie");
         escribirLinea("signal mi_transmitiendo:std_logic;");
         escribirLinea("signal mi_datoserieout:std_logic;");
         escribirLinea("signal mi_rxdatoserie:std_logic;");
@@ -222,6 +248,7 @@ public class GeneraVhdl {
 
     private void regsEntradaSalida() {
         escribirLinea("");
+        escribirLinea("--Señales intermedias para la entrada y la salida. Se conectarán a las entradas y las salidas del circuito principal");
         escribirLinea("signal Reg_entradas: std_logic_vector(31 downto 0);");
         escribirLinea("signal Reg_salidas: std_logic_vector(31 downto 0);");
         escribirLinea("");
@@ -229,6 +256,7 @@ public class GeneraVhdl {
 
     private void SenalesEstados(){
         escribirLinea("");
+        escribirLinea("--Señales para los estados del emisor/receptor de 32 bits");
         escribirLinea("signal estadoEnt: integer;");
         escribirLinea("signal estadoSal: integer;");
         escribirLinea("");
@@ -239,7 +267,8 @@ public class GeneraVhdl {
 
     private void SenalesIO(){
         escribirLinea("");
-        escribirLinea("signal volcar : std_logic;");
+        escribirLinea("--Señales necesarias para la correcta entrada/salida");
+        escribirLinea("signal fin_recepcion : std_logic;");
         escribirLinea("signal recibido,transmitido,biest_recibido, biest_transmitido: std_logic;");
         escribirLinea("signal frecibido,ftransmitido,fin: std_logic;  --flancos de fin");
         escribirLinea("");
@@ -254,6 +283,7 @@ public class GeneraVhdl {
 
     private void asigSenalesCompsSerie() {
         escribirLinea("");
+        escribirLinea("--Asignación de señales a los componentes de la entrada/salida");
         escribirLinea("f: Tx_serie port map(mi_resetserie,clk,mi_transmite,mi_datotxin,mi_transmitiendo,mi_datoserieout);");
         escribirLinea("R: Rx_serie port map(mi_resetserie,clk,mi_rxdatoserie,mi_datorxout,mi_avisorx,mi_recibiendo);");
         escribirLinea("");
@@ -261,6 +291,7 @@ public class GeneraVhdl {
 
     private void asigSenalesCompPrinc() {
         escribirLinea("");
+        escribirLinea("--Asignación de señales al componente del circuito principal");
         escribirLinea("U: " + entidad.getNombre() + " port map" + listaSenales() + ";");
         escribirLinea("");
     }
@@ -269,13 +300,15 @@ public class GeneraVhdl {
 
     private void procesoEntradas() {
         escribirLinea("");
+        escribirLinea("--Proceso encargado de la correcta recepción de datos (32 bits)");
+        escribirLinea("--Cada vez que se reciba un byte, se irá asignando a las entradas desde las menos significativas a las más significatias");
         escribirLinea("process(mi_recibiendo,mi_resetserie)");
         escribirLinea("begin");
         escribirLinea("\tif mi_resetserie = '0' then");
         escribirLinea("\t\testadoEnt <= 0;");
-        escribirLinea("\t\tvolcar <= '0';");
+        escribirLinea("\t\tfin_recepcion <= '0';");
         escribirLinea("\telsif mi_recibiendo'event and mi_recibiendo = '0' then");
-        escribirLinea("\t\tvolcar <= '0';");
+        escribirLinea("\t\tfin_recepcion <= '0';");
         escribirLinea("\t\tif estadoEnt = 0 then");
         escribirLinea("\t\t\tReg_entradas(7 downto 0) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 1;");
@@ -288,7 +321,7 @@ public class GeneraVhdl {
         escribirLinea("\t\telsif estadoEnt = 3 then");
         escribirLinea("\t\t\tReg_entradas(31 downto 24) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 0;");
-        escribirLinea("\t\t\tvolcar <= '1';");
+        escribirLinea("\t\t\tfin_recepcion <= '1'; --fin de la recepción");
         escribirLinea("\t\telse");
         escribirLinea("\t\t\tReg_entradas(7 downto 0) <= mi_datorxout;");
         escribirLinea("\t\t\testadoEnt <= 1;");
@@ -301,6 +334,7 @@ public class GeneraVhdl {
 
     private void procesoSalidas(){
         escribirLinea("");
+        escribirLinea("--Proceso encargado de que la salida correspondiente del circuito esté conectada a la salida serie antes de que la transmisión se produzca");
         escribirLinea("process(estadoSal, clk, mi_resetserie)");
         escribirLinea("begin");
         escribirLinea("\tif mi_resetserie = '0' then");
@@ -322,6 +356,7 @@ public class GeneraVhdl {
 
     private void procesoEstadoSalidas(){
         escribirLinea("");
+        escribirLinea("--Proceso encargado de cambiar de estado cada vez que se comienza a transmitir un byte");
         escribirLinea("process(mi_transmitiendo, mi_resetserie)");
         escribirLinea("begin");
         escribirLinea("\tif mi_resetserie = '0' then");
@@ -340,47 +375,14 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
-    /*private void procesoSalidas() {
+    private void procesofin_recepcion(){
         escribirLinea("");
-        escribirLinea("process(mi_transmitiendo,mi_resetserie)");
-        escribirLinea("begin");
-        escribirLinea("\tif mi_resetserie = '0' then");
-        escribirLinea("\t\testadoSal<= 0;");
-        escribirLinea("\t\ttransmitido <= '0';");
-        escribirLinea("\telsif mi_transmitiendo'event and mi_transmitiendo = '0' then");
-        escribirLinea("\t\ttransmitido <= '0';");
-        escribirLinea("\t\tif estadoSal = 0 then");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
-        escribirLinea("\t\t\testadoSal <= 1;");
-        escribirLinea("\t\telsif estadoSal = 1 then");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(15 downto 8);");
-        escribirLinea("\t\t\testadoSal <= 2;");
-        escribirLinea("\t\telsif estadoSal = 2 then");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(23 downto 16);");
-        escribirLinea("\t\t\testadoSal <= 3;");
-        escribirLinea("\t\telsif estadoSal = 3 then");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(31 downto 24);");
-        escribirLinea("\t\t\testadoSal <= 4;");
-        escribirLinea("\t\telsif estadoSal = 4 then");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
-        escribirLinea("\t\t\testadoSal <= 0;");
-        escribirLinea("\t\t\ttransmitido <= '1';");
-        escribirLinea("\t\telse");
-        escribirLinea("\t\t\tmi_datotxin <= Reg_salidas(7 downto 0);");
-        escribirLinea("\t\t\testadoSal <= 1;");
-        escribirLinea("\t\tend if;");
-        escribirLinea("\tend if;");
-        escribirLinea("end process;");
-        escribirLinea("");
-    }*/
-
-    private void procesoVolcar(){
-        escribirLinea("");
-        escribirLinea("process(clk,volcar)");
+        escribirLinea("--Proceso encargado de registrar que la recepción ha terminado. La salida del biestable ('recibido') se usará como reloj del circuito principal");
+        escribirLinea("process(clk,fin_recepcion)");
         escribirLinea("begin");
         escribirLinea("\tif clk'event and clk='1' then");
-        escribirLinea("\t\tif volcar = '1' then");
-        escribirLinea("\t\t\trecibido <= '1';");
+        escribirLinea("\t\tif fin_recepcion = '1' then");
+        escribirLinea("\t\t\trecibido <= '1'; --flanco positivo que hará funcionar el circuito principal");
         escribirLinea("\t\telse");
         escribirLinea("\t\t\trecibido <= '0';");
         escribirLinea("\t\tend if;");
@@ -392,6 +394,7 @@ public class GeneraVhdl {
 
     private void procesoBiest(){
         escribirLinea("");
+        escribirLinea("--Proceso encargado de registrar el fin de la recepción y de la transmisión");
         escribirLinea("process(clk)");
         escribirLinea("begin");
         escribirLinea("\tif clk'event and clk='1' then");
@@ -404,6 +407,9 @@ public class GeneraVhdl {
 
     private void procesoFin(){
         escribirLinea("");
+        escribirLinea("--Proceso que indica que, o bien ha terminado una recepción de datos, o bien ha terminado una transmisión");
+        escribirLinea("--Cuando se detecte un flanco positivo, se negará la señal que hace que se transmita, de tal forma que si se estaba transitiendo,");
+        escribirLinea("--se deje de transmitir y si no se estaba transmitiendo se comience una nueva transmisión");
         escribirLinea("process(fin)");
         escribirLinea("begin");
         escribirLinea("\tif fin'event and fin = '1' then");
@@ -417,23 +423,11 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
-    private void procesoEnable() {
-        if (hayReloj()) {
-            escribirLinea("");
-            escribirLinea("process(enable)");
-            escribirLinea("begin");
-            escribirLinea("\tif (enable = '0') then");
-            escribirLinea("\t\tmi_clk <= '0';");
-            escribirLinea("\telse");
-            escribirLinea("\t\tmi_clk <= recibido;");
-            escribirLinea("\tend if;");
-            escribirLinea("end process;");
-            escribirLinea("");
-        }
-    }
+    
 
     private void procesoLedsEnt(){
         escribirLinea("");
+        escribirLinea("--Este proceso es prescindible. Sólo a efectos de visualizar estado de entrada");
         escribirLinea("process(estadoEnt)");
         escribirLinea("begin");
         escribirLinea("\tif estadoEnt = 0 then");
@@ -451,6 +445,7 @@ public class GeneraVhdl {
 
     private void procesoLedsSal(){
         escribirLinea("");
+        escribirLinea("--Este proceso es prescindible. Sólo a efectos de visualizar estado de salida");
         escribirLinea("process(estadoSal)");
         escribirLinea("begin");
         escribirLinea("\tif estadoSal = 0 then");
@@ -475,14 +470,19 @@ public class GeneraVhdl {
 
     private void entSalPuertoSerie() {
         escribirLinea("");
+        escribirLinea("--El reloj del circuito principal será el flanco que indique el fin de la recepción");
+        escribirLinea("mi_clk <= recibido;");
+        escribirLinea("");
+        escribirLinea("--Asignación de las señales del circuito general");
         escribirLinea("mi_resetserie <= reset;");
-        escribirLinea("salida_serie<=mi_datoserieout;");
+        escribirLinea("salida_serie <= mi_datoserieout;");
         escribirLinea("mi_rxdatoserie <= entrada_serie;");
         escribirLinea("");
     }
 
     private void asigSenalesTransmision(){
         escribirLinea("");
+        escribirLinea("--Asignación de las señales necesarias para la transmisión correcta");
         escribirLinea("frecibido <= not biest_recibido and recibido; --flanco que indica fin de recepcion");
         escribirLinea("ftransmitido <= not biest_transmitido and transmitido; --flanco que indica fin de transmision");
         escribirLinea("fin <= frecibido or ftransmitido; --flanco que indica fin de envio o transmision");
@@ -491,6 +491,7 @@ public class GeneraVhdl {
 
     private void asigEntradasCircuitoPrinc() {
         escribirLinea("");
+        escribirLinea("--Asignación de las señales intermedias de entrada/salida a las del circuito principal");
         int numEntrada = 0;
         for (int i = 0; i < entidad.getNumEntradas(); i++) {
             Entrada e = entidad.getEntrada(i);
@@ -505,8 +506,6 @@ public class GeneraVhdl {
                 }
             }
         }
-        escribirLinea("enable <= '1';");
-        //TODO escribirLinea("enable <= Reg_entradas(" + numEntrada + ");");
         escribirLinea("");
     }
 
@@ -536,13 +535,13 @@ public class GeneraVhdl {
      * Crea el nuevo fichero VHDL a partir de la entidad que tiene la clase.
      */
     public void crearFichero() {
+        comentariosCabecera();
         librerias();
         entidadGeneral();
         inicioArquitectura();
         compSalidaSerie();
         compEntradaSerie();
         componentePrincipal();
-        senalEnableGeneral();
         SenalesCircuitoPrincipal();
         SenalesEntradaSerie();
         SenalesSalidaSerie();
@@ -555,10 +554,9 @@ public class GeneraVhdl {
         procesoEntradas();
         procesoSalidas();
         procesoEstadoSalidas();
-        procesoVolcar();
+        procesofin_recepcion();
         procesoBiest();
         procesoFin();
-        procesoEnable();
         procesoLedsEnt();
         procesoLedsSal();
         asigLeds();

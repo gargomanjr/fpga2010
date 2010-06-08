@@ -44,29 +44,32 @@ Optimization Effort                : 1
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" in Library work.
-Architecture behavioral of Entity tx_serie is up to date.
+Entity <Tx_serie> compiled.
+Entity <Tx_serie> (Architecture <Behavioral>) compiled.
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" in Library work.
-Architecture behavioral of Entity rx_serie is up to date.
+Entity <Rx_Serie> compiled.
+Entity <Rx_Serie> (Architecture <Behavioral>) compiled.
 Compiling vhdl file "D:/PFC/Nessy2.0/test/Contador2.vhd" in Library work.
-Architecture behavioral of Entity contador is up to date.
+Entity <Contador> compiled.
+Entity <Contador> (Architecture <Behavioral>) compiled.
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" in Library work.
-Entity <circuito_fpga> compiled.
-Entity <circuito_fpga> (Architecture <behavioral>) compiled.
+Entity <Circuito_FPGA> compiled.
+Entity <Circuito_FPGA> (Architecture <Behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
 =========================================================================
-Analyzing hierarchy for entity <Circuito_FPGA> in library <work> (architecture <behavioral>).
+Analyzing hierarchy for entity <Circuito_FPGA> in library <work> (architecture <Behavioral>).
 
-Analyzing hierarchy for entity <Tx_serie> in library <work> (architecture <behavioral>) with generics.
+Analyzing hierarchy for entity <Tx_serie> in library <work> (architecture <Behavioral>) with generics.
 	gBaud = 9600
 	gFrecClk = 100000000
 
-Analyzing hierarchy for entity <Rx_Serie> in library <work> (architecture <behavioral>) with generics.
+Analyzing hierarchy for entity <Rx_Serie> in library <work> (architecture <Behavioral>) with generics.
 	gBaud = 9600
 	gFrecClk = 100000000
 
-Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <behavioral>) with generics.
+Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <Behavioral>) with generics.
 	a = 3
 	b = 5
 
@@ -74,14 +77,14 @@ Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <behav
 =========================================================================
 *                            HDL Analysis                               *
 =========================================================================
-Analyzing Entity <Circuito_FPGA> in library <work> (Architecture <behavioral>).
+Analyzing Entity <Circuito_FPGA> in library <work> (Architecture <Behavioral>).
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 133: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <Reg_salidas>
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 201: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <recibido>
 Entity <Circuito_FPGA> analyzed. Unit <Circuito_FPGA> generated.
 
-Analyzing generic Entity <Tx_serie> in library <work> (Architecture <behavioral>).
+Analyzing generic Entity <Tx_serie> in library <work> (Architecture <Behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 179: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -90,7 +93,7 @@ WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 192: One or more s
    <SalReg>
 Entity <Tx_serie> analyzed. Unit <Tx_serie> generated.
 
-Analyzing generic Entity <Rx_Serie> in library <work> (Architecture <behavioral>).
+Analyzing generic Entity <Rx_Serie> in library <work> (Architecture <Behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 71: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -99,7 +102,7 @@ WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 192: One or more s
    <Estado>, <CuentaBits>, <RxDatoReg>
 Entity <Rx_Serie> analyzed. Unit <Rx_Serie> generated.
 
-Analyzing generic Entity <CONTADOR> in library <work> (Architecture <behavioral>).
+Analyzing generic Entity <CONTADOR> in library <work> (Architecture <Behavioral>).
 	a = 3
 	b = 5
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/test/Contador2.vhd" line 74: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -204,7 +207,7 @@ Synthesizing Unit <Circuito_FPGA>.
     Related source file is "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd".
 WARNING:Xst:646 - Signal <mi_avisoRx> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
 WARNING:Xst:653 - Signal <Reg_salidas<31:16>> is used but never assigned. This sourceless signal will be automatically connected to value 0000000000000000.
-WARNING:Xst:646 - Signal <Reg_entradas<31:18>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <Reg_entradas<31:19>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
     Found finite state machine <FSM_2> for signal <estadoEnt>.
     -----------------------------------------------------------------------
     | States             | 4                                              |
@@ -223,16 +226,16 @@ WARNING:Xst:737 - Found 2-bit latch for signal <ledsEnt>. Latches may be generat
     Found 1-bit register for signal <biest_recibido>.
     Found 1-bit register for signal <biest_transmitido>.
     Found 32-bit up counter for signal <estadoSal>.
+    Found 1-bit register for signal <fin_recepcion>.
     Found 8-bit register for signal <mi_datotxin>.
     Found 1-bit register for signal <mi_transmite>.
     Found 1-bit register for signal <recibido>.
-    Found 18-bit register for signal <Reg_entradas<17:0>>.
+    Found 19-bit register for signal <Reg_entradas<18:0>>.
     Found 1-bit register for signal <transmitido>.
-    Found 1-bit register for signal <volcar>.
     Summary:
 	inferred   1 Finite State Machine(s).
 	inferred   1 Counter(s).
-	inferred  24 D-type flip-flop(s).
+	inferred  25 D-type flip-flop(s).
 Unit <Circuito_FPGA> synthesized.
 
 
@@ -245,8 +248,8 @@ Macro Statistics
 # Counters                                             : 4
  16-bit up counter                                     : 1
  32-bit up counter                                     : 3
-# Registers                                            : 31
- 1-bit register                                        : 28
+# Registers                                            : 32
+ 1-bit register                                        : 29
  32-bit register                                       : 2
  8-bit register                                        : 1
 # Latches                                              : 13
@@ -305,8 +308,8 @@ Macro Statistics
 # Counters                                             : 4
  16-bit up counter                                     : 1
  32-bit up counter                                     : 3
-# Registers                                            : 92
- Flip-Flops                                            : 92
+# Registers                                            : 93
+ Flip-Flops                                            : 93
 # Latches                                              : 13
  1-bit latch                                           : 10
  2-bit latch                                           : 2
@@ -339,8 +342,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 220
- Flip-Flops                                            : 220
+# Registers                                            : 221
+ Flip-Flops                                            : 221
 
 =========================================================================
 
@@ -382,13 +385,13 @@ Cell Usage :
 #      MUXF6                       : 1
 #      VCC                         : 1
 #      XORCY                       : 176
-# FlipFlops/Latches                : 241
+# FlipFlops/Latches                : 242
 #      FD                          : 2
 #      FDC                         : 38
 #      FDC_1                       : 3
 #      FDCE                        : 147
 #      FDCPE                       : 8
-#      FDE_1                       : 18
+#      FDE_1                       : 19
 #      FDP                         : 2
 #      FDR                         : 2
 #      LD                          : 8
@@ -410,7 +413,7 @@ Device utilization summary:
 Selected Device : 2vp30ff896-7 
 
  Number of Slices:                      248  out of  13696     1%  
- Number of Slice Flip Flops:            237  out of  27392     0%  
+ Number of Slice Flip Flops:            238  out of  27392     0%  
  Number of 4 input LUTs:                464  out of  27392     1%  
  Number of IOs:                           8
  Number of bonded IOBs:                   8  out of    556     1%  
@@ -439,7 +442,7 @@ Clock Information:
 Clock Signal                                               | Clock buffer(FF name)   | Load  |
 -----------------------------------------------------------+-------------------------+-------+
 fin(fin1:O)                                                | NONE(*)(mi_transmite)   | 1     |
-mi_recibiendo1(R/Estado_FSM_Out41:O)                       | BUFG(*)(Reg_entradas_16)| 21    |
+mi_recibiendo1(R/Estado_FSM_Out41:O)                       | BUFG(*)(Reg_entradas_16)| 22    |
 mi_transmitiendo1(f/Estado_FSM_Out41:O)                    | BUFG(*)(transmitido)    | 35    |
 clk                                                        | BUFGP                   | 147   |
 _mux0001(estadoEnt_FSM_Out31:O)                            | NONE(*)(ledsEnt_1)      | 2     |
@@ -465,7 +468,8 @@ Asynchronous Control Signals Information:
 -----------------------------------------------------+-------------------------+-------+
 Control Signal                                       | Buffer(FF name)         | Load  |
 -----------------------------------------------------+-------------------------+-------+
-R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(estadoEnt_FSM_FFd1)| 190   |
+R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(estadoEnt_FSM_FFd1)| 174   |
+Reg_entradas_0(Reg_entradas_0:Q)                     | NONE(U/misalida_7)      | 16    |
 estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)         | 1     |
 ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)         | 1     |
 ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)         | 1     |
@@ -529,7 +533,7 @@ Delay:               1.319ns (Levels of Logic = 0)
 =========================================================================
 Timing constraint: Default period analysis for Clock 'mi_recibiendo1'
   Clock period: 1.983ns (frequency: 504.375MHz)
-  Total number of paths / destination ports: 40 / 21
+  Total number of paths / destination ports: 42 / 22
 -------------------------------------------------------------------------
 Delay:               1.983ns (Levels of Logic = 1)
   Source:            estadoEnt_FSM_FFd1 (FF)
@@ -719,7 +723,7 @@ Delay:               2.039ns (Levels of Logic = 3)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'mi_recibiendo1'
-  Total number of paths / destination ports: 18 / 18
+  Total number of paths / destination ports: 19 / 19
 -------------------------------------------------------------------------
 Offset:              2.650ns (Levels of Logic = 2)
   Source:            reset (PAD)
@@ -839,8 +843,8 @@ Offset:              3.460ns (Levels of Logic = 1)
 =========================================================================
 
 
-Total REAL time to Xst completion: 15.00 secs
-Total CPU time to Xst completion: 14.94 secs
+Total REAL time to Xst completion: 16.00 secs
+Total CPU time to Xst completion: 16.48 secs
  
 --> 
 
