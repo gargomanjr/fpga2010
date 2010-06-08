@@ -68,6 +68,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     String fichero_bit;
     private boolean SeleccionTBFich;
     private BufferedReader bf;
+    private boolean ejecutandoReconfiguracion;
 
 
     /**
@@ -131,16 +132,28 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * NOTA : No muestra mensajes de aviso, aunque no coincidan la salida del .bit modificado, con nuestra salida GOLDEN.
      */
     public boolean procesoModificarFicheros() {
-        int numBits = 32;
-        int numFrames = 361942;
+//        int numBits = 32;
+//        int numFrames = 361942;
+         int numBits = 5;
+        int numFrames = 5;
 
         boolean b=false;
-
+        ejecutandoReconfiguracion = true;
         if (cargarBitConChooser() && SeleccionTBModifFichero()){
             seleccionaPanel(panelOutPut);
-            for(int frame = 1; frame < numFrames; frame++){
-                for(int bit = 0; bit < numBits; bit++){
+            int frame = 1;
+            int bit = 0;
+
+            while (frame < numFrames && ejecutandoReconfiguracion){
+                while (bit < numBits && ejecutandoReconfiguracion){
+          //  for(int frame = 1; frame < numFrames; frame++){
+           //     for(int bit = 0; bit < numBits; bit++){
                     try {
+                 
+                        
+                        Thread.sleep(4000);
+                        
+
                         String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
                         Process p = Runtime.getRuntime().exec("cmd.exe /C start " + coms);
                         this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit",false);
@@ -157,15 +170,21 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     } catch (FileNotFoundException ex) {
 
 //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                        return false;
+                             return false;
                     } catch (IOException ex) {
                        //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             return false;
                     }
+                    catch (InterruptedException ex) {
+//                            java.util.logging.Logger.getLogger(GUIPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                        return false;
+                    }
+                    bit ++;
                 }
+                frame ++;
             }
         }
-   
+        ejecutandoReconfiguracion = false;
         return b;
     }
 
@@ -304,6 +323,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._btnPararEjecucion.setEnabled(false);
         this.files = new ArrayList<File>();
         log.info("Inicializado Nessy 2.0");
+        ejecutandoReconfiguracion = false;
+        _btnPararReconf.setEnabled(false);
         
     }
     /**
@@ -481,21 +502,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
                 } catch (FileNotFoundException ex) {
                 }
-                if(ejec.formatoCorrectoFicheroTB(bf)){
+              //  if(ejec.formatoCorrectoFicheroTB(bf)){
                     this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
                     this.ejec.setCadena("");
-                    ejec.start();
+                    if (!lb_reconfiguracionParcial)
+                        ejec.start();
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
-                }else{
+             /*   }else{
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                }*/
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
-                    ejec.start();
+                    if (!lb_reconfiguracionParcial)
+                        ejec.start();
                     //this.jTabbedPane1.setSelectedIndex(3);
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
@@ -568,8 +591,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
             error = true;
         }
         if(!error){
-            _lbl_BitCargado.setText("Ultimo Archivo .bit cargado : "
-                 +fichero_bit);
+            int pos = fichero_bit.lastIndexOf("\\") + 1;
+          //  String fichero = fichero_bit.substring(pos);
+            String fichero = fichero_bit;
+            _lbl_BitCargado.setText("Ultimo Archivo .BIT cargado : "
+                 + fichero);
         }
         return !error;
     }
@@ -614,6 +640,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _TextSalida = new javax.swing.JTextArea();
         _lbl_BitCargado = new javax.swing.JLabel();
         _lbl_VHDLCargado = new javax.swing.JLabel();
+        _btnPararReconf = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuOpciones = new javax.swing.JMenu();
@@ -881,6 +908,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("OutPut", panelOutPut);
 
+        _btnPararReconf.setText("Detener Reconfiguración");
+        _btnPararReconf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                _btnPararReconfActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -888,9 +922,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_lbl_VHDLCargado)
-                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(808, Short.MAX_VALUE))
+                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                    .addComponent(_lbl_VHDLCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(469, 469, 469))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(312, 312, 312)
+                .addComponent(_btnPararReconf)
+                .addContainerGap(445, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -909,10 +947,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(402, Short.MAX_VALUE)
-                .addComponent(_lbl_VHDLCargado)
+                .addContainerGap()
+                .addComponent(_btnPararReconf)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 373, Short.MAX_VALUE)
+                .addComponent(_lbl_VHDLCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(_lbl_BitCargado)
+                .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -1321,7 +1361,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVistasOutPutActionPerformed
 
 private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGoldenActionPerformed
-    generarGolden();
+    if (this.com1 == null) {
+        if (this.inicializarPuertoSerie()) {
+           generarGolden();
+        }
+    } else {
+           generarGolden();
+    }
 }//GEN-LAST:event__btnGenerarGoldenActionPerformed
 
 private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarGoldenActionPerformed
@@ -1374,8 +1420,15 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
 }//GEN-LAST:event_menuConfigFichConfActionPerformed
 
 private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
+    this._btnPararReconf.setEnabled(true);
     procesoModificarFicheros();
+    this._btnPararReconf.setEnabled(false);
 }//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
+
+private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararReconfActionPerformed
+    this._btnPararReconf.setEnabled(false);
+    this.ejecutandoReconfiguracion = false;
+}//GEN-LAST:event__btnPararReconfActionPerformed
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.
@@ -1400,6 +1453,7 @@ public void setNumeroInst(int inst) {
     private javax.swing.JButton _btnEjecutar;
     private javax.swing.JButton _btnGenerarGolden;
     private javax.swing.JButton _btnPararEjecucion;
+    private javax.swing.JButton _btnPararReconf;
     private javax.swing.JButton _btnReanudar;
     private javax.swing.JLabel _lbl_BitCargado;
     private javax.swing.JLabel _lbl_VHDLCargado;

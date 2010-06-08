@@ -86,7 +86,7 @@ public class CargaBit {
                 String s=br.readLine();
                 boolean errorCarga = true;
                 while(s!=null && errorCarga){
-                   System.out.println(s);
+                //   System.out.println(s);
                     interfaz.escribirEnPantalla(s);
                     if (s.contains("Programmed successfully")){
                         errorCarga = false;
