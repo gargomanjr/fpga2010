@@ -8,13 +8,20 @@ package compiladorEntidad;
  */
 
 /**
- *
+ * Representa el puerto de una entidad el cual puede ser tanto
+ * una entrada como una salida
  * @author Carlos, David y Tony
  */
 public abstract class Puerto {
 
+    /**
+     * Número de bits del puerto (entrada o salida)
+     */
     private int numBits;
 
+    /**
+     * Nombre del puerto
+     */
     private String nombre;
 
     /**

@@ -2,13 +2,26 @@ package compiladorEntidad;
 
 
 /**
+ * Clase para representar un token del fichero que contiene una entidad
+ * descrita en VHDL
  *
  * @author Carlos, Tony y David
  */
 public class Token {
 
+    /**
+     * Literal del token
+     */
     private String lexema;
+
+    /**
+     * Código interno asociado a ese token
+     */
     private int codigo;
+
+    /**
+     * Número de línea en el que se encuentra el token
+     */
     private int numLinea;
 
     /**
@@ -28,7 +41,7 @@ public class Token {
     }
 
     /**
-     * Contructura que crea una copia de un Token a partir de otro.
+     * Contructora que crea una copia de un Token a partir de otro.
      * @param otro Token a copiar.
      */
     public Token(Token otro){

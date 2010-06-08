@@ -217,7 +217,9 @@ public class SintacticoEntidad {
     }
 
     /**
-     * Analiza si está bien declarada una señal.
+     * Analiza si está bien declarada una señal. Además la añade
+     * a la entidad. Si el número de entradas o de salidas es excedido
+     * se mostrará el error al final del análisis.
      * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
@@ -243,7 +245,7 @@ public class SintacticoEntidad {
                 entidad.anadeEntrada((Entrada)es);
                 if (entidad.getBitsEntrada() > MAX_ENTRADAS){
                     error = true;
-                    errores.error("No se permite un número de entradas mayor de " + MAX_ENTRADAS);
+                    errores.error("Error al añadir la entrada: " + es.getNombre()+". No se permite un número de entradas mayor de " + MAX_ENTRADAS);
                 }
             }else if(entradaSalida == LexicoEntidad.OUT){//si es una salida
                 es = new Salida();
@@ -252,7 +254,7 @@ public class SintacticoEntidad {
                 entidad.anadeSalida((Salida)es);
                 if (entidad.getBitsSalida() > MAX_SALIDAS){
                     error = true;
-                    errores.error("No se permite un número de salidas mayor de " + MAX_SALIDAS);
+                    errores.error("Error al añadir la salida: " + es.getNombre()+". No se permite un número de salidas mayor de " + MAX_SALIDAS);
                 }
             }
            
@@ -393,7 +395,9 @@ public class SintacticoEntidad {
     
 
     /**
-     * Intenta emparejar el token actual del analizador con el del fichero.
+     * Intenta emparejar el token actual del analizador con el del fichero. Además
+     * actualiza el siguiente token que se debe leer, pidiéndoselo al analizador
+     * léxico.
      * @param tk Token a emparejar
      * @throws Exception
      */

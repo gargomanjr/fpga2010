@@ -8,14 +8,23 @@ package compiladorEntidad;
 import java.util.ArrayList;
 
 /**
+ * Representa una pila de elementos genéricos.
+ * Utilizada para la evaluación de expresiones.
+ *
  *
  * @param <T>
  * @author User
  */
 public class Pila<T> {
 
+    /**
+     * La posición el la que se encuentra la cima de la pila
+     */
     private int cima;
 
+    /**
+     * Estructura para almacenar el contenido de la pila
+     */
     private ArrayList<T> pila;
 
     /**
