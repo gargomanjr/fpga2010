@@ -44,32 +44,29 @@ Optimization Effort                : 1
 *                          HDL Compilation                              *
 =========================================================================
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" in Library work.
-Entity <Tx_serie> compiled.
-Entity <Tx_serie> (Architecture <Behavioral>) compiled.
+Architecture behavioral of Entity tx_serie is up to date.
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" in Library work.
-Entity <Rx_Serie> compiled.
-Entity <Rx_Serie> (Architecture <Behavioral>) compiled.
+Architecture behavioral of Entity rx_serie is up to date.
 Compiling vhdl file "D:/PFC/Nessy2.0/test/Contador2.vhd" in Library work.
-Entity <Contador> compiled.
-Entity <Contador> (Architecture <Behavioral>) compiled.
+Architecture behavioral of Entity contador is up to date.
 Compiling vhdl file "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" in Library work.
-Entity <Circuito_FPGA> compiled.
-Entity <Circuito_FPGA> (Architecture <Behavioral>) compiled.
+Entity <circuito_fpga> compiled.
+Entity <circuito_fpga> (Architecture <behavioral>) compiled.
 
 =========================================================================
 *                     Design Hierarchy Analysis                         *
 =========================================================================
-Analyzing hierarchy for entity <Circuito_FPGA> in library <work> (architecture <Behavioral>).
+Analyzing hierarchy for entity <Circuito_FPGA> in library <work> (architecture <behavioral>).
 
-Analyzing hierarchy for entity <Tx_serie> in library <work> (architecture <Behavioral>) with generics.
+Analyzing hierarchy for entity <Tx_serie> in library <work> (architecture <behavioral>) with generics.
 	gBaud = 9600
 	gFrecClk = 100000000
 
-Analyzing hierarchy for entity <Rx_Serie> in library <work> (architecture <Behavioral>) with generics.
+Analyzing hierarchy for entity <Rx_Serie> in library <work> (architecture <behavioral>) with generics.
 	gBaud = 9600
 	gFrecClk = 100000000
 
-Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <Behavioral>) with generics.
+Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <behavioral>) with generics.
 	a = 3
 	b = 5
 
@@ -77,14 +74,12 @@ Analyzing hierarchy for entity <CONTADOR> in library <work> (architecture <Behav
 =========================================================================
 *                            HDL Analysis                               *
 =========================================================================
-Analyzing Entity <Circuito_FPGA> in library <work> (Architecture <Behavioral>).
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 133: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+Analyzing Entity <Circuito_FPGA> in library <work> (Architecture <behavioral>).
+WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 165: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
    <Reg_salidas>
-WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd" line 201: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
-   <recibido>
 Entity <Circuito_FPGA> analyzed. Unit <Circuito_FPGA> generated.
 
-Analyzing generic Entity <Tx_serie> in library <work> (Architecture <Behavioral>).
+Analyzing generic Entity <Tx_serie> in library <work> (Architecture <behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 179: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -93,7 +88,7 @@ WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd" line 192: One or more s
    <SalReg>
 Entity <Tx_serie> analyzed. Unit <Tx_serie> generated.
 
-Analyzing generic Entity <Rx_Serie> in library <work> (Architecture <Behavioral>).
+Analyzing generic Entity <Rx_Serie> in library <work> (Architecture <behavioral>).
 	gBaud = 9600
 	gFrecClk = 100000000
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 71: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -102,7 +97,7 @@ WARNING:Xst:819 - "D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd" line 192: One or more s
    <Estado>, <CuentaBits>, <RxDatoReg>
 Entity <Rx_Serie> analyzed. Unit <Rx_Serie> generated.
 
-Analyzing generic Entity <CONTADOR> in library <work> (Architecture <Behavioral>).
+Analyzing generic Entity <CONTADOR> in library <work> (Architecture <behavioral>).
 	a = 3
 	b = 5
 WARNING:Xst:819 - "D:/PFC/Nessy2.0/test/Contador2.vhd" line 74: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
@@ -465,36 +460,36 @@ INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------------------------+-------------------------+-------+
-Control Signal                                       | Buffer(FF name)         | Load  |
------------------------------------------------------+-------------------------+-------+
-R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(estadoEnt_FSM_FFd1)| 174   |
-Reg_entradas_0(Reg_entradas_0:Q)                     | NONE(U/misalida_7)      | 16    |
-estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)         | 1     |
-ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)         | 1     |
-ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)         | 1     |
-ledsEnt_1__and0000(estadoEnt_FSM_Out21:O)            | NONE(ledsEnt_1)         | 1     |
-ledsSal_0__or0000(ledsSal_0__or00001:O)              | NONE(ledsSal_0)         | 1     |
-ledsSal_0__or0001(ledsSal_cmp_eq00011:O)             | NONE(ledsSal_0)         | 1     |
-ledsSal_1__and0000(ledsSal_cmp_eq00021:O)            | NONE(ledsSal_1)         | 1     |
-ledsSal_1__or0000(ledsSal_1__or00001:O)              | NONE(ledsSal_1)         | 1     |
-mi_datotxin_0__and0000(mi_datotxin_0__and00001:O)    | NONE(mi_datotxin_0)     | 1     |
-mi_datotxin_0__and0001(mi_datotxin_0__and00011:O)    | NONE(mi_datotxin_0)     | 1     |
-mi_datotxin_1__and0000(mi_datotxin_1__and00001:O)    | NONE(mi_datotxin_1)     | 1     |
-mi_datotxin_1__and0001(mi_datotxin_1__and00011:O)    | NONE(mi_datotxin_1)     | 1     |
-mi_datotxin_2__and0000(mi_datotxin_2__and00001:O)    | NONE(mi_datotxin_2)     | 1     |
-mi_datotxin_2__and0001(mi_datotxin_2__and00011:O)    | NONE(mi_datotxin_2)     | 1     |
-mi_datotxin_3__and0000(mi_datotxin_3__and00001:O)    | NONE(mi_datotxin_3)     | 1     |
-mi_datotxin_3__and0001(mi_datotxin_3__and00011:O)    | NONE(mi_datotxin_3)     | 1     |
-mi_datotxin_4__and0000(mi_datotxin_4__and00001:O)    | NONE(mi_datotxin_4)     | 1     |
-mi_datotxin_4__and0001(mi_datotxin_4__and00011:O)    | NONE(mi_datotxin_4)     | 1     |
-mi_datotxin_5__and0000(mi_datotxin_5__and00001:O)    | NONE(mi_datotxin_5)     | 1     |
-mi_datotxin_5__and0001(mi_datotxin_5__and00011:O)    | NONE(mi_datotxin_5)     | 1     |
-mi_datotxin_6__and0000(mi_datotxin_6__and00001:O)    | NONE(mi_datotxin_6)     | 1     |
-mi_datotxin_6__and0001(mi_datotxin_6__and00011:O)    | NONE(mi_datotxin_6)     | 1     |
-mi_datotxin_7__and0000(mi_datotxin_7__and00001:O)    | NONE(mi_datotxin_7)     | 1     |
-mi_datotxin_7__and0001(mi_datotxin_7__and00011:O)    | NONE(mi_datotxin_7)     | 1     |
------------------------------------------------------+-------------------------+-------+
+-----------------------------------------------------+------------------------+-------+
+Control Signal                                       | Buffer(FF name)        | Load  |
+-----------------------------------------------------+------------------------+-------+
+R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(fin_recepcion)    | 174   |
+Reg_entradas_0(Reg_entradas_0:Q)                     | NONE(U/misalida_7)     | 16    |
+estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)        | 1     |
+ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)        | 1     |
+ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)        | 1     |
+ledsEnt_1__and0000(estadoEnt_FSM_Out21:O)            | NONE(ledsEnt_1)        | 1     |
+ledsSal_0__or0000(ledsSal_0__or00001:O)              | NONE(ledsSal_0)        | 1     |
+ledsSal_0__or0001(ledsSal_cmp_eq00011:O)             | NONE(ledsSal_0)        | 1     |
+ledsSal_1__and0000(ledsSal_cmp_eq00021:O)            | NONE(ledsSal_1)        | 1     |
+ledsSal_1__or0000(ledsSal_1__or00001:O)              | NONE(ledsSal_1)        | 1     |
+mi_datotxin_0__and0000(mi_datotxin_0__and00001:O)    | NONE(mi_datotxin_0)    | 1     |
+mi_datotxin_0__and0001(mi_datotxin_0__and00011:O)    | NONE(mi_datotxin_0)    | 1     |
+mi_datotxin_1__and0000(mi_datotxin_1__and00001:O)    | NONE(mi_datotxin_1)    | 1     |
+mi_datotxin_1__and0001(mi_datotxin_1__and00011:O)    | NONE(mi_datotxin_1)    | 1     |
+mi_datotxin_2__and0000(mi_datotxin_2__and00001:O)    | NONE(mi_datotxin_2)    | 1     |
+mi_datotxin_2__and0001(mi_datotxin_2__and00011:O)    | NONE(mi_datotxin_2)    | 1     |
+mi_datotxin_3__and0000(mi_datotxin_3__and00001:O)    | NONE(mi_datotxin_3)    | 1     |
+mi_datotxin_3__and0001(mi_datotxin_3__and00011:O)    | NONE(mi_datotxin_3)    | 1     |
+mi_datotxin_4__and0000(mi_datotxin_4__and00001:O)    | NONE(mi_datotxin_4)    | 1     |
+mi_datotxin_4__and0001(mi_datotxin_4__and00011:O)    | NONE(mi_datotxin_4)    | 1     |
+mi_datotxin_5__and0000(mi_datotxin_5__and00001:O)    | NONE(mi_datotxin_5)    | 1     |
+mi_datotxin_5__and0001(mi_datotxin_5__and00011:O)    | NONE(mi_datotxin_5)    | 1     |
+mi_datotxin_6__and0000(mi_datotxin_6__and00001:O)    | NONE(mi_datotxin_6)    | 1     |
+mi_datotxin_6__and0001(mi_datotxin_6__and00011:O)    | NONE(mi_datotxin_6)    | 1     |
+mi_datotxin_7__and0000(mi_datotxin_7__and00001:O)    | NONE(mi_datotxin_7)    | 1     |
+mi_datotxin_7__and0001(mi_datotxin_7__and00011:O)    | NONE(mi_datotxin_7)    | 1     |
+-----------------------------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
@@ -843,14 +838,14 @@ Offset:              3.460ns (Levels of Logic = 1)
 =========================================================================
 
 
-Total REAL time to Xst completion: 16.00 secs
-Total CPU time to Xst completion: 16.48 secs
+Total REAL time to Xst completion: 15.00 secs
+Total CPU time to Xst completion: 14.63 secs
  
 --> 
 
 Total memory usage is 211872 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :   29 (   0 filtered)
+Number of warnings :   28 (   0 filtered)
 Number of infos    :    1 (   0 filtered)
 

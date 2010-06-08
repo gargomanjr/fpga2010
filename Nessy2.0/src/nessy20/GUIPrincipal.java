@@ -188,14 +188,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 } catch (FileNotFoundException ex) {
                     correcto = false;
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt",false);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt",false);
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt",false);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt",false);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -359,7 +359,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         files = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            desabilitarBtn();
+            deshabilitarBtn();
             files.add(chooser.getSelectedFile());
             fichero = files.get(0).getAbsolutePath();
             _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "+
@@ -384,7 +384,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            desabilitarBtn();
+            deshabilitarBtn();
             ArrayList<String> ficheros = new ArrayList<String>();
             // fichero = chooser.getSelectedFile().getAbsolutePath();
             File[] f = chooser.getSelectedFiles();
@@ -460,7 +460,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void ejec(boolean lb_recunfiguracion_pracial) {
+    private void ejec(boolean lb_reconfiguracionParcial) {
 
         if (this.ejec != null) {
             ejec.pararrecepcionfpga();
@@ -471,22 +471,28 @@ public class GUIPrincipal extends javax.swing.JFrame {
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
-            String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
-            this.ejec.setCadena(ls_cadenaaejecutar);
+            /*String ls_cadenaaejecutar = this._txtTB.getText();
+            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
+            this.ejec.setCadena(ls_cadenaaejecutar);*/
 
             if (SeleccionTBFich) {
                 try {
                     bf = new BufferedReader(new FileReader(fichero_tb));
+
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
-                this.ejec.setCadena("");
-                ejec.start();
-                this._btnReanudar.setEnabled(false);
-                this._btnPararEjecucion.setEnabled(true);
+                if(ejec.formatoCorrectoFicheroTB(bf)){
+                    this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
+                    this.ejec.setCadena("");
+                    ejec.start();
+                    this._btnReanudar.setEnabled(false);
+                    this._btnPararEjecucion.setEnabled(true);
+                }else{
+                    JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_recunfiguracion_pracial);
+                String ls_cadenaaejecutar = this._txtTB.getText();
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -1510,12 +1516,6 @@ public void setNumeroInst(int inst) {
             //Selecciona panel
             seleccionaPanel(panelTB);
 
-            if (!error) {
-                JOptionPane.showMessageDialog(this, "TestBench cargado correctamente", "Info", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el fichero de test", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
         } else {
            log.info("Seleccion TB no realizada ");
             error = true;
@@ -1658,7 +1658,7 @@ public void setNumeroInst(int inst) {
 
     }
 
-    private void desabilitarBtn() {
+    private void deshabilitarBtn() {
         _btnCrearBit.setEnabled(false);
         _btnCargarBit.setEnabled(false);
         _btnEjecutar.setEnabled(false);

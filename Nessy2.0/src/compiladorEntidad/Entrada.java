@@ -36,4 +36,27 @@ public class Entrada extends Puerto{
     public void quitarComoReloj(){
         this.esReloj = false;
     }
+
+    /**
+     * Getter de para saber si la entrada se trata del reset.
+     * @return Boolean si es cierto que la entrada es un reset.
+     */
+    public boolean getEsReset(){
+        return this.esReset;
+    }
+
+    /**
+     * Establece la entrada como Reset o le quita la propiedad.
+     * @param valor Nuevo valor para el parámetro esReset.
+     */
+    public void ponerComoReset(boolean valor){
+        this.esReset = valor;
+    }
+
+
+
+
+    
+    
+
 }

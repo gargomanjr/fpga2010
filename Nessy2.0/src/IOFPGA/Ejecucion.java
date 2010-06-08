@@ -5,6 +5,7 @@
 package IOFPGA;
 
 import app.Com;
+import compiladorEntidad.Entidad;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,30 +53,29 @@ public class Ejecucion extends Thread {
     private boolean mostrarMensaje;
     private int NumInstrNoCoincideTraza;
     private boolean comparar;
-    private boolean recunfiguracion_pracial;
+    private boolean reconfiguracionParcial;
+    private int posicionResetEntidad;
 
-
-   /**
+    /**
      * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField .
      * @param lj_jtf JTextField en el que se escribirá la salida que reciba de la FPGA al ejecutar las instrucciones.
-     * @param bits_entrada Número de bits de entrada de la entidad (top) sobre la que vamos a ejecutar.
-     * @param bits_salida Número de bits de salida de la entidad (top).
+     * @param e Entidad (top) sobre la que vamos a ejecutar.
      * @param ac_com Puerto con el que nos comunicamos con la FPGA.
      * @param ata_textarea TextArea de la aplicación del cual se recogerán las instrucciones a ejecutar.
      * @param comparar Booleano que indica si hay que comparar los ficheros de traza y el de salida, para detectar diferencias.
      * @param nombreSalida Fichero en el que se guardará el resultado de la ejecución.
      * @param nombreTraza Fichero de traza con el que se podrá comparar la salida que está generando este objeto.
-     * @param ab_recunfiguracion_pracial Boolean que indica si estamos ejecutando con la opción de reconfiguración parcial.
+     * @param ab_reconfiguracionParcial Boolean que indica si estamos ejecutando con la opción de reconfiguración parcial.
      *  Si es falso se ejecutará el hilo directamente y no mostrará mensajes emergentes.
      */
-    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, boolean comparar, String nombreSalida, String nombreTraza,boolean ab_recunfiguracion_pracial) {
+    public Ejecucion(JTextField lj_jtf, Entidad e, Com ac_com, JTextArea ata_textarea, boolean comparar, String nombreSalida, String nombreTraza, boolean ab_reconfiguracionParcial) {
         fichero_escritura = new File(rutafichero, nombreSalida);
         fichero_compararTraza = new File(rutafichero, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
-        this.li_bits_entrada = bits_entrada;
-        this.li_bits_salida = bits_salida;
+        this.li_bits_entrada = e.getBitsEntrada();
+        this.li_bits_salida = e.getBitsSalida();
         cadenaaEnviar = new ArrayList();
         setwait = false;
         this.ata_textarea = ata_textarea;
@@ -84,35 +84,35 @@ public class Ejecucion extends Thread {
         mostrarMensaje = true;
         NumInstrNoCoincideTraza = 0;
         this.comparar = comparar;
-        recunfiguracion_pracial = ab_recunfiguracion_pracial;
-        if(recunfiguracion_pracial){
+        reconfiguracionParcial = ab_reconfiguracionParcial;
+        this.posicionResetEntidad = e.getPosReset();
+        if (reconfiguracionParcial) {
             ejecuta();
         }
     }
 
-   /**
+    /**
      * Crea un objeto de la clase Ejecución y escribe el resultado en un JTextField .
      * @param lj_jtf JTextField en el que se escribirá la salida que reciba de la FPGA al ejecutar las instrucciones.
-     * @param bits_entrada Número de bits de entrada de la entidad (top) sobre la que vamos a ejecutar.
-     * @param bits_salida Número de bits de salida de la entidad (top).
+     * @param e Entidad top sobre la que vamos a ejecutar.
      * @param ac_com Puerto con el que nos comunicamos con la FPGA.
      * @param ata_textarea TextArea de la aplicación del cual se podrían haber recogido las instrucciones (en este caso no se utiliza).
      * @param l_br (BufferedReader)del que se cogerán las instrucciones a ejecutar.
      * @param comparar Booleano que indica si hay que comparar los ficheros de traza y el de salida, para detectar diferencias.
      * @param nombreSalida Fichero en el que se guardará el resultado de la ejecución.
      * @param nombreTraza Fichero de traza con el que se podrá comparar la salida que está generando este objeto.
-     * @param ab_recunfiguracion_pracial Boolean que indica si estamos ejecutando con la opción de reconfiguración parcial.
+     * @param ab_reconfiguracionParcial Boolean que indica si estamos ejecutando con la opción de reconfiguración parcial.
      *  Si es falso se ejecutará el hilo directamente y no mostrará mensajes emergentes.
      */
-    public Ejecucion(JTextField lj_jtf, int bits_entrada, int bits_salida, Com ac_com, JTextArea ata_textarea, BufferedReader l_br, boolean comparar, String nombreSalida, String nombreTraza,boolean ab_recunfiguracion_pracial) {
+    public Ejecucion(JTextField lj_jtf, Entidad e, Com ac_com, JTextArea ata_textarea, BufferedReader l_br, boolean comparar, String nombreSalida, String nombreTraza, boolean ab_reconfiguracionParcial) {
 
         fichero_escritura = new File(rutafichero, nombreSalida);
         fichero_compararTraza = new File(rutafichero, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
-        this.li_bits_entrada = bits_entrada;
-        this.li_bits_salida = bits_salida;
+        this.li_bits_entrada = e.getBitsEntrada();
+        this.li_bits_salida = e.getBitsSalida();
         cadenaaEnviar = new ArrayList();
         setwait = false;
         this.ata_textarea = ata_textarea;
@@ -122,12 +122,14 @@ public class Ejecucion extends Thread {
         mostrarMensaje = true;
         NumInstrNoCoincideTraza = 0;
         this.comparar = comparar;
-        recunfiguracion_pracial = ab_recunfiguracion_pracial;
-        if(recunfiguracion_pracial){
+        reconfiguracionParcial = ab_reconfiguracionParcial;
+        this.posicionResetEntidad = e.getPosReset();
+        if (reconfiguracionParcial) {
             ejecuta();
         }
     }
-   /**
+
+    /**
      * Asigna la cadena que se quiere ejecutar.
      * @param as_cadenaajecutar Cadena a ejecutar.
      */
@@ -135,7 +137,7 @@ public class Ejecucion extends Thread {
         ls_cadenaaejecutar = as_cadenaajecutar;
     }
 
-   /**
+    /**
      * Transforma un String en su entero equivalente
      * @param s Cadena a traducir.
      * @return Entero equivalente al String introducido.
@@ -155,8 +157,7 @@ public class Ejecucion extends Thread {
         return n;
     }
 
-
-   /**
+    /**
      * Indica si el hilo que se está ejecutando tiene que pararse o reanudarse, según el argumento que recibe.
      * @param setwait boolean, valor true que indica que el hilo tiene que continuar, false para pararlo.
      */
@@ -191,9 +192,10 @@ public class Ejecucion extends Thread {
             ex.printStackTrace();
         }
     }
+
     /**
-     * Envía una cadena binaria a la FPGA en 4 partes, porque la instrucción es de 32 bits y
-     * por el puerto serie solo podemos enviar cadenas de 8 bits.
+     * Comprueba que una serie de cadenas tiene el formato correcto, es decir,
+     * tiene el número de bits adecuado y sólo está compuesta por 0's y 1's
      * @return boolean si todo es correcto.
      */
     public boolean convierteCadenas() {
@@ -217,34 +219,37 @@ public class Ejecucion extends Thread {
         }
         return correcto;
     }
-   /**
-    * Método que comienza a ejecutar el hilo.
-    *
-    */
 
+    /**
+     * Método que comienza a ejecutar el hilo.
+     *
+     */
     @Override
     public void run() {
         synchronized (this) {
-           ejecuta();
+            ejecuta();
         }
     }
-   /**
+
+    /**
      * Método que consulta el estado de la ejecucución del hilo.
      * @return Boolean estado de la ejecución. Cierto si está ejecutando, falso en caso contrario.
      */
     public boolean getejecutando() {
         return ejecutando;
     }
-   /**
+
+    /**
      * Método que termina la ejecución de un hilo.
      */
     public void pararrecepcionfpga() {
         this.ejecutando = false;
-        if (coincideTraza == false && mostrarMensaje && recunfiguracion_pracial==false) {
+        if (coincideTraza == false && mostrarMensaje && reconfiguracionParcial == false) {
             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-   /**
+
+    /**
      * Procedimiento que lee de la FPGA un entero y lo transforma a la cadena de bits.
      * @return Cadena de bits recibida.
      */
@@ -257,7 +262,8 @@ public class Ejecucion extends Thread {
         }
         return s.substring(s.length() - numBitsSalida);
     }
-   /**
+
+    /**
      * Procedimiento que transforma un entero, que tiene una longitud de bits a una cadena.
      * @param recibido Entero a transformar.
      * @param numBits que tiene la cadena que se va a generar.
@@ -278,8 +284,8 @@ public class Ejecucion extends Thread {
         }
         return salida;
     }
-    
-   /**
+
+    /**
      * Procedimiento que ejecuta el hilo.
      * @throws InterruptedException ,Exception.
      */
@@ -289,7 +295,7 @@ public class Ejecucion extends Thread {
             BufferedReader rw = new BufferedReader(fr);
             String linea_traza = "";
             int instruccion = 0;
-            String datoaenviar =null;
+            String datoaenviar = null;
             fichero_escritura.createNewFile();
             boolean seguir;
             if (entraDesdeFichero) {
@@ -299,13 +305,17 @@ public class Ejecucion extends Thread {
                 seguir = instruccion < this.cadenaaEnviar.size();
             }
             file_wr = new FileWriter(fichero_escritura, false);
+            //Enviamos un reset antes que nada
+            this.enviaReset();
+            this.recibirBinaria(li_bits_salida);
             while (ejecutando && seguir) {
                 if (this.setwait) {
                     System.out.println("Ejecución antes");
                     file_wr.close();
                     if (comparar && coincideTraza == false && mostrarMensaje) {
-                        if(recunfiguracion_pracial==false)
-                             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                        if (reconfiguracionParcial == false) {
+                            JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                        }
                         mostrarMensaje = false;
                     }
                     this.wait();
@@ -346,12 +356,14 @@ public class Ejecucion extends Thread {
             file_wr.close();
             rw.close();
             if (comparar && coincideTraza) {
-                if(recunfiguracion_pracial==false)
+                if (reconfiguracionParcial == false) {
                     JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 if (comparar && mostrarMensaje) {
-                    if(recunfiguracion_pracial==false)
-                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                    if (reconfiguracionParcial == false) {
+                        JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     mostrarMensaje = false;
                 }
             }
@@ -362,11 +374,11 @@ public class Ejecucion extends Thread {
         }
     }
 
-   /**
+    /**
      * Función para copiar un fichero en otro fichero. En nuestro caso copiamos el
-    *  archivo de escritura en el de comparar con traza.
-    * @throws IOException
-    */
+     *  archivo de escritura en el de comparar con traza.
+     * @throws IOException
+     */
     public void CopiarSalida() throws IOException {
 
         InputStream in = new FileInputStream(fichero_escritura);
@@ -378,5 +390,42 @@ public class Ejecucion extends Thread {
         }
         in.close();
         out.close();
+    }
+
+    public boolean formatoCorrectoFicheroTB(BufferedReader br) {
+        String linea = null;
+        boolean correcto = true;
+        do {
+            try {
+                linea = br.readLine();
+            } catch (IOException ex) {
+                correcto = false;
+                Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (linea != null) {
+                if (linea.length() == this.li_bits_entrada) {
+                    int i = 0;
+                    while (i < linea.length() && correcto) {
+                        correcto = linea.charAt(i) == '0' || linea.charAt(i) == '1';
+                        i++;
+                    }
+                }else{
+                    correcto = false;
+                }
+            }
+        } while (linea != null && correcto);
+        return correcto;
+    }
+
+    public void enviaReset(){
+        String cadenaReset="";
+        for (int i = 0; i < 32; i++){
+            if (i == this.posicionResetEntidad){
+                cadenaReset = "1"+cadenaReset;
+            }else{
+                cadenaReset = "0"+cadenaReset;
+            }
+        }
+        this.enviarBinaria(cadenaReset);
     }
 }
