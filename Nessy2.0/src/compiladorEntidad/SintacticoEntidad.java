@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * Clase que analiza sintácticamente una entidad definida en VHDL. Además
+ * mientras la analiza, almacena los datos leídos en nuestra estructura de datos
+ * de la entidad. La forma en la que funciona este analizador sintáctico está
+ * determinada en la gramática que se especifica en la memoria.
  *
  * @author Carlos,David y Tony
  */
@@ -15,16 +19,36 @@ public class SintacticoEntidad {
     /**
      * Número de entradas máximo. En nuestra Aplicación son 32
      */
-    public static final int MAX_ENTRADAS = 32; //reservar una para el enable general
+    public static final int MAX_ENTRADAS = 32;
     /**
      * Número de salidas máximo. En nuestra Aplicación son 32
      */
     public static final int MAX_SALIDAS = 32;
 
+    /**
+     * Token actual que se está analizando
+     */
     private Token token;
+
+    /**
+     * Entidad donde se va a almacenar lo leido del fichero
+     */
     private Entidad entidad;
+
+    /**
+     * Analizador léxico que nos va a proveer de los tokens
+     */
     private LexicoEntidad lector;
+
+    /**
+     * Posibles errores que se puedan producir
+     */
     private Errores errores;
+
+    /**
+     * Tabla de símbolos necesaria para almacenar las variables
+     * de los posibles generics
+     */
     private HashMap<String,Integer> tablaSimbolos;
 
     /**
@@ -69,7 +93,10 @@ public class SintacticoEntidad {
     }
 
    /**
-    * Analiza la Cabecera.
+    * Lee del fichero mientras no encuentra la palabra 'Entity'. Con esto
+    * descartamos todos los comentarios iniciales además de la incluisión de
+    * librerías además de cualquier otra cosa que no nos interese del fichero.
+    *
     * @throws IOException
     */
    public void Cabecera() throws IOException{
@@ -122,7 +149,7 @@ public class SintacticoEntidad {
     }
 
     /**
-     * Analiza la parte de declaración de variables.
+     * Analiza la parte de declaración de variables dentro de un genérico.
      * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
@@ -165,7 +192,7 @@ public class SintacticoEntidad {
     }
 
     /**
-     * Analiza la parte de los Puertos.
+     * Analiza la parte correspondiente a los puertos de entrada y salida
      * @return Cierto si ha habido algún error o falso si está correcto.
      * @throws Exception
      */
@@ -204,7 +231,7 @@ public class SintacticoEntidad {
         if (entradaSalida == LexicoEntidad.IN || entradaSalida== LexicoEntidad.OUT){
             empareja(entradaSalida);
         }else{
-            throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
+            throw new Exception("Error sintactico en la fila " + token.getNumLinea() +  ". No se esperaba \"" + token.getLexema() + "\".");
         }
         int tamano = Tipo();
         if (tamano > 0){
@@ -253,8 +280,10 @@ public class SintacticoEntidad {
     }
 
     /**
-     * Consulta el tipo de un token.
-     * @return devuelve el tipo asociado al token.
+     * Analiza la parte correspondiente al tipo de una señal. Ésta puede ser
+     * STD_LOGIC o STD_LOGIC_VECTOR. En función de ello, devuelve el tamaño
+     * de esa entrada o salida.
+     * @return devuelve el tamaño de una entrada o salida.
      * @throws Exception
      */
     public int Tipo() throws Exception{
@@ -273,13 +302,13 @@ public class SintacticoEntidad {
                 tamano = inicio - fin +1;
             empareja(LexicoEntidad.CIERRA_PARENTESIS);
         }else{
-            throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
+            throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ". No se esperaba \"" + token.getLexema() + "\".");
         }
         return tamano;
     }
 
     /**
-     * Analiza una expresión.
+     * Analiza una expresión aritmética.
      * @return Devuelve el valor de la expresión.
      * @throws Exception
      */
@@ -388,8 +417,8 @@ public class SintacticoEntidad {
      * @throws Exception
      */
     public void errorSint() throws Exception{
-       errores.error("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
-       throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ", columna " + token.getNumColumna() + ". No se esperaba \"" + token.getLexema() + "\".");
+       errores.error("Error sintactico en la fila " + token.getNumLinea() + ". No se esperaba \"" + token.getLexema() + "\".");
+       throw new Exception("Error sintactico en la fila " + token.getNumLinea() + ". No se esperaba \"" + token.getLexema() + "\".");
     }
 
 

@@ -2,36 +2,11 @@
 package compiladorEntidad;
 
 /**
+ * Clase que contiene métodos para evaluar una expresión aritmética
  *
  * @author Carlos, David y Tony.
  */
 public class EvaluadorExps {
-
-
-
-    /*public static String pasarAPostFija(String cadena){
-        Pila pila = new Pila();
-        String post = "";
-        char c;
-        int i = 0;
-        while (i < cadena.length()){
-            c = cadena.charAt(i);
-            i++;
-            if (esNumero(c)){
-                post = post+c;
-            }else if(c == '('){
-                pila.apilar(c+"");
-            }else if(c == ')'){
-                while (pila.getCima() != '('){
-                    post = post + pila.desapilar();
-                }
-                pila.desapilar();
-            }else if(esOperador(c)){
-
-            }
-        }
-        return post;
-    }*/
 
     /**
      * Método que devuelve un booleano dependiendo si la entrada es un Operador
@@ -67,7 +42,7 @@ public class EvaluadorExps {
 
     /**
      * Reduce una Expresión y devuelve el resultado
-     * @param x Operardor a aplicar.
+     * @param x Operador a aplicar.
      * @param op1 Primer operando.
      * @param op2 Segundo operando.
      * @return Resultado de la operación.

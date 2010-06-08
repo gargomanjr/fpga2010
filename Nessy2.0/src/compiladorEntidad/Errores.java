@@ -5,15 +5,20 @@ import java.util.ArrayList;
 
 /**
  *
+ * Clase para almacenar los errores de compilación que se puedan ir
+ * produciendo
  * @author Carlos,Tony y David
  */
 public class Errores {
 
 
+    /**
+     * Estructura que almacena los errores en forma de cadena
+     */
     private ArrayList<String> errores;
 
     /**
-     * Constructor de la Clase. Inicializa el parámetro errores.
+     * Constructor de la Clase. Inicializa el atributo errores.
      */
     public Errores(){
         errores = new ArrayList<String>();

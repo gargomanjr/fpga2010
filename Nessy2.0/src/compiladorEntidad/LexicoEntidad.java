@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package compiladorEntidad;
 
 import java.io.BufferedReader;
@@ -9,9 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
+ * Clase que analiza léxicamente un fichero en el que está contenida
+ * una entidad en lenguaje VHDL
  *
  * @author Carlos, David y Tony
  */
@@ -22,104 +19,147 @@ public class LexicoEntidad {
      * Código de la palabra reservada Entidad  -> 0
      */
     public static final int ENTITY = 0;
+
     /**
      * Código de la palabra reservada IS  -> 1
      */
+
     public static final int IS = 1;
+
     /**
      * Código de la palabra reservada Port  -> 2
      */
     public static final int PORT = 2;
+
     /**
      * Código de la palabra reservada STD_LOGIC  -> 3
      */
     public static final int STD_LOGIC = 3;
+
     /**
      * Código de la palabra reservada STD_LOGIC_VECTOR  -> 4
      */
     public static final int STD_LOGIC_VECTOR = 4;
+
     /**
      * Código de la palabra reservada IN  -> 5
      */
     public static final int IN = 5;
+
     /**
      * Código de la palabra reservada OUT  -> 6
      */
     public static final int OUT = 6;
-    /**
-     * Código de la palabra reservada OUT  -> 6
-     */
-    public static final int DOWNTO = 7;
+
     /**
      * Código de la palabra reservada DOWNTO  -> 7
      */
+    public static final int DOWNTO = 7;
+
+    /**
+     * Código de la palabra reservada END  -> 8
+     */
     public static final int END = 8;
+
     /**
      * Código del elemento PUNTO_Y_COMA  -> 9
      */
     public static final int PUNTO_Y_COMA = 9;
+
     /**
      * Código del elemento DOS_PUNTOS  -> 10
      */
     public static final int DOS_PUNTOS = 10;
+
     /**
      * Código del elemento ABRE_PARENTESIS  -> 11
      */
     public static final int ABRE_PARENTESIS = 11;
+
     /**
      * Código del elemento CIERRA_PARENTESIS  -> 12
      */
     public static final int CIERRA_PARENTESIS = 12;
+
     /**
      * Código del elemento ENTERO  -> 13
      */
     public static final int ENTERO = 13;
+
     /**
      * Código del elemento IDENTIFICADOR  -> 14
      */
     public static final int IDENTIFICADOR = 14;
+
     /**
      * Código del elemento EOF  -> 15
      */
     public static final int EOF = 15;
+
     /**
      * Código del elemento OTRO  -> 16
      */
     public static final int OTRO = 16;
+
     /**
      * Código del elemento GENERIC  -> 17
      */
     public static final int GENERIC = 17;
+
     /**
      * Código del elemento INTEGER  -> 18
      */
     public static final int INTEGER = 18;
+
     /**
      * Código del elemento ASIG_GENERIC  -> 19
      */
     public static final int ASIG_GENERIC = 19;
+
     /**
      * Código del elemento SUMA  -> 20
      */
     public static final int SUMA = 20;
+
     /**
      * Código del elemento RESTA  -> 21
      */
     public static final int RESTA = 21;
+
     /**
      * Código del elemento MULT  -> 22
      */
     public static final int MULT = 22;
+
     /**
      * Código del elemento DIV  -> 23
      */
     public static final int DIV = 23;
+
+    /**
+     * Lector de fichero
+     */
     private BufferedReader reader;
+
+    /**
+     * Posibles errores
+     */
     private Errores errores;
+
+    /**
+     * Almacena el último caracter leído del fichero
+     */
     private Character ultimoCharLeido;
+
+    /**
+     * Almacena la cadena leída hasta el momento
+     */
     private String cadena;
+
+    /**
+     * Número de linea que se está leyendo
+     */
     private int numLinea;
-    private int numColumna;
     private int estado;
 
     /**
@@ -129,24 +169,10 @@ public class LexicoEntidad {
     public int getNumLinea() {
         return this.numLinea;
     }
-    //Conjunto de dígitos
-    private static final HashSet<Character> digitos = new HashSet<Character>(10);
 
-    static {
-        for (char c = '0'; c <= '9'; c++) {
-            digitos.add(new Character(c));
-        }
-    }
-    //Conjunto de letras
-    private static final char[] listLetras = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    private static final HashSet<Character> letras = new HashSet<Character>(listLetras.length);
-
-    static {
-        for (char ch : listLetras) {
-            letras.add(new Character(ch));
-        }
-    }
+    /**
+     * Estructura que almacena el conjunto de palabras reservadas
+     */
     private static final HashMap<String, Integer> palabrasReservadas = new HashMap<String, Integer>(25);
 
     static {
@@ -172,14 +198,13 @@ public class LexicoEntidad {
     public LexicoEntidad(String fichero, Errores errores) throws FileNotFoundException, IOException {
         reader = new BufferedReader(new FileReader(fichero));
         numLinea = 1;
-        numColumna = 0;
         this.errores = errores;
         leerCaracter();
     }
 
     /**
      * Inicia el análisis, llama a la función sigToken()
-     * @return El siguiente Token.
+     * @return El primer Token.
      * @throws IOException
      */
     public Token iniciar() throws IOException {
@@ -194,14 +219,29 @@ public class LexicoEntidad {
         this.reader.close();
     }
 
+    /**
+     * Para saber si un caracter determinado es una letra
+     * @param ch El caracter del que se quiere saber si es una letra
+     * @return true si ch es una letra y false en caso contrario
+     */
     private boolean esLetra(Character ch) {
-        return letras.contains(ch);
+        return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
     }
 
+    /**
+     * Para saber si un caracter determinado es un dígito
+     * @param ch El caracter del que se quiere saber si es un dígito
+     * @return true si ch es un dígito y false en caso contrario
+     */
     private boolean esDigito(Character ch) {
-        return digitos.contains(ch);
+        return ch >= '0' && ch <= '9';
     }
 
+    /**
+     * Lee un caracter del fichero y lo devuelve
+     * @return El caracter leído o null en caso de que no se haya podido leer
+     * @throws IOException
+     */
     private Character leerCaracter() throws IOException {
         if (reader == null) {
             errores.error("No se asigno ningún reader");
@@ -218,7 +258,6 @@ public class LexicoEntidad {
 
             if (ultimoCharLeido.charValue() == '\n') { //Si es un salto de lÃ­nea
                 numLinea++; //incrementa la linea
-                numColumna = 0;
             } 
             return ultimoCharLeido;
         } else {
@@ -227,7 +266,7 @@ public class LexicoEntidad {
     }
 
     /**
-     * Método que devuelve el siguiente Token del Analizador Léxico.
+     * Método que gestiona el autómata finito que ocntrola el Analizador Léxico
      * @return El siguiente Token a leer.
      * @throws IOException
      */
@@ -277,9 +316,9 @@ public class LexicoEntidad {
                     } else {
                         Integer codigo = palabrasReservadas.get(cadena.toUpperCase());
                         if (codigo != null) {//si es una palabra reservada
-                            return new Token(codigo, cadena, numLinea, numColumna);
+                            return new Token(codigo, cadena, numLinea);
                         } else {//si es el nombre de una entrada/salida/entidad
-                            return new Token(IDENTIFICADOR, cadena, numLinea, numColumna);
+                            return new Token(IDENTIFICADOR, cadena, numLinea);
                         }
                     }
                     break;
@@ -287,29 +326,29 @@ public class LexicoEntidad {
                     if (esDigito(caracterLeido)) {//continua el número
                         transita(2);
                     } else {//guardar el numero
-                        return new Token(ENTERO, cadena, numLinea, numColumna);
+                        return new Token(ENTERO, cadena, numLinea);
                     }
                     break;
                 case 3:
-                    return new Token(PUNTO_Y_COMA, cadena, numLinea, numColumna);
+                    return new Token(PUNTO_Y_COMA, cadena, numLinea);
                 case 4:
-                    return new Token(ABRE_PARENTESIS, cadena, numLinea, numColumna);
+                    return new Token(ABRE_PARENTESIS, cadena, numLinea);
                 case 5:
-                    return new Token(CIERRA_PARENTESIS, cadena, numLinea, numColumna);
+                    return new Token(CIERRA_PARENTESIS, cadena, numLinea);
                 case 6:
-                    return new Token(EOF, cadena, numLinea, numColumna);
+                    return new Token(EOF, cadena, numLinea);
                 case 7:
                     if (caracterLeido == '=') {
                         transita(11);
                     } else {
-                        return new Token(DOS_PUNTOS, cadena, numLinea, numColumna);
+                        return new Token(DOS_PUNTOS, cadena, numLinea);
                     }
                     break;
                 case 8:
                     if (caracterLeido == '-') {
                         transita(9);
                     } else {
-                        return new Token(RESTA, cadena, numLinea, numColumna);
+                        return new Token(RESTA, cadena, numLinea);
                     }
                     break;
                 case 9://comentarios
@@ -320,21 +359,23 @@ public class LexicoEntidad {
                     }
                     break;
                 case 10://desconocido
-                    return new Token(OTRO, cadena, numLinea, numColumna);
+                    return new Token(OTRO, cadena, numLinea);
                 case 11:
-                    return new Token(ASIG_GENERIC, cadena, numLinea, numColumna);
+                    return new Token(ASIG_GENERIC, cadena, numLinea);
                 case 12:
-                    return new Token(SUMA, cadena, numLinea, numColumna);
+                    return new Token(SUMA, cadena, numLinea);
                 case 13:
-                    return new Token(MULT, cadena, numLinea, numColumna);
+                    return new Token(MULT, cadena, numLinea);
                 case 14:
-                    return new Token(DIV, cadena, numLinea, numColumna);
+                    return new Token(DIV, cadena, numLinea);
             }
         }
     }
 
     /**
-     * Transita la máquina de estados del Analizador Léxico.
+     * Cambia el estado actual del analizador léxico por el que se le pasa por
+     * parámetro. Además lee el siguiente caracter para dejarlo preparado para
+     * ser analizado.
      * @param sigEstado Siguiente estado al que va el analizador.
      * @throws IOException
      */

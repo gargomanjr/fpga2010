@@ -10,7 +10,6 @@ public class Token {
     private String lexema;
     private int codigo;
     private int numLinea;
-    private int numColumna;
 
     /**
      * Constructor de la clase.
@@ -19,12 +18,11 @@ public class Token {
      * @param numLinea Entero que indica la línea donde se encuentra el token dentro del fichero.
      * @param numColumna Entero donde se encuentra el token dentro del fichero.
      */
-    public Token(int codigo, String lexema, int numLinea, int numColumna) {
+    public Token(int codigo, String lexema, int numLinea) {
 
         this.codigo = codigo;
         this.lexema = lexema.toUpperCase();
         this.numLinea = numLinea;
-        this.numColumna = numColumna;
         //System.out.println("Token("+codigo+","+lexema+","+numLinea+","+numColumna+")");
 
     }
@@ -36,7 +34,6 @@ public class Token {
     public Token(Token otro){
         this.codigo = otro.codigo;
         this.lexema = otro.lexema;
-        this.numColumna = otro.numColumna;
         this.numLinea = otro.numLinea;
     }
 
@@ -62,13 +59,5 @@ public class Token {
      */
     public int getNumLinea() {
         return numLinea;
-    }
-
-    /**
-     * Obtiene el número de columna donde se encuentra el Token.
-     * @return El entero con la columna donde se encuentra el Token.
-     */
-    public int getNumColumna() {
-        return numColumna;
     }
 }

@@ -502,16 +502,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
                 } catch (FileNotFoundException ex) {
                 }
-              //  if(ejec.formatoCorrectoFicheroTB(bf)){
-                    this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
+                if(ejec.formatoCorrectoFicheroTB(bf)){
                     this.ejec.setCadena("");
                     if (!lb_reconfiguracionParcial)
                         ejec.start();
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
-             /*   }else{
+                }else{
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
-                }*/
+                }
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);

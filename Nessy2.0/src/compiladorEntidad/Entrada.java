@@ -1,8 +1,7 @@
 package compiladorEntidad;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Clase que representa la entrada de una entidad
  */
 
 /**
@@ -12,7 +11,14 @@ package compiladorEntidad;
 public class Entrada extends Puerto{
 
 
+    /**
+     * Indica si es una entrada de reloj
+     */
     private boolean esReloj;
+
+    /**
+     * Indica si es una entrada de reset
+     */
     private boolean esReset;
 
     /**
@@ -51,12 +57,6 @@ public class Entrada extends Puerto{
      */
     public void ponerComoReset(boolean valor){
         this.esReset = valor;
-    }
-
-
-
-
-    
-    
+    }    
 
 }
