@@ -5,17 +5,37 @@ import java.util.ArrayList;
 /**
  *
  * @author Carlos, David y Tony
+ * Clase que representa una entidad vhdl.
  */
 public class Entidad {
 
+    /**
+     * Nombre de la entidad
+     */
     private String nombre;
+
+    /**
+     * Número de bits de entrada
+     */
     private int bitsEntrada;
+
+    /**
+     * Número de bits de salida
+     */
     private int bitsSalida;
+
+    /**
+     * Entradas a la entidad
+     */
     private ArrayList<Entrada> entradas;
+
+    /**
+     * Salidas de la entidad
+     */
     private ArrayList<Salida> salidas;
 
     /**
-     * Crea un Objeto de la clase Entidad e Inicializa sus atributos.
+     * Crea una entidad vacía.
      *
      */
     public Entidad() {
@@ -108,6 +128,10 @@ public class Entidad {
 
     /**
      * Añade el argumento e de la clase Entrada al array de entradas de la entidad.
+     * Diferencia entre dos tipos de entradas especiales. Si el nombre de la
+     * entrada es CLK, CLOCK O RELOJ, la entrada será marcada como entrada de reloj.
+     * De la misma forma, si el nombre de la entrada es RST o RESET se marcará como
+     * una entrada especial de reset.
      * @param e Entrada a añadir a la entidad
      */
     public void anadeEntrada(Entrada e) {
