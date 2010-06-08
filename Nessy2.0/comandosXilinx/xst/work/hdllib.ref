@@ -1,8 +1,0 @@
-EN tx_serie NULL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd sub00/vhpl00 1269372724
-EN circuito_fpga NULL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd sub00/vhpl06 1269372730
-EN rx_serie NULL D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd sub00/vhpl02 1269372726
-AR tx_serie behavioral D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd sub00/vhpl01 1269372725
-AR rx_serie behavioral D:/PFC/Nessy2.0/IOSerie/Rx_Serie.vhd sub00/vhpl03 1269372727
-AR circuito_fpga behavioral D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd sub00/vhpl07 1269372731
-EN contador NULL D:/PFC/Nessy2.0/test/Contador.vhd sub00/vhpl04 1269372728
-AR contador behavioral D:/PFC/Nessy2.0/test/Contador.vhd sub00/vhpl05 1269372729
