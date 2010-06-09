@@ -1,0 +1,422 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>LexicoEntidad.java</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+body {color: #000000; background-color: #ffffff; font-family: Monospaced}
+pre {color: #000000; background-color: #ffffff; font-family: Monospaced}
+table {color: #000000; background-color: #e9e8e2; font-family: Monospaced}
+.ST0 {color: #969696; font-family: Monospaced; font-weight: bold}
+.comment {color: #969696}
+.line-number {background-color: #e9e8e2}
+.character {color: #ce7b00}
+.keyword-directive {color: #0000e6}
+-->
+</style>
+</head>
+<body>
+<table width="100%"><tr><td align="center">C:\Users\Carlos\Documents\Nessy2.0\src\compiladorEntidad\LexicoEntidad.java</td></tr></table>
+<pre>
+<span class="line-number">  1</span> <span class="keyword-directive">package</span> compiladorEntidad;
+<span class="line-number">  2</span> 
+<span class="line-number">  3</span> <span class="keyword-directive">import</span> java.io.BufferedReader;
+<span class="line-number">  4</span> <span class="keyword-directive">import</span> java.io.FileNotFoundException;
+<span class="line-number">  5</span> <span class="keyword-directive">import</span> java.io.FileReader;
+<span class="line-number">  6</span> <span class="keyword-directive">import</span> java.io.IOException;
+<span class="line-number">  7</span> <span class="keyword-directive">imp</span><span class="keyword-directive">ort</span> java.util.HashMap;
+<span class="line-number">  8</span> 
+<span class="line-number">  9</span> <span class="comment">/**</span>
+<span class="line-number"> 10</span> <span class="comment"> * </span><span class="comment">Clase</span> <span class="comment">que</span> <span class="comment">analiza</span> <span class="comment">léxicamente</span> <span class="comment">un</span> <span class="comment">fichero</span> <span class="comment">en</span> <span class="comment">el</span> <span class="comment">que</span> <span class="comment">está</span> <span class="comment">contenida</span>
+<span class="line-number"> 11</span> <span class="comment"> * </span><span class="comment">una</span> <span class="comment">entidad</span> <span class="comment">en</span> <span class="comment">lenguaje</span> <span class="comment">VHDL</span>
+<span class="line-number"> 12</span> <span class="comment"> *</span>
+<span class="line-number"> 13</span> <span class="comment"> * </span><span class="ST0">@author</span> <span class="comment">Carlos</span><span class="comment">, </span><span class="comment">David</span> <span class="comment">y</span> <span class="comment">Tony</span>
+<span class="line-number"> 14</span>  <span class="comment">*/</span>
+<span class="line-number"> 15</span> <span class="keyword-directive">public</span> <span class="keyword-directive">class</span> LexicoEntidad {
+<span class="line-number"> 16</span> 
+<span class="line-number"> 17</span>     <span class="comment">/*Código de las palabras reservadas */</span>
+<span class="line-number"> 18</span>     <span class="comment">/**</span>
+<span class="line-number"> 19</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">Entid</span><span class="comment">ad</span><span class="comment">  -&gt; 0</span>
+<span class="line-number"> 20</span>      <span class="comment">*/</span>
+<span class="line-number"> 21</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> ENTITY = 0;
+<span class="line-number"> 22</span> 
+<span class="line-number"> 23</span>     <span class="comment">/**</span>
+<span class="line-number"> 24</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">IS</span><span class="comment">  -&gt; 1</span>
+<span class="line-number"> 25</span>      <span class="comment">*/</span>
+<span class="line-number"> 26</span> 
+<span class="line-number"> 27</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">stat</span><span class="keyword-directive">ic</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> IS = 1;
+<span class="line-number"> 28</span> 
+<span class="line-number"> 29</span>     <span class="comment">/**</span>
+<span class="line-number"> 30</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">Port</span><span class="comment">  -&gt; 2</span>
+<span class="line-number"> 31</span>      <span class="comment">*/</span>
+<span class="line-number"> 32</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> PORT = 2;
+<span class="line-number"> 33</span> 
+<span class="line-number"> 34</span>     <span class="comment">/**</span>
+<span class="line-number"> 35</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">d</span><span class="comment">e</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">STD_LOGIC</span><span class="comment">  -&gt; 3</span>
+<span class="line-number"> 36</span>      <span class="comment">*/</span>
+<span class="line-number"> 37</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> STD_LOGIC = 3;
+<span class="line-number"> 38</span> 
+<span class="line-number"> 39</span>     <span class="comment">/**</span>
+<span class="line-number"> 40</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">STD_LOGIC_VECTOR</span><span class="comment">  -&gt; 4</span>
+<span class="line-number"> 41</span>      <span class="comment">*/</span>
+<span class="line-number"> 42</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> STD_LOGIC_VECTOR = 4;
+<span class="line-number"> 43</span> 
+<span class="line-number"> 44</span>     <span class="comment">/**</span>
+<span class="line-number"> 45</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">IN</span><span class="comment">  -&gt; 5</span>
+<span class="line-number"> 46</span>      <span class="comment">*/</span>
+<span class="line-number"> 47</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">sta</span><span class="keyword-directive">tic</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> IN = 5;
+<span class="line-number"> 48</span> 
+<span class="line-number"> 49</span>     <span class="comment">/**</span>
+<span class="line-number"> 50</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">OUT</span><span class="comment">  -&gt; 6</span>
+<span class="line-number"> 51</span>      <span class="comment">*/</span>
+<span class="line-number"> 52</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> OUT = 6;
+<span class="line-number"> 53</span> 
+<span class="line-number"> 54</span>     <span class="comment">/**</span>
+<span class="line-number"> 55</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">DOWNTO</span><span class="comment">  -&gt; 7</span>
+<span class="line-number"> 56</span>      <span class="comment">*/</span>
+<span class="line-number"> 57</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> DOWNTO = 7;
+<span class="line-number"> 58</span> 
+<span class="line-number"> 59</span>     <span class="comment">/**</span>
+<span class="line-number"> 60</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">palabra</span> <span class="comment">reservada</span> <span class="comment">END</span><span class="comment">  -&gt; 8</span>
+<span class="line-number"> 61</span>      <span class="comment">*/</span>
+<span class="line-number"> 62</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">stat</span><span class="keyword-directive">ic</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> END = 8;
+<span class="line-number"> 63</span> 
+<span class="line-number"> 64</span>     <span class="comment">/**</span>
+<span class="line-number"> 65</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">PUNTO_Y_COMA</span><span class="comment">  -&gt; 9</span>
+<span class="line-number"> 66</span>      <span class="comment">*/</span>
+<span class="line-number"> 67</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> PUNTO_Y_COMA = 9;
+<span class="line-number"> 68</span> 
+<span class="line-number"> 69</span>     <span class="comment">/**</span>
+<span class="line-number"> 70</span> <span class="comment">     * </span><span class="comment">Cód</span><span class="comment">igo</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">DOS_PUNTOS</span><span class="comment">  -&gt; 10</span>
+<span class="line-number"> 71</span>      <span class="comment">*/</span>
+<span class="line-number"> 72</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> DOS_PUNTOS = 10;
+<span class="line-number"> 73</span> 
+<span class="line-number"> 74</span>     <span class="comment">/**</span>
+<span class="line-number"> 75</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">ABRE_PARENTESIS</span><span class="comment">  -&gt; 11</span>
+<span class="line-number"> 76</span>      <span class="comment">*/</span>
+<span class="line-number"> 77</span>     <span class="keyword-directive">publ</span><span class="keyword-directive">ic</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> ABRE_PARENTESIS = 11;
+<span class="line-number"> 78</span> 
+<span class="line-number"> 79</span>     <span class="comment">/**</span>
+<span class="line-number"> 80</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">CIERRA_PARENTESIS</span><span class="comment">  -&gt; 12</span>
+<span class="line-number"> 81</span>      <span class="comment">*/</span>
+<span class="line-number"> 82</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> CIERRA_PARENTESIS = 12;
+<span class="line-number"> 83</span> 
+<span class="line-number"> 84</span>     <span class="comment">/*</span><span class="comment">*</span>
+<span class="line-number"> 85</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">ENTERO</span><span class="comment">  -&gt; 13</span>
+<span class="line-number"> 86</span>      <span class="comment">*/</span>
+<span class="line-number"> 87</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> ENTERO = 13;
+<span class="line-number"> 88</span> 
+<span class="line-number"> 89</span>     <span class="comment">/**</span>
+<span class="line-number"> 90</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">ID</span><span class="comment">ENTIFICADOR</span><span class="comment">  -&gt; 14</span>
+<span class="line-number"> 91</span>      <span class="comment">*/</span>
+<span class="line-number"> 92</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> IDENTIFICADOR = 14;
+<span class="line-number"> 93</span> 
+<span class="line-number"> 94</span>     <span class="comment">/**</span>
+<span class="line-number"> 95</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">EOF</span><span class="comment">  -&gt; 15</span>
+<span class="line-number"> 96</span>      <span class="comment">*/</span>
+<span class="line-number"> 97</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> EOF = 15;
+<span class="line-number"> 98</span> 
+<span class="line-number"> 99</span>     <span class="comment">/**</span>
+<span class="line-number">100</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">OTRO</span><span class="comment">  -&gt; 16</span>
+<span class="line-number">101</span>      <span class="comment">*/</span>
+<span class="line-number">102</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> OTRO = 16;
+<span class="line-number">103</span> 
+<span class="line-number">104</span>     <span class="comment">/**</span>
+<span class="line-number">105</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemen</span><span class="comment">to</span> <span class="comment">GENERIC</span><span class="comment">  -&gt; 17</span>
+<span class="line-number">106</span>      <span class="comment">*/</span>
+<span class="line-number">107</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> GENERIC = 17;
+<span class="line-number">108</span> 
+<span class="line-number">109</span>     <span class="comment">/**</span>
+<span class="line-number">110</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">INTEGER</span><span class="comment">  -&gt; 18</span>
+<span class="line-number">111</span>      <span class="comment">*/</span>
+<span class="line-number">112</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">f</span><span class="keyword-directive">inal</span> <span class="keyword-directive">int</span> INTEGER = 18;
+<span class="line-number">113</span> 
+<span class="line-number">114</span>     <span class="comment">/**</span>
+<span class="line-number">115</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">ASIG_GENERIC</span><span class="comment">  -&gt; 19</span>
+<span class="line-number">116</span>      <span class="comment">*/</span>
+<span class="line-number">117</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> ASIG_GENERIC = 19;
+<span class="line-number">118</span> 
+<span class="line-number">119</span>     <span class="comment">/**</span>
+<span class="line-number">120</span> <span class="comment">     * </span><span class="comment">C</span><span class="comment">ódigo</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">SUMA</span><span class="comment">  -&gt; 20</span>
+<span class="line-number">121</span>      <span class="comment">*/</span>
+<span class="line-number">122</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> SUMA = 20;
+<span class="line-number">123</span> 
+<span class="line-number">124</span>     <span class="comment">/**</span>
+<span class="line-number">125</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">RESTA</span><span class="comment">  -&gt; 21</span>
+<span class="line-number">126</span>      <span class="comment">*/</span>
+<span class="line-number">127</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> RESTA = 21;
+<span class="line-number">128</span> 
+<span class="line-number">129</span>     <span class="comment">/**</span>
+<span class="line-number">130</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemento</span> <span class="comment">MULT</span><span class="comment">  -&gt; 22</span>
+<span class="line-number">131</span>      <span class="comment">*/</span>
+<span class="line-number">132</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> MULT = 22;
+<span class="line-number">133</span> 
+<span class="line-number">134</span>     <span class="comment">/**</span>
+<span class="line-number">135</span> <span class="comment">     * </span><span class="comment">Código</span> <span class="comment">del</span> <span class="comment">elemen</span><span class="comment">to</span> <span class="comment">DIV</span><span class="comment">  -&gt; 23</span>
+<span class="line-number">136</span>      <span class="comment">*/</span>
+<span class="line-number">137</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> <span class="keyword-directive">int</span> DIV = 23;
+<span class="line-number">138</span> 
+<span class="line-number">139</span>     <span class="comment">/**</span>
+<span class="line-number">140</span> <span class="comment">     * </span><span class="comment">Lector</span> <span class="comment">de</span> <span class="comment">fichero</span>
+<span class="line-number">141</span>      <span class="comment">*/</span>
+<span class="line-number">142</span>     <span class="keyword-directive">private</span> BufferedReader reader;
+<span class="line-number">143</span> 
+<span class="line-number">144</span>     <span class="comment">/**</span>
+<span class="line-number">145</span> <span class="comment">     * </span><span class="comment">Posibles</span> <span class="comment">errores</span>
+<span class="line-number">146</span>      <span class="comment">*/</span>
+<span class="line-number">147</span>     <span class="keyword-directive">private</span> Errores errores;
+<span class="line-number">148</span> 
+<span class="line-number">149</span>     <span class="comment">/**</span>
+<span class="line-number">150</span> <span class="comment">     * </span><span class="comment">Almacena</span> <span class="comment">el</span> <span class="comment">último</span> <span class="comment">caracter</span> <span class="comment">leído</span> <span class="comment">del</span> <span class="comment">fichero</span>
+<span class="line-number">151</span>      <span class="comment">*/</span>
+<span class="line-number">152</span>     <span class="keyword-directive">private</span> Character ultimoCharLeido;
+<span class="line-number">153</span> 
+<span class="line-number">154</span>     <span class="comment">/**</span>
+<span class="line-number">155</span> <span class="comment">     * </span><span class="comment">Almacena</span> <span class="comment">la</span> <span class="comment">cadena</span> <span class="comment">leída</span> <span class="comment">hasta</span> <span class="comment">el</span> <span class="comment">momento</span>
+<span class="line-number">156</span>      <span class="comment">*/</span>
+<span class="line-number">157</span>     <span class="keyword-directive">private</span> String cadena;
+<span class="line-number">158</span> 
+<span class="line-number">159</span>     <span class="comment">/**</span>
+<span class="line-number">160</span> <span class="comment">     * </span><span class="comment">Número</span> <span class="comment">de</span> <span class="comment">linea</span> <span class="comment">que</span> <span class="comment">se</span> <span class="comment">está</span> <span class="comment">leyendo</span>
+<span class="line-number">161</span>      <span class="comment">*/</span>
+<span class="line-number">162</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> numLinea;
+<span class="line-number">163</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">int</span> estado;
+<span class="line-number">164</span> 
+<span class="line-number">165</span>     <span class="comment">/**</span>
+<span class="line-number">166</span> <span class="comment">     * </span><span class="comment">Ge</span><span class="comment">tter</span> <span class="comment">que</span> <span class="comment">devuelve</span> <span class="comment">el</span> <span class="comment">número</span> <span class="comment">de</span> <span class="comment">línea</span> <span class="comment">por</span> <span class="comment">la</span> <span class="comment">que</span> <span class="comment">va</span> <span class="comment">el</span> <span class="comment">Analizador</span><span class="comment">.</span>
+<span class="line-number">167</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">Integer</span> <span class="comment">Número</span> <span class="comment">de</span> <span class="comment">línea</span><span class="comment">.</span>
+<span class="line-number">168</span>      <span class="comment">*/</span>
+<span class="line-number">169</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">int</span> getNumLinea() {
+<span class="line-number">170</span>         <span class="keyword-directive">return</span> <span class="keyword-directive">this</span>.numLinea;
+<span class="line-number">171</span>     }
+<span class="line-number">172</span>     
+<span class="line-number">173</span>     <span class="comment">/**</span>
+<span class="line-number">174</span> <span class="comment">     * </span><span class="comment">Estructura</span> <span class="comment">que</span> <span class="comment">almacena</span> <span class="comment">el</span> <span class="comment">conjunto</span> <span class="comment">de</span> <span class="comment">palabras</span> <span class="comment">reservadas</span>
+<span class="line-number">175</span>      <span class="comment">*/</span>
+<span class="line-number">176</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">static</span> <span class="keyword-directive">final</span> HashMap&lt;String, Integer&gt; palabrasReservadas = <span class="keyword-directive">new</span> HashMap&lt;String, Integer&gt;(25);
+<span class="line-number">177</span> 
+<span class="line-number">178</span>     <span class="keyword-directive">static</span> {
+<span class="line-number">179</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">ENTITY</span><span class="character">&quot;</span>, ENTITY);
+<span class="line-number">180</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">IS</span><span class="character">&quot;</span>, IS);
+<span class="line-number">181</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">PORT</span><span class="character">&quot;</span>, PORT);
+<span class="line-number">182</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">STD_LOGI</span><span class="character">C</span><span class="character">&quot;</span>, STD_LOGIC);
+<span class="line-number">183</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">STD_LOGIC_VECTOR</span><span class="character">&quot;</span>, STD_LOGIC_VECTOR);
+<span class="line-number">184</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">IN</span><span class="character">&quot;</span>, IN);
+<span class="line-number">185</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">OUT</span><span class="character">&quot;</span>, OUT);
+<span class="line-number">186</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">DOWNTO</span><span class="character">&quot;</span>, DOWNTO);
+<span class="line-number">187</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">END</span><span class="character">&quot;</span>, END);
+<span class="line-number">188</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">GE</span><span class="character">NERIC</span><span class="character">&quot;</span>, GENERIC);
+<span class="line-number">189</span>         palabrasReservadas.put(<span class="character">&quot;</span><span class="character">INTEGER</span><span class="character">&quot;</span>, INTEGER);
+<span class="line-number">190</span>     }
+<span class="line-number">191</span>     <span class="comment">/**</span>
+<span class="line-number">192</span> <span class="comment">     * </span><span class="comment">Constructor</span> <span class="comment">de</span> <span class="comment">la</span> <span class="comment">clase</span><span class="comment">.</span>
+<span class="line-number">193</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">fichero</span> <span class="comment">Código</span> <span class="comment">a</span> <span class="comment">analizar</span><span class="comment">.</span>
+<span class="line-number">194</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">errores</span> <span class="comment">Errores</span> <span class="comment">que</span> <span class="comment">se</span> <span class="comment">han</span> <span class="comment">detectado</span>
+<span class="line-number">195</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">FileNotFoundException</span>
+<span class="line-number">196</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span>
+<span class="line-number">197</span>      <span class="comment">*/</span>
+<span class="line-number">198</span>     <span class="keyword-directive">p</span><span class="keyword-directive">ublic</span> LexicoEntidad(String fichero, Errores errores) <span class="keyword-directive">throws</span> FileNotFoundException, IOException {
+<span class="line-number">199</span>         reader = <span class="keyword-directive">new</span> BufferedReader(<span class="keyword-directive">new</span> FileReader(fichero));
+<span class="line-number">200</span>         numLinea = 1;
+<span class="line-number">201</span>         <span class="keyword-directive">this</span>.errores = errores;
+<span class="line-number">202</span>         leerCaracter();
+<span class="line-number">203</span>     }
+<span class="line-number">204</span> 
+<span class="line-number">205</span>     <span class="comment">/**</span>
+<span class="line-number">206</span> <span class="comment">     * </span><span class="comment">Inicia</span> <span class="comment">el</span> <span class="comment">análisis</span><span class="comment">, </span><span class="comment">llama</span> <span class="comment">a</span> <span class="comment">la</span> <span class="comment">función</span> <span class="comment">sigToken</span><span class="comment">()</span>
+<span class="line-number">207</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">El</span> <span class="comment">primer</span> <span class="comment">Token</span><span class="comment">.</span>
+<span class="line-number">208</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOExcepti</span><span class="comment">on</span>
+<span class="line-number">209</span>      <span class="comment">*/</span>
+<span class="line-number">210</span>     <span class="keyword-directive">public</span> Token iniciar() <span class="keyword-directive">throws</span> IOException {
+<span class="line-number">211</span>         <span class="keyword-directive">return</span> sigToken();
+<span class="line-number">212</span>     }
+<span class="line-number">213</span> 
+<span class="line-number">214</span>     <span class="comment">/**</span>
+<span class="line-number">215</span> <span class="comment">     * </span><span class="comment">Cierra</span> <span class="comment">el</span> <span class="comment">Buffer</span> <span class="comment">de</span> <span class="comment">lec</span><span class="comment">tura</span> <span class="comment">del</span> <span class="comment">fichero</span><span class="comment">.</span>
+<span class="line-number">216</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span>
+<span class="line-number">217</span>      <span class="comment">*/</span>
+<span class="line-number">218</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> cerrar() <span class="keyword-directive">throws</span> IOException {
+<span class="line-number">219</span>         <span class="keyword-directive">this</span>.reader.close();
+<span class="line-number">220</span>     }
+<span class="line-number">221</span> 
+<span class="line-number">222</span>     <span class="comment">/**</span>
+<span class="line-number">223</span>    <span class="comment">  * </span><span class="comment">Para</span> <span class="comment">saber</span> <span class="comment">si</span> <span class="comment">un</span> <span class="comment">caracter</span> <span class="comment">determinado</span> <span class="comment">es</span> <span class="comment">una</span> <span class="comment">letra</span>
+<span class="line-number">224</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">ch</span> <span class="comment">El</span> <span class="comment">caracter</span> <span class="comment">del</span> <span class="comment">que</span> <span class="comment">se</span> <span class="comment">quiere</span> <span class="comment">saber</span> <span class="comment">si</span> <span class="comment">es</span> <span class="comment">una</span> <span class="comment">letra</span>
+<span class="line-number">225</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">true</span> <span class="comment">si</span> <span class="comment">ch</span> <span class="comment">es</span> <span class="comment">una</span> <span class="comment">letra</span> <span class="comment">y</span> <span class="comment">false</span> <span class="comment">en</span> <span class="comment">caso</span> <span class="comment">cont</span><span class="comment">rario</span>
+<span class="line-number">226</span>      <span class="comment">*/</span>
+<span class="line-number">227</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> esLetra(Character ch) {
+<span class="line-number">228</span>         <span class="keyword-directive">return</span> (ch &gt;= <span class="character">&#39;a&#39;</span> &amp;&amp; ch &lt;= <span class="character">&#39;z&#39;</span>) || (ch &gt;= <span class="character">&#39;A&#39;</span> &amp;&amp; ch &lt;= <span class="character">&#39;Z&#39;</span>);
+<span class="line-number">229</span>     }
+<span class="line-number">230</span> 
+<span class="line-number">231</span>     <span class="comment">/**</span>
+<span class="line-number">232</span> <span class="comment">     * </span><span class="comment">Para</span> <span class="comment">saber</span> <span class="comment">si</span> <span class="comment">un</span> <span class="comment">caracter</span> <span class="comment">determinado</span> <span class="comment">es</span> <span class="comment">un</span> <span class="comment">dígito</span>
+<span class="line-number">233</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">ch</span> <span class="comment">El</span> <span class="comment">caracter</span> <span class="comment">del</span> <span class="comment">que</span> <span class="comment">se</span> <span class="comment">quiere</span> <span class="comment">saber</span> <span class="comment">si</span> <span class="comment">es</span> <span class="comment">un</span> <span class="comment">dígito</span>
+<span class="line-number">234</span>  <span class="comment">    * </span><span class="ST0">@return</span> <span class="comment">true</span> <span class="comment">si</span> <span class="comment">ch</span> <span class="comment">es</span> <span class="comment">un</span> <span class="comment">dígito</span> <span class="comment">y</span> <span class="comment">false</span> <span class="comment">en</span> <span class="comment">caso</span> <span class="comment">contrario</span>
+<span class="line-number">235</span>      <span class="comment">*/</span>
+<span class="line-number">236</span>     <span class="keyword-directive">private</span> <span class="keyword-directive">boolean</span> esDigito(Character ch) {
+<span class="line-number">237</span>         <span class="keyword-directive">return</span> ch &gt;= <span class="character">&#39;0&#39;</span> &amp;&amp; ch &lt;= <span class="character">&#39;9&#39;</span>;
+<span class="line-number">238</span>     }
+<span class="line-number">239</span> 
+<span class="line-number">240</span>     <span class="comment">/**</span>
+<span class="line-number">241</span> <span class="comment">     * </span><span class="comment">Lee</span> <span class="comment">un</span> <span class="comment">caracte</span><span class="comment">r</span> <span class="comment">del</span> <span class="comment">fichero</span> <span class="comment">y</span> <span class="comment">lo</span> <span class="comment">devuelve</span>
+<span class="line-number">242</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">El</span> <span class="comment">caracter</span> <span class="comment">leído</span> <span class="comment">o</span> <span class="comment">null</span> <span class="comment">en</span> <span class="comment">caso</span> <span class="comment">de</span> <span class="comment">que</span> <span class="comment">no</span> <span class="comment">se</span> <span class="comment">haya</span> <span class="comment">podido</span> <span class="comment">leer</span>
+<span class="line-number">243</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span>
+<span class="line-number">244</span>      <span class="comment">*/</span>
+<span class="line-number">245</span>     <span class="keyword-directive">private</span> Character leerCaracter() <span class="keyword-directive">throws</span> IOException {
+<span class="line-number">246</span>         <span class="keyword-directive">if</span> (reader == <span class="keyword-directive">null</span>) {
+<span class="line-number">247</span>             errores.error(<span class="character">&quot;</span><span class="character">No se asigno ningún reader</span><span class="character">&quot;</span>);
+<span class="line-number">248</span>             <span class="keyword-directive">throw</span> <span class="keyword-directive">new</span> IOException(<span class="character">&quot;</span><span class="character">No se </span><span class="character">asigno ningún reader</span><span class="character">&quot;</span>);
+<span class="line-number">249</span>         }
+<span class="line-number">250</span>         <span class="keyword-directive">if</span> (reader.ready()) {
+<span class="line-number">251</span>             <span class="keyword-directive">int</span> ch = reader.read();
+<span class="line-number">252</span>             <span class="keyword-directive">if</span> (ch != -1) <span class="comment">//si no es fin de fichero</span>
+<span class="line-number">253</span>             {
+<span class="line-number">254</span>                 ultimoCharLeido = <span class="keyword-directive">new</span> Character((<span class="keyword-directive">char</span>) ch);
+<span class="line-number">255</span>             } <span class="keyword-directive">else</span> {
+<span class="line-number">256</span>                 ultimoCharLeido = <span class="keyword-directive">null</span>;
+<span class="line-number">257</span>             }
+<span class="line-number">258</span> 
+<span class="line-number">259</span>             <span class="keyword-directive">if</span> (ultimoCharLeido.charValue() == <span class="character">&#39;\n&#39;</span>) { <span class="comment">//Si es un salto de lÃ­nea</span>
+<span class="line-number">260</span>                 numLinea++; <span class="comment">//incrementa la l</span><span class="comment">inea</span>
+<span class="line-number">261</span>             } 
+<span class="line-number">262</span>             <span class="keyword-directive">return</span> ultimoCharLeido;
+<span class="line-number">263</span>         } <span class="keyword-directive">else</span> {
+<span class="line-number">264</span>             <span class="keyword-directive">return</span> <span class="keyword-directive">null</span>;
+<span class="line-number">265</span>         }
+<span class="line-number">266</span>     }
+<span class="line-number">267</span> 
+<span class="line-number">268</span>     <span class="comment">/**</span>
+<span class="line-number">269</span> <span class="comment">     * </span><span class="comment">Mét</span><span class="comment">odo</span> <span class="comment">que</span> <span class="comment">gestiona</span> <span class="comment">el</span> <span class="comment">autómata</span> <span class="comment">finito</span> <span class="comment">que</span> <span class="comment">ocntrola</span> <span class="comment">el</span> <span class="comment">Analizador</span> <span class="comment">Léxico</span>
+<span class="line-number">270</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">El</span> <span class="comment">siguiente</span> <span class="comment">Token</span> <span class="comment">a</span> <span class="comment">leer</span><span class="comment">.</span>
+<span class="line-number">271</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span>
+<span class="line-number">272</span>      <span class="comment">*/</span>
+<span class="line-number">273</span>     <span class="keyword-directive">public</span> Token sigToken() <span class="keyword-directive">throws</span> IOException {
+<span class="line-number">274</span>         estado = 0;
+<span class="line-number">275</span>         cadena = <span class="character">&quot;&quot;</span>;
+<span class="line-number">276</span>         <span class="keyword-directive">while</span> (<span class="keyword-directive">true</span>) {
+<span class="line-number">277</span>             <span class="keyword-directive">char</span> caracterLeido = 0;
+<span class="line-number">278</span>             <span class="keyword-directive">if</span> (ultimoCharLeido != <span class="keyword-directive">null</span>) {
+<span class="line-number">279</span>                 caracterLeido = Character.toLowerCase(ultimoCharLeido);
+<span class="line-number">280</span>             }
+<span class="line-number">281</span>             <span class="keyword-directive">switch</span> (estado) {
+<span class="line-number">282</span>                 <span class="keyword-directive">case</span> 0:
+<span class="line-number">283</span>                     <span class="keyword-directive">if</span> (<span class="keyword-directive">this</span>.ultimoCharLeido == <span class="keyword-directive">null</span>) {
+<span class="line-number">284</span>                         transita(6);
+<span class="line-number">285</span> 
+<span class="line-number">286</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> ((ultimoCharLeido.charValue() == <span class="character">&#39; &#39;</span>) || (ultimoCharLeido.charValue() == <span class="character">&#39;\n&#39;</span>) || (ultimoCharLeido.charValue() == <span class="character">&#39;\r&#39;</span>) || (ultimoCharLeido.charValue() == <span class="character">&#39;\t&#39;</span>)) {
+<span class="line-number">287</span>                         transita(0); <span class="comment">//salta los blancos</span>
+<span class="line-number">288</span>                         cadena = <span class="character">&quot;&quot;</span>;
+<span class="line-number">289</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (esLetra(caracterLeido)) {
+<span class="line-number">290</span>                         transita(1);
+<span class="line-number">291</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (esDigito(caracterLeido)) {
+<span class="line-number">292</span>                         transita(2);
+<span class="line-number">293</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;;&#39;</span>) {
+<span class="line-number">294</span>                         transita(3);
+<span class="line-number">295</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;(&#39;</span>) {
+<span class="line-number">296</span>                         transita(4);
+<span class="line-number">297</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;)&#39;</span>) {
+<span class="line-number">298</span>                         transita(5);
+<span class="line-number">299</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;:&#39;</span>) {
+<span class="line-number">300</span>                         transita(7);
+<span class="line-number">301</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;-&#39;</span>) {<span class="comment">//posible comentario</span>
+<span class="line-number">302</span>                         transita(8);
+<span class="line-number">303</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;+&#39;</span>) {
+<span class="line-number">304</span>                         transita(12);
+<span class="line-number">305</span>                     } <span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;*&#39;</span>) {
+<span class="line-number">306</span>                         transita(13);
+<span class="line-number">307</span>                     }<span class="keyword-directive">else</span> <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;/&#39;</span>) {
+<span class="line-number">308</span>                         transita(14);
+<span class="line-number">309</span>                     } <span class="keyword-directive">else</span> {<span class="comment">//caracter desconocido</span>
+<span class="line-number">310</span>                         transita(10);
+<span class="line-number">311</span>                     }
+<span class="line-number">312</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">313</span>                 <span class="keyword-directive">case</span> 1:
+<span class="line-number">314</span>                     <span class="keyword-directive">if</span> (esLetra(caracterLeido) || esDigito(caracterLeido) || caracterLeido == <span class="character">&#39;_&#39;</span>) {
+<span class="line-number">315</span>                         transita(1);
+<span class="line-number">316</span>                     } <span class="keyword-directive">else</span> {
+<span class="line-number">317</span>                         Integer codigo = palabrasReservadas.get(cadena.toUpperCase());
+<span class="line-number">318</span>                         <span class="keyword-directive">if</span> (codigo != <span class="keyword-directive">null</span>) {<span class="comment">//si es una palabra reservada</span>
+<span class="line-number">319</span>                             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(codigo, cadena, numLinea);
+<span class="line-number">320</span>                         } <span class="keyword-directive">else</span> {<span class="comment">//si es el nombre de una entrada/salida/entidad</span>
+<span class="line-number">321</span>                             <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(IDENTIFICADOR, cadena, numLinea);
+<span class="line-number">322</span>                         }
+<span class="line-number">323</span>                     }
+<span class="line-number">324</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">325</span>                 <span class="keyword-directive">case</span> 2:
+<span class="line-number">326</span>                     <span class="keyword-directive">if</span> (esDigito(caracterLeido)) {<span class="comment">//continua el número</span>
+<span class="line-number">327</span>                         transita(2);
+<span class="line-number">328</span>                     } <span class="keyword-directive">else</span> {<span class="comment">//guardar el numero</span>
+<span class="line-number">329</span>                         <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(ENTERO, cadena, numLinea);
+<span class="line-number">330</span>                     }
+<span class="line-number">331</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">332</span>                 <span class="keyword-directive">case</span> 3:
+<span class="line-number">333</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(PUNTO_Y_COMA, cadena, numLinea);
+<span class="line-number">334</span>                 <span class="keyword-directive">case</span> 4:
+<span class="line-number">335</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(ABRE_PARENTESIS, cadena, numLinea);
+<span class="line-number">336</span>                 <span class="keyword-directive">case</span> 5:
+<span class="line-number">337</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(CIERRA_PARENTESIS, cadena, numLinea);
+<span class="line-number">338</span>                 <span class="keyword-directive">case</span> 6:
+<span class="line-number">339</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(EOF, cadena, numLinea);
+<span class="line-number">340</span>                 <span class="keyword-directive">case</span> 7:
+<span class="line-number">341</span>                     <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;=&#39;</span>) {
+<span class="line-number">342</span>                         transita(11);
+<span class="line-number">343</span>                     } <span class="keyword-directive">else</span> {
+<span class="line-number">344</span>                         <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(DOS_PUNTOS, cadena, numLinea);
+<span class="line-number">345</span>                     }
+<span class="line-number">346</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">347</span>                 <span class="keyword-directive">case</span> 8:
+<span class="line-number">348</span>                     <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;-&#39;</span>) {
+<span class="line-number">349</span>                         transita(9);
+<span class="line-number">350</span>                     } <span class="keyword-directive">else</span> {
+<span class="line-number">351</span>                         <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(RESTA, cadena, numLinea);
+<span class="line-number">352</span>                     }
+<span class="line-number">353</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">354</span>                 <span class="keyword-directive">case</span> 9:<span class="comment">//comentarios</span>
+<span class="line-number">355</span>                     <span class="keyword-directive">if</span> (caracterLeido == <span class="character">&#39;\n&#39;</span> || caracterLeido == <span class="character">&#39;\r&#39;</span>) {
+<span class="line-number">356</span>                         transita(0);
+<span class="line-number">357</span>                     } <span class="keyword-directive">else</span> {
+<span class="line-number">358</span>                         transita(9);
+<span class="line-number">359</span>                     }
+<span class="line-number">360</span>                     <span class="keyword-directive">break</span>;
+<span class="line-number">361</span>                 <span class="keyword-directive">case</span> 10:<span class="comment">//desconocido</span>
+<span class="line-number">362</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(OTRO, cadena, numLinea);
+<span class="line-number">363</span>                 <span class="keyword-directive">case</span> 11:
+<span class="line-number">364</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(ASIG_GENERIC, cadena, numLinea);
+<span class="line-number">365</span>                 <span class="keyword-directive">case</span> 12:
+<span class="line-number">366</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(SUMA, cadena, numLinea);
+<span class="line-number">367</span>                 <span class="keyword-directive">case</span> 13:
+<span class="line-number">368</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(MULT, cadena, numLinea);
+<span class="line-number">369</span>                 <span class="keyword-directive">case</span> 14:
+<span class="line-number">370</span>                     <span class="keyword-directive">return</span> <span class="keyword-directive">new</span> Token(DIV, cadena, numLinea);
+<span class="line-number">371</span>             }
+<span class="line-number">372</span>         }
+<span class="line-number">373</span>     }
+<span class="line-number">374</span> 
+<span class="line-number">375</span>     <span class="comment">/**</span>
+<span class="line-number">376</span>    <span class="comment">  * </span><span class="comment">Cambia</span> <span class="comment">el</span> <span class="comment">estado</span> <span class="comment">actual</span> <span class="comment">del</span> <span class="comment">analizador</span> <span class="comment">léxico</span> <span class="comment">por</span> <span class="comment">el</span> <span class="comment">que</span> <span class="comment">se</span> <span class="comment">le</span> <span class="comment">pasa</span> <span class="comment">por</span> 
+<span class="line-number">377</span> <span class="comment">     * </span><span class="comment">parámetro</span><span class="comment">.</span> <span class="comment">Además</span> <span class="comment">lee</span> <span class="comment">el</span> <span class="comment">siguiente</span> <span class="comment">caracter</span> <span class="comment">para</span> <span class="comment">dejarlo</span> <span class="comment">preparado</span> <span class="comment">para</span>
+<span class="line-number">378</span> <span class="comment">     * </span><span class="comment">ser</span> <span class="comment">analizado</span><span class="comment">.</span>
+<span class="line-number">379</span> <span class="comment">     * </span><span class="ST0">@param</span> <span class="comment">sigEstado</span> <span class="comment">Sig</span><span class="comment">uiente</span> <span class="comment">estado</span> <span class="comment">al</span> <span class="comment">que</span> <span class="comment">va</span> <span class="comment">el</span> <span class="comment">analizador</span><span class="comment">.</span>
+<span class="line-number">380</span> <span class="comment">     * </span><span class="ST0">@throws</span> <span class="comment">IOException</span>
+<span class="line-number">381</span>      <span class="comment">*/</span>
+<span class="line-number">382</span>     <span class="keyword-directive">public</span> <span class="keyword-directive">void</span> transita(<span class="keyword-directive">int</span> sigEstado) <span class="keyword-directive">throws</span> IOException {
+<span class="line-number">383</span>         estado = sigEstado;
+<span class="line-number">384</span>         <span class="keyword-directive">if</span> (ultimoCharLeido != <span class="keyword-directive">null</span>) {
+<span class="line-number">385</span>             cadena = cadena.concat(ultimoCharLeido.toString());
+<span class="line-number">386</span>             ultimoCharLeido = leerCaracter();
+<span class="line-number">387</span>         }
+<span class="line-number">388</span>     }
+<span class="line-number">389</span> 
+<span class="line-number">390</span>     <span class="comment">/**</span>
+<span class="line-number">391</span> <span class="comment">     * </span><span class="comment">Método</span> <span class="comment">de</span> <span class="comment">Consulta</span> <span class="comment">sobre</span> <span class="comment">el</span> <span class="comment">último</span> <span class="comment">carácter</span> <span class="comment">leído</span><span class="comment">.</span>
+<span class="line-number">392</span> <span class="comment">     * </span><span class="ST0">@return</span> <span class="comment">El</span> <span class="comment">último</span> <span class="comment">carácter</span> <span class="comment">leído</span><span class="comment">.</span>
+<span class="line-number">393</span>      <span class="comment">*/</span>
+<span class="line-number">394</span>     <span class="keyword-directive">public</span> Character getUltimoCharLeido() {
+<span class="line-number">395</span>         <span class="keyword-directive">return</span> ultimoCharLeido;
+<span class="line-number">396</span>     }
+<span class="line-number">397</span> }
+<span class="line-number">398</span> 
+<span class="line-number">399</span> 
+</pre></body>
+</html>

@@ -56,7 +56,7 @@ public class CargaBit {
         if (existeFichero(rutaImpact)){
             try{
                 interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
-                FileOutputStream os = new FileOutputStream("carga2.txt");
+                FileOutputStream os = new FileOutputStream("carga.txt");
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 /*String coms = "setMode -ss \nsetMode -sm \n" +
                         "setMode -sm \nsetMode -hw140 \nsetMode -spi\nsetMode -acecf\nsetMode -acempm\nsetMode -pff\n" +
