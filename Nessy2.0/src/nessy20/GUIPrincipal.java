@@ -16,6 +16,7 @@ import compiladorEntidad.SintacticoEntidad;
 
 
 import IOFPGA.Ejecucion;
+import IOFPGA.Reconfiguracion_Parcial;
 import app.*;
 //import com.sun.org.apache.bcel.internal.util.ClassPath;
 import compiladorEntidad.Entidad;
@@ -54,6 +55,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
     private String RUTA_XILINX ;
     private Parameters param;
+
+
     private Com com1;
     private Ejecucion ejec;
     private String ruta;
@@ -68,6 +71,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private BufferedReader bf;
     private boolean ejecutandoReconfiguracion;
     private FileWriter fw;
+    private Reconfiguracion_Parcial reconfiguracion;
 
 
     /**
@@ -140,18 +144,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
         ejecutandoReconfiguracion = true;
         if (cargarBitConChooser() && SeleccionTBModifFichero()){
             seleccionaPanel(panelOutPut);
-            int frame = 0;
+            int frame = 1;
             int bit = 0;
             try {
                 fw = new FileWriter(new File("test//logEjec.txt"));
             } catch (IOException ex) {
             }
             while (frame < numFrames && ejecutandoReconfiguracion){
+                bit = 0;
                 while (bit < numBits && ejecutandoReconfiguracion){
                     try {                        
                         Thread.sleep(4000);
                         fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit+"\n");
-                        System.out.println("\n\n**********Modificando FRAME: " + frame + " BIT: " + bit+"*********");
+                        System.out.println("\n\n********** Modificando FRAME: " + frame + " BIT: " + bit+" ************");
 
                         String coms = "cmd.exe /C start java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
                         fw.write("Ejecutando: " + coms+"\n");
@@ -269,6 +274,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
             error = true;
         }
         return !error;
+    }
+
+    public String getFichero_bit() {
+        return fichero_bit;
     }
 
     /**
@@ -494,7 +503,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void ejec(boolean lb_reconfiguracionParcial) {
+    public void ejec(boolean lb_reconfiguracionParcial) {
 
         if (this.ejec != null) {
             ejec.pararrecepcionfpga();
@@ -544,6 +553,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
+    public void setFw(FileWriter fw) {
+        this.fw = fw;
+    }
+
+
+
     private void initComponentsAux() {
         jTabbedPane1 = new JTabbedPaneWithCloseIcon();
     }
@@ -580,7 +595,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._TextCargarbit.append(str + "\n");
     }
 
-    private boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
+    public boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
         boolean error = false;
         int intentos = 6;
         CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"\\ISE\\bin\\nt\\impact.exe");
@@ -1446,17 +1461,23 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
 
 private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
     this._btnPararReconf.setEnabled(true);
-    if(procesoModificarFicheros())
+   /* if(this.reconfiguracion != null){
+        this.reconfiguracion.pararreconfiguracionparcial();
+    }*/
+    reconfiguracion = new Reconfiguracion_Parcial(this,RUTA_IOSERIE,fichero_bit) ;
+    reconfiguracion.start();
+   /* if(procesoModificarFicheros())
         log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
     else
         log.warn("Reconfiguración Parcial :No se ha podido ejecutar " +
-                "correctamente Reconfiguración Parcial");
-    this._btnPararReconf.setEnabled(false);
+                "correctamente Reconfiguración Parcial");*/
+  
 }//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
 
 private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararReconfActionPerformed
+    this.reconfiguracion.pararreconfiguracionparcial();
     this._btnPararReconf.setEnabled(false);
-    this.ejecutandoReconfiguracion = false;
+    //this.ejecutandoReconfiguracion = false;
 }//GEN-LAST:event__btnPararReconfActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -1612,7 +1633,7 @@ public void setNumeroInst(int inst) {
         return !error;
     }
 
-    private void seleccionaPanel(JPanel panel) {
+    public void seleccionaPanel(JPanel panel) {
         try {
             // TODO: mandar enable a la placa
             if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panel)) {
@@ -1689,7 +1710,7 @@ public void setNumeroInst(int inst) {
     }
     
 
-  private boolean SeleccionTBModifFichero (){
+  public boolean SeleccionTBModifFichero (){
         boolean correcto = false;
         SeleccionTBFich = true;
         if (cargaFicheroTB()){
@@ -1759,7 +1780,8 @@ public void setNumeroInst(int inst) {
         _btnCargBitReconfParcial.setEnabled(false);
     }
 
-
-
+    public Com getCom1() {
+        return com1;
+    }
 
 }
