@@ -1190,16 +1190,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
             if(rutadestino.lastIndexOf(".bit")+ 4 != rutadestino.length())
                 rutadestino = rutadestino + ".bit";
             //creamos el prj para poder crear el .bit
-
-//            Process copiar = Runtime.getRuntime().exec("cmd.exe copy " +RUTA_IOSERIE+" \\circuito_fpga.bit " + rutadestino);
-
-            
-
             this.creaPrj();
             //compilación y creación del .bit
             Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX);
-            Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
-            //Process x = Runtime.getRuntime().exec("cmd.exe copy " +RUTA_IOSERIE+" \\circuito_fpga.bit " + rutadestino);
+            //Copiamos el archivo nuevo generado en la ruta y nombre especificasa por el usuario.
+            Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX + " "+rutadestino);
         } catch (IOException ex) {
   //          Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
