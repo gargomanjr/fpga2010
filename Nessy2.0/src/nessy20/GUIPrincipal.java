@@ -1178,10 +1178,28 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
         try {
+            JFileChooser chooser;
+            chooser = new JFileChooser();
+            Filtro filter = new Filtro("bit");
+            chooser.addChoosableFileFilter(filter);
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Guardar Como");
+            chooser.setAcceptAllFileFilterUsed(false);
+            chooser.showOpenDialog(this);
+            String rutadestino = chooser.getSelectedFile().getAbsolutePath();
+            if(rutadestino.lastIndexOf(".bit")+ 4 != rutadestino.length())
+                rutadestino = rutadestino + ".bit";
             //creamos el prj para poder crear el .bit
+
+//            Process copiar = Runtime.getRuntime().exec("cmd.exe copy " +RUTA_IOSERIE+" \\circuito_fpga.bit " + rutadestino);
+
+            
+
             this.creaPrj();
             //compilación y creación del .bit
             Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX);
+            Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
+            //Process x = Runtime.getRuntime().exec("cmd.exe copy " +RUTA_IOSERIE+" \\circuito_fpga.bit " + rutadestino);
         } catch (IOException ex) {
   //          Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
