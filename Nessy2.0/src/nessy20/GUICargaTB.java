@@ -47,12 +47,12 @@ public class GUICargaTB extends javax.swing.JDialog {
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
 
-        setTitle("Cargar VHDL");
+        setTitle("Cargar Test Bench");
         setIconImage(null);
         setResizable(false);
 
         _btnCompilar.setSelected(true);
-        _btnCompilar.setText("Compilar");
+        _btnCompilar.setText("Cargar en Pantalla");
         buttonGroup1.add(_btnCompilar);
         _btnCompilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,7 +60,7 @@ public class GUICargaTB extends javax.swing.JDialog {
             }
         });
 
-        _btnCompModoTraza.setText("Compilar modo Traza");
+        _btnCompModoTraza.setText("Cargar desde Fichero y Ejecutar");
         buttonGroup1.add(_btnCompModoTraza);
 
         _btnOK.setText("OK");
@@ -92,7 +92,7 @@ public class GUICargaTB extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(_btnCompilar)
                     .addComponent(_btnCompModoTraza))
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {_btnCancelar, _btnOK});
@@ -108,7 +108,7 @@ public class GUICargaTB extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnCancelar)
                     .addComponent(_btnOK))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {_btnCancelar, _btnOK});
