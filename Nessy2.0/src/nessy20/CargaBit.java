@@ -55,7 +55,7 @@ public class CargaBit {
      * @return Cierto si se ha conseguido cargar correctamente, falso en caso contrario.
      * @throws java.io.FileNotFoundException
      */
-    public boolean cargar() throws FileNotFoundException{
+    public boolean cargar(boolean escribirEnPantalla) throws FileNotFoundException{
         boolean correcto = true;
      
         if (existeFichero(rutaImpact)){
@@ -87,7 +87,8 @@ public class CargaBit {
                 boolean errorCarga = true;
                 while(s!=null && errorCarga){
                 //   System.out.println(s);
-                    interfaz.escribirEnPantalla(s);
+                    if(escribirEnPantalla)
+                        interfaz.escribirEnPantalla(s);
                     if (s.contains("Programmed successfully")){
                         errorCarga = false;
                     }                   

@@ -32,13 +32,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Properties;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -69,6 +67,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private boolean SeleccionTBFich;
     private BufferedReader bf;
     private boolean ejecutandoReconfiguracion;
+    private FileWriter fw;
 
 
     /**
@@ -132,38 +131,46 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * NOTA : No muestra mensajes de aviso, aunque no coincidan la salida del .bit modificado, con nuestra salida GOLDEN.
      */
     public boolean procesoModificarFicheros() {
-//        int numBits = 32;
-//        int numFrames = 361942;
-         int numBits = 5;
-        int numFrames = 5;
+        int numBits = 32;
+        int numFrames = 36194;
+        /*int numBits = 3;
+        int numFrames = 1;*/
 
         boolean b=false;
         ejecutandoReconfiguracion = true;
         if (cargarBitConChooser() && SeleccionTBModifFichero()){
             seleccionaPanel(panelOutPut);
-            int frame = 1;
+            int frame = 0;
             int bit = 0;
-
+            try {
+                fw = new FileWriter(new File("test//logEjec.txt"));
+            } catch (IOException ex) {
+            }
             while (frame < numFrames && ejecutandoReconfiguracion){
                 while (bit < numBits && ejecutandoReconfiguracion){
-          //  for(int frame = 1; frame < numFrames; frame++){
-           //     for(int bit = 0; bit < numBits; bit++){
-                    try {
-                 
-                        
+                    try {                        
                         Thread.sleep(4000);
-                        
+                        fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit+"\n");
+                        System.out.println("\n\n**********Modificando FRAME: " + frame + " BIT: " + bit+"*********");
 
-                        String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
-                        Process p = Runtime.getRuntime().exec("cmd.exe /C start " + coms);
+                        String coms = "cmd.exe /C start java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
+                        fw.write("Ejecutando: " + coms+"\n");
+                        System.out.println("Modificando .bit");
+                        Process p = Runtime.getRuntime().exec(coms);
+
+                        System.out.println("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit");
+                        fw.write("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit\n");
                         this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit",false);
                         if (this.com1 == null) {
+                            fw.write("Ejecutando...\n");
                             if (this.inicializarPuertoSerie()) {
                                  ejec(true);
                             }
                         } else {
                             ejec(true);
                         }
+                        System.out.println("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit");
+                        fw.write("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit\n");
                         b=this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
 
 
@@ -183,6 +190,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 }
                 frame ++;
             }
+        }
+        try {
+            fw.close();
+        } catch (IOException ex) {
         }
         ejecutandoReconfiguracion = false;
         return b;
@@ -494,10 +505,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
-            /*String ls_cadenaaejecutar = this._txtTB.getText();
-            this.ejec = new Ejecucion(this._lblnInst, this.entidad.getBitsEntrada(), this.getEntidad().getBitsSalida(), this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
-            this.ejec.setCadena(ls_cadenaaejecutar);*/
-
             if (SeleccionTBFich) {
                 try {
                     bf = new BufferedReader(new FileReader(fichero_tb));
@@ -505,10 +512,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 } catch (FileNotFoundException ex) {
                 }
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
-                if(ejec.formatoCorrectoFicheroTB(bf)){
+                if(ejec.formatoCorrectoFicheroTB(fichero_tb)){
                     this.ejec.setCadena("");
-                    if (!lb_reconfiguracionParcial)
+                    if (!lb_reconfiguracionParcial){
                         ejec.start();
+                    }else{
+                        ejec.setFileLogEjec(fw);
+                        ejec.ejecuta();
+                    }
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
                 }else{
@@ -521,7 +532,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 if (ejec.convierteCadenas()) {
                     if (!lb_reconfiguracionParcial)
                         ejec.start();
-                    //this.jTabbedPane1.setSelectedIndex(3);
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
                 } else {                  
@@ -576,7 +586,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"\\ISE\\bin\\nt\\impact.exe");
         try {
             do {//si hay un error lo vuelve a intentar
-                error = !cargaBit.cargar();
+                error = !cargaBit.cargar(ab_mostrar_mensajes);
                 if (!error) {
                     if (ab_mostrar_mensajes){
                         JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);

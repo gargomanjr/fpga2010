@@ -9,6 +9,7 @@ import compiladorEntidad.Entidad;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -60,10 +61,10 @@ public class Ejecucion extends Thread {
      */
     private String ls_cadenaaejecutar;
 
-   /**
-    * Indica el número de bits de entrada que tiene la entidad sobre la que se va a
-    * ejecutar
-    */
+    /**
+     * Indica el número de bits de entrada que tiene la entidad sobre la que se va a
+     * ejecutar
+     */
     private int li_bits_entrada;
 
     /**
@@ -104,12 +105,12 @@ public class Ejecucion extends Thread {
      * Ruta donde serán almacenados los ficheros correspondientes a la ejecución
      * tales como la salida de la última ejecución y la salida golden.
      */
-    static String rutafichero = System.getProperties().getProperty("user.dir") + "\\test";
+    static String rutaficherosSalida = System.getProperties().getProperty("user.dir") + "\\test";
 
     /**
      * Fichero donde se volcará la salida
      */
-    private final File fichero_escritura;
+    private final File fichero_salida;
 
     /**
      * Fichero con el cual se comparará la ejecución
@@ -117,9 +118,12 @@ public class Ejecucion extends Thread {
     private final File fichero_compararTraza;
 
     /**
-     * Escritura de fichero
+     * Fichero para la escritura de lo que va sucediendo
+     * durante la ejecución. Esto será útil a la hora
+     * de visualizar lo sucedido en la reconfiguración
+     * parcial.
      */
-    private FileWriter file_wr;
+    private FileWriter ficheroLogEjec;
 
     /**
      * Indica si la ejecución coincide con la traza almacenada
@@ -175,8 +179,8 @@ public class Ejecucion extends Thread {
      *  Si es falso se ejecutará el hilo directamente y no mostrará mensajes emergentes.
      */
     public Ejecucion(JTextField lj_jtf, Entidad e, Com ac_com, JTextArea ata_textarea, boolean comparar, String nombreSalida, String nombreTraza, boolean ab_reconfiguracionParcial) {
-        fichero_escritura = new File(rutafichero, nombreSalida);
-        fichero_compararTraza = new File(rutafichero, nombreTraza);
+        fichero_salida = new File(rutaficherosSalida, nombreSalida);
+        fichero_compararTraza = new File(rutaficherosSalida, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
@@ -192,9 +196,6 @@ public class Ejecucion extends Thread {
         this.comparar = comparar;
         reconfiguracionParcial = ab_reconfiguracionParcial;
         this.posicionResetEntidad = e.getPosReset();
-        if (reconfiguracionParcial) {
-            ejecuta();
-        }
     }
 
     /**
@@ -213,8 +214,8 @@ public class Ejecucion extends Thread {
      */
     public Ejecucion(JTextField lj_jtf, Entidad e, Com ac_com, JTextArea ata_textarea, BufferedReader l_br, boolean comparar, String nombreSalida, String nombreTraza, boolean ab_reconfiguracionParcial) {
 
-        fichero_escritura = new File(rutafichero, nombreSalida);
-        fichero_compararTraza = new File(rutafichero, nombreTraza);
+        fichero_salida = new File(rutaficherosSalida, nombreSalida);
+        fichero_compararTraza = new File(rutaficherosSalida, nombreTraza);
         this.ljtfield = lj_jtf;
         this.ejecutando = true;
         this.com1 = ac_com;
@@ -231,9 +232,6 @@ public class Ejecucion extends Thread {
         this.comparar = comparar;
         reconfiguracionParcial = ab_reconfiguracionParcial;
         this.posicionResetEntidad = e.getPosReset();
-        if (reconfiguracionParcial) {
-            ejecuta();
-        }
     }
 
     /**
@@ -273,6 +271,10 @@ public class Ejecucion extends Thread {
      */
     public void setSetwait(boolean setwait) {
         this.setwait = setwait;
+    }
+
+    public void setFileLogEjec(FileWriter wr){
+        this.ficheroLogEjec = wr;
     }
 
     /**
@@ -399,14 +401,15 @@ public class Ejecucion extends Thread {
      * Procedimiento que ejecuta el hilo.
      * @throws InterruptedException ,Exception.
      */
-    private void ejecuta() {
+    public void ejecuta() {
         try {
             FileReader fr = new FileReader(fichero_compararTraza);
             BufferedReader rw = new BufferedReader(fr);
+            FileWriter file_wr;
             String linea_traza = "";
             int instruccion = 0;
             String datoaenviar = null;
-            fichero_escritura.createNewFile();
+            fichero_salida.createNewFile();
             boolean seguir;
             if (entraDesdeFichero) {
                 datoaenviar = bfr.readLine();
@@ -414,7 +417,7 @@ public class Ejecucion extends Thread {
             } else {
                 seguir = instruccion < this.cadenaaEnviar.size();
             }
-            file_wr = new FileWriter(fichero_escritura, false);
+            file_wr = new FileWriter(fichero_salida, false);
             //Enviamos un reset antes de la ejecución.
             this.enviaReset();
             this.recibirBinaria(li_bits_salida);
@@ -426,10 +429,12 @@ public class Ejecucion extends Thread {
                         if (!reconfiguracionParcial) {
                             JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                         }
+                        this.escribeEnLog("La salida no coincide con Salida Golden en la instruccion: " + NumInstrNoCoincideTraza+"\n\n");
+                        System.out.println("LA EJECUCION HA SIDO MODIFICADA. Ver log al finalizar");
                         mostrarMensaje = false;
                     }
                     this.wait();
-                    file_wr = new FileWriter(fichero_escritura, true);
+                    file_wr = new FileWriter(fichero_salida, true);
                     System.out.println("Ejecución despues");
                     this.setwait = false;
                 } else {
@@ -442,13 +447,16 @@ public class Ejecucion extends Thread {
                         this.ata_textarea.append((instruccion + 1) + ". " + c + "\n");
                     }
                     file_wr.write(c + "\n");
-
+                    this.escribeEnLog(c);
 
                     if (comparar && coincideTraza && linea_traza != null) {
                         linea_traza = rw.readLine();
+                        this.escribeEnLog("\n");
                         if (linea_traza == null || linea_traza.compareTo(c) != 0) {
                             coincideTraza = false;
                             NumInstrNoCoincideTraza = instruccion + 1;
+                            this.escribeEnLog("<----- falla aqui\n");
+
                         }
                     }
                 }
@@ -469,11 +477,16 @@ public class Ejecucion extends Thread {
                 if (!reconfiguracionParcial) {
                     JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
+                this.escribeEnLog("La Salida actual coincide con la Traza\n\n");
+                System.out.println("Ejecucion correcta");
             } else {
                 if (comparar && mostrarMensaje) {
                     if (!reconfiguracionParcial) {
                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
+                    this.ficheroLogEjec.write("La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza+"\n\n");
+                    System.out.println("LA EJECUCION HA SIDO MODIFICADA. Ver log al finalizar");
+
                     mostrarMensaje = false;
                 }
             }
@@ -491,7 +504,7 @@ public class Ejecucion extends Thread {
      */
     public void CopiarSalida() throws IOException {
 
-        InputStream in = new FileInputStream(fichero_escritura);
+        InputStream in = new FileInputStream(fichero_salida);
         OutputStream out = new FileOutputStream(fichero_compararTraza);
         byte[] buf = new byte[1024];
         int len;
@@ -509,28 +522,30 @@ public class Ejecucion extends Thread {
      * @param br Fichero de lectura
      * @return true si el formato es correcto y false en caso contrario
      */
-    public boolean formatoCorrectoFicheroTB(BufferedReader br) {
+    public boolean formatoCorrectoFicheroTB(String ficheroTB) {
         String linea = null;
         boolean correcto = true;
-        do {
-            try {
-                linea = br.readLine();
-            } catch (IOException ex) {
-                correcto = false;
-                Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if (linea != null) {
-                if (linea.length() == this.li_bits_entrada) {
-                    int i = 0;
-                    while (i < linea.length() && correcto) {
-                        correcto = linea.charAt(i) == '0' || linea.charAt(i) == '1';
-                        i++;
+        try {
+            BufferedReader bf;
+            bf = new BufferedReader(new FileReader(ficheroTB));
+            do {
+                linea = bf.readLine();
+                if (linea != null) {
+                    if (linea.length() == this.li_bits_entrada) {
+                        int i = 0;
+                        while (i < linea.length() && correcto) {
+                            correcto = linea.charAt(i) == '0' || linea.charAt(i) == '1';
+                            i++;
+                        }
+                    } else {
+                        correcto = false;
                     }
-                }else{
-                    correcto = false;
                 }
-            }
-        } while (linea != null && correcto);
+            } while (linea != null && correcto);
+            bf.close();
+        } catch (IOException ex) {
+            correcto = false;
+        }
         return correcto;
     }
 
@@ -538,15 +553,25 @@ public class Ejecucion extends Thread {
      * Realiza el envío de reset a la entidad, mandando para ello una cadena
      * con todo ceros excepto un uno en la posición correspondiente al reset
      */
-    public void enviaReset(){
-        String cadenaReset="";
-        for (int i = 0; i < 32; i++){
-            if (i == this.posicionResetEntidad){
-                cadenaReset = "1"+cadenaReset;
-            }else{
-                cadenaReset = "0"+cadenaReset;
+    public void enviaReset() {
+        String cadenaReset = "";
+        for (int i = 0; i < 32; i++) {
+            if (i == this.posicionResetEntidad) {
+                cadenaReset = "1" + cadenaReset;
+            } else {
+                cadenaReset = "0" + cadenaReset;
             }
         }
         this.enviarBinaria(cadenaReset);
+    }
+
+    public void escribeEnLog(String s){
+        if (this.ficheroLogEjec != null){
+            try {
+                this.ficheroLogEjec.write(s);
+            } catch (IOException ex) {
+                Logger.getLogger(Ejecucion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

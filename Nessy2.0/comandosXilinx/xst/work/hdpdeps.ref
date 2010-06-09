@@ -1,26 +1,43 @@
-V3 15
-FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd 2010/06/08.13:51:44 K.39
-EN work/Circuito_FPGA 1275998033 FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd \
+V3 28
+FL D:/Carlos/Nebrija/FFE_DMR/FFE.vhd 2010/04/06.16:45:47 K.39
+FL D:/Carlos/Nebrija/FFE_DMR/FFE_TOP.vhd 2010/04/06.16:46:46 K.39
+FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE.vhd 2010/05/17.11:55:42 K.39
+EN work/FFE 1276076858 FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE.vhd \
+      PB ieee/std_logic_1164 1217055545 PB ieee/std_logic_arith 1217055546 \
+      PB ieee/STD_LOGIC_SIGNED 1217055547 LB work
+AR work/FFE/behavioral 1276076859 \
+      FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE.vhd EN work/FFE 1276076858
+FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE_TOP.vhd 2010/05/17.11:10:24 K.39
+EN work/FFE_TOP 1276076864 \
+      FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE_TOP.vhd \
+      PB ieee/std_logic_1164 1217055545 PH ieee/NUMERIC_STD 1217055545 \
+      PB ieee/STD_LOGIC_SIGNED 1217055547 LB UNISIM
+AR work/FFE_TOP/FFE_TOP 1276076865 \
+      FL D:/Carlos/Nebrija/Shih-fu/UCM_RXyCoeff_reset/FFE_TOP.vhd EN work/FFE_TOP 1276076864 \
+      CP work/ffe
+FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd 2010/06/09.12:40:25 K.39
+EN work/Circuito_FPGA 1276080039 FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd \
       PB ieee/std_logic_1164 1217055545 PB ieee/std_logic_arith 1217055546 \
       PB ieee/STD_LOGIC_UNSIGNED 1217055547
-AR work/Circuito_FPGA/Behavioral 1275998034 \
-      FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd EN work/Circuito_FPGA 1275998033 \
+AR work/Circuito_FPGA/Behavioral 1276080040 \
+      FL D:/PFC/Nessy2.0/IOSerie/Circuito_FPGA.vhd EN work/Circuito_FPGA 1276080039 \
       CP Tx_serie CP Rx_serie CP CONTADOR
 FL D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd 2010/05/10.11:56:54 K.39
-EN work/Rx_Serie 1275998029 FL D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd \
+EN work/Rx_Serie 1276080035 FL D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd \
       PB ieee/std_logic_1164 1217055545 PB ieee/std_logic_arith 1217055546 \
       PB ieee/STD_LOGIC_UNSIGNED 1217055547
-AR work/Rx_Serie/Behavioral 1275998030 \
-      FL D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd EN work/Rx_Serie 1275998029
+AR work/Rx_Serie/Behavioral 1276080036 \
+      FL D:/PFC/Nessy2.0/IOSerie/Rx_serie.vhd EN work/Rx_Serie 1276080035
 FL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd 2010/05/10.11:56:54 K.39
-EN work/Tx_serie 1275998027 FL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd \
+EN work/Tx_serie 1276080033 FL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd \
       PB ieee/std_logic_1164 1217055545 PB ieee/std_logic_arith 1217055546 \
       PB ieee/STD_LOGIC_UNSIGNED 1217055547
-AR work/Tx_serie/Behavioral 1275998028 \
-      FL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd EN work/Tx_serie 1275998027
+AR work/Tx_serie/Behavioral 1276080034 \
+      FL D:/PFC/Nessy2.0/IOSerie/Tx_serie.vhd EN work/Tx_serie 1276080033
+FL D:/PFC/Nessy2.0/test/Contador.vhd 2010/04/22.18:54:37 K.39
 FL D:/PFC/Nessy2.0/test/Contador2.vhd 2010/05/18.10:37:25 K.39
-EN work/Contador 1275998031 FL D:/PFC/Nessy2.0/test/Contador2.vhd \
+EN work/Contador 1276080037 FL D:/PFC/Nessy2.0/test/Contador2.vhd \
       PB ieee/std_logic_1164 1217055545 PB ieee/std_logic_arith 1217055546 \
       PB ieee/STD_LOGIC_UNSIGNED 1217055547
-AR work/Contador/Behavioral 1275998032 \
-      FL D:/PFC/Nessy2.0/test/Contador2.vhd EN work/Contador 1275998031
+AR work/Contador/Behavioral 1276080038 \
+      FL D:/PFC/Nessy2.0/test/Contador2.vhd EN work/Contador 1276080037

@@ -12,7 +12,7 @@
 --	Carlos Sanchez-Vellisco Sanchez
 --	Facultad de Informatica. Universidad Complutense de Madrid
 --Fecha: 
---	Tue Jun 08 21:45:39 CEST 2010
+--	Wed Jun 09 15:23:59 CEST 2010
 --------------------------------------------------------------------------------
 
 library IEEE;
