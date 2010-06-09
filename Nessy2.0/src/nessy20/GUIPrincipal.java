@@ -322,6 +322,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
         this.files = new ArrayList<File>();
+
+        log.info("=====================================================");
         log.info("Inicializado Nessy 2.0");
         ejecutandoReconfiguracion = false;
         _btnPararReconf.setEnabled(false);
@@ -1450,6 +1452,7 @@ private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//G
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
         log.info("Finalizado Nessy 2.0");
+        log.info("=====================================================\n");
 }//GEN-LAST:event_formWindowClosing
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
