@@ -668,6 +668,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
@@ -812,7 +815,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -850,7 +853,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelVHDLayout.setVerticalGroup(
             panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Entity VHDL", panelVHD);
@@ -868,7 +871,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelCargarLayout.setVerticalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Cargar", panelCargar);
@@ -885,7 +888,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelTBLayout.setVerticalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("TestBench", panelTB);
@@ -903,7 +906,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelOutPutLayout.setVerticalGroup(
             panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("OutPut", panelOutPut);
@@ -922,13 +925,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                     .addComponent(_lbl_VHDLCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(469, 469, 469))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addComponent(_btnPararReconf)
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addContainerGap(449, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -1111,13 +1114,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1242,7 +1245,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
-        log.info("Finalizado Nessy 2.0");
+      
     }//GEN-LAST:event_formWindowClosed
 
     private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed
@@ -1443,6 +1446,11 @@ private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//G
     this._btnPararReconf.setEnabled(false);
     this.ejecutandoReconfiguracion = false;
 }//GEN-LAST:event__btnPararReconfActionPerformed
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+
+        log.info("Finalizado Nessy 2.0");
+}//GEN-LAST:event_formWindowClosing
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.

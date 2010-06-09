@@ -42,8 +42,8 @@ public class GUICargaTB extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        _btn_CargarPantalla = new javax.swing.JRadioButton();
-        _btn_CargarFichero = new javax.swing.JRadioButton();
+        _btnCompilar = new javax.swing.JRadioButton();
+        _btnCompModoTraza = new javax.swing.JRadioButton();
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
 
@@ -51,17 +51,17 @@ public class GUICargaTB extends javax.swing.JDialog {
         setIconImage(null);
         setResizable(false);
 
-        _btn_CargarPantalla.setSelected(true);
-        _btn_CargarPantalla.setText("Cargar TB en Pantalla");
-        buttonGroup1.add(_btn_CargarPantalla);
-        _btn_CargarPantalla.addActionListener(new java.awt.event.ActionListener() {
+        _btnCompilar.setSelected(true);
+        _btnCompilar.setText("Compilar");
+        buttonGroup1.add(_btnCompilar);
+        _btnCompilar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btn_CargarPantallaActionPerformed(evt);
+                _btnCompilarActionPerformed(evt);
             }
         });
 
-        _btn_CargarFichero.setText("Cargar TB desde Fichero y Ejecutar");
-        buttonGroup1.add(_btn_CargarFichero);
+        _btnCompModoTraza.setText("Compilar modo Traza");
+        buttonGroup1.add(_btnCompModoTraza);
 
         _btnOK.setText("OK");
         _btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -82,7 +82,7 @@ public class GUICargaTB extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addComponent(_btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67)
                 .addComponent(_btnCancelar)
@@ -90,9 +90,9 @@ public class GUICargaTB extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(124, 124, 124)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_btn_CargarPantalla)
-                    .addComponent(_btn_CargarFichero))
-                .addContainerGap(123, Short.MAX_VALUE))
+                    .addComponent(_btnCompilar)
+                    .addComponent(_btnCompModoTraza))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {_btnCancelar, _btnOK});
@@ -101,9 +101,9 @@ public class GUICargaTB extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
-                .addComponent(_btn_CargarPantalla)
+                .addComponent(_btnCompilar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(_btn_CargarFichero)
+                .addComponent(_btnCompModoTraza)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnCancelar)
@@ -127,19 +127,19 @@ public class GUICargaTB extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void _btn_CargarPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_CargarPantallaActionPerformed
+private void _btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCompilarActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event__btn_CargarPantallaActionPerformed
+}//GEN-LAST:event__btnCompilarActionPerformed
 
 private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
     
-    if(_btn_CargarPantalla.isSelected())
+    if(_btnCompilar.isSelected())
     {
         sel.selTB=SeleccionTB.CARGA_PANTALLA;
     }
     else
     {
-        if(_btn_CargarFichero.isSelected())
+        if(_btnCompModoTraza.isSelected())
         {   
             sel.selTB=SeleccionTB.CARGA_FICHERO;
         }
@@ -158,9 +158,9 @@ private void _btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnCancelar;
+    private javax.swing.JRadioButton _btnCompModoTraza;
+    private javax.swing.JRadioButton _btnCompilar;
     private javax.swing.JButton _btnOK;
-    private javax.swing.JRadioButton _btn_CargarFichero;
-    private javax.swing.JRadioButton _btn_CargarPantalla;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
