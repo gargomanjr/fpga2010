@@ -35,6 +35,20 @@ public class Entidad {
     private ArrayList<Salida> salidas;
 
     /**
+     * Indica la posición que ocupa el CLK dentro de la entidad.
+     * Si no hay CLK valdrá por defecto -1
+     */
+    private int posicionClk;
+
+    /**
+     * Indica la posición que ocupa el RESET dentro de la entidad.
+     * Si no hay RESET valdrá por defecto -1
+     */
+    private int posicionReset;
+
+
+
+    /**
      * Crea una entidad vacía.
      *
      */
@@ -42,6 +56,8 @@ public class Entidad {
         entradas = new ArrayList<Entrada>();
         salidas = new ArrayList<Salida>();
         bitsEntrada = bitsSalida = 0;
+        posicionClk = -1;
+        posicionReset = -1;
     }
 
     /**
@@ -127,6 +143,26 @@ public class Entidad {
     }
 
     /**
+     * Devuelve la posición relativa de las entradas en la que se encuentra
+     * el reset. Esto será utulizdo para poder enviar al circuito la señal de reset
+     * aislándola de todas las demás
+     * @return Posisicón que ocupa el reset dentro de las entradas
+     */
+    public int getPosicionReset(){
+        return this.posicionReset;
+    }
+
+    /**
+     * Devuelve la posición relativa de las entradas en la que se encuentra
+     * el clk. Esto será utilizado para pder hacer la asignación adecuada, por
+     * tratarse esta de una entrada especial.
+     * @return Posisicón que ocupa el clk dentro de las entradas
+     */
+    public int getPosicionClk(){
+        return this.posicionClk;
+    }
+
+    /**
      * Añade el argumento e de la clase Entrada al array de entradas de la entidad.
      * Diferencia entre dos tipos de entradas especiales. Si el nombre de la
      * entrada es CLK, CLOCK O RELOJ, la entrada será marcada como entrada de reloj.
@@ -139,9 +175,11 @@ public class Entidad {
         if (e.getNombre().equals("CLK") || e.getNombre().equals("CLOCK") ||
             e.getNombre().equals("RELOJ")) {
             e.ponerComoReloj();
+            this.posicionClk = entradas.size()-1;
         }else if(e.getNombre().equals("RST") || e.getNombre().equals("RESET")){
             e.ponerComoReset(true);
             bitsEntrada += e.getNumBits();
+            this.posicionReset = entradas.size()-1;
         } else {
             bitsEntrada += e.getNumBits();
         }
@@ -194,29 +232,6 @@ public class Entidad {
         }
         return reset;
     }
-
-    /**
-     * Devuelve la posición relativa de las entradas en la que se encuentra
-     * el reset. Esto será utulizdo para poder enviar al circuito la señal de reset
-     * aislándola de todas las demás
-     * @return Posisicón que ocupa el reset dentro de las entradas
-     */
-    public int getPosReset(){
-        int i = 0;
-        boolean encontrado = false;
-        while (i < this.getNumEntradas() && !encontrado){
-            if (!this.getEntrada(i).getEsReset()){
-                i++;
-            }else{
-                encontrado = true;
-            }
-        }
-        if (!encontrado)
-            return -1;
-        return i;
-
-    }
-
 
     /**
      * Devuelve una cadena con la descripción de las entradas y salidas de la entidad.

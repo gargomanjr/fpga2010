@@ -9,15 +9,40 @@ import java.io.*;
 import java.util.Date;
 
 /**
+ * Fichero encargado de generar automáticamente el VHDL de circuito top
+ * (Circuito_FPGA.vhd) que será el que conecte el circuito que queramos ejecutar
+ * en la FPGA con nuestro módulo de entrada/salida. Además también contendrá
+ * los procesos necesarios para leer y escribir 32 bits desde/hacia la FPGA.
+ * esta clase está estructurada en diferentes métodos cada uno de los cuales
+ * escriben un bloque concreto del fichero. 
  *
  * @author Carlos, Tony y David.
  */
 public class GeneraVhdl {
 
+    /**
+     * Entidad que se quiere conectar al módulo de entrada/salida
+     */
     private Entidad entidad;
+
+    /**
+     * Nombre de la entidad superior. Va a ser siempre Circuito_FPGA
+     */
     private String nomEntidadGeneral;
+
+    /**
+     * Escritor de fichero
+     */
     private BufferedWriter bw;
+
+    /**
+     * Ruta del fichero en la que se va a escribir
+     */
     private String fichero;
+
+    /**
+     * Errores surgidos durante la generación del fichero
+     */
     private Errores errores;
 
     /**
@@ -64,6 +89,10 @@ public class GeneraVhdl {
         return correcto;
     }
 
+    /**
+     * Escribe una cadena en el fichero junto con un salto de linea
+     * @param linea Cadena a escribir
+     */
     private void escribirLinea(String linea) {
         try {
             bw.write(linea);
@@ -73,16 +102,20 @@ public class GeneraVhdl {
         }
     }
 
+    /**
+     * Método para saber si hay reloj
+     * @return
+     */
     private boolean hayReloj(){
-        int i = 0;
-        boolean encontrado = false;
-        while (i < this.entidad.getBitsEntrada() && !encontrado){
-            encontrado = this.entidad.getEntrada(i).getEsReloj();
-            i++;
-        }
-        return encontrado;
+        return this.entidad.getPosicionClk() >= 0;
     }
 
+    /**
+     * Hace la distinción entre is es un puerto con varios bits o solamente uno.
+     * En cada caso escribirá STD_LOGIC o STD_LOGIC_VECTOR.
+     * @param p Puerto del que se desea saber su tipo
+     * @return String con el tipo de puerto
+     */
     private String tipoPuerto(Puerto p) {
         int numBits = p.getNumBits();
         if (numBits > 1) {
@@ -91,14 +124,17 @@ public class GeneraVhdl {
         return "STD_LOGIC";
     }
 
+    /**
+     * Devuelve la lista de señales la entidad concatenadas con el prefijo
+     * "mi_" y separadas por comas. Se utilizará para hacer la asignación
+     * de puertos al declarar el componente.
+     * @return Cadena con lista de señales de la entidad separadas por comas
+     */
     private String listaSenales() {
         String s = "(";
         for (int i = 0; i < entidad.getNumEntradas(); i++) {
             Entrada e = entidad.getEntrada(i);
-            //if (!e.getEsReloj())// si no es la entrada de reloj//
             s += "mi_" + e.getNombre() + ",";
-            //else
-            //    s += "clk,";
         }
         for (int i = 0; i < entidad.getNumSalidas() - 1; i++) {
             Salida sal = entidad.getSalida(i);
@@ -108,6 +144,9 @@ public class GeneraVhdl {
         return s;
     }
 
+    /**
+     * Escribe comentarios en la cabecera del fichero
+     */
     private void comentariosCabecera(){
         escribirLinea("--------------------------------------------------------------------------------");
         escribirLinea("--Descripción:");
@@ -129,6 +168,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Escribe la inclusión de librerías en el fichero
+     */
     private void librerias() {
         escribirLinea("library IEEE;");
         escribirLinea("use IEEE.STD_LOGIC_1164.ALL;");
@@ -138,6 +180,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Descripción de la entidad
+     */
     private void entidadGeneral() {
         escribirLinea("");
         escribirLinea("--Descripcion de la entidad");
@@ -152,12 +197,18 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Inicio de la arquitectura
+     */
     private void inicioArquitectura() {
         escribirLinea("");
         escribirLinea("architecture Behavioral of " + nomEntidadGeneral + " is");
         escribirLinea("");
     }
 
+    /**
+     * Declara el componente del transmisor
+     */
     private void compSalidaSerie() {
         escribirLinea("");
         escribirLinea("--Transmisor serie");
@@ -172,6 +223,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara el componente del receptor
+     */
     private void compEntradaSerie() {
         escribirLinea("");
         escribirLinea("--Receptor Serie");
@@ -186,6 +240,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara el componente del circuito principal
+     */
     private void componentePrincipal() {
         escribirLinea("");
         escribirLinea("--Entidad que se quiere ejecutar");
@@ -206,6 +263,11 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara las señales del circuiti principal. Concatena el nombre original
+     * de la entrada o salida con el prefijo "mi_" de tal forma que tengamos
+     * señales intermedias
+     */
     private void SenalesCircuitoPrincipal() {
         escribirLinea("");
         escribirLinea("--Señales del circuito principal");
@@ -213,7 +275,6 @@ public class GeneraVhdl {
         escribirLinea("--Entradas");
         for (int i = 0; i < entidad.getNumEntradas(); i++) {
             Entrada e = entidad.getEntrada(i);
-            //if (!e.getEsReloj())//si no es la entrada de reloj
             escribirLinea("signal mi_" + e.getNombre() + ": " + tipoPuerto(e) + ";");
         }
         escribirLinea("");
@@ -225,6 +286,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara señales intermedias para la entrada serie
+     */
     private void SenalesEntradaSerie() {
         escribirLinea("");
         escribirLinea("--Señales para la Recepción Serie");
@@ -237,6 +301,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara señales intermedias para la salida serie
+     */
     private void SenalesSalidaSerie() {
         escribirLinea("");
         escribirLinea("--Señales para la Transmisión Serie");
@@ -246,6 +313,11 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Declara las señales intermedias para conectar las entradas y las salidas
+     * Éstas se conectarán a su vez a los módulos de entrada/salida y al 
+     * circuito principal
+     */
     private void regsEntradaSalida() {
         escribirLinea("");
         escribirLinea("--Señales intermedias para la entrada y la salida. Se conectarán a las entradas y las salidas del circuito principal");
@@ -254,6 +326,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Señales para visualizar los estados
+     */
     private void SenalesEstados(){
         escribirLinea("");
         escribirLinea("--Señales para los estados del emisor/receptor de 32 bits");
@@ -265,9 +340,12 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Señales necesarias para la correcta entrada/salida con 32 bits
+     */
     private void SenalesIO(){
         escribirLinea("");
-        escribirLinea("--Señales necesarias para la correcta entrada/salida");
+        escribirLinea("--Señales necesarias para la correcta entrada/salida con 32 bits");
         escribirLinea("signal fin_recepcion : std_logic;");
         escribirLinea("signal recibido,transmitido,biest_recibido, biest_transmitido: std_logic;");
         escribirLinea("signal frecibido,ftransmitido,fin: std_logic;  --flancos de fin");
@@ -275,12 +353,18 @@ public class GeneraVhdl {
 
     }
 
+    /**
+     * Comienzo de la descripcion
+     */
     private void begin() {
         escribirLinea("");
         escribirLinea("begin");
         escribirLinea("");
     }
 
+    /**
+     * Se asignan los puertos de los componentes de entrada/salida
+     */
     private void asigSenalesCompsSerie() {
         escribirLinea("");
         escribirLinea("--Asignación de señales a los componentes de la entrada/salida");
@@ -289,6 +373,10 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
+    /**
+     * Se asignan las señales al componente del cricuito principal. Utilizaremos
+     * la lista de señales cobtenida más
+     */
     private void asigSenalesCompPrinc() {
         escribirLinea("");
         escribirLinea("--Asignación de señales al componente del circuito principal");
@@ -296,8 +384,9 @@ public class GeneraVhdl {
         escribirLinea("");
     }
 
-    
-
+    /**
+     * Proceso encargado de la correcta recepción de datos con 32 bits
+     */
     private void procesoEntradas() {
         escribirLinea("");
         escribirLinea("--Proceso encargado de la correcta recepción de datos (32 bits)");
@@ -332,6 +421,10 @@ public class GeneraVhdl {
 
     }
 
+    /**
+     * Proceso encargado de que la salida correspondiente del circuito esté conectada
+     * a la salida serie antes de que la transmisión se produzca
+     */
     private void procesoSalidas(){
         escribirLinea("");
         escribirLinea("--Proceso encargado de que la salida correspondiente del circuito esté conectada a la salida serie antes de que la transmisión se produzca");
@@ -470,8 +563,10 @@ public class GeneraVhdl {
 
     private void entSalPuertoSerie() {
         escribirLinea("");
-        escribirLinea("--El reloj del circuito principal será el flanco que indique el fin de la recepción");
-        escribirLinea("mi_clk <= recibido;");
+        if (this.hayReloj()){
+            escribirLinea("--El reloj del circuito principal será el flanco que indique el fin de la recepción");
+            escribirLinea("mi_"+entidad.getEntrada(entidad.getPosicionClk())+ " <= recibido;");
+        }
         escribirLinea("");
         escribirLinea("--Asignación de las señales del circuito general");
         escribirLinea("mi_resetserie <= reset;");

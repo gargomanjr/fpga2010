@@ -2,19 +2,14 @@ package nessy20;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 /**
- * Clase para Cargar un archivo .bit.
+ * Clase para que contiene la funcionalidad necesaria para
+ * cargar un archivo .BIT con la aplicación IMPACT
  * @author User
  */
 public class CargaBit {
@@ -86,7 +81,6 @@ public class CargaBit {
                 String s=br.readLine();
                 boolean errorCarga = true;
                 while(s!=null && errorCarga){
-                //   System.out.println(s);
                     if(escribirEnPantalla)
                         interfaz.escribirEnPantalla(s);
                     if (s.contains("Programmed successfully")){

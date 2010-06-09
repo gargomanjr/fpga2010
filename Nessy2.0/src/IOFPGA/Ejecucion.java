@@ -195,7 +195,7 @@ public class Ejecucion extends Thread {
         NumInstrNoCoincideTraza = 0;
         this.comparar = comparar;
         reconfiguracionParcial = ab_reconfiguracionParcial;
-        this.posicionResetEntidad = e.getPosReset();
+        this.posicionResetEntidad = e.getPosicionReset();
     }
 
     /**
@@ -231,7 +231,7 @@ public class Ejecucion extends Thread {
         NumInstrNoCoincideTraza = 0;
         this.comparar = comparar;
         reconfiguracionParcial = ab_reconfiguracionParcial;
-        this.posicionResetEntidad = e.getPosReset();
+        this.posicionResetEntidad = e.getPosicionReset();
     }
 
     /**
