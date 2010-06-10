@@ -6,19 +6,19 @@
 
 package nessy20;
 
-import compiladorEntidad.Entidad;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 
 /**
+ * Interfaz gráfica para elegir de dónde se carga un test bench
  *
  * @author  David, Tony y Carlos
  */
 public class GUICargaTB extends javax.swing.JDialog {
-    
+
+    /**
+     * Tipo de seleccion que se hará. En este caso de TB
+     */
     private Seleccion sel;
-    private JFrame padre;
 
     /** Constructor del form GUICargaTB.
      * @param jf  Frame padre encargado de la llamada.

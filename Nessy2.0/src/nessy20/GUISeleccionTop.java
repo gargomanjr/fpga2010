@@ -15,12 +15,20 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Clase para la elección de TOP entre varios VHD
  *
  * @author  David,Carlos y Tony
  */
 public class GUISeleccionTop extends javax.swing.JDialog {
 
+    /**
+     * Conjunto de ficheros VHD
+     */
     private ArrayList<String> ficheros;
+
+    /**
+     * Componente que hace la llamada
+     */
     private JFrame padre;
     
     /** Constructor de form GUISeleccionTop

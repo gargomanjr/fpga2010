@@ -10,7 +10,11 @@ package nessy20;
 import javax.swing.filechooser.*;
 import java.io.File;
 
-
+/**
+ * Clase que sirve para crear un filtro de extensiones a la hora de mostrar
+ * un selector de ficheros
+ * @author David
+ */
 public class Filtro extends FileFilter {
 
   String[] extensions;
@@ -40,10 +44,8 @@ public class Filtro extends FileFilter {
   }
 
   public boolean accept(File f) {
-    // We always allow directories, regardless of their extension
-    if (f.isDirectory()) { return true; }
 
-    // Ok, itвЂ™s a regular file, so check the extension
+    if (f.isDirectory()) { return true; }
     String name = f.getName().toLowerCase();
     for (int i = extensions.length - 1; i >= 0; i--) {
       if (name.endsWith(extensions[i])) {

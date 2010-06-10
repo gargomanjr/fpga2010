@@ -3,37 +3,30 @@
  * and open the template in the editor.
  */
 
-/*
- * GUIConfig.java
- *
- * Created on 04-jun-2010, 16:02:42
- */
+
 
 package nessy20;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
  *
- * @author David
+ *
+ * Interfaz gráfica para la configuración de la ubicación de Xilinx
+ *
+ * Created on 04-jun-2010, 16:02:42
  */
 public class GUIConfig extends javax.swing.JDialog {
     
-    private String rutaXilins;
-    private String rutaImpact;
+    private String rutaXilinx;
     /** Creates new form GUIConfig */
     public GUIConfig(java.awt.Frame parent, boolean modal,String ruta) {
         super(parent, modal);
-        rutaXilins=ruta;
+        rutaXilinx=ruta;
         initComponents();
 
     }
@@ -47,9 +40,9 @@ public class GUIConfig extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        _lbl_HomeXilins = new javax.swing.JLabel();
-        _txt_HomeXilins = new javax.swing.JTextField();
-        _btn_HomeXilins = new javax.swing.JButton();
+        _lbl_HomeXilinx = new javax.swing.JLabel();
+        _txt_HomeXilinx = new javax.swing.JTextField();
+        _btn_HomeXilinx = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         _btnOK = new javax.swing.JButton();
         _btnCancelar = new javax.swing.JButton();
@@ -57,14 +50,14 @@ public class GUIConfig extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Nessy");
 
-        _lbl_HomeXilins.setText("Home Xilinx ISE :");
+        _lbl_HomeXilinx.setText("Home Xilinx ISE :");
 
-        _txt_HomeXilins.setText(rutaXilins);
+        _txt_HomeXilinx.setText(rutaXilinx);
 
-        _btn_HomeXilins.setText("Seleccion");
-        _btn_HomeXilins.addActionListener(new java.awt.event.ActionListener() {
+        _btn_HomeXilinx.setText("Seleccion");
+        _btn_HomeXilinx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                _btn_HomeXilinsActionPerformed(evt);
+                _btn_HomeXilinxActionPerformed(evt);
             }
         });
 
@@ -91,18 +84,18 @@ public class GUIConfig extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(_lbl_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(_lbl_HomeXilinx, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(_txt_HomeXilinx, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(_btn_HomeXilins)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(_btn_HomeXilinx)
+                .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(227, Short.MAX_VALUE)
+                .addContainerGap(229, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(220, 220, 220))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(180, Short.MAX_VALUE)
+                .addContainerGap(182, Short.MAX_VALUE)
                 .addComponent(_btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67)
                 .addComponent(_btnCancelar)
@@ -115,9 +108,9 @@ public class GUIConfig extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(_lbl_HomeXilins)
-                    .addComponent(_btn_HomeXilins)
-                    .addComponent(_txt_HomeXilins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(_lbl_HomeXilinx)
+                    .addComponent(_btn_HomeXilinx)
+                    .addComponent(_txt_HomeXilinx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(_btnCancelar)
@@ -128,37 +121,31 @@ public class GUIConfig extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void _btn_HomeXilinsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_HomeXilinsActionPerformed
+    private void _btn_HomeXilinxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btn_HomeXilinxActionPerformed
         JFileChooser chooser;
         chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("C:/"));
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setMultiSelectionEnabled(false);
-        chooser.setDialogTitle("Seleccionar Home Xilins ISE");
+        chooser.setDialogTitle("Seleccionar Home Xilinx ISE");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            //try {
-            rutaXilins=chooser.getSelectedFile().getAbsolutePath();
-            _txt_HomeXilins.setText(rutaXilins);
+            rutaXilinx=chooser.getSelectedFile().getAbsolutePath();
+            _txt_HomeXilinx.setText(rutaXilinx);
         } else {
             //log.info("Seleccion no llevada a cabo");
         }
 
-    }//GEN-LAST:event__btn_HomeXilinsActionPerformed
+    }//GEN-LAST:event__btn_HomeXilinxActionPerformed
 
     private void _btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnOKActionPerformed
         try {
             //TODO cargar configuracion en archivos.Properties prop = new Properties();
             InputStream is = null;
             Properties prop = new Properties();
-            //Para leer prop
-           // is = new FileInputStream("conf/Config.properties");
-         //   prop.load(is);
-            prop.setProperty("HomeXilinx", rutaXilins);
+            prop.setProperty("HomeXilinx", rutaXilinx);
             prop.store(new FileOutputStream("conf/Config.properties"), "rutas");
             this.dispose();
         } catch (IOException ex) {
-       //     Logger.getLogger(GUIConfig.class.getName()).log(Level.SEVERE, null, ex);
-
             System.out.println("Fallo");
         }
 }//GEN-LAST:event__btnOKActionPerformed
@@ -174,9 +161,9 @@ public class GUIConfig extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton _btnCancelar;
     private javax.swing.JButton _btnOK;
-    private javax.swing.JButton _btn_HomeXilins;
-    private javax.swing.JLabel _lbl_HomeXilins;
-    private javax.swing.JTextField _txt_HomeXilins;
+    private javax.swing.JButton _btn_HomeXilinx;
+    private javax.swing.JLabel _lbl_HomeXilinx;
+    private javax.swing.JTextField _txt_HomeXilinx;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 

@@ -6,17 +6,18 @@
 
 package nessy20;
 
-import compiladorEntidad.Entidad;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 
 /**
+ * Interfaz gráfica para elegir si se carga un sólo fichero VHD o varios
  *
  * @author  David,Carlos y Tony
  */
 public class GUICargaVHDL extends javax.swing.JDialog {
-    
+
+    /**
+     * Tipo de selección que se hará. En este caso SeleccionCargaVHD
+     */
     private Seleccion sel;
     
 

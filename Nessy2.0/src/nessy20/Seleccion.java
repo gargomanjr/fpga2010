@@ -13,16 +13,19 @@ package nessy20;
 public class Seleccion {
 
     /**
-     *
+     * Seleccion de VHD
      */
+
     public SeleccionCargaVHD seleccion;
     /**
-     *
+     * Seleccion de carga de banco de pruebas
      */
+
     public SeleccionTB selTB;
     /**
      *
      */
+    
     public Seleccion()
     {
         seleccion=SeleccionCargaVHD.NADA;

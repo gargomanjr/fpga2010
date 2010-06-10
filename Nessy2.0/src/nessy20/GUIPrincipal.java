@@ -49,52 +49,108 @@ import org.apache.log4j.*;
 public class GUIPrincipal extends javax.swing.JFrame {
     //private EstadoContador estado_cont;
 
-    private static Logger log= Logger.getLogger(GUIPrincipal.class);
-
+    /**
+     * Fichero de log de la aplicación
+     */
+    private static Logger log = Logger.getLogger(GUIPrincipal.class);
+    /**
+     * Ruta en la que se encuentran los ficheros necesarios para la entrada/salida
+     */
     private final static String RUTA_IOSERIE = System.getProperties().getProperty("user.dir") + "\\IOSerie";
-    private String RUTA_XILINX ;
+
+    /*
+     * Ruta en la que se encuentra el Xilinx. Será introducida por el usuario
+     * o cargada mediante el fichero de configuración
+     */
+    private String RUTA_XILINX;
+    /**
+     * Parametros de configuración que se introducen al puerto serie
+     */
     private Parameters param;
-
-
+    /**
+     * Interfaz para el manejo del puerto RS232
+     */
     private Com com1;
+    /**
+     * Clase encargada de la ejecución de circuitos
+     */
     private Ejecucion ejec;
-    private String ruta;
-    private String fichero;
+    /**
+     * Fichero VHD en el que está definida la entidad top que se desea ejecutar.
+     */
+    private String ficheroEntidadVHD;
+    /**
+     * Representación interna de la entidad que se quiere ejecutar
+     */
     private Entidad entidad;
+    /**
+     * Número de fichero que representa el top dentro del conjunto de ficheros
+     */
     private int top;
-    private ArrayList<File> files;
+    /**
+     * Conjunto de todos los ficheros VHD que pueden formar parte de un proyecto
+     * a la hora de generar un .BIT
+     */
+    private ArrayList<File> ficherosVHD;
+    /**
+     * Indica que el menú de selección top se ha cerrado
+     */
     private boolean cerradoTop;
+    /**
+     * Indica la ruta fichero de banco de pruebas
+     */
     String fichero_tb;
+    /**
+     * Indica la ruta del fichero .bit que se desea cargar
+     */
     String fichero_bit;
+    /**
+     * Indica si, para ejecutar, la selección de un banco de pruebas se obtiene
+     * desde la pantalla o directamente desde un fichero.
+     */
     private boolean SeleccionTBFich;
-    private BufferedReader bf;
-    private boolean ejecutandoReconfiguracion;
-    private FileWriter fw;
+    /**
+     * Lector de fichero para el banco de pruebas
+     */
+    private BufferedReader brTB;
+    /**
+     * Escritor de fichero para el log del proceso de reconfiguración
+     */
+    private FileWriter fwLog;
+    /**
+     * Proceso de reconfiguración
+     */
     private Reconfiguracion_Parcial reconfiguracion;
 
+    /** Constructor de la clase.
+     *  Los botones reanudar y parar ejecución se ponen a no visibles.
+     */
+    public GUIPrincipal() {
+
+
+        PropertyConfigurator.configure("conf/log4j.properties");
+
+        config("conf/Config.properties", false);
+        initComponentsAux();
+        initComponents();
+        this._btnReanudar.setEnabled(false);
+        this._btnPararEjecucion.setEnabled(false);
+        this.menuOpcionesReanudarEjec.setEnabled(false);
+        this.menuOpcionesPararEjec.setEnabled(false);
+        this.ficherosVHD = new ArrayList<File>();
+
+        log.info("=====================================================");
+        log.info("Inicializado Nessy 2.0");
+        _btnPararReconf.setEnabled(false);
+        _btnPararReconf.setVisible(false);
+    }
 
     /**
      * Devuelve el Array de ficheros Vhdl Cargados en la aplicación.
      * @return
      */
     public ArrayList<File> getFiles() {
-        return files;
-    }
-
-    /**
-     * Establece el Array de ficheros Vhdl Cargados en la aplicación.
-     * @param files ArrayList de ficheros vhdl de la aplicación.
-     */
-    public void setFiles(ArrayList<File> files) {
-        this.files = files;
-    }
-
-    /**
-     * Devuelve el índice del fichero top dentro del ArrayList
-     * @return
-     */
-    public int getTop() {
-        return top;
+        return ficherosVHD;
     }
 
     /**
@@ -114,28 +170,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Devuelve el atributo cerradoTop
-     * @return
-     */
-    public boolean isCerradoTop() {
-        return cerradoTop;
-    }
-
-    /**
      * Establece el campo cerradoTop, con el valor del argumento de la función.
      * @param cerradoTop Nuevo valor de tipo boolean de cerradoTop.
      */
     public void setCerradoTop(boolean cerradoTop) {
         this.cerradoTop = cerradoTop;
     }
-    
+
     /**
      * Genera el archivo Golden.txt que será el fichero con el que compararemos nuestras salidas.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean generarGolden() {
         boolean correcto = true;
-        if (this.ejec != null) {// || this.ejec.getState() == State.WAITING) {
+        if (this.ejec != null) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
         }
@@ -145,11 +193,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
             System.out.println("Generando salida golden");
             if (SeleccionTBFich) {
                 try {
-                    bf = new BufferedReader(new FileReader(fichero_tb));
+                    brTB = new BufferedReader(new FileReader(fichero_tb));
                 } catch (FileNotFoundException ex) {
                     correcto = false;
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, false, "Golden.txt", "Traza.txt",false);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, brTB, false, "Golden.txt", "Traza.txt", false);
                 this.ejec.setCadena("");
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
@@ -158,7 +206,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 this.menuOpcionesPararEjec.setEnabled(true);
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt",false);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt", false);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
                     ejec.start();
@@ -167,7 +215,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     this._btnPararEjecucion.setEnabled(true);
                     this.menuOpcionesReanudarEjec.setEnabled(false);
                     this.menuOpcionesPararEjec.setEnabled(true);
-                } else {                
+                } else {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -179,11 +227,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     * Función para cargar el archivo .bit. Te abre un JFileChooser para elegir el archivo a cargar
+     * Función para cargar el archivo .bit. Abre un JFileChooser para elegir el
+     * archivo a cargar. Tras la elección intenta cargar el fichero de
+     * configuración en la FPGA.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean cargarBitConChooser() {
-        //this.jTabbedPane1.setSelectedIndex(1);
         this._TextCargarbit.setText("Cargando ..........");
         boolean error = false;
         JFileChooser chooser;
@@ -195,7 +244,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
-            error = !this.cargarBit(fichero_bit,true);
+            error = !this.cargarBit(fichero_bit, true);
         } else {
             System.out.println("Selecc ");
             //Selecciona panel
@@ -206,12 +255,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return !error;
     }
 
+    /**
+     * Devuelve la ruta en la que se encuentra el fichero .BIT elegido por el
+     * usuario
+     * @return El valor del atributo fichero_bit
+     */
     public String getFichero_bit() {
         return fichero_bit;
     }
 
     /**
-     * Compila la entidad y genera el archivo VHDL a partir de la entidad.
+     * Compila la entidad y genera el archivo VHDL a partir de ella de tal forma
+     * que se interconecte con el módulo de entrada/salida.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean compilarEntidad() {
@@ -221,7 +276,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         GeneraVhdl generador;
 
         try {
-            compilador = new SintacticoEntidad(fichero, errores);
+            compilador = new SintacticoEntidad(ficheroEntidadVHD, errores);
             compilador.inicia();
 
             boolean error = compilador.Entidad();
@@ -243,7 +298,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             if (e.getMessage() != null) {
-
                 errores.error(e.getMessage());
                 this.muestraErroresConsola(errores);
             } else {
@@ -258,34 +312,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
-    /** Constructor de la clase.
-     *  Los botones reanudar y parar ejecución se ponen a no visibles.
-     */
-    public GUIPrincipal() {
-        
-     
-        PropertyConfigurator.configure("conf/log4j.properties");
-
-        config("conf/Config.properties",false);
-        initComponentsAux();
-        initComponents();
-        this._btnReanudar.setEnabled(false);
-        this._btnPararEjecucion.setEnabled(false);
-        this.menuOpcionesReanudarEjec.setEnabled(false);
-        this.menuOpcionesPararEjec.setEnabled(false);
-        this.files = new ArrayList<File>();
-
-        log.info("=====================================================");
-        log.info("Inicializado Nessy 2.0");
-        ejecutandoReconfiguracion = false;
-        _btnPararReconf.setEnabled(false);
-        _btnPararReconf.setVisible(false);
-
-        
-    }
     /**
-     * Función que inicializa el puerto serie necesario para la comuncicación con la FPGA. Comprueba que
-     * esté libre el puerto y que la maquina sobre la que estamos ejecutando tenga el puerto COM1.
+     * Función que inicializa el puerto serie necesario para la comuncicación 
+     * con la FPGA. Comprueba que esté libre el puerto y que la maquina sobre
+     * la que estamos ejecutando tenga el puerto COM1.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean inicializarPuertoSerie() {
@@ -310,6 +340,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         return correcto;
     }
 
+    /**
+     * Trata de compilar un fichero VHD y muestra un mensaje con lo
+     * ocurrido en una ventana emergente
+     */
     private void cargarVHDL() {
         boolean error = !compilarEntidad();
         if (!error) {
@@ -323,6 +357,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Carga un fichero VHD como top
+     */
     private void cargaTopVHDL() {
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
@@ -332,23 +369,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Seleccionar Archivo VHDL");
         chooser.setAcceptAllFileFilterUsed(false);
-        //chooser.setMultiSelectionEnabled(true);
-        files = new ArrayList<File>();
+        ficherosVHD = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            //try {
             deshabilitarBtnYmenu();
-            files.add(chooser.getSelectedFile());
-            fichero = files.get(0).getAbsolutePath();
-            _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "+
-                    chooser.getSelectedFile().getName());
+            ficherosVHD.add(chooser.getSelectedFile());
+            ficheroEntidadVHD = ficherosVHD.get(0).getAbsolutePath();
+            _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "
+                    + chooser.getSelectedFile().getName());
             this.cargarVHDL();
         } else {
             log.info("Seleccion no llevada a cabo");
         }
     }
 
+    /**
+     * Carga varios ficheros VHDL de los cuales elegirá uno como top
+     */
     private void cargaVariosVHDL() {
-        boolean error = false;
         JFileChooser chooser;
         this._TxtEntityVHD.setText("");
         chooser = new JFileChooser();
@@ -358,16 +395,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Seleccionar Archivos VHDL");
         chooser.setAcceptAllFileFilterUsed(false);
-
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            //try {
             deshabilitarBtnYmenu();
             ArrayList<String> ficheros = new ArrayList<String>();
-            // fichero = chooser.getSelectedFile().getAbsolutePath();
             File[] f = chooser.getSelectedFiles();
-            files = new ArrayList<File>();
+            ficherosVHD = new ArrayList<File>();
             for (int i = 0; i < f.length; i++) {
-                files.add(f[i]);
+                ficherosVHD.add(f[i]);
             }
 
             for (int i = 0; i < f.length; i++) {
@@ -377,15 +411,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
             GUISeleccionTop selTop = new GUISeleccionTop(this, true, ficheros);
             selTop.setVisible(true);
             if (!cerradoTop) {
-                fichero = files.get(top).getAbsolutePath(); //el fichero es el absoluto
-                 _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "
-                         +files.get(top).getName());
+                ficheroEntidadVHD = ficherosVHD.get(top).getAbsolutePath(); //el fichero es el absoluto
+                _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "
+                        + ficherosVHD.get(top).getName());
                 this.cargarVHDL();
             }
 
         }
     }
 
+    /**
+     * Copia un fichero en otro
+     * @param fich_lectura Fichero a copiar
+     * @param fich_escritura Fichero a crear
+     */
     private void copiaArchivo(String fich_lectura, String fich_escritura) {
 
         try {
@@ -403,64 +442,72 @@ public class GUIPrincipal extends javax.swing.JFrame {
             in.close();
             out.close();
         } catch (IOException ex) {
-     //       Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
+    /**
+     * Crea el fichero (.PRJ)necesario para generar un .BIT con los comandos de
+     * Xilinx. En concreto este fichero es necesario para el proceso de síntesis
+     * implementado en XST de Xilinx.
+     */
     private void creaPrj() {
         BufferedWriter bw = null;
-        boolean correcto = true;
         try {
-//            JFileChooser chooser = new JFileChooser();
-//            Filtro filter = new Filtro("bit");
-//            chooser.addChoosableFileFilter(filter);
-//            chooser.setCurrentDirectory(new java.io.File("."));
-//            chooser.setDialogTitle("Guardar .bit");
-//            chooser.setFileFilter(filter);
-//            if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-//                String rutaFichBit = chooser.getSelectedFile().getAbsolutePath();
-                bw = new BufferedWriter(new FileWriter("IOSerie//Circuito_FPGA.prj"));
-               // bw = new BufferedWriter(new FileWriter(rutaFichBit));
-                bw.write("vhdl work \"Tx_serie.vhd\"\n");
-                bw.write("vhdl work \"Rx_serie.vhd\"\n");
-                for (int i = 0; i < files.size(); i++) {
-                    bw.write("vhdl work \"" + files.get(i).getAbsolutePath() + "\"\n");
-                }
-
-                
-                bw.write("vhdl work \"Circuito_FPGA.vhd\"");
-                bw.close();
-            //}
+            bw = new BufferedWriter(new FileWriter("IOSerie//Circuito_FPGA.prj"));
+            bw.write("vhdl work \"Tx_serie.vhd\"\n");
+            bw.write("vhdl work \"Rx_serie.vhd\"\n");
+            for (int i = 0; i < ficherosVHD.size(); i++) {
+                bw.write("vhdl work \"" + ficherosVHD.get(i).getAbsolutePath() + "\"\n");
+            }
+            bw.write("vhdl work \"Circuito_FPGA.vhd\"");
+            bw.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            //TODO Mostrar error
         }
     }
 
+    /**
+     * Realiza la ejecución de un circuito. Para ello lee las entradas del banco
+     * de pruebas, las cuales pueden ser ofrecidas desde la pantalla de la
+     * aplicación o directamente desde fichero. A continuación comprueba que
+     * el formato de las entradas es correcto (están compuestas por 0's y 1's
+     * de la misma longitud que el número de entradas que la entidad cargada).
+     * Si la ejecución actual no pertence a uno de los pasos de la reconfiguración
+     * parcial, entonces por cada ejecución se lanzará un nuevo hilo, de tal forma
+     * que podamos visualizar la salida a medida que se va produciendo. Además
+     * este hilo podrá ser detenido en cualquier momento y reanudado más adelante.
+     * Si por el contrario sí pertenece a la reconfiguración parcial, no queremos
+     * que nada más ocurra mientras se está ejecutando, para evitar así que por
+     * ejemplo se cargue el próximo .BIT mientras se está aun ejecutando con el
+     * anterior. Por lo tanto no se lanzará un nuevo hilo sino que se hará de
+     * forma secuencial.
+     * @param lb_reconfiguracionParcial Indica si pertence a un paso de la
+     * reconfiguración parcial
+     */
     public void ejec(boolean lb_reconfiguracionParcial) {
 
         if (this.ejec != null) {
             ejec.pararrecepcionfpga();
             this._TextSalida.setText("");
         }
-
         //Selecciona panel
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
             if (SeleccionTBFich) {
                 try {
-                    bf = new BufferedReader(new FileReader(fichero_tb));
+                    brTB = new BufferedReader(new FileReader(fichero_tb));
 
                 } catch (FileNotFoundException ex) {
                 }
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, bf, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
-                if(ejec.formatoCorrectoFicheroTB(fichero_tb)){
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, brTB, true, "Salida.txt", "Golden.txt", lb_reconfiguracionParcial);
+                if (ejec.formatoCorrectoFicheroTB(fichero_tb)) {
                     this.ejec.setCadena("");
-                    if (!lb_reconfiguracionParcial){
+                    if (!lb_reconfiguracionParcial) {
                         ejec.start();
-                    }else{
-                        ejec.setFileLogEjec(fw);
+                    } else {
+                        ejec.setFileLogEjec(fwLog);
                         ejec.ejecuta();
                     }
                     this._btnReanudar.setEnabled(false);
@@ -468,21 +515,22 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     this.menuOpcionesReanudarEjec.setEnabled(false);
                     this.menuOpcionesPararEjec.setEnabled(true);
 
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
-                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt",lb_reconfiguracionParcial);
+                this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, true, "Salida.txt", "Golden.txt", lb_reconfiguracionParcial);
                 this.ejec.setCadena(ls_cadenaaejecutar);
                 if (ejec.convierteCadenas()) {
-                    if (!lb_reconfiguracionParcial)
+                    if (!lb_reconfiguracionParcial) {
                         ejec.start();
+                    }
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
                     this.menuOpcionesReanudarEjec.setEnabled(false);
                     this.menuOpcionesPararEjec.setEnabled(true);
-                } else {                  
+                } else {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -492,16 +540,24 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     }
 
-    public void setFw(FileWriter fw) {
-        this.fw = fw;
+    /**
+     * Establece el fichero de escritura para el fichero de log del proceso de
+     * reconfiguracion
+     * @param fw
+     */
+    public void setFwLog(FileWriter fw) {
+        this.fwLog = fw;
     }
-
-
 
     private void initComponentsAux() {
         jTabbedPane1 = new JTabbedPaneWithCloseIcon();
     }
 
+    /**
+     * Muestra los errores obtenidos en el proceso de compilación de la entidad
+     * por la pestaña de EntityVHD.
+     * @param errores
+     */
     private void muestraErroresConsola(Errores errores) {
         this._TxtEntityVHD.setText("");
         for (int i = 0; i < errores.getErrores().size(); i++) {
@@ -509,22 +565,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Escribe un carácter que se le pasa como argumento en el text Area correspondiente a la salida de la FPGA.
-     * @param c Carácter a escribir.
-     */
-    public void EscribirDatoPantalla(char c) {
-        this._TextSalida.setText(this._TextSalida.getText() + c + " ");
-    }
-
-    /**
-     * Escribe una cadena que se le pasa como argumento en el text Area correspondiente a la salida de la FPGA.
-     * @param c Cadena a escribir.
-     */
-    public void EscribirDatoPantalla(String c) {
-        this._TextSalida.setText(this._TextSalida.getText() + c + "\n");
-    }
-
+   
     /**
      * Escribe una cadena que se le pasa como argumento en el text Area correspondiente al proceso
      * de cargar un archivo .bit en la FPGA
@@ -534,34 +575,42 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this._TextCargarbit.append(str + "\n");
     }
 
-    public boolean cargarBit(String fichero_bit,boolean ab_mostrar_mensajes) {
+    /**
+     * Carga un fichero .BIT utilizando la interfaz de carga. Realiza 6 intentos
+     * de carga por hubiera algún error ajeno a la aplicación que impidiera
+     * su carga. Si no estamos en el proceso de reconfiguración parcial, se
+     * mostrará un mensaje indicando que la carga del bitstream se ha producido
+     * correctamente.
+     * @param fichero_bit El fichero a cargar
+     * @param ab_mostrar_mensajes Indica si hay que mostrar mensajes de
+     * información de lo ocurrido.
+     * @return
+     */
+    public boolean cargarBit(String fichero_bit, boolean ab_mostrar_mensajes) {
         boolean error = false;
         int intentos = 6;
-        CargaBit cargaBit = new CargaBit(this, fichero_bit,this.RUTA_XILINX+"\\ISE\\bin\\nt\\impact.exe");
+        CargaBit cargaBit = new CargaBit(this, fichero_bit, this.RUTA_XILINX + "\\ISE\\bin\\nt\\impact.exe");
         try {
             do {//si hay un error lo vuelve a intentar
                 error = !cargaBit.cargar(ab_mostrar_mensajes);
                 if (!error) {
-                    if (ab_mostrar_mensajes){
+                    if (ab_mostrar_mensajes) {
                         JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
                     }
                     if (com1 != null) {
                         com1.close();
                         com1 = null;
                     }
-                 }else{
+                } else {
                     intentos--;
-                 }
+                }
             } while (error && intentos > 0);//intenta cargar 6 veces el .bit
         } catch (Exception e) {
             error = true;
         }
-        if(!error){
-            int pos = fichero_bit.lastIndexOf("\\") + 1;
-          //  String fichero = fichero_bit.substring(pos);
-            String fich = fichero_bit;
+        if (!error) {
             _lbl_BitCargado.setText("Ultimo Archivo .BIT cargado : "
-                 + fich);
+                    + fichero_bit);
         }
         return !error;
     }
@@ -1140,7 +1189,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
-        
+
 
         Seleccion sel = new Seleccion();
         new GUICargaVHDL(this, true, sel).setVisible(true);
@@ -1171,15 +1220,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
             chooser.setDialogTitle("Guardar el .BIT");
             chooser.setAcceptAllFileFilterUsed(false);
             String rutaDestino;
-            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 rutaDestino = chooser.getSelectedFile().getAbsolutePath();
-                if(rutaDestino.lastIndexOf(".bit")+ 4 != rutaDestino.length()){
+                if (rutaDestino.lastIndexOf(".bit") + 4 != rutaDestino.length()) {
                     rutaDestino = rutaDestino + ".bit";
                 }
-                    //creamos el prj para poder crear el .bit
+                //creamos el prj para poder crear el .bit
                 this.creaPrj();
                 //compilación y creación del .bit
-                Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX +" " + rutaDestino);
+                Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX + " " + rutaDestino);
                 //Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
             }
         } catch (IOException ex) {
@@ -1191,10 +1240,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
 
         //POsibilidad de ver si se carga con exito
-          if(this.cargarBitConChooser())
+        if (this.cargarBitConChooser()) {
             log.info("Cargar .BIT : Cargado archivo .bit correctamente");
-          else
+        } else {
             log.warn("Cargar .BIT : No se ha podido Cargar el archivo .bit correctamente");
+        }
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
@@ -1204,7 +1254,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 ejec(false);
             }
         } else {
-                ejec(false);
+            ejec(false);
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
 
@@ -1267,8 +1317,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
 
-        if(jTabbedPane1.getComponentCount()>0)
-        {
+        if (jTabbedPane1.getComponentCount() > 0) {
             javax.swing.JPanel panel = (javax.swing.JPanel) jTabbedPane1.getSelectedComponent();
             javax.swing.JScrollPane scrPanel = (javax.swing.JScrollPane) panel.getComponent(0);
             javax.swing.JViewport viewPort = (javax.swing.JViewport) scrPanel.getComponent(0);
@@ -1279,7 +1328,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         ejec.pararrecepcionfpga();
-      
+
     }//GEN-LAST:event_formWindowClosed
 
     private void menuOpcionesCargarVHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarVHDActionPerformed
@@ -1403,16 +1452,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
 private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnGenerarGoldenActionPerformed
     if (this.com1 == null) {
         if (this.inicializarPuertoSerie()) {
-           if(generarGolden())
+            if (generarGolden()) {
                 log.info("Generar Golden : Generado correctamente el archivo golden");
-            else
+            } else {
                 log.warn("Generar Golden : No se ha podido generar correctamente el archivo golden");
+            }
         }
     } else {
-           if(generarGolden())
-                log.info("Generar Golden : Generado correctamente el archivo golden");
-            else
-                log.warn("Generar Golden : No se ha podido generar correctamente el archivo golden");
+        if (generarGolden()) {
+            log.info("Generar Golden : Generado correctamente el archivo golden");
+        } else {
+            log.warn("Generar Golden : No se ha podido generar correctamente el archivo golden");
+        }
     }
 }//GEN-LAST:event__btnGenerarGoldenActionPerformed
 
@@ -1439,30 +1490,30 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event__btnCargarGoldenActionPerformed
 
 private void menuConfigNessyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigNessyActionPerformed
-    String ruta="";
-    if(RUTA_XILINX!=null)
-        ruta=RUTA_XILINX;
-    GUIConfig config = new GUIConfig(this, true,ruta);
+    String ruta = "";
+    if (RUTA_XILINX != null) {
+        ruta = RUTA_XILINX;
+    }
+    GUIConfig config = new GUIConfig(this, true, ruta);
     config.setVisible(true);
 
 }//GEN-LAST:event_menuConfigNessyActionPerformed
 
 private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuConfigFichConfActionPerformed
 
-        JFileChooser chooser;
-        chooser = new JFileChooser();
-        Filtro filter = new Filtro("properties");
-        chooser.addChoosableFileFilter(filter);
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Seleccionar Archivo Configuración");
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setMultiSelectionEnabled(false);
-        files = new ArrayList<File>();
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-        {
-            config(chooser.getSelectedFile().getAbsolutePath(),true);
+    JFileChooser chooser;
+    chooser = new JFileChooser();
+    Filtro filter = new Filtro("properties");
+    chooser.addChoosableFileFilter(filter);
+    chooser.setCurrentDirectory(new java.io.File("."));
+    chooser.setDialogTitle("Seleccionar Archivo Configuración");
+    chooser.setAcceptAllFileFilterUsed(false);
+    chooser.setMultiSelectionEnabled(false);
+    ficherosVHD = new ArrayList<File>();
+    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        config(chooser.getSelectedFile().getAbsolutePath(), true);
 
-        }
+    }
 
 }//GEN-LAST:event_menuConfigFichConfActionPerformed
 
@@ -1470,18 +1521,18 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
     this._btnPararReconf.setEnabled(true);
     this._btnPararReconf.setVisible(true);
 
-   /* if(this.reconfiguracion != null){
-        this.reconfiguracion.pararreconfiguracionparcial();
+    /* if(this.reconfiguracion != null){
+    this.reconfiguracion.pararreconfiguracionparcial();
     }*/
     seleccionaPanel(panelOutPut);
-    reconfiguracion = new Reconfiguracion_Parcial(this,RUTA_IOSERIE) ;
+    reconfiguracion = new Reconfiguracion_Parcial(this, RUTA_IOSERIE);
     reconfiguracion.start();
-   /* if(procesoModificarFicheros())
-        log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
+    /* if(procesoModificarFicheros())
+    log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
     else
-        log.warn("Reconfiguración Parcial :No se ha podido ejecutar " +
-                "correctamente Reconfiguración Parcial");*/
-  
+    log.warn("Reconfiguración Parcial :No se ha podido ejecutar " +
+    "correctamente Reconfiguración Parcial");*/
+
 }//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
 
 private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararReconfActionPerformed
@@ -1493,8 +1544,8 @@ private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//G
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
-        log.info("Finalizado Nessy 2.0");
-        log.info("=====================================================\n");
+    log.info("Finalizado Nessy 2.0");
+    log.info("=====================================================\n");
 }//GEN-LAST:event_formWindowClosing
 
 private void menuOpcionesGeneraGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesGeneraGoldenActionPerformed
@@ -1508,11 +1559,11 @@ private void menuOpcionesCargarGoldenActionPerformed(java.awt.event.ActionEvent 
 private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesReconfParcialActionPerformed
     _btnCargBitReconfParcialActionPerformed(evt);
 }//GEN-LAST:event_menuOpcionesReconfParcialActionPerformed
-/**
- * Actualiza el numero de instrucción que se está ejecutando.
- * @param inst Número de instruccion actual.
- */
-public void setNumeroInst(int inst) {
+    /**
+     * Actualiza el numero de instrucción que se está ejecutando.
+     * @param inst Número de instruccion actual.
+     */
+    public void setNumeroInst(int inst) {
         this._lblnInst.setText(Integer.toString(inst));
     }
     /**
@@ -1653,7 +1704,7 @@ public void setNumeroInst(int inst) {
             seleccionaPanel(panelTB);
 
         } else {
-           log.info("Seleccion TB no realizada ");
+            log.info("Seleccion TB no realizada ");
             error = true;
         }
         return !error;
@@ -1729,16 +1780,21 @@ public void setNumeroInst(int inst) {
 
             }
         } catch (Exception ex) {
-            log.error("Selecciona Panel() : "+ex);
+            log.error("Selecciona Panel() : " + ex);
 //            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
-  public boolean SeleccionTBModifFichero (){
+    /**
+     * Abre un selector de ficheros para seleccionar un test bench y a continuación
+     * genera una salida golden a partir de él. Utilizado para el comienzo
+     * del proceso de reconfiguración parcial
+     * @return true si ha sido correcto y false en caso contrario
+     */
+    public boolean SeleccionTBModifFichero() {
         boolean correcto = false;
         SeleccionTBFich = true;
-        if (cargaFicheroTB()){
+        if (cargaFicheroTB()) {
             if (this.com1 == null) {
                 if (this.inicializarPuertoSerie()) {
                     return generarGolden();
@@ -1748,47 +1804,44 @@ public void setNumeroInst(int inst) {
             }
         }
         return correcto;
-  }
+    }
 
-    private void config(String fichConf,boolean cargaFich) {
+    /**
+     * Vuelve a cargar la configuracón de la aplicación
+     * @param fichConf El fichero de configuración
+     * @param cargaFich Indica si hay que carga desde fichero
+     */
+    private void config(String fichConf, boolean cargaFich) {
 
         Properties prop = new Properties();
         InputStream is = null;
-        try
-        {
-            is=new FileInputStream(fichConf);
+        try {
+            is = new FileInputStream(fichConf);
             prop.load(is);
-           // Enumeration enume=prop.propertyNames();
+            // Enumeration enume=prop.propertyNames();
 
-            RUTA_XILINX=prop.getProperty("HomeXilinx");
-            if (cargaFich )
-            {
-                if(RUTA_XILINX==null||RUTA_XILINX.equals(""))
-                {
-                    JOptionPane.showMessageDialog(this, "" +
-                        "El fichero de configuración seleccionado " +
-                        "no es valido", "Info", JOptionPane.INFORMATION_MESSAGE);
+            RUTA_XILINX = prop.getProperty("HomeXilinx");
+            if (cargaFich) {
+                if (RUTA_XILINX == null || RUTA_XILINX.equals("")) {
+                    JOptionPane.showMessageDialog(this, ""
+                            + "El fichero de configuración seleccionado "
+                            + "no es valido", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
 
 
-            }
-            else{
+            } else {
 
-                while(RUTA_XILINX==null||RUTA_XILINX.equals(""))
-                {
-                    GUIConfig config = new GUIConfig(this, true,"");
+                while (RUTA_XILINX == null || RUTA_XILINX.equals("")) {
+                    GUIConfig config = new GUIConfig(this, true, "");
                     config.setVisible(true);
-                    is=new FileInputStream(fichConf);
+                    is = new FileInputStream(fichConf);
                     prop.load(is);
-                    RUTA_XILINX=prop.getProperty("HomeXilinx");
+                    RUTA_XILINX = prop.getProperty("HomeXilinx");
 
                 }
             }
 
-        }
-        catch(IOException ioe)
-        {
-
+        } catch (IOException ioe) {
         }
 
     }
@@ -1816,8 +1869,11 @@ public void setNumeroInst(int inst) {
 
     }
 
+    /**
+     * Obtiene el interfaz de puerto serie
+     * @return El valor del atributo com1
+     */
     public Com getCom1() {
         return com1;
     }
-
 }

@@ -25,12 +25,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-              <Component id="_lbl_HomeXilins" min="-2" pref="84" max="-2" attributes="0"/>
+              <Component id="_lbl_HomeXilinx" min="-2" pref="84" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="_txt_HomeXilins" min="-2" pref="330" max="-2" attributes="0"/>
+              <Component id="_txt_HomeXilinx" min="-2" pref="330" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="_btn_HomeXilins" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <Component id="_btn_HomeXilinx" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="229" max="32767" attributes="0"/>
@@ -38,7 +38,7 @@
               <EmptySpace min="-2" pref="220" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="180" max="32767" attributes="0"/>
+              <EmptySpace pref="182" max="32767" attributes="0"/>
               <Component id="_btnOK" min="-2" pref="78" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
               <Component id="_btnCancelar" min="-2" max="-2" attributes="0"/>
@@ -53,9 +53,9 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="_lbl_HomeXilins" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="_btn_HomeXilins" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="_txt_HomeXilins" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="_lbl_HomeXilinx" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="_btn_HomeXilinx" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="_txt_HomeXilinx" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="37" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -68,22 +68,22 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="_lbl_HomeXilins">
+    <Component class="javax.swing.JLabel" name="_lbl_HomeXilinx">
       <Properties>
         <Property name="text" type="java.lang.String" value="Home Xilinx ISE :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="_txt_HomeXilins">
+    <Component class="javax.swing.JTextField" name="_txt_HomeXilinx">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="_txt_HomeXilins.setText(rutaXilins);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="_txt_HomeXilinx.setText(rutaXilinx);"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="_btn_HomeXilins">
+    <Component class="javax.swing.JButton" name="_btn_HomeXilinx">
       <Properties>
         <Property name="text" type="java.lang.String" value="Seleccion"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_HomeXilinsActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btn_HomeXilinxActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

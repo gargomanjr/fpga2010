@@ -96,7 +96,7 @@ public class Reconfiguracion_Parcial extends Thread {
 
                 FileWriter fw = new FileWriter(new File("salidas//logEjec.txt"));
                 String fichero = gui.getFichero_bit();
-                gui.setFw(fw);
+                gui.setFwLog(fw);
                 while (frame < numFrames && ejecutandoReconfiguracion) {
                     bit = 0;
                     while (bit < numBits && ejecutandoReconfiguracion) {
