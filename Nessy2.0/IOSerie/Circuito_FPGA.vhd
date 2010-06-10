@@ -12,7 +12,7 @@
 --	Carlos Sanchez-Vellisco Sanchez
 --	Facultad de Informatica. Universidad Complutense de Madrid
 --Fecha: 
---	Wed Jun 09 20:58:37 CEST 2010
+--	Thu Jun 10 23:02:35 CEST 2010
 --------------------------------------------------------------------------------
 
 library IEEE;
@@ -113,7 +113,7 @@ signal ledsEnt:std_logic_vector(1 downto 0);
 signal ledsSal:std_logic_vector(1 downto 0);
 
 
---Señales necesarias para la correcta entrada/salida
+--Señales necesarias para la correcta entrada/salida con 32 bits
 signal fin_recepcion : std_logic;
 signal recibido,transmitido,biest_recibido, biest_transmitido: std_logic;
 signal frecibido,ftransmitido,fin: std_logic;  --flancos de fin
@@ -271,7 +271,7 @@ ledsSalida <= ledsSal;
 
 
 --El reloj del circuito principal será el flanco que indique el fin de la recepción
-mi_clk <= recibido;
+mi_compiladorEntidad.Entrada@54b4b0a4 <= recibido;
 
 --Asignación de las señales del circuito general
 mi_resetserie <= reset;
