@@ -128,78 +128,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public void setCerradoTop(boolean cerradoTop) {
         this.cerradoTop = cerradoTop;
     }
-    /**
-     * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa,
-     * e ir comparando con nuestra salida Golden.
-     * NOTA : No muestra mensajes de aviso, aunque no coincidan la salida del .bit modificado, con nuestra salida GOLDEN.
-     *
-    public boolean procesoModificarFicheros() {
-        int numBits = 32;
-        int numFrames = 36194;
-        /*int numBits = 3;
-        int numFrames = 1;
-
-        boolean b=false;
-        ejecutandoReconfiguracion = true;
-        if (cargarBitConChooser() && SeleccionTBModifFichero()){
-            seleccionaPanel(panelOutPut);
-            int frame = 1;
-            int bit = 0;
-            while (frame < numFrames && ejecutandoReconfiguracion){
-                bit = 0;
-                while (bit < numBits && ejecutandoReconfiguracion){
-                    try {                        
-                        Thread.sleep(4000);
-                        fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit+"\n");
-                        System.out.println("\n\n********** Modificando FRAME: " + frame + " BIT: " + bit+" ************");
-
-                        String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
-                        fw.write("Ejecutando: " + coms+"\n");
-                        System.out.println("Modificando .bit");
-                        Process p = Runtime.getRuntime().exec(coms);
-                        p.waitFor();
-
-                        System.out.println("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit");
-                        fw.write("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit\n");
-                        this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modif.bit",false);
-                        if (this.com1 == null) {
-                            fw.write("Ejecutando...\n");
-                            if (this.inicializarPuertoSerie()) {
-                                 ejec(true);
-                            }
-                        } else {
-                            ejec(true);
-                        }
-                        System.out.println("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit");
-                        fw.write("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit\n");
-                        b=this.cargarBit(RUTA_IOSERIE+"\\circuito_fpga_modifRestorer.bit",false);
-
-
-                    } catch (FileNotFoundException ex) {
-
-//                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                             return false;
-                    } catch (IOException ex) {
-                       //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                            return false;
-                    }
-                    catch (InterruptedException ex) {
-//                            java.util.logging.Logger.getLogger(GUIPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                        return false;
-                    }
-                    bit ++;
-                }
-                frame ++;
-            }
-        }
-        try {
-            fw.close();
-        } catch (IOException ex) {
-        }
-        ejecutandoReconfiguracion = false;
-        return b;
-    }*/
-
+    
     /**
      * Genera el archivo Golden.txt que será el fichero con el que compararemos nuestras salidas.
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
@@ -1253,15 +1182,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX +" " + rutaDestino);
                 //Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
             }
-            chooser.showOpenDialog(this);
-            String rutadestino = chooser.getSelectedFile().getAbsolutePath();
-            if(rutadestino.lastIndexOf(".bit")+ 4 != rutadestino.length())
-                rutadestino = rutadestino + ".bit";
-            //creamos el prj para poder crear el .bit
-            this.creaPrj();
-            //compilación y creación del .bit
-            Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX);
-            //Copiamos el archivo nuevo generado en la ruta y nombre especificasa por el usuario.
         } catch (IOException ex) {
             //Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1554,7 +1474,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
         this.reconfiguracion.pararreconfiguracionparcial();
     }*/
     seleccionaPanel(panelOutPut);
-    reconfiguracion = new Reconfiguracion_Parcial(this,RUTA_IOSERIE,fichero_bit) ;
+    reconfiguracion = new Reconfiguracion_Parcial(this,RUTA_IOSERIE) ;
     reconfiguracion.start();
    /* if(procesoModificarFicheros())
         log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
@@ -1741,7 +1661,6 @@ public void setNumeroInst(int inst) {
 
     public void seleccionaPanel(JPanel panel) {
         try {
-            // TODO: mandar enable a la placa
             if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panel)) {
                 jTabbedPane1.setSelectedComponent(panel);
             } else {

@@ -19,4 +19,6 @@ cd %pwd%
 call bitgen.bat %1%
 cd %pwd%
 %pwd:~0,2%
+copy ..\IOSerie\circuito_fpga.bit %2
+call clearFiles
 rem exit

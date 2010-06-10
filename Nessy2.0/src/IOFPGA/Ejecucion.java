@@ -9,7 +9,6 @@ import compiladorEntidad.Entidad;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -568,6 +567,13 @@ public class Ejecucion extends Thread {
         this.enviarBinaria(cadenaReset);
     }
 
+    /**
+     * Escribe la cadena s en el fichero de log en el que se introducen todos
+     * los detalles de ejecución para el caso del proceso de reconfiguración.
+     * Se controla que el fichero esté inicializado para el caso de ejecuciones
+     * en las que no se escribe en el log (ejecuciones simples).
+     * @param s La cadena que se desea escribir en el fichero de log.
+     */
     public void escribeEnLog(String s){
         if (this.ficheroLogEjec != null){
             try {
