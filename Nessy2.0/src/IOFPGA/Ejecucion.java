@@ -105,7 +105,7 @@ public class Ejecucion extends Thread {
      * Ruta donde serán almacenados los ficheros correspondientes a la ejecución
      * tales como la salida de la última ejecución y la salida golden.
      */
-    static String rutaficherosSalida = System.getProperties().getProperty("user.dir") + "\\test";
+    static String rutaficherosSalida = System.getProperties().getProperty("user.dir") + "\\salidas";
 
     /**
      * Fichero donde se volcará la salida
@@ -427,7 +427,7 @@ public class Ejecucion extends Thread {
                     file_wr.close();
                     if (comparar && !coincideTraza && mostrarMensaje) {
                         if (!reconfiguracionParcial) {
-                            JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida Golden. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                         }
                         this.escribeEnLog("La salida no coincide con Salida Golden en la instruccion: " + NumInstrNoCoincideTraza+"\n\n");
                         System.out.println("LA EJECUCION HA SIDO MODIFICADA. Ver log al finalizar");
@@ -475,16 +475,16 @@ public class Ejecucion extends Thread {
             rw.close();
             if (comparar && coincideTraza) {
                 if (!reconfiguracionParcial) {
-                    JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Traza", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual coincide con la Golden", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
-                this.escribeEnLog("La Salida actual coincide con la Traza\n\n");
+                this.escribeEnLog("La Salida actual coincide con la Golden\n\n");
                 System.out.println("Ejecucion correcta");
             } else {
                 if (comparar && mostrarMensaje) {
                     if (!reconfiguracionParcial) {
                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    this.ficheroLogEjec.write("La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza+"\n\n");
+                    this.ficheroLogEjec.write("La Salida actual NO coincide con la salida Golden. Revise Instrucción num: " + NumInstrNoCoincideTraza+"\n\n");
                     System.out.println("LA EJECUCION HA SIDO MODIFICADA. Ver log al finalizar");
 
                     mostrarMensaje = false;

@@ -33,7 +33,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -133,12 +132,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * Proceso encargado de ir modificando bit a bit el fichero .bit que tenemos cargado en la placa,
      * e ir comparando con nuestra salida Golden.
      * NOTA : No muestra mensajes de aviso, aunque no coincidan la salida del .bit modificado, con nuestra salida GOLDEN.
-     */
+     *
     public boolean procesoModificarFicheros() {
         int numBits = 32;
         int numFrames = 36194;
         /*int numBits = 3;
-        int numFrames = 1;*/
+        int numFrames = 1;
 
         boolean b=false;
         ejecutandoReconfiguracion = true;
@@ -146,10 +145,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             seleccionaPanel(panelOutPut);
             int frame = 1;
             int bit = 0;
-            try {
-                fw = new FileWriter(new File("test//logEjec.txt"));
-            } catch (IOException ex) {
-            }
             while (frame < numFrames && ejecutandoReconfiguracion){
                 bit = 0;
                 while (bit < numBits && ejecutandoReconfiguracion){
@@ -158,10 +153,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                         fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit+"\n");
                         System.out.println("\n\n********** Modificando FRAME: " + frame + " BIT: " + bit+" ************");
 
-                        String coms = "cmd.exe /C start java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
+                        String coms = "java -jar Virtex_II_Partial_Reconfiguration.jar -i "+fichero_bit+" -o "+RUTA_IOSERIE+"\\circuito_fpga_modif -f "+ frame +" -b "+ bit;
                         fw.write("Ejecutando: " + coms+"\n");
                         System.out.println("Modificando .bit");
                         Process p = Runtime.getRuntime().exec(coms);
+                        p.waitFor();
 
                         System.out.println("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit");
                         fw.write("Cargando BIT: " + RUTA_IOSERIE+"\\circuito_fpga_modif.bit\n");
@@ -202,7 +198,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         ejecutandoReconfiguracion = false;
         return b;
-    }
+    }*/
 
     /**
      * Genera el archivo Golden.txt que será el fichero con el que compararemos nuestras salidas.
@@ -217,6 +213,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
+            System.out.println("Generando salida golden");
             if (SeleccionTBFich) {
                 try {
                     bf = new BufferedReader(new FileReader(fichero_tb));
@@ -340,7 +337,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      
         PropertyConfigurator.configure("conf/log4j.properties");
 
-        reconf("conf/Config.properties",false);
+        config("conf/Config.properties",false);
         initComponentsAux();
         initComponents();
         this._btnReanudar.setEnabled(false);
@@ -633,9 +630,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         if(!error){
             int pos = fichero_bit.lastIndexOf("\\") + 1;
           //  String fichero = fichero_bit.substring(pos);
-            String fichero = fichero_bit;
+            String fich = fichero_bit;
             _lbl_BitCargado.setText("Ultimo Archivo .BIT cargado : "
-                 + fichero);
+                 + fich);
         }
         return !error;
     }
@@ -1242,8 +1239,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
             Filtro filter = new Filtro("bit");
             chooser.addChoosableFileFilter(filter);
             chooser.setCurrentDirectory(new java.io.File("."));
-            chooser.setDialogTitle("Guardar Como");
+            chooser.setDialogTitle("Guardar el .BIT");
             chooser.setAcceptAllFileFilterUsed(false);
+            String rutaDestino;
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                rutaDestino = chooser.getSelectedFile().getAbsolutePath();
+                if(rutaDestino.lastIndexOf(".bit")+ 4 != rutaDestino.length()){
+                    rutaDestino = rutaDestino + ".bit";
+                }
+                    //creamos el prj para poder crear el .bit
+                this.creaPrj();
+                //compilación y creación del .bit
+                Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX +" " + rutaDestino);
+                //Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
+            }
             chooser.showOpenDialog(this);
             String rutadestino = chooser.getSelectedFile().getAbsolutePath();
             if(rutadestino.lastIndexOf(".bit")+ 4 != rutadestino.length())
@@ -1253,9 +1262,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
             //compilación y creación del .bit
             Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX);
             //Copiamos el archivo nuevo generado en la ruta y nombre especificasa por el usuario.
-            Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX + " "+rutadestino);
         } catch (IOException ex) {
-  //          Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event__btnCrearBitActionPerformed
@@ -1532,7 +1540,7 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
         files = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            reconf(chooser.getSelectedFile().getAbsolutePath(),true);
+            config(chooser.getSelectedFile().getAbsolutePath(),true);
 
         }
 
@@ -1823,7 +1831,7 @@ public void setNumeroInst(int inst) {
         return correcto;
   }
 
-    private void reconf(String fichConf,boolean cargaFich) {
+    private void config(String fichConf,boolean cargaFich) {
 
         Properties prop = new Properties();
         InputStream is = null;
