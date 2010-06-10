@@ -228,6 +228,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 ejec.start();
                 this._btnReanudar.setEnabled(false);
                 this._btnPararEjecucion.setEnabled(true);
+                this.menuOpcionesReanudarEjec.setEnabled(false);
+                this.menuOpcionesPararEjec.setEnabled(true);
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
                 this.ejec = new Ejecucion(this._lblnInst, this.entidad, this.com1, this._TextSalida, false, "Golden.txt", "Traza.txt",false);
@@ -237,6 +239,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     //this.jTabbedPane1.setSelectedIndex(3);
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
+                    this.menuOpcionesReanudarEjec.setEnabled(false);
+                    this.menuOpcionesPararEjec.setEnabled(true);
                 } else {                
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -341,12 +345,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
         initComponents();
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
+        this.menuOpcionesReanudarEjec.setEnabled(false);
+        this.menuOpcionesPararEjec.setEnabled(false);
         this.files = new ArrayList<File>();
 
         log.info("=====================================================");
         log.info("Inicializado Nessy 2.0");
         ejecutandoReconfiguracion = false;
         _btnPararReconf.setEnabled(false);
+
         
     }
     /**
@@ -402,7 +409,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         files = new ArrayList<File>();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            deshabilitarBtn();
+            deshabilitarBtnYmenu();
             files.add(chooser.getSelectedFile());
             fichero = files.get(0).getAbsolutePath();
             _lbl_VHDLCargado.setText("Ultimo Top VHDL cargado : "+
@@ -427,7 +434,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //try {
-            deshabilitarBtn();
+            deshabilitarBtnYmenu();
             ArrayList<String> ficheros = new ArrayList<String>();
             // fichero = chooser.getSelectedFile().getAbsolutePath();
             File[] f = chooser.getSelectedFiles();
@@ -531,6 +538,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     }
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
+                    this.menuOpcionesReanudarEjec.setEnabled(false);
+                    this.menuOpcionesPararEjec.setEnabled(true);
+
                 }else{
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -543,6 +553,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
                         ejec.start();
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);
+                    this.menuOpcionesReanudarEjec.setEnabled(false);
+                    this.menuOpcionesPararEjec.setEnabled(true);
                 } else {                  
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -678,6 +690,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuOpcionesEjec = new javax.swing.JMenuItem();
         menuOpcionesPararEjec = new javax.swing.JMenuItem();
         menuOpcionesReanudarEjec = new javax.swing.JMenuItem();
+        menuOpcionesGeneraGolden = new javax.swing.JMenuItem();
+        menuOpcionesCargarGolden = new javax.swing.JMenuItem();
+        menuOpcionesReconfParcial = new javax.swing.JMenuItem();
         menuVistas = new javax.swing.JMenu();
         menuVistasEntityVHD = new javax.swing.JMenuItem();
         menuVistasCargar = new javax.swing.JMenuItem();
@@ -842,7 +857,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -952,13 +967,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
                     .addComponent(_lbl_VHDLCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(469, 469, 469))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addComponent(_btnPararReconf)
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(455, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -1072,6 +1087,39 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         menuOpciones.add(menuOpcionesReanudarEjec);
 
+        menuOpcionesGeneraGolden.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesGeneraGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuGeneraGolden.png"))); // NOI18N
+        menuOpcionesGeneraGolden.setText("Generar Golden");
+        menuOpcionesGeneraGolden.setEnabled(false);
+        menuOpcionesGeneraGolden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuOpcionesGeneraGoldenActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuOpcionesGeneraGolden);
+
+        menuOpcionesCargarGolden.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesCargarGolden.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargaGolden.jpg"))); // NOI18N
+        menuOpcionesCargarGolden.setText("Cargar Golden");
+        menuOpcionesCargarGolden.setEnabled(false);
+        menuOpcionesCargarGolden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuOpcionesCargarGoldenActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuOpcionesCargarGolden);
+
+        menuOpcionesReconfParcial.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        menuOpcionesReconfParcial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menureconParc.JPG"))); // NOI18N
+        menuOpcionesReconfParcial.setText("Reconfiguración Parcial");
+        menuOpcionesReconfParcial.setEnabled(false);
+        menuOpcionesReconfParcial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuOpcionesReconfParcialActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuOpcionesReconfParcial);
+
         jMenuBar1.add(menuOpciones);
 
         menuVistas.setText("Vistas");
@@ -1141,7 +1189,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1174,6 +1222,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnCargarBit.setEnabled(true);
         _btnCargarTB.setEnabled(true);
         _btnCargBitReconfParcial.setEnabled(true);
+        this.menuOpcionesCrearBit.setEnabled(true);
+        this.menuOpcionesCargarBit.setEnabled(true);
+        this.menuOpcionesCargarTB.setEnabled(true);
+        this.menuOpcionesReconfParcial.setEnabled(true);
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -1230,6 +1282,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         this.ejec.setSetwait(true);
         this._btnReanudar.setEnabled(true);
         this._btnPararEjecucion.setEnabled(false);
+        this.menuOpcionesReanudarEjec.setEnabled(true);
+        this.menuOpcionesPararEjec.setEnabled(false);
 
     }//GEN-LAST:event__btnPararEjecucionActionPerformed
 
@@ -1242,6 +1296,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(true);
+        this.menuOpcionesReanudarEjec.setEnabled(false);
+        this.menuOpcionesPararEjec.setEnabled(true);
 
     }//GEN-LAST:event__btnReanudarActionPerformed
 
@@ -1269,6 +1325,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
         _btnEjecutar.setEnabled(true);
         _btnCargarGolden.setEnabled(true);
         _btnGenerarGolden.setEnabled(true);
+        this.menuOpcionesEjec.setEnabled(true);
+        this.menuOpcionesCargarGolden.setEnabled(true);
+        this.menuOpcionesGeneraGolden.setEnabled(true);
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1477,6 +1536,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
    /* if(this.reconfiguracion != null){
         this.reconfiguracion.pararreconfiguracionparcial();
     }*/
+    seleccionaPanel(panelOutPut);
     reconfiguracion = new Reconfiguracion_Parcial(this,RUTA_IOSERIE,fichero_bit) ;
     reconfiguracion.start();
    /* if(procesoModificarFicheros())
@@ -1498,6 +1558,18 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
         log.info("Finalizado Nessy 2.0");
         log.info("=====================================================\n");
 }//GEN-LAST:event_formWindowClosing
+
+private void menuOpcionesGeneraGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesGeneraGoldenActionPerformed
+    _btnGenerarGoldenActionPerformed(evt);
+}//GEN-LAST:event_menuOpcionesGeneraGoldenActionPerformed
+
+private void menuOpcionesCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesCargarGoldenActionPerformed
+    _btnCargarGoldenActionPerformed(evt);
+}//GEN-LAST:event_menuOpcionesCargarGoldenActionPerformed
+
+private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpcionesReconfParcialActionPerformed
+    _btnCargBitReconfParcialActionPerformed(evt);
+}//GEN-LAST:event_menuOpcionesReconfParcialActionPerformed
 /**
  * Actualiza el numero de instrucción que se está ejecutando.
  * @param inst Número de instruccion actual.
@@ -1544,12 +1616,15 @@ public void setNumeroInst(int inst) {
     private javax.swing.JMenuItem menuConfigNessy;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuOpcionesCargarBit;
+    private javax.swing.JMenuItem menuOpcionesCargarGolden;
     private javax.swing.JMenuItem menuOpcionesCargarTB;
     private javax.swing.JMenuItem menuOpcionesCargarVHD;
     private javax.swing.JMenuItem menuOpcionesCrearBit;
     private javax.swing.JMenuItem menuOpcionesEjec;
+    private javax.swing.JMenuItem menuOpcionesGeneraGolden;
     private javax.swing.JMenuItem menuOpcionesPararEjec;
     private javax.swing.JMenuItem menuOpcionesReanudarEjec;
+    private javax.swing.JMenuItem menuOpcionesReconfParcial;
     private javax.swing.JMenu menuVistas;
     private javax.swing.JMenuItem menuVistasCargar;
     private javax.swing.JMenuItem menuVistasEntityVHD;
@@ -1781,7 +1856,7 @@ public void setNumeroInst(int inst) {
 
     }
 
-    private void deshabilitarBtn() {
+    private void deshabilitarBtnYmenu() {
         _btnCrearBit.setEnabled(false);
         _btnCargarBit.setEnabled(false);
         _btnEjecutar.setEnabled(false);
@@ -1791,6 +1866,17 @@ public void setNumeroInst(int inst) {
         _btnCargarGolden.setEnabled(false);
         _btnCargarTB.setEnabled(false);
         _btnCargBitReconfParcial.setEnabled(false);
+
+        menuOpcionesCrearBit.setEnabled(false);
+        menuOpcionesCargarBit.setEnabled(false);
+        menuOpcionesEjec.setEnabled(false);
+        menuOpcionesPararEjec.setEnabled(false);
+        menuOpcionesReanudarEjec.setEnabled(false);
+        menuOpcionesGeneraGolden.setEnabled(false);
+        menuOpcionesCargarGolden.setEnabled(false);
+        menuOpcionesCargarTB.setEnabled(false);
+        menuOpcionesReconfParcial.setEnabled(false);
+
     }
 
     public Com getCom1() {
