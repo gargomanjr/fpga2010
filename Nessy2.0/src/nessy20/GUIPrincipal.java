@@ -1028,6 +1028,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuOpcionesCrearBit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesCrearBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCrearBit.png"))); // NOI18N
         menuOpcionesCrearBit.setText("Crear .Bit");
+        menuOpcionesCrearBit.setEnabled(false);
         menuOpcionesCrearBit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuOpcionesCrearBitActionPerformed(evt);
@@ -1038,6 +1039,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuOpcionesCargarBit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesCargarBit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarBit.png"))); // NOI18N
         menuOpcionesCargarBit.setText("Cargar .Bit");
+        menuOpcionesCargarBit.setEnabled(false);
         menuOpcionesCargarBit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuOpcionesCargarBitActionPerformed(evt);
@@ -1048,6 +1050,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuOpcionesCargarTB.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarTB.png"))); // NOI18N
         menuOpcionesCargarTB.setText("Cargar TB");
+        menuOpcionesCargarTB.setEnabled(false);
         menuOpcionesCargarTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuOpcionesCargarTBActionPerformed(evt);
@@ -1058,6 +1061,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuOpcionesEjec.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesEjec.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuEjec.png"))); // NOI18N
         menuOpcionesEjec.setText("Ejecutar");
+        menuOpcionesEjec.setEnabled(false);
         menuOpcionesEjec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuOpcionesEjecActionPerformed(evt);
