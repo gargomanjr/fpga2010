@@ -108,8 +108,6 @@ begin
 	-- Asignación de señales --
 	
 	-- Como en la placa los botones están negados, negamos el reset.
-	
-	--salida(3 downto 0)<=aux(31 downto 28);
 	salida <= misalida;
 	mireset <= not reset;
    mienable <= enable;
