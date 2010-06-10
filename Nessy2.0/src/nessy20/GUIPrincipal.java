@@ -338,9 +338,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
     public GUIPrincipal() {
         
      
-        PropertyConfigurator.configure("src/recursos/log4j.properties");
+        PropertyConfigurator.configure("conf/log4j.properties");
 
-        reconf("src/recursos/Config.properties",false);
+        reconf("conf/Config.properties",false);
         initComponentsAux();
         initComponents();
         this._btnReanudar.setEnabled(false);

@@ -151,10 +151,10 @@ public class GUIConfig extends javax.swing.JDialog {
             InputStream is = null;
             Properties prop = new Properties();
             //Para leer prop
-           // is = new FileInputStream("src/recursos/Config.properties");
+           // is = new FileInputStream("conf/Config.properties");
          //   prop.load(is);
             prop.setProperty("HomeXilinx", rutaXilins);
-            prop.store(new FileOutputStream("src/recursos/Config.properties"), "rutas");
+            prop.store(new FileOutputStream("conf/Config.properties"), "rutas");
             this.dispose();
         } catch (IOException ex) {
        //     Logger.getLogger(GUIConfig.class.getName()).log(Level.SEVERE, null, ex);
