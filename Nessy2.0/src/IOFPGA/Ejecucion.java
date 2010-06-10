@@ -403,6 +403,9 @@ public class Ejecucion extends Thread {
      */
     public void ejecuta() {
         try {
+            if(!fichero_compararTraza.exists()){
+                fichero_compararTraza.createNewFile();
+            }
             FileReader fr = new FileReader(fichero_compararTraza);
             BufferedReader rw = new BufferedReader(fr);
             FileWriter file_wr;
