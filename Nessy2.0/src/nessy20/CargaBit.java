@@ -47,6 +47,8 @@ public class CargaBit {
 
     /**
      * Procedimiento que carga un archivo .bit en la FPGA.
+     * @param escribirEnPantalla Para no escribir la salida en la pantalla
+     * en caso de que estemos en el proceso de reconfiguración.
      * @return Cierto si se ha conseguido cargar correctamente, falso en caso contrario.
      * @throws java.io.FileNotFoundException
      */

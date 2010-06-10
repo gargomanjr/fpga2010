@@ -42,6 +42,7 @@ public class JTabbedPaneWithCloseIcon extends JTabbedPane implements MouseListen
     addMouseListener(this);
   }
  
+    @Override
   public void addTab(String title, Component component) {
 
     tablaPaneles.put(component, true);

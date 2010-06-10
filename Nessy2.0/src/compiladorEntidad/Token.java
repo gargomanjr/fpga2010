@@ -29,7 +29,6 @@ public class Token {
      * @param codigo Código del Token.
      * @param lexema String del Token
      * @param numLinea Entero que indica la línea donde se encuentra el token dentro del fichero.
-     * @param numColumna Entero donde se encuentra el token dentro del fichero.
      */
     public Token(int codigo, String lexema, int numLinea) {
 

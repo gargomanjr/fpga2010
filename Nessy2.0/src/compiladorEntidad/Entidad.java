@@ -3,9 +3,10 @@ package compiladorEntidad;
 import java.util.ArrayList;
 
 /**
+ * Clase que representa una entidad vhdl.
  *
  * @author Carlos, David y Tony
- * Clase que representa una entidad vhdl.
+ * 
  */
 public class Entidad {
 

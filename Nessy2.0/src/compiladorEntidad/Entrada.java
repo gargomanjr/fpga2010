@@ -1,10 +1,8 @@
 package compiladorEntidad;
 
-/*
- * Clase que representa la entrada de una entidad
- */
 
 /**
+ * Clase que representa la entrada de una entidad
  *
  * @author Carlos, David y Tony
  */

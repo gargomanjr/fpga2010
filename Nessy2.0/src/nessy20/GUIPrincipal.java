@@ -147,7 +147,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     /**
      * Devuelve el Array de ficheros Vhdl Cargados en la aplicación.
-     * @return
+     * @return Valor del atributo ficherosVHD
      */
     public ArrayList<File> getFiles() {
         return ficherosVHD;
@@ -584,7 +584,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * @param fichero_bit El fichero a cargar
      * @param ab_mostrar_mensajes Indica si hay que mostrar mensajes de
      * información de lo ocurrido.
-     * @return
+     * @return true si ha sido correcta la ejecucion y false en caso contrario
      */
     public boolean cargarBit(String fichero_bit, boolean ab_mostrar_mensajes) {
         boolean error = false;
@@ -1567,7 +1567,7 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
         this._lblnInst.setText(Integer.toString(inst));
     }
     /**
-     * @param args the command line arguments
+     * 
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea _TextCargarbit;
@@ -1710,6 +1710,10 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
         return !error;
     }
 
+    /**
+     * Selecciona uno de las cuatro pestañas según lo pasado por parámetro
+     * @param panel Panel al que se quiere cambiar
+     */
     public void seleccionaPanel(JPanel panel) {
         try {
             if ((Boolean) ((JTabbedPaneWithCloseIcon) jTabbedPane1).getTablaPaneles().get(panel)) {

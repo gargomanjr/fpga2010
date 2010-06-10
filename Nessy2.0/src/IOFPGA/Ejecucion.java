@@ -24,9 +24,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Carlos
- *
  * Clase encargada de hacer que se ejecute correctamente el circuito cargado
  * en la FPGA. Contiene los métodos necesarios para el envío y la recepción de
  * datos cn dicho dispositivo. La ejecución se hará a través de un Test Bench o
@@ -35,6 +32,9 @@ import javax.swing.JTextField;
  * Hereda de la clase Thread puesto que en ocasiones queremos que la ejecución
  * se realice en paralelo con la escritura en la interfaz gráfica, operaciones que
  * no pueden ser realizadas a la vez si no es en hilos diferentes.
+ *
+ * @author Carlos
+ * 
  */
 public class Ejecucion extends Thread {
 
@@ -272,6 +272,10 @@ public class Ejecucion extends Thread {
         this.setwait = setwait;
     }
 
+    /**
+     * Establece el fichero de escritura para el log de ejecucion
+     * @param wr El fichero de escritura
+     */
     public void setFileLogEjec(FileWriter wr){
         this.ficheroLogEjec = wr;
     }
@@ -398,7 +402,6 @@ public class Ejecucion extends Thread {
 
     /**
      * Procedimiento que ejecuta el hilo.
-     * @throws InterruptedException ,Exception.
      */
     public void ejecuta() {
         try {
@@ -521,7 +524,7 @@ public class Ejecucion extends Thread {
      * Comprueba si un fichero de Test Bench tiene el formato correcto, es decir,
      * si sus cadenas tienen el tamaño correcto correspondiente con las entradas
      * de la entidad a ejecutar, y si se trata sólamente de cadenas de 0's y 1's
-     * @param br Fichero de lectura
+     * @param ficheroTB Fichero de Test Bench a analizar
      * @return true si el formato es correcto y false en caso contrario
      */
     public boolean formatoCorrectoFicheroTB(String ficheroTB) {
