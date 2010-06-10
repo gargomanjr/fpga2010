@@ -353,6 +353,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         log.info("Inicializado Nessy 2.0");
         ejecutandoReconfiguracion = false;
         _btnPararReconf.setEnabled(false);
+        _btnPararReconf.setVisible(false);
 
         
     }
@@ -954,6 +955,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jTabbedPane1.addTab("OutPut", panelOutPut);
 
         _btnPararReconf.setText("Detener Reconfiguración");
+        _btnPararReconf.setEnabled(false);
+        _btnPararReconf.setVisible(false);
         _btnPararReconf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 _btnPararReconfActionPerformed(evt);
@@ -1537,6 +1540,8 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
 
 private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
     this._btnPararReconf.setEnabled(true);
+    this._btnPararReconf.setVisible(true);
+
    /* if(this.reconfiguracion != null){
         this.reconfiguracion.pararreconfiguracionparcial();
     }*/
@@ -1554,6 +1559,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
 private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararReconfActionPerformed
     this.reconfiguracion.pararreconfiguracionparcial();
     this._btnPararReconf.setEnabled(false);
+    this._btnPararReconf.setVisible(false);
     //this.ejecutandoReconfiguracion = false;
 }//GEN-LAST:event__btnPararReconfActionPerformed
 
