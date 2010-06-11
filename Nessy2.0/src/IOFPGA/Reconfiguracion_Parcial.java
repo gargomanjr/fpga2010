@@ -4,7 +4,6 @@
  */
 package IOFPGA;
 
-import app.Com;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
