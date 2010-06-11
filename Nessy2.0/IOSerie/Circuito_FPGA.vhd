@@ -12,7 +12,7 @@
 --	Carlos Sanchez-Vellisco Sanchez
 --	Facultad de Informatica. Universidad Complutense de Madrid
 --Fecha: 
---	Thu Jun 10 23:02:35 CEST 2010
+--	Fri Jun 11 12:27:02 CEST 2010
 --------------------------------------------------------------------------------
 
 library IEEE;
@@ -271,7 +271,7 @@ ledsSalida <= ledsSal;
 
 
 --El reloj del circuito principal será el flanco que indique el fin de la recepción
-mi_compiladorEntidad.Entrada@54b4b0a4 <= recibido;
+mi_CLK <= recibido;
 
 --Asignación de las señales del circuito general
 mi_resetserie <= reset;
