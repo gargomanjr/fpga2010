@@ -1834,18 +1834,23 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
 
 
             } else {
-
-                while (RUTA_XILINX == null || RUTA_XILINX.equals("")) {
+                boolean cierre=false;
+                while ((RUTA_XILINX == null || RUTA_XILINX.equals(""))&& !cierre) {
                     GUIConfig config = new GUIConfig(this, true, "");
                     config.setVisible(true);
                     is = new FileInputStream(fichConf);
                     prop.load(is);
                     RUTA_XILINX = prop.getProperty("HomeXilinx");
-
+                    cierre=config.getCierre();
                 }
             }
 
         } catch (IOException ioe) {
+
+             JOptionPane.showMessageDialog(this, "No ha sido posible configurar" +
+                     " nessy, debido a que no se ha encontrado archivo de " +
+                     "configuración, para poder ejecutar Nessy correctamente" +
+                     " acceda a configuración.", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }

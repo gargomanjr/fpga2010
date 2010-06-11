@@ -23,11 +23,13 @@ import javax.swing.JFileChooser;
 public class GUIConfig extends javax.swing.JDialog {
     
     private String rutaXilinx;
+    private boolean cierre;
     /** Creates new form GUIConfig */
     public GUIConfig(java.awt.Frame parent, boolean modal,String ruta) {
         super(parent, modal);
         rutaXilinx=ruta;
         initComponents();
+        cierre=false;
 
     }
 
@@ -49,6 +51,11 @@ public class GUIConfig extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Nessy");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         _lbl_HomeXilinx.setText("Home Xilinx ISE :");
 
@@ -156,6 +163,10 @@ public class GUIConfig extends javax.swing.JDialog {
         
 }//GEN-LAST:event__btnCancelarActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       cierre=true;
+    }//GEN-LAST:event_formWindowClosing
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -166,5 +177,10 @@ public class GUIConfig extends javax.swing.JDialog {
     private javax.swing.JTextField _txt_HomeXilinx;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    boolean getCierre() {
+      return cierre;
+
+    }
 
 }
