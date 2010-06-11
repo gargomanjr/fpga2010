@@ -405,6 +405,12 @@ public class Ejecucion extends Thread {
      */
     public void ejecuta() {
         try {
+
+            File dirsalida = new File(rutaficherosSalida);
+            if(!dirsalida.exists()){
+                dirsalida.mkdir();
+            }
+
             if(!fichero_compararTraza.exists()){
                 fichero_compararTraza.createNewFile();
             }
@@ -489,7 +495,7 @@ public class Ejecucion extends Thread {
                     if (!reconfiguracionParcial) {
                         JOptionPane.showMessageDialog(this.ata_textarea, "La Salida actual NO coincide con la salida generada por la última ejecución. Revise Instrucción num: " + NumInstrNoCoincideTraza, "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    this.ficheroLogEjec.write("La Salida actual NO coincide con la salida Golden. Revise Instrucción num: " + NumInstrNoCoincideTraza+"\n\n");
+                    this.escribeEnLog("La Salida actual NO coincide con la salida Golden. Revise Instrucción num: " + NumInstrNoCoincideTraza+"\n\n");
                     System.out.println("LA EJECUCION HA SIDO MODIFICADA. Ver log al finalizar");
 
                     mostrarMensaje = false;
