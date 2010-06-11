@@ -3,7 +3,7 @@ cd comandosXilinx
 set pwd=%cd%
 rem borramos los archivos que no hacen falta
 call clearFiles
-rem después ejecutamos los procesos
+rem despuï¿½s ejecutamos los procesos
 call sintetizarXST.bat %1%
 cd %pwd%
 %pwd:~0,2%
@@ -19,6 +19,8 @@ cd %pwd%
 call bitgen.bat %1%
 cd %pwd%
 %pwd:~0,2%
-copy ..\IOSerie\circuito_fpga.bit %2
+rem copiamos el fichero .BIT generado en el directorio que introduce el usuario
+copy ..\IOSerie\circuito_fpga.bit %2%
+rem borramos los archivos que no hacen falta
 call clearFiles
 rem exit

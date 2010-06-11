@@ -460,36 +460,36 @@ INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered
 
 Asynchronous Control Signals Information:
 ----------------------------------------
------------------------------------------------------+-------------------------+-------+
-Control Signal                                       | Buffer(FF name)         | Load  |
------------------------------------------------------+-------------------------+-------+
-R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(estadoEnt_FSM_FFd2)| 174   |
-Reg_entradas_0(Reg_entradas_0:Q)                     | NONE(U/misalida_13)     | 16    |
-estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)         | 1     |
-ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)         | 1     |
-ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)         | 1     |
-ledsEnt_1__and0000(estadoEnt_FSM_Out21:O)            | NONE(ledsEnt_1)         | 1     |
-ledsSal_0__or0000(ledsSal_0__or00001:O)              | NONE(ledsSal_0)         | 1     |
-ledsSal_0__or0001(ledsSal_cmp_eq00011:O)             | NONE(ledsSal_0)         | 1     |
-ledsSal_1__and0000(ledsSal_cmp_eq00021:O)            | NONE(ledsSal_1)         | 1     |
-ledsSal_1__or0000(ledsSal_1__or00001:O)              | NONE(ledsSal_1)         | 1     |
-mi_datotxin_0__and0000(mi_datotxin_0__and00001:O)    | NONE(mi_datotxin_0)     | 1     |
-mi_datotxin_0__and0001(mi_datotxin_0__and00011:O)    | NONE(mi_datotxin_0)     | 1     |
-mi_datotxin_1__and0000(mi_datotxin_1__and00001:O)    | NONE(mi_datotxin_1)     | 1     |
-mi_datotxin_1__and0001(mi_datotxin_1__and00011:O)    | NONE(mi_datotxin_1)     | 1     |
-mi_datotxin_2__and0000(mi_datotxin_2__and00001:O)    | NONE(mi_datotxin_2)     | 1     |
-mi_datotxin_2__and0001(mi_datotxin_2__and00011:O)    | NONE(mi_datotxin_2)     | 1     |
-mi_datotxin_3__and0000(mi_datotxin_3__and00001:O)    | NONE(mi_datotxin_3)     | 1     |
-mi_datotxin_3__and0001(mi_datotxin_3__and00011:O)    | NONE(mi_datotxin_3)     | 1     |
-mi_datotxin_4__and0000(mi_datotxin_4__and00001:O)    | NONE(mi_datotxin_4)     | 1     |
-mi_datotxin_4__and0001(mi_datotxin_4__and00011:O)    | NONE(mi_datotxin_4)     | 1     |
-mi_datotxin_5__and0000(mi_datotxin_5__and00001:O)    | NONE(mi_datotxin_5)     | 1     |
-mi_datotxin_5__and0001(mi_datotxin_5__and00011:O)    | NONE(mi_datotxin_5)     | 1     |
-mi_datotxin_6__and0000(mi_datotxin_6__and00001:O)    | NONE(mi_datotxin_6)     | 1     |
-mi_datotxin_6__and0001(mi_datotxin_6__and00011:O)    | NONE(mi_datotxin_6)     | 1     |
-mi_datotxin_7__and0000(mi_datotxin_7__and00001:O)    | NONE(mi_datotxin_7)     | 1     |
-mi_datotxin_7__and0001(mi_datotxin_7__and00011:O)    | NONE(mi_datotxin_7)     | 1     |
------------------------------------------------------+-------------------------+-------+
+-----------------------------------------------------+------------------------+-------+
+Control Signal                                       | Buffer(FF name)        | Load  |
+-----------------------------------------------------+------------------------+-------+
+R/Estado_FSM_Acst_inv(f/Estado_FSM_Acst_inv1_INV_0:O)| NONE(fin_recepcion)    | 174   |
+Reg_entradas_0(Reg_entradas_0:Q)                     | NONE(U/misalida_13)    | 16    |
+estadoEnt_FSM_FFd2-In(estadoEnt_FSM_FFd2-In1_INV_0:O)| NONE(ledsEnt_1)        | 1     |
+ledsEnt_0__or0000(ledsEnt_0__or00001:O)              | NONE(ledsEnt_0)        | 1     |
+ledsEnt_0__or0001(ledsEnt_0__or00011:O)              | NONE(ledsEnt_0)        | 1     |
+ledsEnt_1__and0000(estadoEnt_FSM_Out21:O)            | NONE(ledsEnt_1)        | 1     |
+ledsSal_0__or0000(ledsSal_0__or00001:O)              | NONE(ledsSal_0)        | 1     |
+ledsSal_0__or0001(ledsSal_cmp_eq00011:O)             | NONE(ledsSal_0)        | 1     |
+ledsSal_1__and0000(ledsSal_cmp_eq00021:O)            | NONE(ledsSal_1)        | 1     |
+ledsSal_1__or0000(ledsSal_1__or00001:O)              | NONE(ledsSal_1)        | 1     |
+mi_datotxin_0__and0000(mi_datotxin_0__and00001:O)    | NONE(mi_datotxin_0)    | 1     |
+mi_datotxin_0__and0001(mi_datotxin_0__and00011:O)    | NONE(mi_datotxin_0)    | 1     |
+mi_datotxin_1__and0000(mi_datotxin_1__and00001:O)    | NONE(mi_datotxin_1)    | 1     |
+mi_datotxin_1__and0001(mi_datotxin_1__and00011:O)    | NONE(mi_datotxin_1)    | 1     |
+mi_datotxin_2__and0000(mi_datotxin_2__and00001:O)    | NONE(mi_datotxin_2)    | 1     |
+mi_datotxin_2__and0001(mi_datotxin_2__and00011:O)    | NONE(mi_datotxin_2)    | 1     |
+mi_datotxin_3__and0000(mi_datotxin_3__and00001:O)    | NONE(mi_datotxin_3)    | 1     |
+mi_datotxin_3__and0001(mi_datotxin_3__and00011:O)    | NONE(mi_datotxin_3)    | 1     |
+mi_datotxin_4__and0000(mi_datotxin_4__and00001:O)    | NONE(mi_datotxin_4)    | 1     |
+mi_datotxin_4__and0001(mi_datotxin_4__and00011:O)    | NONE(mi_datotxin_4)    | 1     |
+mi_datotxin_5__and0000(mi_datotxin_5__and00001:O)    | NONE(mi_datotxin_5)    | 1     |
+mi_datotxin_5__and0001(mi_datotxin_5__and00011:O)    | NONE(mi_datotxin_5)    | 1     |
+mi_datotxin_6__and0000(mi_datotxin_6__and00001:O)    | NONE(mi_datotxin_6)    | 1     |
+mi_datotxin_6__and0001(mi_datotxin_6__and00011:O)    | NONE(mi_datotxin_6)    | 1     |
+mi_datotxin_7__and0000(mi_datotxin_7__and00001:O)    | NONE(mi_datotxin_7)    | 1     |
+mi_datotxin_7__and0001(mi_datotxin_7__and00011:O)    | NONE(mi_datotxin_7)    | 1     |
+-----------------------------------------------------+------------------------+-------+
 
 Timing Summary:
 ---------------
@@ -839,7 +839,7 @@ Offset:              3.460ns (Levels of Logic = 1)
 
 
 Total REAL time to Xst completion: 17.00 secs
-Total CPU time to Xst completion: 16.55 secs
+Total CPU time to Xst completion: 16.61 secs
  
 --> 
 

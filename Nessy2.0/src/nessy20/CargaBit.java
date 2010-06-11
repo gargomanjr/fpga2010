@@ -74,7 +74,7 @@ public class CargaBit {
                 bw.write(coms);
                 bw.close();
                 rutaImpact = "C://Xilinx82//bin//nt//impact.exe";
-                Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga2.txt");
+                Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga.txt");
                 
                 
                 InputStream is = p.getInputStream();

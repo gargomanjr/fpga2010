@@ -565,7 +565,7 @@ public class GeneraVhdl {
         escribirLinea("");
         if (this.hayReloj()){
             escribirLinea("--El reloj del circuito principal será el flanco que indique el fin de la recepción");
-            escribirLinea("mi_"+entidad.getEntrada(entidad.getPosicionClk())+ " <= recibido;");
+            escribirLinea("mi_"+entidad.getEntrada(entidad.getPosicionClk()).getNombre()+ " <= recibido;");
         }
         escribirLinea("");
         escribirLinea("--Asignación de las señales del circuito general");
