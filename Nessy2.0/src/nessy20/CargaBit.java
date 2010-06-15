@@ -2,6 +2,8 @@ package nessy20;
 
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +23,10 @@ public class CargaBit {
     GUIPrincipal interfaz;
 
     String rutaImpact;
+
+    private boolean SalidaCargaBit;
+
+
 
     /**
      * Constructor de la clase.
@@ -57,6 +63,7 @@ public class CargaBit {
      
         if (existeFichero(rutaImpact)){
             try{
+                SalidaCargaBit = false;
                 interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
                 FileOutputStream os = new FileOutputStream("carga.txt");
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
@@ -73,24 +80,24 @@ public class CargaBit {
                         "exit";
                 bw.write(coms);
                 bw.close();
-                rutaImpact = "C://Xilinx82//bin//nt//impact.exe";
-                Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga.txt");
+                //rutaImpact = "C://Xilinx82//bin//nt//impact.exe";
+                //rutaImpact = "C://Xilinx10.1//ISE//bin//nt//impact.exe";
+                Process p;
+
+                p = Runtime.getRuntime().exec(rutaImpact + " -batch carga.txt");
                 
-                
-                InputStream is = p.getInputStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
- 
-                String s=br.readLine();
-                boolean errorCarga = true;
-                while(s!=null && errorCarga){
-                    if(escribirEnPantalla)
-                        interfaz.escribirEnPantalla(s);
-                    if (s.contains("Programmed successfully")){
-                        errorCarga = false;
-                    }                   
-                    s=br.readLine();                   
+                HiloSalidaStandarCargarBit hilo = new HiloSalidaStandarCargarBit(interfaz,escribirEnPantalla,p,this);
+                hilo.start();
+                HiloSalidaErrorCargarBit hilo2 = new HiloSalidaErrorCargarBit(interfaz,escribirEnPantalla,p);
+                hilo2.start();
+                try {
+                    hilo.join();
+                    hilo2.join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(CargaBit.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                correcto = !errorCarga;
+                interfaz.escribirEnPantalla("Termina completamente la carga del archivo .Bit");
+                return SalidaCargaBit;
 
             }catch(IOException e){
                 correcto = false;
@@ -107,5 +114,7 @@ public class CargaBit {
 
         return correcto;
     }
-
+    public void setSalidaCargaBit(boolean SalidaCargaBit) {
+        this.SalidaCargaBit = SalidaCargaBit;
+    }
 }

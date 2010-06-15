@@ -233,7 +233,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * @return Cierto si todo ha sido correcto, falso si ha habido algún error.
      */
     public boolean cargarBitConChooser() {
-        this._TextCargarbit.setText("Cargando ..........");
+        this._TextCargarbit.setText("Cargando .........." + "\n");
         boolean error = false;
         JFileChooser chooser;
         chooser = new JFileChooser();
@@ -242,13 +242,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Cargar BitStream");
         chooser.setAcceptAllFileFilterUsed(false);
+        seleccionaPanel(panelCargar);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
             error = !this.cargarBit(fichero_bit, true);
         } else {
             System.out.println("Selecc ");
-            //Selecciona panel
-            seleccionaPanel(panelCargar);
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
             error = true;
         }
@@ -592,7 +591,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         CargaBit cargaBit = new CargaBit(this, fichero_bit, this.RUTA_XILINX + "\\ISE\\bin\\nt\\impact.exe");
         try {
             do {//si hay un error lo vuelve a intentar
-                error = !cargaBit.cargar(ab_mostrar_mensajes);
+                error = !cargaBit.cargar(ab_mostrar_mensajes);               
                 if (!error) {
                     if (ab_mostrar_mensajes) {
                         JOptionPane.showMessageDialog(this, "Bitstream cargado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -1232,7 +1231,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 //Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
             }
         } catch (IOException ex) {
-            //Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.FATAL, null, ex);
         }
 
     }//GEN-LAST:event__btnCrearBitActionPerformed
@@ -1480,7 +1479,7 @@ private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//
     chooser.setAcceptAllFileFilterUsed(false);
     if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 
-        copiaArchivo(chooser.getSelectedFile().getAbsolutePath(), "test//Golden.txt");
+        copiaArchivo(chooser.getSelectedFile().getAbsolutePath(), "salidas//Golden.txt");
 
         log.info("Cargar Golden : Se ha cargado archivo golden correctamente");
     } else {
