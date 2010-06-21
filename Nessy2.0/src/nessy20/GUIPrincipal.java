@@ -10,6 +10,7 @@
  */
 package nessy20;
 
+import cargarBit.CargaBit;
 import compiladorEntidad.Errores;
 import compiladorEntidad.SintacticoEntidad;
 

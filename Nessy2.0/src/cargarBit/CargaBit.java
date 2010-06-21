@@ -1,9 +1,10 @@
-package nessy20;
+package cargarBit;
 
 
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nessy20.GUIPrincipal;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -33,7 +34,7 @@ public class CargaBit {
      * @param interfaz Interfaz sobre la que estamos ejecutando
      * @param fich String con la ruta del fichero .bit que deseamos cargar.
      */
-    CargaBit(GUIPrincipal interfaz, String fich, String rutaImpact){
+    public CargaBit(GUIPrincipal interfaz, String fich, String rutaImpact){
         this.ficheroBit = fich;
         this.interfaz = interfaz;
         this.rutaImpact = rutaImpact;
