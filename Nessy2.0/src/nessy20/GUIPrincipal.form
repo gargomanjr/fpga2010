@@ -65,7 +65,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/menuCargarTB.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cargar TB"/>
+                <Property name="text" type="java.lang.String" value="Cargar Test Bench"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuOpcionesCargarTBActionPerformed"/>
@@ -163,7 +163,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/menureconParc.JPG"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Reconfiguraci&#xf3;n Parcial"/>
+                <Property name="text" type="java.lang.String" value="Inyecci&#xf3;n de Errores"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuOpcionesReconfParcialActionPerformed"/>
@@ -206,7 +206,7 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+T"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="TestBench"/>
+                <Property name="text" type="java.lang.String" value="Test Bench"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVistasTBActionPerformed"/>
@@ -315,7 +315,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jToolBar1" min="-2" pref="862" max="-2" attributes="0"/>
-                  <EmptySpace pref="58" max="32767" attributes="0"/>
+                  <EmptySpace pref="62" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -388,7 +388,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/btnCargarTB.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cargar TB"/>
+                <Property name="text" type="java.lang.String" value="Cargar Test Bench"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -479,7 +479,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/recursos/reconParc.JPG"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Reconfiguraci&#xf3;n Parcial" postCode="_btnCargBitReconfParcial.setEnabled(false);"/>
+                <Property name="text" type="java.lang.String" value="Inyecci&#xf3;n de Errores" postCode="_btnCargBitReconfParcial.setEnabled(false);"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -508,7 +508,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="_lbl_BitCargado" alignment="0" pref="431" max="32767" attributes="0"/>
+                      <Component id="_lbl_BitCargado" alignment="0" pref="435" max="32767" attributes="0"/>
                       <Component id="_lbl_VHDLCargado" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="469" max="-2" attributes="0"/>
@@ -516,7 +516,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="312" max="-2" attributes="0"/>
                   <Component id="_btnPararReconf" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="457" max="32767" attributes="0"/>
+                  <EmptySpace pref="439" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -681,8 +681,8 @@
             <Container class="javax.swing.JPanel" name="panelTB">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="TestBench">
-                    <Property name="tabTitle" type="java.lang.String" value="TestBench"/>
+                  <JTabbedPaneConstraints tabName="Test Bench">
+                    <Property name="tabTitle" type="java.lang.String" value="Test Bench"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -765,7 +765,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="_btnPararReconf">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Detener Reconfiguraci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Detener Inyecci&#xf3;n de Errores"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="_btnPararReconfActionPerformed"/>

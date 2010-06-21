@@ -735,7 +735,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jToolBar1.add(_btnCargarBit);
 
         _btnCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/btnCargarTB.png"))); // NOI18N
-        _btnCargarTB.setText("Cargar TB");
+        _btnCargarTB.setText("Cargar Test Bench");
         _btnCargarTB.setEnabled(false);
         _btnCargarTB.setFocusable(false);
         _btnCargarTB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -814,7 +814,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jToolBar1.add(_btnCargarGolden);
 
         _btnCargBitReconfParcial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/reconParc.JPG"))); // NOI18N
-        _btnCargBitReconfParcial.setText("Reconfiguración Parcial");
+        _btnCargBitReconfParcial.setText("Inyección de Errores");
         _btnCargBitReconfParcial.setEnabled(false);
         _btnCargBitReconfParcial.setFocusable(false);
         _btnCargBitReconfParcial.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -832,7 +832,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 862, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -870,7 +870,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelVHDLayout.setVerticalGroup(
             panelVHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Entity VHDL", panelVHD);
@@ -888,7 +888,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelCargarLayout.setVerticalGroup(
             panelCargarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Cargar", panelCargar);
@@ -905,10 +905,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelTBLayout.setVerticalGroup(
             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("TestBench", panelTB);
+        jTabbedPane1.addTab("Test Bench", panelTB);
 
         _TextSalida.setColumns(20);
         _TextSalida.setEditable(false);
@@ -923,12 +923,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         panelOutPutLayout.setVerticalGroup(
             panelOutPutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("OutPut", panelOutPut);
 
-        _btnPararReconf.setText("Detener Reconfiguración");
+        _btnPararReconf.setText("Detener Inyección de Errores");
         _btnPararReconf.setEnabled(false);
         _btnPararReconf.setVisible(false);
         _btnPararReconf.addActionListener(new java.awt.event.ActionListener() {
@@ -944,13 +944,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                    .addComponent(_lbl_BitCargado, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                     .addComponent(_lbl_VHDLCargado, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(469, 469, 469))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addComponent(_btnPararReconf)
-                .addContainerGap(455, Short.MAX_VALUE))
+                .addContainerGap(439, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -1026,7 +1026,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         menuOpcionesCargarTB.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesCargarTB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menuCargarTB.png"))); // NOI18N
-        menuOpcionesCargarTB.setText("Cargar TB");
+        menuOpcionesCargarTB.setText("Cargar Test Bench");
         menuOpcionesCargarTB.setEnabled(false);
         menuOpcionesCargarTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1092,7 +1092,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         menuOpcionesReconfParcial.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         menuOpcionesReconfParcial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/menureconParc.JPG"))); // NOI18N
-        menuOpcionesReconfParcial.setText("Reconfiguración Parcial");
+        menuOpcionesReconfParcial.setText("Inyección de Errores");
         menuOpcionesReconfParcial.setEnabled(false);
         menuOpcionesReconfParcial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1124,7 +1124,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         menuVistas.add(menuVistasCargar);
 
         menuVistasTB.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.ALT_MASK));
-        menuVistasTB.setText("TestBench");
+        menuVistasTB.setText("Test Bench");
         menuVistasTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuVistasTBActionPerformed(evt);
@@ -1170,7 +1170,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1420,7 +1420,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
             panelTBLayout.setVerticalGroup(
                     panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
 
-            jTabbedPane1.addTab("TestBench", panelTB);
+            jTabbedPane1.addTab("Test Bench", panelTB);
             jTabbedPane1.setSelectedComponent(panelTB);
 
         }
@@ -1761,7 +1761,7 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
                     panelTBLayout.setVerticalGroup(
                             panelTBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE));
 
-                    jTabbedPane1.addTab("TestBench", panelTB);
+                    jTabbedPane1.addTab("Test Bench", panelTB);
                     jTabbedPane1.setSelectedComponent(panelTB);
                 } else {
                     _TxtEntityVHD.setColumns(20);

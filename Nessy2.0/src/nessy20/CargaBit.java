@@ -53,6 +53,9 @@ public class CargaBit {
 
     /**
      * Procedimiento que carga un archivo .bit en la FPGA.
+     * Ejecuta el script de carga el archivp .bit y lanza dos hilos para
+     * leer la salida que ha generado esta ejecución. Uno lee la salida de error
+     * y otro la salida estándar.
      * @param escribirEnPantalla Para no escribir la salida en la pantalla
      * en caso de que estemos en el proceso de reconfiguración.
      * @return Cierto si se ha conseguido cargar correctamente, falso en caso contrario.
@@ -114,6 +117,11 @@ public class CargaBit {
 
         return correcto;
     }
+    /**
+     * Parámetro que establece si la carga del archivo .bit ha sido correcta.
+     * @param SalidaCargaBit Boolean con el nuevo valor que indica si la
+     * carga del archivo .bit ha sido correcta
+     */
     public void setSalidaCargaBit(boolean SalidaCargaBit) {
         this.SalidaCargaBit = SalidaCargaBit;
     }

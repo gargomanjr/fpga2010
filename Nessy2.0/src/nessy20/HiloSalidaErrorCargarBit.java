@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author User
+ * Hio encargado de leer la salida de error generada por el proceso que carga
+ * el archivo .bit en la FPGA.
  */
 
 
@@ -25,18 +26,26 @@ public class HiloSalidaErrorCargarBit extends Thread {
     private Process proc ;
 
 
+    /**
+     * Contructora de la clase HiloSalidaErrorCargarBit
+     * @param in_interfaz GUIPrincipal de la aplicación.
+     * @param in_escribirEnPantalla Boolean que indica si la aplicacón tiene que escribir
+     * el resultado en la pantalla da la aplicación.
+     * @param f Process que se ha encargado de intentar cargar el archivo .bit.
+     */
     public HiloSalidaErrorCargarBit(GUIPrincipal in_interfaz, boolean in_escribirEnPantalla, Process f) {
         interfaz = in_interfaz;
         escribirEnPantalla = in_escribirEnPantalla;
         proc = f;
     }
 
+   /**
+     * Proceso encargado de leer la salida de error generada por el proceso de
+     * cargar el archivo .bit.
+     */
     private void cargabit(){
-
     boolean correcto;
     try {
-       // Process p = Runtime.getRuntime().exec(rutaImpact+ " -batch carga.txt");
-        //InputStream is = proc.getInputStream();
         InputStream is = proc.getErrorStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
