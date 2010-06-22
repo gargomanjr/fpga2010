@@ -18,38 +18,40 @@ import nessy20.GUIPrincipal;
  *
  * @author Carlos, Tony, David
  */
-public class Reconfiguracion_Parcial extends Thread {
+public class ReconfiguracionParcial extends Thread {
 
     /**
      * Necesitamos tener la interfaz gráfica ya que contiene algunos
      * métodos de los que vamos a utilizar.
      */
     private GUIPrincipal gui;
-
     /**
      * Indica si se está ejecutando la reconfiguración para poder parar
      * en cualquier momento el proceso
      */
     private boolean ejecutandoReconfiguracion;
-
     /**
      * Panel que será activado mientras se ejecuta el proceso
      */
     private javax.swing.JPanel panelOutPut;
-
     /**
      * La ruta del fichero .BIT que se va a modificar
      */
     private String rutaBit;
+    /**
+     * Número de iteraciones que se quiere ejecutar la reconfiguración parcial
+     */
+    private int numIteraciones;
 
     /**
      * Inicia el hilo de la reconfiguración parcial
      * @param in_gui GUI de entrada a copiar
      * @param rutaBit Ruta del .BIT a modificar
      */
-    public Reconfiguracion_Parcial(GUIPrincipal in_gui, String rutaBit) {
+    public ReconfiguracionParcial(GUIPrincipal in_gui, String rutaBit) {
         this.rutaBit = rutaBit;
         this.gui = in_gui;
+        this.numIteraciones = 10; //TODO introducir usuario
     }
 
     /**
@@ -139,7 +141,7 @@ public class Reconfiguracion_Parcial extends Thread {
                 //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }/* catch (InterruptedException ex) {
-                return false;
+            return false;
             }*/
         }
 
@@ -147,10 +149,68 @@ public class Reconfiguracion_Parcial extends Thread {
         return b;
     }
 
+    public void reconfiguracionParcialAleatoria() {
+        int numBits = 32;
+        int numFrames = 36194;
+        int numIteracion = 0;
+
+        boolean b = false;
+        ejecutandoReconfiguracion = true;
+        if (gui.cargarBitConChooser() && gui.SeleccionTBModifFichero()) {
+            gui.seleccionaPanel(panelOutPut);
+            int frame = 0;
+            int bit = 0;
+            try {
+
+                FileWriter fw = new FileWriter(new File("salidas//logEjec.txt"));
+                String fichero = gui.getFichero_bit();
+                gui.setFwLog(fw);
+                while (numIteracion < this.numIteraciones && ejecutandoReconfiguracion) {
+                    bit = (int) (Math.random() * numBits);
+                    frame = (int) (Math.random() * numFrames);
+
+                    fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit + "\n");
+                    System.out.println("\n\nIteracion: "+ numIteracion+"\n********** Modificando FRAME: " + frame + " BIT: " + bit + " ************");
+
+                    String coms = "cmd.exe /K java -jar Virtex_II_Partial_Reconfiguration.jar -i " + fichero + " -o " + rutaBit + "\\circuito_fpga_modif -f " + frame + " -b " + bit;
+                    fw.write("Ejecutando: " + coms + "\n");
+                    System.out.println("Modificando .bit");
+                    Process p = Runtime.getRuntime().exec(coms);
+                    System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit");
+                    fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit\n");
+                    if (this.gui.getCom1() == null) {
+                        gui.inicializarPuertoSerie();
+                    }
+                    gui.cargarBit(rutaBit + "\\circuito_fpga_modif.bit", false);
+                    if (this.gui.getCom1() == null) {
+                        fw.write("Ejecutando...\n");
+                        if (gui.inicializarPuertoSerie()) {
+                            gui.ejec(true);
+                        }
+                    } else {
+                        gui.ejec(true);
+                    }
+                    System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit");
+                    fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit\n");
+                    if (this.gui.getCom1() == null) {
+                        gui.inicializarPuertoSerie();
+                    }
+                    b = gui.cargarBit(rutaBit + "\\circuito_fpga_modifRestorer.bit", false);
+                    numIteracion++;
+                }
+                fw.close();
+            } catch (FileNotFoundException ex) {
+                //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     @Override
     public void run() {
         synchronized (this) {
-            this.reconfiguracionParcial();
+            this.reconfiguracionParcialAleatoria();
         }
     }
 

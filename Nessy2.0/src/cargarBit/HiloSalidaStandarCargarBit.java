@@ -5,7 +5,6 @@
 
 package cargarBit;
 
-import cargarBit.CargaBit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

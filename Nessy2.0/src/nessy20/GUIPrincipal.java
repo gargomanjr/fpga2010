@@ -17,7 +17,7 @@ import compiladorEntidad.SintacticoEntidad;
 
 
 import IOFPGA.Ejecucion;
-import IOFPGA.Reconfiguracion_Parcial;
+import IOFPGA.ReconfiguracionParcial;
 import app.*;
 //import com.sun.org.apache.bcel.internal.util.ClassPath;
 import compiladorEntidad.Entidad;
@@ -121,7 +121,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     /**
      * Proceso de reconfiguración
      */
-    private Reconfiguracion_Parcial reconfiguracion;
+    private ReconfiguracionParcial reconfiguracion;
 
     /** Constructor de la clase.
      *  Los botones reanudar y parar ejecución se ponen a no visibles.
@@ -1525,7 +1525,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
     this.reconfiguracion.pararreconfiguracionparcial();
     }*/
     seleccionaPanel(panelOutPut);
-    reconfiguracion = new Reconfiguracion_Parcial(this, RUTA_IOSERIE);
+    reconfiguracion = new ReconfiguracionParcial(this, RUTA_IOSERIE);
     reconfiguracion.start();
     /* if(procesoModificarFicheros())
     log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");

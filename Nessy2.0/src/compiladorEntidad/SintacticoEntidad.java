@@ -283,7 +283,7 @@ public class SintacticoEntidad {
     /**
      * Analiza la parte correspondiente al tipo de una señal. Ésta puede ser
      * STD_LOGIC o STD_LOGIC_VECTOR. En función de ello, devuelve el tamaño
-     * de esa entrada o salida.
+     * de esa entrada o salida. Si el tamaño es negativo indicará un error.
      * @return devuelve el tamaño de una entrada o salida.
      * @throws Exception
      */
