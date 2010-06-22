@@ -90,6 +90,7 @@ public class ReconfiguracionParcial extends Thread {
         boolean b = false;
         ejecutandoReconfiguracion = true;
         if (gui.cargarBitConChooser() && gui.SeleccionTBModifFichero()) {
+            gui.setEnabledBtnDetenerInyeccion(true);
             gui.seleccionaPanel(panelOutPut);
             int frame = 0;
             int bit = 0;
@@ -156,8 +157,12 @@ public class ReconfiguracionParcial extends Thread {
 
         boolean b = false;
         ejecutandoReconfiguracion = true;
-        if (gui.cargarBitConChooser() && gui.SeleccionTBModifFichero()) {
+        gui.setInyeccErr(true);
+        if (gui.cargarBitConChooser())
+        {
+            if (gui.SeleccionTBModifFichero()) {
             gui.seleccionaPanel(panelOutPut);
+          //  gui.setEnabledBtnDetenerInyeccion(true);
             int frame = 0;
             int bit = 0;
             try {
@@ -199,12 +204,13 @@ public class ReconfiguracionParcial extends Thread {
                     numIteracion++;
                 }
                 fw.close();
+                gui.setInyeccErr(false);
             } catch (FileNotFoundException ex) {
                 //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }}
     }
 
     @Override

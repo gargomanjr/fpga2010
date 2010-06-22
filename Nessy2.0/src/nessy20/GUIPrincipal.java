@@ -98,6 +98,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
      */
     private boolean cerradoTop;
     /**
+     * Indica si se esta ejecutando inyeccion de errores
+     */
+    private boolean inyeccErr;
+
+    public boolean isInyeccErr() {
+        return inyeccErr;
+    }
+
+    public void setInyeccErr(boolean inyeccErr) {
+        this.inyeccErr = inyeccErr;
+    }
+    /**
      * Indica la ruta fichero de banco de pruebas
      */
     String fichero_tb;
@@ -134,6 +146,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         config("conf/Config.properties", false);
         initComponentsAux();
         initComponents();
+        inyeccErr=false;
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
         this.menuOpcionesReanudarEjec.setEnabled(false);
@@ -245,6 +258,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         seleccionaPanel(panelCargar);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            if(inyeccErr)
+                setEnabledBtnDetenerInyeccion(true);
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
             error = !this.cargarBit(fichero_bit, true);
         } else {
@@ -556,6 +571,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void initComponentsAux() {
         jTabbedPane1 = new JTabbedPaneWithCloseIcon();
+    }
+
+
+    /**
+     * Habilita o deshabilita el boton Detener Inyeccion de errores.
+     */
+    public void setEnabledBtnDetenerInyeccion(boolean b)
+    {
+            _btnPararReconf.setEnabled(b);
+            _btnPararReconf.setVisible(b);
     }
 
     /**
@@ -1175,7 +1200,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1538,8 +1563,7 @@ private void menuConfigFichConfActionPerformed(java.awt.event.ActionEvent evt) {
 }//GEN-LAST:event_menuConfigFichConfActionPerformed
 
 private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargBitReconfParcialActionPerformed
-    this._btnPararReconf.setEnabled(true);
-    this._btnPararReconf.setVisible(true);
+    
 
     /* if(this.reconfiguracion != null){
     this.reconfiguracion.pararreconfiguracionparcial();
@@ -1547,6 +1571,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
     seleccionaPanel(panelOutPut);
     reconfiguracion = new ReconfiguracionParcial(this, RUTA_IOSERIE);
     reconfiguracion.start();
+    //setEnabledBtnDetenerInyeccion(false);
     /* if(procesoModificarFicheros())
     log.info("Reconfiguración Parcial : Ejecutado Reconfiguración Parcial");
     else
