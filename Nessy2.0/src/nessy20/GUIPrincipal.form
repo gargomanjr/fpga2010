@@ -283,7 +283,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-          <Component id="jSeparator1" alignment="0" pref="936" max="32767" attributes="0"/>
+          <Component id="jSeparator1" alignment="0" pref="940" max="32767" attributes="0"/>
           <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>

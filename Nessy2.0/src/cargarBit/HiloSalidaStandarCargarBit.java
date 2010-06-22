@@ -47,7 +47,7 @@ public class HiloSalidaStandarCargarBit extends Thread {
      * CargaBit si ha habido algún error o no.
      */
     private void cargabit(){
-    boolean correcto;
+    boolean correcto ;
     try {
         InputStream is = proc.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -57,13 +57,11 @@ public class HiloSalidaStandarCargarBit extends Thread {
         while(s!=null && errorCarga){
             if(escribirEnPantalla)
                 interfaz.escribirEnPantalla(s);
-           // System.out.println(s);
             if (s.contains("Programmed successfully")){
                 errorCarga = false;
             }
             s=br.readLine();
         }
-        interfaz.escribirEnPantalla("Termina la Lectura de la Salida al Cargar en la FPGA el .Bit");
         correcto = !errorCarga;
         cargabit.setSalidaCargaBit(correcto);
     } catch (IOException ex) {

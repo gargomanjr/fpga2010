@@ -1,6 +1,5 @@
 package cargarBit;
 
-
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,23 +17,17 @@ import nessy20.GUIPrincipal;
 public class CargaBit {
 
     //private final static String RUTA_IMPACT = "C://Xilinx82//bin//nt//impact.exe";
-
     private String ficheroBit;
-
     GUIPrincipal interfaz;
-
     String rutaImpact;
-
     private boolean SalidaCargaBit;
-
-
 
     /**
      * Constructor de la clase.
      * @param interfaz Interfaz sobre la que estamos ejecutando
      * @param fich String con la ruta del fichero .bit que deseamos cargar.
      */
-    public CargaBit(GUIPrincipal interfaz, String fich, String rutaImpact){
+    public CargaBit(GUIPrincipal interfaz, String fich, String rutaImpact) {
         this.ficheroBit = fich;
         this.interfaz = interfaz;
         this.rutaImpact = rutaImpact;
@@ -47,7 +40,7 @@ public class CargaBit {
      * @param ruta Cadena de la ruta del fichero
      * @return Boolean,cierto si existe el fichero falso en caso contrario.
      */
-    public boolean existeFichero(String ruta){
+    public boolean existeFichero(String ruta) {
         File fichero = new File(ruta);
         return fichero.exists();
     }
@@ -62,24 +55,22 @@ public class CargaBit {
      * @return Cierto si se ha conseguido cargar correctamente, falso en caso contrario.
      * @throws java.io.FileNotFoundException
      */
-    public boolean cargar(boolean escribirEnPantalla) throws FileNotFoundException{
-        boolean correcto = true;
-     
-        if (existeFichero(rutaImpact)){
-            try{
+    public boolean cargar(boolean escribirEnPantalla) throws FileNotFoundException {
+       if (existeFichero(rutaImpact)) {
+            try {
                 SalidaCargaBit = false;
-                interfaz.escribirEnPantalla("Cargando... "+ ficheroBit);
+                interfaz.escribirEnPantalla("Cargando... " + ficheroBit);
                 FileOutputStream os = new FileOutputStream("carga.txt");
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
                 /*String coms = "setMode -ss \nsetMode -sm \n" +
-                        "setMode -sm \nsetMode -hw140 \nsetMode -spi\nsetMode -acecf\nsetMode -acempm\nsetMode -pff\n" +
-                        "setMode -bs\nsetMode -bs\nsetCable -port auto\nIdentify\naddDevice -p 3 -file \""+ ficheroBit+"\"\n" +
-                        "deleteDevice -p 4\nProgram -p 3 -defaultVersion 0\nexit";*/
+                "setMode -sm \nsetMode -hw140 \nsetMode -spi\nsetMode -acecf\nsetMode -acempm\nsetMode -pff\n" +
+                "setMode -bs\nsetMode -bs\nsetCable -port auto\nIdentify\naddDevice -p 3 -file \""+ ficheroBit+"\"\n" +
+                "deleteDevice -p 4\nProgram -p 3 -defaultVersion 0\nexit";*/
                 String coms = "setMode -bs \n" +
                         "setCable -port auto\n" +
                         "Identify\n" +
                         "identifyMPM\n" +
-                        "assignFile -p 3 -file \""+ ficheroBit+"\"\n" +
+                        "assignFile -p 3 -file \"" + ficheroBit + "\"\n" +
                         "Program -p 3\n" +
                         "exit";
                 bw.write(coms);
@@ -89,10 +80,10 @@ public class CargaBit {
                 Process p;
 
                 p = Runtime.getRuntime().exec(rutaImpact + " -batch carga.txt");
-                
-                HiloSalidaStandarCargarBit hilo = new HiloSalidaStandarCargarBit(interfaz,escribirEnPantalla,p,this);
+
+                HiloSalidaStandarCargarBit hilo = new HiloSalidaStandarCargarBit(interfaz, escribirEnPantalla, p, this);
                 hilo.start();
-                HiloSalidaErrorCargarBit hilo2 = new HiloSalidaErrorCargarBit(interfaz,escribirEnPantalla,p);
+                HiloSalidaErrorCargarBit hilo2 = new HiloSalidaErrorCargarBit(interfaz, escribirEnPantalla, p);
                 hilo2.start();
                 try {
                     hilo.join();
@@ -100,24 +91,23 @@ public class CargaBit {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CargaBit.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                interfaz.escribirEnPantalla("Termina completamente la carga del archivo .Bit");
-                return SalidaCargaBit;
 
-            }catch(IOException e){
-                correcto = false;
+                if (SalidaCargaBit) {
+                    System.out.println("Programada correctamente");
+                } else {
+                    System.out.println("Error al cargar la FPGA");
+                }
+      
+
+            } catch (IOException e) {
+                SalidaCargaBit = false;
             }
-        }else{
-            correcto = false;
+        } else {
+            SalidaCargaBit = false;
         }
-
-        if (correcto){
-            System.out.println("Programada correctamente");
-        }else{
-            System.out.println("Error al cargar la FPGA");
-        }
-
-        return correcto;
+        return SalidaCargaBit;
     }
+
     /**
      * Parámetro que establece si la carga del archivo .bit ha sido correcta.
      * @param SalidaCargaBit Boolean con el nuevo valor que indica si la

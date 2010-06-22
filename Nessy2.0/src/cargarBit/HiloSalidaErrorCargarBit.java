@@ -56,13 +56,11 @@ public class HiloSalidaErrorCargarBit extends Thread {
         while(s!=null && errorCarga){
             if(escribirEnPantalla)
                 interfaz.escribirEnPantalla(s);
-                System.out.println(s);
             if (s.contains("Programmed successfully")){
                 errorCarga = false;
             }
             s=br.readLine();
         }
-        interfaz.escribirEnPantalla("Termina la Lectura de la Salida de Error al cargar en la FPGA el archivo .Bit");
         correcto = !errorCarga;
     } catch (IOException ex) {
             Logger.getLogger(HiloSalidaErrorCargarBit.class.getName()).log(Level.SEVERE, null, ex);
