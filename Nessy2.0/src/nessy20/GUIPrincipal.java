@@ -485,7 +485,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * @param lb_reconfiguracionParcial Indica si pertence a un paso de la
      * reconfiguración parcial
      */
-    public void ejec(boolean lb_reconfiguracionParcial) {
+    public boolean ejec(boolean lb_reconfiguracionParcial) {
 
         if (this.ejec != null) {
             ejec.pararrecepcionfpga();
@@ -514,9 +514,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     this._btnPararEjecucion.setEnabled(true);
                     this.menuOpcionesReanudarEjec.setEnabled(false);
                     this.menuOpcionesPararEjec.setEnabled(true);
+                    return true;
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
                 }
             } else {
                 String ls_cadenaaejecutar = this._txtTB.getText();
@@ -530,12 +532,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
                     this._btnPararEjecucion.setEnabled(true);
                     this.menuOpcionesReanudarEjec.setEnabled(false);
                     this.menuOpcionesPararEjec.setEnabled(true);
+                    return true;
                 } else {
                     JOptionPane.showMessageDialog(this, "Error en el formato del banco de pruebas, revíselo por favor.\n" + "Sugerencia: se deben pasar cadenas de bits 0's y 1's de longitud igual a " + Integer.toString(this.getEntidad().getBitsEntrada()) + " .", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
                 }
             }
         } else {
             JOptionPane.showMessageDialog(this, "La entidad no está definida", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
 
     }
@@ -1194,19 +1199,36 @@ public class GUIPrincipal extends javax.swing.JFrame {
         new GUICargaVHDL(this, true, sel).setVisible(true);
         if (sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VHDL_TOP)) {
             cargaTopVHDL();
+            _btnCrearBit.setEnabled(true);
+            _btnCargarBit.setEnabled(true);
+            _btnCargarTB.setEnabled(true);
+            _btnCargBitReconfParcial.setEnabled(true);
+            this.menuOpcionesCrearBit.setEnabled(true);
+            this.menuOpcionesCargarBit.setEnabled(true);
+            this.menuOpcionesCargarTB.setEnabled(true);
+            this.menuOpcionesReconfParcial.setEnabled(true);
+
         } else {
             if (sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VARIOS_VHDL)) {
                 cargaVariosVHDL();
+                _btnCrearBit.setEnabled(true);
+                _btnCargarBit.setEnabled(true);
+                _btnCargarTB.setEnabled(true);
+                _btnCargBitReconfParcial.setEnabled(true);
+                this.menuOpcionesCrearBit.setEnabled(true);
+                this.menuOpcionesCargarBit.setEnabled(true);
+                this.menuOpcionesCargarTB.setEnabled(true);
+                this.menuOpcionesReconfParcial.setEnabled(true);
+            }
+
+            else
+            {
+                if (sel.seleccion.equals(SeleccionCargaVHD.NADA))
+                {}
+
             }
         }
-        _btnCrearBit.setEnabled(true);
-        _btnCargarBit.setEnabled(true);
-        _btnCargarTB.setEnabled(true);
-        _btnCargBitReconfParcial.setEnabled(true);
-        this.menuOpcionesCrearBit.setEnabled(true);
-        this.menuOpcionesCargarBit.setEnabled(true);
-        this.menuOpcionesCargarTB.setEnabled(true);
-        this.menuOpcionesReconfParcial.setEnabled(true);
+        
     }//GEN-LAST:event__btnCargarVhdActionPerformed
 
     private void _btnCrearBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCrearBitActionPerformed
@@ -1293,25 +1315,24 @@ public class GUIPrincipal extends javax.swing.JFrame {
             cargaFicheroTB();
             if (this.com1 == null) {
                 if (this.inicializarPuertoSerie()) {
-                    ejec(false);
+                    if(ejec(false))
+                        habilitarBtnsCargarTB();
                 }
             } else {
-                ejec(false);
+                if(ejec(false))
+                    habilitarBtnsCargarTB();
             }
+            
 
         } else {
             if (sel.selTB.equals(SeleccionTB.CARGA_PANTALLA)) {
                 SeleccionTBFich = false;
                 cargarTextArea();
+                habilitarBtnsCargarTB();
             }
         }
 
-        _btnEjecutar.setEnabled(true);
-        _btnCargarGolden.setEnabled(true);
-        _btnGenerarGolden.setEnabled(true);
-        this.menuOpcionesEjec.setEnabled(true);
-        this.menuOpcionesCargarGolden.setEnabled(true);
-        this.menuOpcionesGeneraGolden.setEnabled(true);
+        
     }//GEN-LAST:event__btnCargarTBActionPerformed
 
     private void _btnClearActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1883,5 +1904,14 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
      */
     public Com getCom1() {
         return com1;
+    }
+
+    private void habilitarBtnsCargarTB() {
+        _btnEjecutar.setEnabled(true);
+        _btnCargarGolden.setEnabled(true);
+        _btnGenerarGolden.setEnabled(true);
+        this.menuOpcionesEjec.setEnabled(true);
+        this.menuOpcionesCargarGolden.setEnabled(true);
+        this.menuOpcionesGeneraGolden.setEnabled(true);
     }
 }
