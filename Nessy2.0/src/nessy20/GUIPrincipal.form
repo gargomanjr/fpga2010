@@ -513,27 +513,25 @@
                   </Group>
                   <EmptySpace min="-2" pref="469" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="312" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                   <Component id="_btnPararReconf" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="439" max="32767" attributes="0"/>
+                  <EmptySpace pref="281" max="32767" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="_lblnInst" min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="483" max="-2" attributes="0"/>
-                              <Component id="_btnClear" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="_lblnInst" min="-2" pref="72" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jTabbedPane1" alignment="0" min="-2" pref="836" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jTabbedPane1" min="-2" pref="836" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="433" max="32767" attributes="0"/>
+                      <Component id="_btnClear" min="-2" pref="190" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="301" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -542,7 +540,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="_btnPararReconf" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="_lblnInst" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="_btnPararReconf" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="373" max="32767" attributes="0"/>
                   <Component id="_lbl_VHDLCargado" min="-2" pref="13" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -552,11 +554,7 @@
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="_lblnInst" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="_btnClear" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="_btnClear" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTabbedPane1" min="-2" pref="322" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -568,7 +566,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="_btnClear">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Clear"/>
+            <Property name="text" type="java.lang.String" value="Limpiar Pantalla"/>
             <Property name="autoscrolls" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -582,7 +580,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="N&#xfa;mero de Instrucci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Ciclo de Ejecuci&#xf3;n"/>
             <Property name="autoscrolls" type="boolean" value="true"/>
           </Properties>
         </Component>
