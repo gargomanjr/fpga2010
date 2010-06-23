@@ -1,20 +1,26 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company:  UCM Facultad de Informática
+-- Engineer:	Carlos Sánchez-Vellisco Sánchez
+--				Antonio José García Martínez
+--				David Fernández Maiquez	
 -- 
--- Create Date:    19:27:16 11/05/2009 
--- Design Name: 
--- Module Name:    Tx_serie - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
+-- Create Date:     19:27:16 11/05/2009 
+-- Design Name:     Transmisor Serie
+-- Module Name:     Tx_serie - Behavioral 
+-- Project Name: 	Nessy 2.0
+-- Target Devices:  XC2VP30
+-- Tool versions:   Xilinx 10.1  
+-- Description:		Transmisor serie  ( Protocolo RS232)
+--					Lo dividiremos en cuatro bloques principales:
+--						
+--						->DivFrec: Un divisor de frecuencia. Dividirá la frecuencia
+--						de reloj tantas veces como indique gFrecClk.
+--						->Control: Una máquina de estados finitos.
+--						->Carga_desplaz: Un registro de carga en paralelo.
+--						->Selección: Un multiplexor que selecciona la señal de salida
+--						según el estado actual. Este multiplexor termina en un biestable
+--						para evitar pulsos no deseados, ya que su salida (DatoSerieOut)
+--						es la salida del circuito.
 --
 ----------------------------------------------------------------------------------
 library IEEE;
@@ -27,6 +33,25 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+
+
+----------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------
+--	PUERTO    	NºBits		INFO
+--	
+--	RstN		   1	Entrada	Señal de reset asíncrono (activo a ‘0’)
+--	Clk			   1	Entrada	Señal de reloj de la placa, en principio de 100MHz,
+--						pero configurable por gFrecClk
+--	Transmite	   1	Entrada	Señal del sistema que ordena al módulo la transmisión
+--						del dato que se encuentra en DatoTxIn.
+--	DatoTxIn	   8	Entrada	El dato a enviar. Se proporciona de manera simultánea
+ --						cuando Transmite = ‘1’
+--	Transmitiendo  1	Salida	Señal del sistema que indica que en ese instante se está
+--						transmitiendo un dato.
+--	DatoSerieOut   1	Salida	Trama de datos que se envía al PC y que sigue el 
+--						protocolo RS232
+--
 ----------------------------------------------------------------------------------
 entity Tx_serie is
 --
@@ -53,7 +78,7 @@ architecture Behavioral of Tx_serie is
 	
 	constant cFinCuenta : natural := (gFrecClk/gBaud)-1;
 	
-	-- Señales
+	-- Señales auxiliares
 	
 	signal Cuenta,CuentaBits: integer;
 	signal ClkBaud,EnableCont,Dsplza,FinDsplza8bits,CargaDato :  std_logic;
@@ -66,8 +91,10 @@ architecture Behavioral of Tx_serie is
 begin
 
 ----------------------------------------------------------------------------------	
-	-- Proceso encargado de dividir la frecuencia del reloj de la placa y 
-	-- generar ClkBaud
+	-- A partir del reloj de la placa de 100 MHz (Clk), queremos proporcionar una 
+	-- señal con frecuencia de 9600 Hz (ClkBaud). Este reloj tendrá por tanto un 
+	-- periodo de 104,167 µs, y estará a ‘1’ durante un solo ciclo de reloj, estando
+	-- el resto de tiempo a ‘0’.
 	
 	P_DivFrec: Process (RstN, Clk)
 	begin
@@ -89,6 +116,7 @@ begin
 ----------------------------------------------------------------------------------	
 	
 	-- Proceso encargado de contar los 8 bits de datos.
+	-- Solo cuenta cuando estamos enviando datos, es decir en el estado eBitsDato 
 	
 	P_CuentaBits: Process (RstN, Clk)
 	begin
@@ -130,7 +158,6 @@ begin
 				end if;
 			when eBitInit => 	Transmitiendo <= '1';		
 			when eBitsDato => Transmitiendo <= '1';
-			--Transmitiendo <= '0';
 				if ClkBaud = '1' then 
 					Dsplza <= '1';
 				end if;
@@ -144,7 +171,25 @@ begin
 	end process;
 ----------------------------------------------------------------------------------	
 
-	-- Proceso de la máquina de estados 
+-- Proceso de la máquina de estados 
+-- eInit:    Es el estado inicial. El sistema está en reposo esperando la orden de
+-- 		     transmitir. Cuando la señal Transmite se ponga a ‘1’, se pasará a enviar el 
+--           bit de inicio, pasando para ello al siguiente estado (eBitInit). En ese momento
+--           se dará la orden de cargar el dato (DatoTxIn) en el registro de desplazamiento.
+--           También tendremos que sincronizar el contador del divisor de frecuencia; para 
+--           esto haremos que en el estado inicial no cuente, y en el resto se habilite el 
+--           contador.
+-- eBitInit: En este estado se está enviando el bit de inicio. Se saldrá de este estado 
+--			 al recibir un pulso de ClkBaud, que nos dirá que debemos pasar a enviar los bits
+--      	 de dato. El siguiente estado es eBitsDato.
+-- eBitsDato:Este estado se encarga de enviar los 8 bits del dato. Utilizando un contador,
+--           llevaremos la cuenta del número de bits que se han enviado. Cuando se hayan 
+--           enviado los 8 bits –es decir, cuando hayan llegado 8 pulsos de Clkbaud-  se 
+--           activará la señal FinDsplza8bits que hará que cambiemos al siguiente estado 
+--           (eBitFin).
+-- eBitFin:  Este estado envía el bit de fin. Al llegar el siguiente pulso de ClkBaud, 
+--           cambiaremos al estado inicial eInit.
+
 	
 	P_Control_FSM: Process (RstN, Clk)
 	begin
