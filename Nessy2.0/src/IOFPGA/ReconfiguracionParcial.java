@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import nessy20.GUIPrincipal;
+import nessy20.GUISelNumIter;
+import nessy20.Seleccion;
+import nessy20.SeleccionNumIter;
 
 /**
  * Clase que contiene el proceso en el que se incluye el algoritmo para la
@@ -158,72 +161,83 @@ public class ReconfiguracionParcial extends Thread {
         boolean b = false;
         ejecutandoReconfiguracion = true;
         gui.setInyeccErr(true);
-        if (gui.cargarBitConChooser())
-        {
-            if (gui.SeleccionTBModifFichero()) {
-            gui.seleccionaPanel(panelOutPut);
-          //  gui.setEnabledBtnDetenerInyeccion(true);
-            int frame = 0;
-            int bit = 0;
-            try {
 
-                FileWriter fw = new FileWriter(new File("salidas//logEjec.txt"));
-                String fichero = gui.getFichero_bit();
-                gui.setFwLog(fw);
-                while (numIteracion < this.numIteraciones && ejecutandoReconfiguracion) {
-                    bit = (int) (Math.random() * numBits);
-                    frame = (int) (Math.random() * numFrames);
+        int iter=gui.dameNumIter();
+        if (iter > 0) {
+            this.numIteraciones = iter;
+            if (gui.cargarBitConChooser() && gui.SeleccionTBModifFichero()) {
 
-                    fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit + "\n");
-                    System.out.println("\n\nIteracion: "+ numIteracion+"\n********** Modificando FRAME: " + frame + " BIT: " + bit + " ************");
 
-                    String coms = "cmd.exe /K java -jar Virtex_II_Partial_Reconfiguration.jar -i " + fichero + " -o " + rutaBit + "\\circuito_fpga_modif -f " + frame + " -b " + bit;
-                    fw.write("Ejecutando: " + coms + "\n");
-                    System.out.println("Modificando .bit");
-                    Process p = Runtime.getRuntime().exec(coms);
-                    System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit");
-                    fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit\n");
-                    if (this.gui.getCom1() == null) {
-                        gui.inicializarPuertoSerie();
-                    }
-                    gui.cargarBit(rutaBit + "\\circuito_fpga_modif.bit", false);
-                    if (this.gui.getCom1() == null) {
-                        fw.write("Ejecutando...\n");
-                        if (gui.inicializarPuertoSerie()) {
+                gui.seleccionaPanel(panelOutPut);
+                //  gui.setEnabledBtnDetenerInyeccion(true);
+                int frame = 0;
+                int bit = 0;
+                try {
+
+                    FileWriter fw = new FileWriter(new File("salidas//logEjec.txt"));
+                    String fichero = gui.getFichero_bit();
+                    gui.setFwLog(fw);
+                    while (numIteracion < this.numIteraciones && ejecutandoReconfiguracion) {
+                        bit = (int) (Math.random() * numBits);
+                        frame = (int) (Math.random() * numFrames);
+
+                        fw.write("\n\nModificando FRAME: " + frame + " BIT: " + bit + "\n");
+                        System.out.println("\n\nIteracion: " + numIteracion + "\n********** Modificando FRAME: " + frame + " BIT: " + bit + " ************");
+
+                        String coms = "cmd.exe /K java -jar Virtex_II_Partial_Reconfiguration.jar -i " + fichero + " -o " + rutaBit + "\\circuito_fpga_modif -f " + frame + " -b " + bit;
+                        fw.write("Ejecutando: " + coms + "\n");
+                        System.out.println("Modificando .bit");
+                        Process p = Runtime.getRuntime().exec(coms);
+                        System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit");
+                        fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modif.bit\n");
+                        if (this.gui.getCom1() == null) {
+                            gui.inicializarPuertoSerie();
+                        }
+                        gui.cargarBit(rutaBit + "\\circuito_fpga_modif.bit", false);
+                        if (this.gui.getCom1() == null) {
+                            fw.write("Ejecutando...\n");
+                            if (gui.inicializarPuertoSerie()) {
+                                gui.ejec(true);
+                            }
+                        } else {
                             gui.ejec(true);
                         }
-                    } else {
-                        gui.ejec(true);
+                        System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit");
+                        fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit\n");
+                        if (this.gui.getCom1() == null) {
+                            gui.inicializarPuertoSerie();
+                        }
+                        b = gui.cargarBit(rutaBit + "\\circuito_fpga_modifRestorer.bit", false);
+                        numIteracion++;
                     }
-                    System.out.println("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit");
-                    fw.write("Cargando BIT: " + rutaBit + "\\circuito_fpga_modifRestorer.bit\n");
-                    if (this.gui.getCom1() == null) {
-                        gui.inicializarPuertoSerie();
-                    }
-                    b = gui.cargarBit(rutaBit + "\\circuito_fpga_modifRestorer.bit", false);
-                    numIteracion++;
+                    fw.close();
+                    gui.setInyeccErr(false);
+                } catch (FileNotFoundException ex) {
+                    //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                fw.close();
-                gui.setInyeccErr(false);
-            } catch (FileNotFoundException ex) {
-                //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }}
+        }
     }
 
-    @Override
-    public void run() {
+
+@Override
+    public void
+
+run() {
         synchronized (this) {
             this.reconfiguracionParcialAleatoria();
         }
-    }
+
+}
 
     /**
      * Detiene el proceso de reconfiguración parcial sucesiva   
      */
-    public void pararreconfiguracionparcial() {
+    public void
+
+pararreconfiguracionparcial() {
         ejecutandoReconfiguracion = false;
     }
 }

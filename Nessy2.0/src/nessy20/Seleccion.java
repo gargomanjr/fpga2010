@@ -15,6 +15,9 @@ public class Seleccion {
     /**
      * Seleccion de VHD
      */
+    public SeleccionNumIter selIter;
+
+    public int numIter;
 
     public SeleccionCargaVHD seleccion;
     /**
@@ -28,6 +31,8 @@ public class Seleccion {
     
     public Seleccion()
     {
+        numIter=1;
+        selIter=SeleccionNumIter.NADA;
         seleccion=SeleccionCargaVHD.NADA;
         selTB=SeleccionTB.NADA;
     }

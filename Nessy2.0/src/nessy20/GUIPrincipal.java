@@ -1939,4 +1939,15 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
         this.menuOpcionesCargarGolden.setEnabled(true);
         this.menuOpcionesGeneraGolden.setEnabled(true);
     }
+
+    public int dameNumIter() {
+        Seleccion sel = new Seleccion();
+        new GUISelNumIter(this, true, sel).setVisible(true);
+        if (sel.selIter.equals(SeleccionNumIter.CANCELAR)) {
+            return 0;
+        } else if (sel.selIter.equals(SeleccionNumIter.OK)) {
+            return sel.numIter;
+    }
+        return 0;
+    }
 }
