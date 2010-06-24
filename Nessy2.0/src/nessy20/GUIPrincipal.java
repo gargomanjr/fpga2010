@@ -128,6 +128,16 @@ public class GUIPrincipal extends javax.swing.JFrame {
      */
     private ReconfiguracionParcial reconfiguracion;
 
+    private boolean inyeccErr;
+    public boolean isInyeccErr()
+    {
+        return inyeccErr;
+    }
+    public void setInyeccErr(boolean inyeccErr)
+    {
+        this.inyeccErr = inyeccErr;
+    }
+
     
 
     /** Constructor de la clase.
@@ -259,9 +269,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         seleccionaPanel(panelCargar);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            if(inyeccErr)
+                setEnabledBtnDetenerInyeccion(true);
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
             error = !this.cargarBit(fichero_bit, true);
         } else {
+            setEnabledBtnDetenerInyeccion(false);
             System.out.println("Selecc ");
             this._TextCargarbit.setText("No ha seleccionado el .bit, puede que si no lo ha cargado con anterioridad la aplicación no funcione.");
             error = true;
@@ -1583,6 +1596,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
     /* if(this.reconfiguracion != null){
     this.reconfiguracion.pararreconfiguracionparcial();
     }*/
+    inyeccErr=true;
     log.info("Comienza ejecucion Inyeccion de errores");
     seleccionaPanel(panelOutPut);
     reconfiguracion = new ReconfiguracionParcial(this, RUTA_IOSERIE);

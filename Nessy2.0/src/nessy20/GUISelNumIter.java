@@ -49,7 +49,7 @@ public class GUISelNumIter extends javax.swing.JDialog {
         _spn_NumIter = new javax.swing.JSpinner();
         _lbl_NumIter = new javax.swing.JLabel();
 
-        setTitle("Numero de Iteraciones");
+        setTitle("Número de Iteraciones");
         setIconImage(null);
         setResizable(false);
 
@@ -69,7 +69,7 @@ public class GUISelNumIter extends javax.swing.JDialog {
 
         _spn_NumIter.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
-        _lbl_NumIter.setText("Numero de iteraciones");
+        _lbl_NumIter.setText("Número de iteraciones");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

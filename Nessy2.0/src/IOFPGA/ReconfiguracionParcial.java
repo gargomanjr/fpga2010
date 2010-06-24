@@ -161,7 +161,6 @@ public class ReconfiguracionParcial extends Thread {
         int numIteracion = 0;
         boolean errorCarga = false;
         ejecutandoReconfiguracion = true;
-        gui.setEnabledBtnDetenerInyeccion(true);
         int iter=gui.dameNumIter();
         if (iter > 0) {
             this.numIteraciones = iter;
@@ -216,12 +215,15 @@ public class ReconfiguracionParcial extends Thread {
                     fw.close();
                     gui.setEnabledBtnDetenerInyeccion(false);
                 } catch (FileNotFoundException ex) {
+                    gui.setInyeccErr(false);
                     //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
+                     gui.setInyeccErr(false);
                     //     Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+        gui.setInyeccErr(false);
         return !errorCarga;
     }
 
