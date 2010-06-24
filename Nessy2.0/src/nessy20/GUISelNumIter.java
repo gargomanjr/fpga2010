@@ -49,7 +49,7 @@ public class GUISelNumIter extends javax.swing.JDialog {
         _spn_NumIter = new javax.swing.JSpinner();
         _lbl_NumIter = new javax.swing.JLabel();
 
-        setTitle("Cargar VHDL");
+        setTitle("Numero de Iteraciones");
         setIconImage(null);
         setResizable(false);
 
