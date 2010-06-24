@@ -128,11 +128,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
      */
     private ReconfiguracionParcial reconfiguracion;
 
+    /**
+     * Nos permite saber si estamos ejecutando inyeccion de errores o no
+     */
     private boolean inyeccErr;
+     /**
+     * Metodo accesor
+     */
     public boolean isInyeccErr()
     {
         return inyeccErr;
     }
+     /**
+     * Metodo mutador
+     */
     public void setInyeccErr(boolean inyeccErr)
     {
         this.inyeccErr = inyeccErr;
