@@ -128,13 +128,19 @@ public class GUIPrincipal extends javax.swing.JFrame {
      */
     private ReconfiguracionParcial reconfiguracion;
 
+    
+
     /** Constructor de la clase.
      *  Los botones reanudar y parar ejecución se ponen a no visibles.
      */
     public GUIPrincipal() {
 
+        String ruta = System.getProperty( "java.class.path" );
+        ruta=ruta.substring(0, ruta.length()-12);
+        new File(ruta+"conf").mkdir();
 
-        PropertyConfigurator.configure("conf/log4j.properties");
+
+        PropertyConfigurator.configure("src/recursos/log4j.properties");
 
         config("conf/Config.properties", false);
         initComponentsAux();
@@ -149,6 +155,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         log.info("Inicializado Nessy 2.0");
         _btnPararReconf.setEnabled(false);
         _btnPararReconf.setVisible(false);
+
+    
     }
 
     /**
@@ -196,7 +204,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         seleccionaPanel(panelOutPut);
 
         if (this.entidad != null) {//si la entidad está definida
-            System.out.println("Generando salida golden");
+            //System.out.println("Generando salida golden");
+            log.info("Generando salida golden");
             if (SeleccionTBFich) {
                 try {
                     brTB = new BufferedReader(new FileReader(fichero_tb));
@@ -292,7 +301,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 if (generador.abrir()) {
                     generador.crearFichero();
                     generador.cerrar();
-                    System.out.println("Fichero vhdl creado correctamente");
+                    log.info("Fichero vhdl creado correctamente");
                 } else {
                     this.muestraErroresConsola(errores);
                     correcto = false;
@@ -1215,11 +1224,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnCargarVhdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarVhdActionPerformed
 
 
-
+        log.info("Cargando archivo VDHL...");
         Seleccion sel = new Seleccion();
         new GUICargaVHDL(this, true, sel).setVisible(true);
         if (sel.seleccion.equals(SeleccionCargaVHD.SELECCION_VHDL_TOP)) {
             cargaTopVHDL();
+
             _btnCrearBit.setEnabled(true);
             _btnCargarBit.setEnabled(true);
             _btnCargarTB.setEnabled(true);
@@ -1271,10 +1281,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
                 this.creaPrj();
                 //compilación y creación del .bit
                 Process p = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\compilar.bat " + this.RUTA_XILINX + " " + rutaDestino);
+                  log.info("Se ha creado .bit");
                 //Process copiar = Runtime.getRuntime().exec("cmd.exe /C start comandosXilinx\\copiararchivo.bat " + this.RUTA_XILINX);
             }
         } catch (IOException ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.FATAL, null, ex);
+            log.error("Error creando .BIT", ex);
         }
 
     }//GEN-LAST:event__btnCrearBitActionPerformed
@@ -1282,20 +1293,26 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnCargarBitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarBitActionPerformed
 
         //POsibilidad de ver si se carga con exito
+        log.info("Cargando .BIT...");
         if (this.cargarBitConChooser()) {
             log.info("Cargar .BIT : Cargado archivo .bit correctamente");
         } else {
+
             log.warn("Cargar .BIT : No se ha podido Cargar el archivo .bit correctamente");
+            JOptionPane.showMessageDialog(this, "No se ha podido Cargar el archivo" +
+                    " .bit correctamente", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event__btnCargarBitActionPerformed
 
     private void _btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnEjecutarActionPerformed
+        log.info("Ejecutando ...");
         if (this.com1 == null) {
             if (this.inicializarPuertoSerie()) {
                 ejec(false);
             }
         } else {
+            log.error("Puerto COM1 no conectado");
             ejec(false);
         }
     }//GEN-LAST:event__btnEjecutarActionPerformed
@@ -1303,7 +1320,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnPararEjecucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararEjecucionActionPerformed
 
         seleccionaPanel(panelOutPut);
-
+        log.info("Ejecucion Parada");
         int longitud = this.entidad.getBitsEntrada();
         System.out.println("PARANDO EL HILO..");
         this.ejec.setSetwait(true);
@@ -1317,7 +1334,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private void _btnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnReanudarActionPerformed
 
         seleccionaPanel(panelOutPut);
-
+        log.info("Reanudando Ejecución");
         synchronized (this.ejec) {
             this.ejec.notify();
         }
@@ -1329,6 +1346,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event__btnReanudarActionPerformed
 
     private void _btnCargarTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarTBActionPerformed
+
+        log.info("Cargando archivo TestBench...");
         Seleccion sel = new Seleccion();
         new GUICargaTB(this, true, sel).setVisible(true);
         if (sel.selTB.equals(SeleccionTB.CARGA_FICHERO)) {
@@ -1510,7 +1529,7 @@ private void _btnGenerarGoldenActionPerformed(java.awt.event.ActionEvent evt) {/
 
 private void _btnCargarGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnCargarGoldenActionPerformed
 
-
+    log.info("Cargando archivo Golden...");
     JFileChooser chooser;
     this._TxtEntityVHD.setText("");
     chooser = new JFileChooser();
@@ -1564,6 +1583,7 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
     /* if(this.reconfiguracion != null){
     this.reconfiguracion.pararreconfiguracionparcial();
     }*/
+    log.info("Comienza ejecucion Inyeccion de errores");
     seleccionaPanel(panelOutPut);
     reconfiguracion = new ReconfiguracionParcial(this, RUTA_IOSERIE);
     reconfiguracion.start();
@@ -1577,6 +1597,8 @@ private void _btnCargBitReconfParcialActionPerformed(java.awt.event.ActionEvent 
 }//GEN-LAST:event__btnCargBitReconfParcialActionPerformed
 
 private void _btnPararReconfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event__btnPararReconfActionPerformed
+
+    log.info("Inyeccion de errores parada");
     this.reconfiguracion.pararreconfiguracionparcial();
     this._btnPararReconf.setEnabled(false);
     this._btnPararReconf.setVisible(false);
@@ -1885,6 +1907,26 @@ private void menuOpcionesReconfParcialActionPerformed(java.awt.event.ActionEvent
                     cierre=config.getCierre();
                 }
             }
+
+        } catch (IOException ioe) {
+
+             JOptionPane.showMessageDialog(this, "No ha sido posible configurar" +
+                     " nessy, debido a que no se ha encontrado archivo de " +
+                     "configuración, para poder ejecutar Nessy correctamente" +
+                     " acceda a configuración.", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+    private void configLog(String fichConf, boolean cargaFich) {
+
+        Properties prop = new Properties();
+        InputStream is = null;
+        try {
+            is = new FileInputStream(fichConf);
+            prop.load(is);
+            // Enumeration enume=prop.propertyNames();
+            _TxtEntityVHD.setText(prop.getProperty("log4j.appender.LOGFILE.file"));
+           
 
         } catch (IOException ioe) {
 
