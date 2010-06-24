@@ -155,6 +155,34 @@ public class ReconfiguracionParcial extends Thread {
         return b;
     }
 
+
+/**
+ * Se hará para un número determinado de iteraciones que introducirá el usuario.
+ * En primer lugar se cargará una entidad seguida de su fichero .BIT
+ * correspondiente. A continuación se pedirá al usuario un fichero para cargar
+ * el banco de pruebas. Tras cargarlo, y sabiendo que en la FPGA está cargado el
+ * fichero .BIT correcto (sin modificar), se generará una salida especial,
+ * llamada salida Golden, la cual será con la que comparemos en el resto de
+ * ejecuciones. Este paso sólo lo realizaremos una vez, al comienzo del proceso.
+ * A continuación se ejecutarán todas las iteraciones. En cada una de ellas se
+ * ejecutará la aplicación de reconfiguración aplicada siempre al mismo fichero
+ * .BIT original (introducido por el usuario) en el que iremos cambiando los
+ * parámetros de frame y bit de forma aleatoria. Cada vez que se ejecute la
+ * aplicación se generarán dos ficheros de configuración: fichero_modif.bit y
+ * fichero_modifRestore.bit. Cargaremos el primer fichero en la FPGA, lo que es
+ * equivalente a que una partícula solar modificara el valor del bit. Una vez
+ * inyectado el error (cargado el fichero de configuración) volveremos a
+ * ejecutar el circuito en la FPGA, con las mismas entradas con las que habíamos
+ * generado la salida Golden.
+ * Compararemos las nuevas salidas obtenidas con la salida Golden para ver si el
+ * error ha incidido en la ejecución del circuito.
+ * Ahora tenemos que devolver a la FPGA a su “estado anterior”. Es decir, tenemos
+ * que restaurar el bit que acabamos de modificar. Para ello ordenaremos la
+ * carga del segundo fichero que se había generado: fichero_modifRestore.bit.
+ * Con el circuito restaurado, ya podemos volver a ejecutar una iteración más
+ * del bucle.
+ * @return true si la ejecucion ha sido correcta
+ */
     public boolean reconfiguracionParcialAleatoria() {
         int numBits = 32;
         int numFrames = 36194;
