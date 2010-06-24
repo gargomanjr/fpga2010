@@ -240,5 +240,5 @@ run() {
 
 pararreconfiguracionparcial() {
         ejecutandoReconfiguracion = false;
-    }
+    }//
 }
