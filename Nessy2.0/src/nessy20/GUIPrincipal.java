@@ -97,31 +97,23 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * Indica que el menú de selección top se ha cerrado
      */
     private boolean cerradoTop;
-    /**
-     * Indica si se esta ejecutando inyeccion de errores
-     */
-    private boolean inyeccErr;
-
-    public boolean isInyeccErr() {
-        return inyeccErr;
-    }
-
-    public void setInyeccErr(boolean inyeccErr) {
-        this.inyeccErr = inyeccErr;
-    }
+    
     /**
      * Indica la ruta fichero de banco de pruebas
      */
     String fichero_tb;
+
     /**
      * Indica la ruta del fichero .bit que se desea cargar
      */
     String fichero_bit;
+
     /**
      * Indica si, para ejecutar, la selección de un banco de pruebas se obtiene
      * desde la pantalla o directamente desde un fichero.
      */
     private boolean SeleccionTBFich;
+
     /**
      * Lector de fichero para el banco de pruebas
      */
@@ -130,6 +122,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
      * Escritor de fichero para el log del proceso de reconfiguración
      */
     private FileWriter fwLog;
+    
     /**
      * Proceso de reconfiguración
      */
@@ -146,7 +139,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         config("conf/Config.properties", false);
         initComponentsAux();
         initComponents();
-        inyeccErr=false;
         this._btnReanudar.setEnabled(false);
         this._btnPararEjecucion.setEnabled(false);
         this.menuOpcionesReanudarEjec.setEnabled(false);
@@ -258,8 +250,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         seleccionaPanel(panelCargar);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            if(inyeccErr)
-                setEnabledBtnDetenerInyeccion(true);
             fichero_bit = chooser.getSelectedFile().getAbsolutePath();
             error = !this.cargarBit(fichero_bit, true);
         } else {
@@ -523,7 +513,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
                         ejec.start();
                     } else {
                         ejec.setFileLogEjec(fwLog);
-                        ejec.ejecuta();
+                        //ejec.ejecuta();
+                        ejec.start();
+                        try {
+                            ejec.join();
+                        } catch (InterruptedException ex) {
+                            java.util.logging.Logger.getLogger(GUIPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                        }
                     }
                     this._btnReanudar.setEnabled(false);
                     this._btnPararEjecucion.setEnabled(true);

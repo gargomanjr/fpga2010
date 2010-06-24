@@ -8,9 +8,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 import nessy20.GUIPrincipal;
-import nessy20.GUISelNumIter;
-import nessy20.Seleccion;
 import nessy20.SeleccionNumIter;
 
 /**
@@ -153,19 +152,18 @@ public class ReconfiguracionParcial extends Thread {
         return b;
     }
 
-    public void reconfiguracionParcialAleatoria() {
+    public boolean reconfiguracionParcialAleatoria() {
         int numBits = 32;
         int numFrames = 36194;
         int numIteracion = 0;
-
-        boolean b = false;
+        boolean errorCarga = false;
         ejecutandoReconfiguracion = true;
-        gui.setInyeccErr(true);
-
+        gui.setEnabledBtnDetenerInyeccion(true);
         int iter=gui.dameNumIter();
         if (iter > 0) {
             this.numIteraciones = iter;
-            if (gui.cargarBitConChooser() && gui.SeleccionTBModifFichero()) {
+            errorCarga = !gui.cargarBitConChooser();
+            if (!errorCarga && gui.SeleccionTBModifFichero()) {
 
 
                 gui.seleccionaPanel(panelOutPut);
@@ -173,11 +171,10 @@ public class ReconfiguracionParcial extends Thread {
                 int frame = 0;
                 int bit = 0;
                 try {
-
                     FileWriter fw = new FileWriter(new File("salidas//logEjec.txt"));
                     String fichero = gui.getFichero_bit();
                     gui.setFwLog(fw);
-                    while (numIteracion < this.numIteraciones && ejecutandoReconfiguracion) {
+                    while (numIteracion < this.numIteraciones && ejecutandoReconfiguracion && !errorCarga) {
                         bit = (int) (Math.random() * numBits);
                         frame = (int) (Math.random() * numFrames);
 
@@ -193,7 +190,7 @@ public class ReconfiguracionParcial extends Thread {
                         if (this.gui.getCom1() == null) {
                             gui.inicializarPuertoSerie();
                         }
-                        gui.cargarBit(rutaBit + "\\circuito_fpga_modif.bit", false);
+                        errorCarga = errorCarga || !gui.cargarBit(rutaBit + "\\circuito_fpga_modif.bit", false);
                         if (this.gui.getCom1() == null) {
                             fw.write("Ejecutando...\n");
                             if (gui.inicializarPuertoSerie()) {
@@ -207,11 +204,14 @@ public class ReconfiguracionParcial extends Thread {
                         if (this.gui.getCom1() == null) {
                             gui.inicializarPuertoSerie();
                         }
-                        b = gui.cargarBit(rutaBit + "\\circuito_fpga_modifRestorer.bit", false);
+                        errorCarga = errorCarga || !gui.cargarBit(rutaBit + "\\circuito_fpga_modifRestorer.bit", false);
                         numIteracion++;
                     }
+                    if (errorCarga){
+                        JOptionPane.showMessageDialog(gui, "Error durante el proceso de inyección de errores. No ha finalizado correctamente", "Información", JOptionPane.ERROR_MESSAGE);
+                    }
                     fw.close();
-                    gui.setInyeccErr(false);
+                    gui.setEnabledBtnDetenerInyeccion(false);
                 } catch (FileNotFoundException ex) {
                     //                        Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -219,6 +219,7 @@ public class ReconfiguracionParcial extends Thread {
                 }
             }
         }
+        return !errorCarga;
     }
 
 
