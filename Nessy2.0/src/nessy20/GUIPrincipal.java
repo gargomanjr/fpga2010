@@ -159,7 +159,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         new File(ruta+"conf").mkdir();
 
 
-        PropertyConfigurator.configure("src/recursos/log4j.properties");
+        PropertyConfigurator.configure("log4j.properties");
 
         config("conf/Config.properties", false);
         initComponentsAux();
